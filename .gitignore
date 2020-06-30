@@ -6,6 +6,8 @@
 
 # BlueJ files
 *.ctxt
+*.iml
+
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -28,6 +30,7 @@ out/
 /checkouts
 /.lein-*
 /.env
+/.idea
 .DS_Store
 */target
 .svn
