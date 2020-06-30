@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>武器信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Premium HTML5 Website Template by freehtml5.co" />
+    <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="./css/weapon/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="./css/weapon/icomoon.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="./css/weapon/bootstrap.css">
+
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="./css/weapon/style.css">
+
+    <!-- Modernizr JS -->
+    <script src="./js/weapon/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+    <script src="./js/weapon/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Styleswitcher ( This style is for demo purposes only, you may delete this anytime. ) -->
+    <link rel="stylesheet" id="theme-switch" href="./css/weapon/style.css">
+    <link rel="stylesheet" href="./css/weapon/color-preset-option.css">
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <!-- END styleswitcher demo -->
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel='stylesheet prefetch' href='./css/weapon/item/style.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+
+    <link rel="stylesheet" href="./css/weapon/rank/mytyle.css" />
+    <style type="text/css">
+
+        .list{
+            margin: 0 10px;
+            width: 30%;
+        }
+
+        .c1{
+            color: crimson;
+        }
+        .c2{
+            color: goldenrod;
+        }
+        .c3{
+            color: yellow;
+        }
+        .c4{
+            color: orange;
+        }
+        .c5{
+            color: limegreen;
+        }
+    </style>
+
+    <script type="text/javascript" src="./js/weapon/rank/jquery-1.11.0.js" ></script>
+    <script type="text/javascript" src="./js/weapon/rank/my.js" ></script>
+
+</head>
+<body>
+<div th:insert="~{/JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{/JS_Common::leftbar}"></div>
+
+    <div style="display: block;height: 2000px;width:100%">
+
+        <blockquote  class="layui-elem-quote layui-text">
+        <div style="display: flex;flex-direction: row;justify-content: space-between">
+            <div>
+                <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;">
+                    <li><a href="/JS_Index">首页</a></li>
+                    <li><a href="/JS_Multmodel"> 多模态检索</a></li>
+                    <li class="active">武器详情</li>
+                </ol>
+            </div>
+        </div>
+        </blockquote>
+    <div >
+        <div class="container" style="padding: 0px">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 th:text="${weapons.name}"></h2>
+                </div>
+
+                <div class="list">
+                        <a href="#" class="star1">★</a>
+                        <a href="#" class="star2">★</a>
+                        <a href="#" class="star3">★</a>
+                        <a href="#" class="star4">★</a>
+                        <a href="#" class="star5">★</a>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4" style="padding-top: 20px">
+                    <ul class="info" >
+                        <li><span class="first-block">武器名称:</span><span class="second-block"><a th:text="${weapons.name}"></a></span></li>
+                        <li><span class="first-block">武器大类:</span><span class="second-block"><a th:text="${weapons.first}"></a></span></li>
+                        <li><span class="first-block">武器类别:</span><span class="second-block"><a th:text="${weapons.second}"></a></span></li>
+                        <li><span class="first-block">时间:</span><span class="second-block"><a th:text="${weapons.time}"></a></span></li>
+                        <li><span class="first-block">国家:</span><span class="second-block"><a th:text="${weapons.country}"></a></span></li>
+                    </ul>
+                </div>
+                <div class="col-md-8">
+                    <h2> 武器详情</h2>
+                    <p style="color: #0f0f0f" th:text="${weapons.img_desc}"></p>
+                    <p>
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 ">
+                    <h2> 跨模态武器推荐</h2>
+                </div>
+            </div>
+            <div >
+                <div class='col-md-3 thumbnail' style="background-color:#EEEEEE;border: 0px">
+                    <img th:src="@{${weapons.img_url}}"/><a style="padding-left: 50px;color: #0f0f0f">歼-16，绰号“威龙”</a>
+                    <a href='www.baidu.com'style="padding-left: 50px">歼-16<font color='blue'></font> </a>
+                </div>
+                <div class='col-md-3 thumbnail' style="background-color:#EEEEEE;border: 0px">
+                    <img th:src="@{${weapons.img_url}}"/><a style="padding-left: 50px;color: #0f0f0f">歼-16，绰号“威龙”</a>
+                    <a href='www.baidu.com'style="padding-left: 50px" >歼-16<font color='blue'></font> </a>
+                </div>
+                <div class='col-md-3 thumbnail' style="background-color:#EEEEEE;border: 0px">
+                    <img th:src="@{${weapons.img_url}}"/><a style="padding-left: 50px;color: #0f0f0f">歼-16，绰号“威龙”</a>
+                    <a href='www.baidu.com'style="padding-left: 50px">歼-16<font color='blue'></font> </a>
+                </div>
+                <div class='col-md-3 thumbnail' style="background-color:#EEEEEE;border: 0px">
+                    <img th:src="@{${weapons.img_url}}"/><a style="padding-left: 50px;color: #0f0f0f">歼-16，绰号“威龙”</a>
+                    <a href='www.baidu.com'style="padding-left: 50px" >歼-16<font color='blue'></font> </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

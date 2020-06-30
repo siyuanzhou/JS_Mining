@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="layui/result">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>后台大布局</title>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" />
+    <script type="text/javascript" >
+
+        function txt2img(input) {
+            $.ajax({
+                url: "http://127.0.0.1:2346/txt2img",
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(input),
+                success: function( data ){
+                    document.getElementById('cross_output').innerHTML = "";
+                    // fill the html for answer
+                    var array=data['output'];
+                    // alert(array[0][0]);
+                    for(var i=0;i<array.length;i++){
+                        $('#cross_output').append('          <div class="col-sm-6 col-md-3">\n' +
+                            '                <div class="thumbnail">\n' +
+                            '                  <img src='+array[i][0]+' alt="...">\n' +
+                            '                  <div class="caption">\n' +
+                            '                    <p><b>武器介绍</b></p>\n' +
+                            '                    <p>'+array[i][1]+'</p>\n' +
+                            '                  </div>\n' +
+                            '                </div>\n' +
+                            '          </div>');
+                    }
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                },
+                timeout: 200000 // sets timeout to 10 seconds
+            });
+        }
+
+        function img2txt(input) {
+
+            $.ajax({
+                url: "http://127.0.0.1:2346/img2txt",
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(input),
+
+                success: function( data ){
+                    document.getElementById('cross_output').innerHTML = "";
+                    // fill the html for answer
+                    var array=data['output'];
+                    alert(array[0][0]);
+                    for(var i=0;i<array.length;i++){
+                        $('#cross_output').append(' <div class="col-sm-6 col-md-3">\n' +
+                            '                <div class="thumbnail">\n' +
+                            '                  <img src='+array[i][0]+' alt="...">\n' +
+                            '                  <div class="caption">\n' +
+                            '                    <p><b>武器介绍</b></p>\n' +
+                            '                    <p>'+array[i][1]+'</p>\n' +
+                            '                  </div>\n' +
+                            '                </div>\n' +
+                            '          </div>');
+                    }
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                },
+                timeout: 200000 // sets timeout to 10 seconds
+            });
+
+        }
+
+        function upload(){
+            $.ajax({
+                url: "http://127.0.0.1:2346/receive",
+                type: 'POST',
+                cache: false,
+                processData: false,
+                data: new FormData($('#upload')[0]),
+                contentType: false,
+                success: function( data ){
+                    document.getElementById('cross_output').innerHTML = "";
+                    // fill the html for answer
+                    var array=data['output'];
+                    // alert(array[0][0]);
+                    for(var i=0;i<array.length;i++){
+                        $('#cross_output').append('          <div class="col-sm-6 col-md-3">\n' +
+                            '                <div class="thumbnail">\n' +
+                            '                  <img src='+array[i][0]+' alt="...">\n' +
+                            '                  <div class="caption">\n' +
+                            '                    <p><b>武器介绍</b></p>\n' +
+                            '                    <p>'+array[i][1]+'</p>\n' +
+                            '                  </div>\n' +
+                            '                </div>\n' +
+                            '          </div>');
+                    }
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                },
+                timeout: 200000 // sets timeout to 10 seconds
+            });
+        }
+
+        $( document ).ready(function() {
+            // request when clicking on the button
+            $('#txt2img').click(function() {
+                // get the input data
+                var input = $("#input").val();
+                txt2img(input);
+                var t = document.getElementById('showout');
+                t.style.visibility = 'visible'; // 显示元素
+            });
+            $('#img2txt').click(function() {
+                upload();
+                var t = document.getElementById('showout');
+                t.style.visibility = 'visible'; // 显示元素
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+
+<div layout:fragment="content" >
+
+    <div class="main-header-bg">
+        <div class="main-header">
+            <a href="#" class="logo"></a>
+            <div class="main-search">
+                <div class="main-search-input">
+                    <input type="text" placeholder="请输入武器相关描述" class="entity" id="input">
+                    <a href="javascript:void(0)" class="s-btn" id="txt2img">跨模态武器搜索</a>
+                </div>
+                <div class="main-search-txt keyword">
+                    <form id="upload"  enctype="multipart/form-data" style="float: left">
+                        <input class="file" id="input-image" name="input-image" type="file">
+                    </form>
+                    <button id="img2txt" style="float: left" class="btn btn-primary">图片相似武器</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 主体 -->
+    <div id="grid-gallery" class="grid-gallery">
+        <div>
+            <h3 id="showimg" align="center" style="visibility:hidden;width: 20%;padding-right: 30px">输入图片如下：</h3>
+            <br><img id="preview" align="center" src="">
+        </div>
+        <script type="text/javascript">
+            $('#input-image').change(function(){
+                var t = document.getElementById('showimg');
+                t.style.visibility = 'visible'; // 显示元素
+                // 获取FileList的第一个元素
+                var f = document.getElementById('input-image').files[0];
+                var src = window.URL.createObjectURL(f);
+                document.getElementById('preview').src = src
+            })
+        </script>
+        <h4 id="showout" align="center" style="visibility:hidden;width: 50%;line-height: 105px;padding-right: 30px">检索武器库中相似图片如下：</h4>
+        <p></p>
+        <div class="row" id="cross_output">
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+</html>

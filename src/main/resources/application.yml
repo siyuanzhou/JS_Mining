@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/military_multimode?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    driverClassName: com.mysql.cj.jdbc.Driver
+  redis:
+    database: 0
+    host: 192.168.1.106
+    port: 6379
+  elasticsearch:
+    jest:
+      uris: http://192.168.1.106:9200
+      read-timeout: 1000s
+      connection-timeout: 1000s
+      multi-threaded: true
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.example.entity
+
+#系统名称？方案
+#JQuary字数实时统计
+#EleatricSearch  模糊检索（德国火炮）
+#武器分类列表查询
+#武器详情页+跨模态推荐
+#flume+kafka+spark+mysql 实时计算+后续看一下能不能实现

@@ -1,0 +1,23 @@
+.box {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.row_box {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.text_box {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /*align-items: stretch;*/
+}

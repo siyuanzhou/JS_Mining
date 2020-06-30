@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>后台布局</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap/ui-elements/card.css">
+    <link rel="stylesheet" href="../css/bootstrap/style.css">
+    <link rel="stylesheet" href="../css/bootstrap/bootstrap-table.min.css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="../js/bootstrap/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../js/bootstrap/bootstrap-table.min.js"></script>
+    <!--有道智云API所需JS文件-->
+    <script src="http://shared.ydstatic.com/js/jquery/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <script src="https://cdn.bootcss.com/js-sha256/0.9.0/sha256.js"></script>
+
+    <!--下面不用改-->
+    <!--字体样式-->
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+
+</head>
+<body>
+
+<div th:insert="~{/JS_Common::topbar}"></div>
+    <div style="display: flex;">
+        <div th:insert="~{/JS_Common::leftbar}"></div>
+        <div style="display: block;height: 2000px;width:100%">
+        <blockquote class="layui-elem-quote layui-text">
+            <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0";>
+                <li><a href="JS_Index">首页</a></li>
+                <li><a href="JS_TextSum">信息生成</a></li>
+                <li class="active">长文本摘要</li>
+            </ol>
+        </blockquote>
+        <!--<h1 style="text-align: center;color:#0a2d57">长文本摘要</h1>-->
+        <div class="container" style="height:800px;width:1000px">
+            <!--文章大标题-->
+            <div style="display:flex;flex-direction: row;justify-content: space-between">
+                <span style="width: 10%;color: #0a2d57">文章标题：</span>
+                <textarea
+                        style="height: 30px;color: #0a2d57;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;"
+                        type="text"   name="title" placeholder="请输入文章标题">
+             </textarea>
+            </div>
+
+            <!--长文本摘要段落框-->
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="text-align: center;align-content: center;">待分析文本
+                    <a href="/JS_TextSum" style="color: #54cee5;position: absolute;right: 50px;top: 90px;">切换-短文本摘要</a>
+                </div>
+                <div id ="div">
+                <div class="panel-body">
+                    <textarea
+                            style="height: 30px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;"
+                            type="text" id="title" name="title" placeholder="请输入段落标题"></textarea>
+                    <hr style="margin: 1px;background-color:#ebebeb ">
+                    <textarea
+                            style="height: 150px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;"
+                            type="text" id="input" name="input" placeholder="请输入段落文本"></textarea>
+                </div>
+                <div class="panel-footer" style="display: flex;">
+                    <input name="file" multiple id="fileId" type="file" style="display:none"
+                           onchange="uploadFile()">
+                    <div class="input-append">
+                        <input id="uploadpath" class="input-large" type="text" style="height:30px;">
+                        <a class="btn btn-default" style="height: 30px ;margin-top: -4px;background-color: #337ab7;
+                        color: white" onclick="$('input[id=fileId]').click();">文件上传</a>
+                    </div>
+                    <button class="btn btn-default" onclick="addText()"
+                                style="height: 30px ;margin-left:470px;background-color: #337ab7;color: white;float: right;">添加</button>
+                    <button class="btn btn-default" onclick="deleteText(this)"
+                                style="height: 30px ;margin-left:50px;background-color: #337ab7;color: white;float: right;">删除</button>
+                </div>
+               </div>
+                <div style="display: flex;flex-direction: row;justify-content: space-between">
+                    <button  class="btn btn-default"
+                             style="height: 30px ;margin-left:450px;background-color: #337ab7;color: white"
+                             id="btn">开始分析
+                    </button>
+                    <div style="color: black;" id="count" hidden>您共输入<span style="color:#337ab7" id="sentenceConut"></span>句,共<span style="color:#337ab7" id="wordCount"></span>个单词。</div>
+                </div>
+            </div>
+            <div class="spinner" id="spinner" style="display: none">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+
+            <!--文本摘要框-->
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="text-align: center;align-content: center;">文本摘要
+                </div>
+                <div class="panel-body" style="height: 300px">
+                    <div>
+                    <textarea
+                            style="height: 250px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;"
+                            type="text" id="result">
+                    </textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!--文本翻译框-->
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="text-align: center;align-content: center;">摘要翻译
+                </div>
+                <div class="panel-body" style="height: 300px">
+                    <div>
+                    <textarea
+                            style="height: 250px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;"
+                            type="text" id="result_chinese">
+                    </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    <!--有道智云文本翻译API调用-->
+    function truncate(q){
+        var len = q.length;
+        if(len<=20)
+            return q;
+        return q.substring(0, 10) + len + q.substring(len-10, len);
+    }
+
+    function addText(){
+        var boarddiv = "<div id =\"div\"><div class=\"panel-body\">\n" +
+        "    <textarea style=\"height: 30px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"title\" name=\"title\" placeholder=\"请输入段落标题\"></textarea>\n" +
+        "    <hr style=\"margin: 1px;background-color:#ebebeb \">\n" +
+        "    <textarea style=\"height: 150px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"input\" name=\"input\" placeholder=\"请输入段落文本\"></textarea>\n" +
+        "    </div>\n" +
+        "    <div class=\"panel-footer\" style=\"display: flex;\">\n" +
+        "    <input name=\"file\" multiple id=\"fileId\" type=\"file\" style=\"display:none\"onchange=\"uploadFile()\"/>\n" +
+        "    <div class=\"input-append\">\n" +
+        "       <input id=\"uploadpath\" class=\"input-large\" type=\"text\" style=\"height:30px;\">\n" +
+        "       <a class=\"btn btn-default\" style=\"height: 30px ;margin-top: -4px;background-color: #337ab7;color: white\" onclick=\"$('input[id=fileId]').click();\">文件上传</a>\">\n" +
+        "    </div>\n" +
+        "       <button class=\"btn btn-default\" onclick=\"addText()\"style=\"height: 30px ;margin-left:450px;background-color: #337ab7;color: white;float: right;\">添加</button>\n" +
+        "       <button class=\"btn btn-default\"onclick=\"deleteText(this)\" style=\"height: 30px ;margin-left:50px;background-color: #337ab7;color: white;float: right;\">删除</button>\n" + "    " +
+            "</div>\n" +
+            "</div>";
+        $("#div").append(boarddiv);
+    }
+
+    function deleteText(This){
+        //提示:删除操作时应加上当输入框只有一个时不可删除的判定
+        //获取删除按钮的父元素 的 父元素 利用 爷爷元素 删除
+        console.log(This.parentNode.parentNode.parentNode);
+        console.log(This.parentNode.parentNode);
+        This.parentNode.parentNode.parentNode.removeChild(This.parentNode.parentNode);
+    }
+
+    function api_call(input) {
+        // hide button and make the spinner appear
+        $('#btn').toggle();
+        $('#spinner').toggle();
+
+        $.ajax({
+            url: "http://127.0.0.1:9000/longtextsum",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_longsum",//回调方法
+            contentType: 'application/json',
+            data: {input: JSON.stringify(input)},
+
+            success: function(data){
+                $('#btn').toggle();
+                $('#spinner').toggle();
+                $('#result').append("&#10;");
+                for (var i=0;i<data.subtitle.length;i++) {
+/*                    $('#result').append(data.subtitle[i].replace(/[\r\n]/g,""));
+                    $('#result').append("&#10;");
+                    $('#result').append("&#10;");*/
+                    $('#result').append(data.sub_abstract[i].replace(/[\r\n]/g,""));
+                    $('#result').append("&#10;");
+                    $('#result').append("&#10;");
+                }
+                //调用翻译API翻译文本结果
+                var appKey = '241d46d9da752d9f';
+                var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
+                var salt = (new Date).getTime();
+                var curTime = Math.round(new Date().getTime()/1000);
+                // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+                var from = 'en';
+                var to = 'zh-CHS';
+                var str1 = appKey + truncate($('#result').html()) + salt + curTime + key;
+                var sign = sha256(str1);
+                $.ajax({
+                    url: 'http://openapi.youdao.com/api',
+                    type: 'post',
+                    dataType: 'jsonp',
+                    data: {
+                        q: $("#result").html(),
+                        appKey: appKey,
+                        salt: salt,
+                        from: from,
+                        to: to,
+                        sign: sign,
+                        signType: "v3",
+                        curtime: curTime
+                    },
+                    success: function (chinese) {
+                        $("#result_chinese").html(chinese.translation[0]);
+                    }
+                })
+            },
+            error: function( jqXhr, textStatus, errorThrown ){
+                $('#btn').toggle();
+                $('#spinner').toggle();
+                $('#api_output').css("text-align","center");
+                //$('#api_output').html("Sorry, the server is asleep...<br/>Try again in a moment!" );
+                console.log( errorThrown );
+            }
+
+        });
+    }
+
+    var fileContent = null;
+    function uploadFile() {
+        var objFile = document.getElementById("fileId");
+        if(objFile.value == "") {
+            alert("文件内容不能为空")
+        }
+        var files = $('#fileId').prop('files'); //获取到文件列表
+        console.log(files.length);
+        if(files.length == 0) {
+            alert('请选择文件');
+        } else {
+            $('#input').html("");
+            for (var i = 0; f = files[i]; i++) {
+                var reader = new FileReader(); //新建一个FileReader
+                reader.readAsText(files[i], "UTF-8"); //读取文件
+                reader.onload = function (evt) { //读取完文件之后会回来这里
+                    var fileString = evt.target.result; // 读取文件内容
+                    fileContent = fileString;
+                    $('#input').html(fileContent);
+                    // console.log(fileString)
+                }
+            }
+        }
+    }
+    $( document ).ready(function() {
+
+        /*$('#checkboxDiv').find('input[type=checkbox]').bind('click', function() {
+            $('#checkboxDiv').find('input[type=checkbox]').not(this).attr("checked", false);
+        });*/
+        // request when clicking on the button
+        $('#btn').click(function() {
+            var input=$("#Onetitle").val();
+            input+="###";
+            // 判断输入的为中文还是英文
+            if (fileContent == null) {
+                $("#div textarea").each(function(){
+                    input+=$(this).val();
+                    input+="###";
+                });
+                $("#sentenceConut").html(input.split('.').length);
+                $("#wordCount").html(input.split(/\s+/mg).length);
+                $("#count").toggle();
+            }else{
+                input = fileContent;
+            }
+            if (input.match(/[\u4e00-\u9fa5]/g) != null&&(input.match(/[\u4e00-\u9fa5]/g).length >= input.length/2)){
+                //Chinese
+                console.log("Chinese");
+                //capi_call(input);
+            }else{
+                //English
+                console.log("English");
+
+                api_call(input);
+            }
+            input = null;
+            fileContent = null;
+        });
+    });
+</script>
+</body>
+</html>

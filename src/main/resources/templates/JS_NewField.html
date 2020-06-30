@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>后台布局</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+    <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap/ui-elements/card.css">
+    <link rel="stylesheet" href="../css/common_css/style.css">
+    <link rel="stylesheet" href="../css/bootstrap/bootstrap-table.min.css">
+    <script src="../js/bootstrap/jquery.min.js"></script>
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../js/bootstrap/bootstrap-table.min.js"></script>
+
+
+    <!--有道智云API所需JS文件-->
+    <script src="http://shared.ydstatic.com/js/jquery/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <script src="https://cdn.bootcss.com/js-sha256/0.9.0/sha256.js"></script>
+    <!--下面不用改-->
+    <!--字体样式-->
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+
+    <style>
+        body {
+            position: relative;
+        }
+
+        #first_div {
+            position: absolute;
+            left: 50%;
+            margin-left: -300px;
+            width: 600px;
+            height: 400px;
+        }
+
+        #api_output {
+            height: 20px;
+            padding-left: 5px;
+        }
+
+        circle {
+            fill: #ccc;
+            stroke: #333;
+            stroke-width: 1.5px;
+            margin-top: 20px;
+        }
+
+        text {
+            font: 12px Microsoft YaHei;
+            pointer-events: none;
+            text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+
+            position: relative;
+            margin: auto;
+        }
+
+        .double-bounce1, .double-bounce2 {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #333;
+            opacity: 0.6;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+            animation: sk-bounce 2.0s infinite ease-in-out;
+        }
+
+        .double-bounce2 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        @-webkit-keyframes sk-bounce {
+            0%, 100% {
+                -webkit-transform: scale(0.0)
+            }
+            50% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @keyframes sk-bounce {
+            0%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+            }
+            50% {
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0);
+            }
+        }
+
+        .list {
+            width: 500px;
+        }
+
+        .list table {
+            font-family: verdana, arial, sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #a9c6c9;
+            border-collapse: collapse;
+        }
+
+        .list table th {
+            text-align: center;
+            border-width: 1px;
+            padding: 18px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+
+        .list table td {
+            text-align: center;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+    </style>
+
+</head>
+<body>
+
+<div th:insert="~{/JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div style="display: block;height: 2000px;width:100%">
+        <blockquote  class="layui-elem-quote layui-text">
+            <div style="display: flex;flex-direction: row;justify-content: space-between">
+                <div>
+                    <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;">
+                        <li><a href="/JS_Index">首页</a></li>
+                        <li><a href="/JS_Entity">信息抽取</a></li>
+                        <li class="active">新领域识别</li>
+                    </ol>
+                </div>
+            </div>
+        </blockquote>
+
+        <div style="float: none;display: flex;flex-direction: column;align-items: center">
+            <div style="padding-bottom: 0.5cm;">
+                <div class="card text-center bg-light">
+                    <div class="card-body" style="padding-bottom: 0.2cm;width: 1000px;">
+
+                        <div class="panel panel-primary">
+                            <div  class="panel-heading" style="text-align: center">原文本内容</div>
+
+                            <div class="panel-body" style="height: 300px">
+                                <textarea style=" height: 100%;width: 100%;border-radius:5px;border: 0;
+                                        background-color:rgb(255,255,255);text-align:justify;overflow: auto" id="input" type="text"
+                                          name="input" placeholder="请输入需要识别的句子">
+                                </textarea>
+                            </div>
+
+
+                            <div class="panel-footer" style="display: flex">
+                                <input name="file" multiple id="fileId" type="file" style="display:none"
+                                       onchange="uploadFile()">
+                                <div class="input-append">
+                                    <input id="uploadPath" class="input-large" type="text" disabled style="height:30px;">
+                                    <a class="btn btn-default"
+                                       style="height: 30px ;margin-top: -4px;background-color: #337ab7;color: white"
+                                       onclick="$('input[id=fileId]').click();">文件上传</a>
+                                </div>
+                                <button class="btn btn-default"
+                                        style="height: 30px ;margin-left:180px;background-color: #337ab7;color: white"
+                                        id="btn">信息提取
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="spinner" id="spinner" style="display: none">
+                            <div class="double-bounce1"></div>
+                            <div class="double-bounce2"></div>
+                        </div>
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><span style="margin-right:450px;">原模型识别</span>迁移模型识别</div>
+                            <div class="panel-body" style="display: flex;padding: 0px">
+                                <div style=" display: flex; flex-direction: row;width: 1100px">
+                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                                        <br>
+                                        <div id="api_output_father">
+                                            <div id="api_output"
+                                                 style="height: 150px;width: 100%;border: 0;border-radius:5px;
+                                         background-color:rgb(255,255,255);text-align:justify;" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="float:left;margin-top: 0px;width: 1px;height: 300px; background:#eeeeee;"></div>
+                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                                        <br>
+                                        <div id="api_output_father2">
+                                            <div id="api_output2"
+                                                 style="height: 150px;width: 100%;border: 0;border-radius:5px;
+                                         background-color:rgb(255,255,255);text-align:justify;" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><span style="margin-right:450px;">原模型识别</span>迁移模型识别</div>
+                            <div class="panel-body" style="display: flex;">
+                                <div style=" display: flex; flex-direction: row;width: 1100px">
+                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                                        <br>
+                                        <div class="list">
+                                            <table class="altrowstable" id="alternatecolor">
+                                                <tr>
+                                                    <th width="90px">实体类别</th>
+                                                    <th width="250px">实体</th>
+                                                    <th width="90px">颜色标注</th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                                        <br>
+                                        <div class="list">
+                                            <table class="altrowstable" id="alternatecolor2">
+                                                <tr>
+                                                    <th width="90px">实体类别</th>
+                                                    <th width="250px">实体</th>
+                                                    <th width="90px">颜色标注</th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //使用s2替换掉所有的s1字串
+        String.prototype.replaceAll = function(s1,s2) {
+            return this.replace(new RegExp(s1,"img"),s2);
+
+        };
+
+        <!--获得上传文件内容-->
+        function uploadFile() {
+            var objFile = document.getElementById("fileId");
+            if (objFile.value == "") {
+                alert("文件内容不能为空")
+            }
+            var files = $('#fileId').prop('files'); //获取到文件列表
+            console.log(files.length);
+            if (files.length == 0) {
+                alert('请选择文件');
+            } else {
+                for (var i = 0; f = files[i]; i++) {
+                    var reader = new FileReader(); //新建一个FileReader
+                    reader.readAsText(files[i], "UTF-8"); //读取文件
+                    $("#uploadPath").val("" + f.name);
+                    reader.onload = function (evt) { //读取完文件之后会回来这里
+                        var fileString = evt.target.result; // 读取文件内容
+                        $("#input").val("" + fileString);
+                        fileContent = fileString;
+                        // console.log(fileString)
+                    }
+                }
+            }
+        }
+
+        <!--表格隔行换色-->
+        function altRows(id) {
+            if (document.getElementsByTagName) {
+
+                var table = document.getElementById(id);
+                var rows = table.getElementsByTagName("tr");
+
+                for (var i = 0; i < rows.length; i++) {
+                    if (i % 2 == 0) {
+                        rows[i].className = "evenrowcolor";
+                    } else {
+                        rows[i].className = "oddrowcolor";
+                    }
+                }
+            }
+        }
+
+
+        $(function () {
+            $("#btn").click(function () {
+                $('#btn').toggle();
+                $('#spinner').toggle();
+                $.ajax({
+                    url:'http://127.0.0.1:7500/api',
+                    data:{'input':JSON.stringify(fileContent)},
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback",//回调方法
+                    success:function (data) {
+                        $('#btn').toggle();
+                        $('#spinner').toggle();
+                        var inputText = $("#input");
+                        var input = inputText.val();
+                        var modelData = JSON.parse(data.old);
+                        var newModelData = JSON.parse(data.new);
+                        for (var prop in modelData) {
+                            var entity = "";
+                            if (modelData.hasOwnProperty(prop)) {
+                                for (var i = 0; i < modelData[prop].length; i++) {
+                                    if (modelData[prop][i] !== "") {
+                                        entity = entity + modelData[prop][i] + "、";
+                                        input = input.replaceAll(modelData[prop][i], "<span style='color:red'>" + modelData[prop][i] + "</span>");
+                                    }
+                                }
+                            }
+                            if (entity != null && entity !== "") {
+                                var tr = $("<tr></tr>");
+                                tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
+                                $("#alternatecolor").append(tr);
+                            }
+                        }
+                        $("#api_output").html(input);
+                        input = inputText.val();
+                        for (var prop2 in newModelData) {
+                            var entity2 = "";
+                            if (newModelData.hasOwnProperty(prop2)) {
+                                for (var j = 0; j < newModelData[prop2].length; j++) {
+                                    if (newModelData[prop2][j] !== ""&&newModelData[prop2][j]!=="an") {
+                                        entity2 = entity2 + newModelData[prop2][j] + "、";
+                                        input = input.replaceAll(newModelData[prop2][j], "<span style='color:red'>" + newModelData[prop2][j] + "</span>");
+                                        console.log(input+"\n");
+                                    }
+                                }
+                            }
+                            if (entity2 != null && entity2 !== "") {
+                                tr = $("<tr></tr>");
+                                tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity2 + "</td><td width='90px'>red</td>");
+                                $("#alternatecolor2").append(tr);
+                            }
+                        }
+                        console.log(input);
+                        $("#api_output2").html(input);
+                    },
+                    error:function () {
+                        $('#btn').toggle();
+                        $('#spinner').toggle();
+                        alert("服务器出现了一些问题，请稍后重试");
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+
+
+</body>
+</html>

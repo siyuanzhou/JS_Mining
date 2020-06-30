@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="layui/result">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap-table.min.css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <!--<script src="assets/bootstrap2.3/js/bootstrap.min.js"></script>-->
+    <script src="./js/tableExport.js"></script>
+    <script src="./js/jquery.base64.js"></script>
+    <script src="./js/bootstrap-table.js"></script>
+    <script src="./js/bootstrap-table-export.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <blockquote class="layui-elem-quote layui-text">
+        检索到对应数据2000条<a href="/doc/base/faq.html#form" target="_blank">没显示？</a><a href="/doc/modules/form.html#render" target="_blank"></a>
+    </blockquote>
+    <div  style="padding-left: 50px">
+        <div>
+            <label>行数: </label><input id="hang" type="text" placeholder="Cells" value="5">
+            <label>列数: </label><input id="rows" type="text" placeholder="Rows" value="100">
+            <button id="build" class="btn btn-default">筛选</button>
+        </div>
+        <table id="table"
+               data-toggle="table"
+               data-url="data/data1.json"
+               data-pagination="true"
+               >
+
+        </table>
+    </div>
+    <script>
+   /*     $('#table').bootstrapTable({
+
+            columns: [{
+                field: 'id',
+                title: '编号'
+            }, {
+                field: 'name',
+                title: '名称'
+            }, {
+                field: 'detail',
+                title: '详细信息'
+            }],
+            data: [{
+                id: 1,
+                name: 'Item 1',
+                detail: '歼十战斗空军'
+            }, {
+                id: 2,
+                name: 'Item 2',
+                detail: '歼二十战斗空军'
+            }]
+        })*/
+        $(function () {
+            $('#build').click(build);//.trigger('click');
+            $('#cells, #rows').keyup(function (e) {
+                if (e.keyCode === 13) {
+                    build();
+                }
+            });
+        });
+
+        function build() {
+            var cells = 3,
+                rows = $('#rows').val(),
+                i, j, row,
+                columns = [],
+                data = [];
+
+                columns.push({
+                    field: 'field1',
+                    title: '编号'
+                });
+                columns.push({
+                field: 'field2',
+                title: '名称'
+                });
+                columns.push({
+                field: 'field3',
+                title: '详细信息'
+                });
+            for (i = 0; i < rows; i++) {
+                row = {};
+                for (j = 0; j < cells; j++) {
+                    row['field' + j] = 'Row-' + i + '-' + j;
+                }
+                data.push(row);
+            }
+            $('#table').bootstrapTable('destroy').bootstrapTable({
+                pagination: true,
+                columns: columns,
+                data: data,
+                search:"true",
+                refresh:"true",
+                showColumns: true,
+                showToggle: true,
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

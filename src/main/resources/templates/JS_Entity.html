@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>后台布局</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+    <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap/ui-elements/card.css">
+    <link rel="stylesheet" href="../css/common_css/style.css">
+    <link rel="stylesheet" href="../css/bootstrap/bootstrap-table.min.css">
+    <script src="../js/bootstrap/jquery.min.js"></script>
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../js/bootstrap/bootstrap-table.min.js"></script>
+
+    <!--粒子特效插件-->
+    <script src="../js/bootstrap/Particleground.js"></script>
+
+    <!--有道智云API所需JS文件-->
+    <script src="http://shared.ydstatic.com/js/jquery/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <script src="https://cdn.bootcss.com/js-sha256/0.9.0/sha256.js"></script>
+    <!--下面不用改-->
+    <!--字体样式-->
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+
+    <style>
+        body {
+            position: relative;
+        }
+
+        #first_div {
+            position: absolute;
+            left: 50%;
+            margin-left: -300px;
+            width: 600px;
+            height: 400px;
+        }
+
+        #api_output {
+            height: 20px;
+            padding-left: 5px;
+        }
+
+        circle {
+            fill: #ccc;
+            stroke: #333;
+            stroke-width: 1.5px;
+            margin-top: 20px;
+        }
+
+        text {
+            font: 12px Microsoft YaHei;
+            pointer-events: none;
+            text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+
+            position: relative;
+            margin: auto;
+        }
+
+        .double-bounce1, .double-bounce2 {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #333;
+            opacity: 0.6;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+            animation: sk-bounce 2.0s infinite ease-in-out;
+        }
+
+        .double-bounce2 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        @-webkit-keyframes sk-bounce {
+            0%, 100% {
+                -webkit-transform: scale(0.0)
+            }
+            50% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @keyframes sk-bounce {
+            0%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+            }
+            50% {
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0);
+            }
+        }
+
+        .list {
+            width: 500px;
+        }
+
+        .list table {
+            font-family: verdana, arial, sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #a9c6c9;
+            border-collapse: collapse;
+        }
+
+        .list table th {
+            text-align: center;
+            border-width: 1px;
+            padding: 18px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+
+        .list table td {
+            text-align: center;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+
+        .oddrowcolor {
+            background-color: #d4e3e5;
+        }
+
+        .evenrowcolor {
+            background-color: #c3dde0;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div th:insert="~{/JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div style="display: block;height: 2000px;width:100%">
+        <blockquote  class="layui-elem-quote layui-text">
+            <div style="display: flex;flex-direction: row;justify-content: space-between">
+                <div>
+                    <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;">
+                        <li><a href="/JS_Index">首页</a></li>
+                        <li><a href="/JS_Entity">信息抽取</a></li>
+                        <li class="active">信息提取</li>
+                    </ol>
+                </div>
+                <!--放置文本分类的结果-->
+                <!--<div>-->
+                    <!--<span>该文本所属范围为：<span id="text_classify" style="color: #00bcd4"></span></span>-->
+                <!--</div>-->
+            </div>
+        </blockquote>
+
+        <div style="float: none;display: flex;flex-direction: column;align-items: center">
+            <div style="padding-bottom: 0.5cm;">
+                <div class="card text-center bg-light">
+                    <div class="card-body" style="padding-bottom: 0.2cm;width: 1000px;">
+
+                        <div class="panel panel-primary">
+                            <div  class="panel-heading" style="text-align: center">原文本内容</div>
+
+                            <div id="preview" class="panel-body" style="height: 300px;padding: 10px">
+                                <textarea  style=" height: 100%;width: 100%;border-radius:5px;border: 0;
+                                        background-color:rgb(255,255,255);text-align:justify;overflow: auto" id="input" type="text"
+                                          name="input" placeholder="请输入需要识别的句子">
+                                </textarea>
+                            </div>
+
+
+                            <div class="panel-footer" style="display: flex">
+                                <input name="file" multiple id="fileId" type="file" style="display:none"
+                                       onchange="uploadFile()">
+                                <input name="file" multiple id="fileId2" type="file" style="display:none"
+                                       onchange="uploadFile2()">
+                                <div class="input-append">
+                                    <input id="uploadPath" class="input-large" type="text" disabled style="height:30px;">
+                                    <a class="btn btn-default"
+                                       style="height: 30px ;margin-top: -4px;background-color: #337ab7;color: white"
+                                       onclick="$('input[id=fileId]').click();">文本上传</a>
+                                    <a class="btn btn-default"
+                                       style="height: 30px ;margin-top: -4px;background-color: #337ab7;color: white"
+                                       onclick="$('input[id=fileId2]').click();">视频上传</a>
+                                </div>
+                                <button class="btn btn-default"
+                                        style="height: 30px ;margin-left:160px;background-color: #337ab7;color: white"
+                                        id="btn">信息提取
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="spinner" id="spinner" style="display: none">
+                            <div class="double-bounce1"></div>
+                            <div class="double-bounce2"></div>
+                        </div>
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" style="text-align: center">文本简介</div>
+                            <div class="panel-body" style="overflow: auto;">
+                                <!--展示文本摘要的结果-->
+                                <div id="text_sum"  style="height: 100px;width: 100%;border: 0;border-radius:5px;
+                                         background-color:rgb(255,255,255);text-align:justify;color: #0a2d57" type="text"></div>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" style="text-align: center">信息提取结果</div>
+
+                            <div class="panel-body" style="overflow: auto;height: 360px">
+                                <div id="api_output_father">
+                                    <div id="api_output"
+                                         style="height: 150px;width: 100%;border: 0;border-radius:5px;
+                                         background-color:rgb(255,255,255);text-align:justify;" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" style="text-align: center">信息提取表格</div>
+                            <div class="panel-body" style="display: flex;">
+                                <div style=" display: flex; flex-direction: row;width: 1100px">
+                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                                        <p style="color: #0b96e5;font: 15px TimesNewRoman">实体列表为：</p>
+                                        <br>
+                                        <div class="list">
+                                            <table class="altrowstable" id="alternatecolor">
+                                                <tr>
+                                                    <th width="90px">实体类别</th>
+                                                    <th width="250px">实体</th>
+                                                    <th width="90px">颜色标注</th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                                        <p style="color: #0b96e5;font: 15px TimesNewRoman">关系列表为：</p>
+                                        <br>
+                                        <div class="list">
+                                            <table class="altrowstable" id="alternatecolor1">
+                                                <tr>
+                                                    <th width="90px">source</th>
+                                                    <th width="90px">link</th>
+                                                    <th width="250px">target</th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" style="text-align: center">信息提取图</div>
+                            <div class="panel-body" style="height: 420px">
+                                <div id="first_div">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+
+        <script type="text/javascript">
+            //使用s2替换掉所有的s1字串
+            String.prototype.replaceAll = function(s1,s2) {
+                return this.replace(new RegExp(s1,"img"),s2);
+
+            };
+
+            <!--实体识别关系抽取API调用-->
+            function identifyEntity(input) {
+                var fileName = $("#fileId2").val();
+                var strFileName = fileName.substring(fileName.lastIndexOf("\\")+1);
+                console.log(strFileName)
+                // hide button and make the spinner appear
+                $("#alternatecolor  tr:not(:first)").html("");
+                $("#alternatecolor1  tr:not(:first)").html("");
+                $.ajax({
+                    url: "http://127.0.0.1:5000/api",
+                    method: 'POST',
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback_entity",//回调方法
+                    contentType: 'application/json',
+                    data:{
+                        'input': JSON.stringify(input),
+                        'multi-file':strFileName
+                    },
+
+                    success: function (data) {
+                        // toggle the spinner and button
+                        $('#btn').toggle();
+                        $('#spinner').toggle();
+                        var str1 = data.input;
+                        var entityMap = data.listDemo;
+                        var raw_relations = data.raw_relations;
+                        var datas = raw_relations[0];
+                        var links = raw_relations[1];
+                        showRela(datas, links);
+                        console.log(str1);
+                        // color = ["red","yellow","blue"];
+                        arr = [];
+                        // 显示实体表格
+                        for (var prop in entityMap) {
+                            var entity = "";
+                            if (entityMap.hasOwnProperty(prop)) {
+                                for (var i = 0; i < entityMap[prop].length; i++) {
+                                    arr.push(entityMap[prop][i]);
+                                    if (entityMap[prop][i] !== "") {
+                                        entity = entity + entityMap[prop][i] + "、";
+                                    }
+                                }
+                            }
+                            if (entity != null) {
+                                var tr = $("<tr></tr>");
+                                tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
+                                $("#alternatecolor").append(tr);
+                            }
+                        }
+                        //显示关系表格
+                        for (var i = 0; i < links.length; i++) {
+                            relationMap = links[i];
+                            var tr = $("<tr></tr>");
+                            tr.html("<td width='90px'>" + relationMap['source'] + "</td><td width='90px'>" + relationMap['name'] + "</td><td width='250px'>" + relationMap['target'] + "</td>");
+                            $("#alternatecolor1").append(tr);
+                        }
+
+                        //将出现实体标红
+                        const rtn = arr.map(i => ({raw: i, len: i.length}))
+                            .sort((p, n) => n.len - p.len)
+                            .map(i => i.raw);
+                        console.log(rtn);
+                        for(var entity of rtn){
+                            console.log(entity);
+                            var pattern = new RegExp(entity.trim(), 'ig');
+                            str1 = str1.replace(pattern, '<span style="color:red">' + entity + '</span>').replace(/\s+/g, ' ');
+                        }
+                        str1 = str1.replace(/\\n+/g, '');
+                        console.log(str1);
+
+                        $('#alternatecolor td').css({
+                            "text-align": "center",
+                            "border-width": "1px",
+                            "padding": "8px",
+                            "border-style": "solid",
+                            "border-color": "#a9c6c9"
+                        });
+                        $('#alternatecolor th').css({
+                            "text-align": "center",
+                            "border-width": "1px",
+                            "padding": "18px",
+                            "border-style": "solid",
+                            "border-color": "#a9c6c9"
+                        });
+                        // $('#api_output_father').css("border","1px solid #0b96e5");
+                        $('#api_output').css("text-align", "justify").html(str1);
+                        altRows('alternatecolor');
+                        altRows('alternatecolor1');
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        $('#btn').toggle();
+                        $('#spinner').toggle();
+                        $('#api_output').css("text-align", "center").html("<p style='color: #0b96e5;font: 14px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
+                        console.log(errorThrown);
+                    }
+
+                });
+            }
+
+
+            // <!--实体识别关系抽取API调用-->
+            // function identifyEntity(input) {
+            //     var fileName = $("#fileId2").val();
+            //     var strFileName = fileName.substring(fileName.lastIndexOf("\\")+1);
+            //     $('#btn').toggle();
+            //     $('#spinner').toggle();
+            //     $("#alternatecolor  tr:not(:first)").html("");
+            //     $("#alternatecolor1  tr:not(:first)").html("");
+            //     $.ajax({
+            //         url: "http://127.0.0.1:5000/api",
+            //         method: 'POST',
+            //         dataType: 'jsonp',
+            //         jsonp: "callback",
+            //         jsonpCallback: "successCallback_entity",//回调方法
+            //         contentType: 'application/json',
+            //         data:{
+            //             'input': JSON.stringify(input),
+            //             'multi-file':strFileName
+            //         },
+            //         success: function (data) {
+            //             // toggle the spinner and button
+            //             $('#btn').toggle();
+            //             $('#spinner').toggle();
+            //             //由于可能是视频文件只能进行字幕提取由后端返回
+            //             var str1 = data.input;
+            //             console.log("Input为"+str1);
+            //             textClassify(str1);
+            //             var entityMap = data.listDemo;
+            //             var raw_relations = data.raw_relations;
+            //             var datas = raw_relations[0];
+            //             var links = raw_relations[1];
+            //             showRela(datas, links);
+            //             console.log(links);
+            //             console.log(entityMap);
+            //             // color = ["red","yellow","blue"];
+            //             for (var prop in entityMap) {
+            //                 var entity = "";
+            //                 if (entityMap.hasOwnProperty(prop)) {
+            //                     for (var i = 0; i < entityMap[prop].length; i++) {
+            //                         if (entityMap[prop][i] !== "") {
+            //                             entity = entity + entityMap[prop][i] + "、";
+            //                             str1 = str1.replaceAll(entityMap[prop][i], "<span style='color:red'>$&</span>");
+            //                         }
+            //                     }
+            //                 }
+            //                 if (entity != null) {
+            //                     var tr = $("<tr></tr>");
+            //                     tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
+            //                     $("#alternatecolor").append(tr);
+            //                 }
+            //             }
+            //             for (var i = 0; i < links.length; i++) {
+            //                 relationMap = links[i];
+            //                 var tr = $("<tr></tr>");
+            //                 tr.html("<td width='90px'>" + relationMap['source'] + "</td><td width='90px'>" + relationMap['name'] + "</td><td width='250px'>" + relationMap['target'] + "</td>");
+            //                 $("#alternatecolor1").append(tr);
+            //             }
+            //             $('#alternatecolor td').css({
+            //                 "text-align": "center",
+            //                 "border-width": "1px",
+            //                 "padding": "8px",
+            //                 "border-style": "solid",
+            //                 "border-color": "#a9c6c9"
+            //             });
+            //             $('#alternatecolor th').css({
+            //                 "text-align": "center",
+            //                 "border-width": "1px",
+            //                 "padding": "18px",
+            //                 "border-style": "solid",
+            //                 "border-color": "#a9c6c9"
+            //             });
+            //             // $('#api_output_father').css("border","1px solid #0b96e5");
+            //             $('#api_output').css("text-align", "justify").html(str1);
+            //             altRows('alternatecolor');
+            //             altRows('alternatecolor1');
+            //         },
+            //         error: function (jqXhr, textStatus, errorThrown) {
+            //             $('#btn').toggle();
+            //             $('#spinner').toggle();
+            //             $('#api_output').css("text-align", "center").html("<p style='color: #0b96e5;font: 14px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
+            //             console.log(errorThrown);
+            //         }
+            //
+            //     });
+            // }
+
+            var fileContent = null;//文件内容
+            <!--中文实体识别关系抽取API调用-->
+            function identifyEntity_c(input) {
+                // hide button and make the spinner appear
+                console.log(fileContent);
+                $('#btn').toggle();
+                $('#spinner').toggle();
+                $("#alternatecolor  tr:not(:first)").html("");
+                $("#alternatecolor1  tr:not(:first)").html("");
+                $.ajax({
+                    url: "http://127.0.0.1:8888/api",
+                    method: 'POST',
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback",//回调方法
+                    contentType: 'application/json',
+                    data: {input: JSON.stringify(input)},
+
+                    success: function (data) {
+                        // toggle the spinner and button
+                        $('#btn').toggle();
+                        $('#spinner').toggle();
+                        var entityMap = data.output;
+                        var str1 = data.input_data;
+                        for (var prop in entityMap) {
+                            if (entityMap.hasOwnProperty(prop)) {
+                                for (var i = 0; i < entityMap[prop].length; i++) {
+                                    var pattern = new RegExp(entityMap[prop][i].trim(), 'im');
+                                    str1 = str1.replace(pattern, '<span style="color:red">' + entityMap[prop][i] + '</span>').replace(/\s+/g, ' ');
+                                }
+                            }
+                        }
+                        str1 = str1.replace(/\\n+/g, '');
+                        $('#api_output').html(str1).css("text-align", "justify");
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        $('#btn').toggle();
+                        $('#spinner').toggle();
+                        $('#api_output').css("text-align", "center").html("Sorry, the server is asleep...<br/>Try again in a moment!");
+
+                        console.log(errorThrown);
+                    }
+                });
+            }
+
+            <!--文本分类API调用-->
+            function textClassify(input) {
+                // hide button and make the spinner appear
+                $('#btn').toggle();
+                $('#spinner').toggle();
+                $.ajax({
+                    url: "http://127.0.0.1:7000/classify",
+                    method: 'POST',
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback_classify",//回调方法
+                    contentType: 'application/json',
+                    data: {input: JSON.stringify(input)},
+
+                    success: function (data) {
+
+                        var index = 0;//记录最大值所对应的分类类别
+                        for (var i = 0 ;i < data.probability.length ; i++){
+                            var max = 0;
+                            if (data.probability[i] > max){
+                                max = data.probability[i];
+                                index = i;
+                            }
+                        }
+                        $("#text_sum").html("经分析，该文本属于<span style='color: blue'>" + data.classify[index] + "</span>范围的文章。其大致内容为:");
+                        $.ajax({
+                                url: "http://127.0.0.1:8000/textsum",
+                                method: 'POST',
+                                dataType: 'jsonp',
+                                jsonp: "callback",
+                                jsonpCallback: "successCallback_sum",//回调方法
+                                contentType: 'application/json',
+                                data: {input: JSON.stringify(input)},
+                                success: function (data) {
+                                    var appKey = '241d46d9da752d9f';
+                                    var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
+                                    var salt = (new Date).getTime();
+                                    var curTime = Math.round(new Date().getTime()/1000);
+                                    // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+                                    var from = 'en';
+                                    var to = 'zh-CHS';
+                                    var str1 = appKey + truncate(data) + salt + curTime + key;
+                                    var sign = sha256(str1);
+                                    $.ajax({
+                                        url: 'http://openapi.youdao.com/api',
+                                        type: 'post',
+                                        dataType: 'jsonp',
+                                        data: {
+                                            q: data,
+                                            appKey: appKey,
+                                            salt: salt,
+                                            from: from,
+                                            to: to,
+                                            sign: sign,
+                                            signType: "v3",
+                                            curtime: curTime
+                                        },
+                                        success: function (data) {
+                                            $('#btn').toggle();
+                                            $('#spinner').toggle();
+                                            var orgin = $("#text_sum").html();
+                                            $("#text_sum").html(orgin + data.translation[0]);
+                                        }
+                                    })
+                                }
+                        });
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        if ($('#api_output').is(':hidden')) {//如果当前隐藏
+                            $('#api_output').show();//那么就显示div
+                        }
+                        $('#api_output').html("<p style='color: #0b96e5;font: 16px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
+                        console.log(errorThrown);
+                    }
+
+                });
+            }
+
+            <!--获得上传文件内容-->
+            function uploadFile() {
+                var objFile = document.getElementById("fileId");
+                if (objFile.value == "") {
+                    alert("文件内容不能为空")
+                }
+                var files = $('#fileId').prop('files'); //获取到文件列表
+                console.log(files.length);
+                if (files.length == 0) {
+                    alert('请选择文件');
+                } else {
+                    for (var i = 0; f = files[i]; i++) {
+                        var reader = new FileReader(); //新建一个FileReader
+                        reader.readAsText(files[i], "UTF-8"); //读取文件
+                        $("#uploadPath").val("" + f.name);
+                        reader.onload = function (evt) { //读取完文件之后会回来这里
+                            var fileString = evt.target.result; // 读取文件内容
+                            $("#input").val("" + fileString);
+                            fileContent = fileString;
+                            // console.log(fileString)
+                        }
+                    }
+                }
+            }
+
+            <!--多模态文件上传调用-->
+            function uploadFile2() {
+                var objFile = document.getElementById("fileId2").files[0];
+                if (objFile==undefined ||objFile == "") {
+                    alert("请选择文件");
+                    return false;
+                }
+                $("#uploadPath").val("" + objFile.name);
+                var createObjectURL = function(objFile) {
+                    return window[window.webkitURL ? 'webkitURL' : 'URL']['createObjectURL'](objFile);
+                };
+                var videoSrc = createObjectURL(objFile);
+                var formData = new FormData(); // FormData 对象
+                formData.append("multi-file", objFile); // 文件对象
+                $.ajax({
+                    type: 'post',
+                    url: "http://127.0.0.1:5000/receive", //上传文件的请求路径必须是绝对路径
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data){
+                        alert("上传成功");
+                    },
+                    error:function () {
+                        alert("上传失败");
+                    }
+                });
+                var t = document.getElementById('input');//选取id为test的元素
+                t.style.display = 'none';	// 隐藏选择的元素
+                $("#preview").append("<video width=\"862\" height=\"290\" controls='' autoplay='' name='media'><source src='" + videoSrc + "'  type='video/mp4'></video>");
+            }
+
+            <!--表格隔行换色-->
+            function altRows(id) {
+                if (document.getElementsByTagName) {
+
+                    var table = document.getElementById(id);
+                    var rows = table.getElementsByTagName("tr");
+
+                    for (var i = 0; i < rows.length; i++) {
+                        if (i % 2 == 0) {
+                            rows[i].className = "evenrowcolor";
+                        } else {
+                            rows[i].className = "oddrowcolor";
+                        }
+                    }
+                }
+            }
+
+            <!--有道智云文本翻译API调用-->
+            function truncate(q){
+                var len = q.length;
+                if(len<=20) return q;
+                return q.substring(0, 10) + len + q.substring(len-10, len);
+            }
+
+
+            //数组去重
+            function UniqObj(array) {     // 对象去重方法
+                var allArr = [];    //建立新的临时数组
+                for (var i = 0; i < array.length; i++) {
+                    var flag = true;
+                    for (var j = 0; j < allArr.length; j++) {
+                        if (array[i].name == allArr[j].name) {
+                            flag = false;
+                        }
+                    }
+                    if (flag) {
+                        allArr.push(array[i]);
+                    }
+                }
+                return allArr;
+            }
+
+            //显示关系图
+            function showRela(data, links) {
+                var myChart = echarts.init(document.getElementById('first_div'));
+                var categories = [];
+                for (var i = 0; i < 2; i++) {
+                    categories[i] = {
+                        name: '类目' + i
+                    };
+                }
+                option = {
+                    series: [{
+                        type: 'graph', // 类型:关系图
+                        layout: 'force', //图的布局，类型为力导图
+                        symbolSize: 50, // 调整节点的大小
+                        roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                        edgeSymbol: ['circle', 'arrow'],
+                        edgeSymbolSize: [2, 10],
+                        edgeLabel: {
+                            normal: {
+                                textStyle: {
+                                    fontSize: 20
+                                }
+                            }
+                        },
+                        force: {
+                            repulsion: 250,
+                            edgeLength: [100, 150]
+                        },
+                        draggable: true,
+                        lineStyle: {
+                            normal: {
+                                width: 2,
+                                color: '#4b565b'
+                            }
+                        },
+                        edgeLabel: {
+                            normal: {
+                                show: true,
+                                formatter: function (x) {
+                                    return x.data.name;
+                                }
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                textStyle: {}
+                            }
+                        },
+                        categories: categories
+                    }]
+                };
+                var tmp = option.series;
+                tmp[0]['data'] = UniqObj(data);
+                tmp[0]['links'] = links;
+                // console.log(tmp[0]['data'],tmp[0]['links']);
+                myChart.setOption(option);
+            }
+
+            function tick() {
+                circle.attr("transform", transform1);
+                text.attr("transform", transform2);
+                edges_line.attr('d', function (d) {
+                    var path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
+                    return path;
+                });
+
+                edges_text.attr('transform', function (d, i) {
+                    if (d.target.x < d.source.x) {
+                        bbox = this.getBBox();
+                        rx = bbox.x + bbox.width / 2;
+                        ry = bbox.y + bbox.height / 2;
+                        return 'rotate(180 ' + rx + ' ' + ry + ')';
+                    } else {
+                        return 'rotate(0)';
+                    }
+                });
+            }
+
+            function linkArc(d) {
+                return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y
+            }
+
+            function transform1(d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            }
+
+            function transform2(d) {
+                return "translate(" + (d.x) + "," + d.y + ")";
+            }
+
+            $(function () {
+                // request when clicking on the button
+                altRows('alternatecolor');
+                altRows('alternatecolor1');
+                $('#input').focus();
+                $('#btn').click(function () {
+                    var input = null;
+                    if (fileContent == null) {
+                        input = $('#input').val();
+                    } else {
+                        input = fileContent;
+                    }
+                    if (input.match(/[\u4e00-\u9fa5]/g) != null && (input.match(/[\u4e00-\u9fa5]/g).length >= input.length / 2)) {
+                        //Chinese
+                        identifyEntity_c(input);
+                    } else {
+                        //English
+                        identifyEntity(input);
+                    }
+                    input = null;
+                    fileContent = null;
+                });
+            });
+
+
+        </script>
+    </div>
+</div>
+
+
+</body>
+</html>

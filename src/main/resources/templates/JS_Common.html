@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+</head>
+
+<body>
+
+<div style="height: 108px; background-image: linear-gradient(to left, rgb(123, 67, 151), rgb(33, 150, 243));" th:fragment="topbar">
+    <!--<div style="display: inline-block;margin-left: 30px;margin-top: 15px;white-space: nowrap;">-->
+        <!--<img src="./asset/imgs/logo-white.png">-->
+    <!--</div>-->
+    <div style="
+    width: 315px;
+    left: 50%;
+    line-height: 100px;
+    background-image: -webkit-linear-gradient(left,#f8f8fd,#f6fafa 10%,#fdfcfd 20%,#fcfcfc 30%, #CCCCFF 40%, #00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,blue 100%);
+    -webkit-text-fill-color: transparent;/* 将字体设置成透明色 */
+    -webkit-background-clip: text;/* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+    -webkit-background-size: 200% 100%;
+    -webkit-animation: masked-animation 4s linear infinite;
+    font-size: 35px;">
+        多模态分析系统
+    </div>
+
+</div>
+
+<div th:fragment="leftbar" style="height: 750px;">
+    <ul class="mcd-menu" style="height: 750px;padding-top: 20px;width: 250px">
+
+        <!--<li> <a href=""><i></i> <strong>JS信息系统</strong></a></li>-->
+        <li><a href="/JS_Index" class="active"> <i class="fa fa-home"></i> <strong>首页</strong>
+            <small>Index</small>
+        </a></li>
+
+        <li>
+            <a href="/JS_TextClassify"> <i class="fa fa-edit"></i> <strong>文本分类</strong>
+                <small>Text Classify</small>
+            </a>
+        </li>
+
+        <li>
+            <a href="/JS_Multmodel"> <i class="fa fa-gift"></i> <strong>多模态检索</strong>
+                <small>Multimodal Retrieval</small>
+            </a>
+        </li>
+
+        <li>
+            <a href="javascript:"> <i class="fa fa-globe"></i> <strong>信息抽取</strong>
+                <small>Information Extraction</small>
+            </a>
+            <ul>
+                <li><a href="/JS_Entity"><i class="fa fa-globe"></i>信息提取</a></li>
+                <li><a href="/JS_Weapon"><i class="fa fa-globe"></i>信息融合</a></li>
+                <li><a href="/JS_NewField"><i class="fa fa-trophy"></i>新领域识别</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:"> <i class="fa fa-globe"></i> <strong>量化分析</strong>
+                <small>Information Extraction</small>
+            </a>
+            <ul>
+                <li><a href="javascript:void(0)"><i class="fa fa-globe"></i>实力对比</a></li>
+                <li><a href="javascript:void(0)"><i class="fa fa-group"></i>趋势预测</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:"> <i class="fa fa-globe"></i> <strong>信息生成</strong>
+                <small>Information Extraction</small>
+            </a>
+            <ul>
+                <li><a href="/JS_TextSum"><i class="fa fa-globe"></i>摘要生成</a></li>
+                <li><a href="/JS_ReportUpload"><i class="fa fa-group"></i>简报生成</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="/JS_Entity"> <i class="fa fa-globe"></i> <strong>成果展示</strong>
+                <small>Information Extraction</small>
+            </a>
+            <ul>
+                <li><a href="/JS_Result"><i class="fa fa-globe"></i>算法成果</a></li>
+                <li><a href="/JS_Result"><i class="fa fa-group"></i>数据成果</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:"> <i class="fa fa-envelope-o"></i> <strong>联系我们</strong>
+                <small>  Contact-us</small>
+            </a>
+        </li>
+
+
+        <li class="float"><a class="search">
+            <input type="text" value="search ...">
+            <button><i class="fa fa-search"></i></button>
+        </a> <a href="" class="search-mobile"> <i class="fa fa-search"></i> </a></li>
+    </ul>
+</div>
+
+
+</body>
+</html>

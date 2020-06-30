@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--layout:decorator="layui/result">-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>短文本摘要</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap/ui-elements/card.css">
+    <link rel="stylesheet" href="../css/bootstrap/style.css">
+    <link rel="stylesheet" href="../css/bootstrap/bootstrap-table.min.css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="../js/bootstrap/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../js/bootstrap/bootstrap-table.min.js"></script>
+    <!--有道智云API所需JS文件-->
+    <script src="http://shared.ydstatic.com/js/jquery/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <script src="https://cdn.bootcss.com/js-sha256/0.9.0/sha256.js"></script>
+    <!--下面不用改-->
+    <!--字体样式-->
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+
+    <link href="./css/resume/flow.css" rel="stylesheet" type="text/css"  />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /*font-size: 12px;*/
+        }
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+        #alert {
+            z-index: 2;
+            border: 1px solid rgba(0,0,0,.2);
+            width: 598px;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.5);
+            background: #fff;
+            z-index: 1000;
+            position: absolute;
+            left: 50%;
+            top: 15%;
+            margin-left: -299px;
+            display: none;
+        }
+        .model-head {
+            padding: 15px;
+            color: #73879C;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .close {
+            padding: 0;
+            cursor: pointer;
+            background: 0 0;
+            border: 0;
+            float: right;
+            font-size: 14px !important;
+            font-weight: 700;
+            text-shadow: 0 1px 0 #fff;
+            opacity: 0.4;
+            margin-top: 5px;
+        }
+        #close:hover {
+            cursor: pointer;
+            color: #000;
+        }
+        #mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: #000;
+            opacity: 0.3;
+            display: none;
+            z-index: 1;
+        }
+        .model-content {
+            position: relative;
+            padding: 15px;
+        }
+        .model-foot {
+            padding: 15px;
+            text-align: right;
+        }
+    </style>
+
+</head>
+<body>
+
+<div th:insert="~{/JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div style="display: block;height: 800px;width:100%">
+        <!--次导航栏-->
+        <blockquote class="layui-elem-quote layui-text" style="margin-bottom: 0">
+            <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
+                <li><a href="JS_Index">首页</a></li>
+                <li><a href="JS_TextClassify">信息生成</a></li>
+                <li class="active">简报生成</li>
+            </ol>
+        </blockquote>
+        <!--主内容-->
+        <div style="display: flex;width: 100%;height: 700px;margin-top: 0;background-image: url(asset/imgs/BGP-1.jpg);background-size: cover;">
+
+            <div id="content" style="text-align:center;margin-top: 25%;margin-left: 60%">
+                <a style="font-size:36px;color: #0ca1bc" href="#">生成简报</a> </div>
+
+            <div id="alert" class="">
+                <div class="model-head">
+                    <span class="close">&times;</span>
+                    <h4 class="modal-title">分析流程</h4>
+                </div>
+                <div class="model-content">
+                    <div class="main">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="flow">
+                                    <div class="flowListBox"> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="flowDiv">
+                                <ol id="iList">
+                                    <div id="contA"><h4>开始流程...</h4></font></div>
+                                    <div class="contentList" id="contB"><h4>正在文本分类...</h4></div>
+                                    <div class="contentList" id="contC"><h4>正在实体识别...</h4></div>
+                                    <div class="contentList" id="contD"><h4>正在简报生成...</h4></div>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="foot-btn">
+                    <button type="button" class="btn btn-default"  style="float:right; display:none" id="btnok">完成</button>
+                    <button type="button" class="btn btn-success"  style="float:right; margin-right:10px;" id="btnNext">下一步</button>
+                </div>
+            </div>
+
+            <div id="mask"></div>
+
+            <!--content/-->
+
+            <script type="text/javascript" src="./js/resume/jquery.min.js"></script>
+            <script type="text/javascript" src="./js/resume/flow.js"></script>
+            <script type="text/javascript">
+                var myAlert = document.getElementById("alert");
+                var myMask=document.getElementById('mask');
+
+                $("#content a").click(function(){
+                    myMask.style.display="block";
+                    myAlert.style.display = "block";
+                    document.body.style.overflow = "hidden";
+                })
+                $(".close").click(function(){
+                    myAlert.style.display = "none";
+                    myMask.style.display = "none";
+                })
+                $("#btnok").click(function(){
+                    window.location.href ="/JS_ReportDetail";
+                })
+
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

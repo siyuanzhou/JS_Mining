@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.mapper.WeaponMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.entity.Weapon">
+    <result column="id" jdbcType="DOUBLE" property="id" />
+    <result column="first" jdbcType="VARCHAR" property="first" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="second" jdbcType="VARCHAR" property="second" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="img_url" jdbcType="VARCHAR" property="img_url" />
+    <result column="img_desc" jdbcType="VARCHAR" property="img_desc" />
+    <result column="detail_url" jdbcType="VARCHAR" property="detail_url" />
+    <result column="img_detail_url" jdbcType="VARCHAR" property="img_detail_url" />
+    </resultMap>
+
+
+
+    <select id="selectAllWeapon" resultType="com.example.entity.Weapon">
+		select * from weapons
+	</select>
+
+    <select id="selectWeaponByName"  resultType="com.example.entity.Weapon">
+		select * from weapons where name = #{name}
+	</select>
+
+    <select id="queryByTags" resultType="com.example.entity.Weapon" parameterType="com.example.entity.Tag">
+
+        select * from weapons
+        <where>
+            <if test="first!=null">
+                and first = #{first}
+            </if>
+            <if test="second!=null and second!=''">
+                and second=#{second}
+            </if>
+            <if test="country!=null and country!=''">
+                and country=#{country}
+            </if>
+            <if test="time!=null and time!=''">
+                and time=#{time}
+            </if>
+        </where>
+
+    </select>
+
+
+</mapper>

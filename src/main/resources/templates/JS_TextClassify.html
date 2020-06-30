@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>后台布局</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+    <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap/ui-elements/card.css">
+    <link rel="stylesheet" href="../css/common_css/style.css">
+    <link rel="stylesheet" href="../css/bootstrap/bootstrap-table.min.css">
+    <script src="../js/bootstrap/jquery.min.js"></script>
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../js/bootstrap/bootstrap-table.min.js"></script>
+
+    <!--字体样式-->
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+</head>
+<body style="background-color: inherit">
+<div th:insert="~{/JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div style="display: block;height: 800px;width:100%">
+        <!--次导航栏-->
+        <div style="display: block; padding: 0">
+            <blockquote class="layui-elem-quote layui-text">
+                <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
+                    <li><a href="JS_Index">首页</a></li>
+                    <li><a href="JS_TextClassify">文本分类</a></li>
+                    <li class="active">文本分类</li>
+                </ol>
+            </blockquote>
+        </div>
+        <!--主内容-->
+        <div style="display: block">
+
+            <!--<h1 style="text-align: center">文本分类</h1>-->
+            <div class="container" style="height:800px;width:1000px;">
+
+                <!--待分类文本输入框-->
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="text-align: center">待分类文本</div>
+                    <div class="panel-body" style="height: 300px">
+                        <textarea
+                                style="height:100%;width: 100%;border: 0;border-radius:5px;background-color:rgb(255,255,255);text-align:justify;"
+                                type="text" id="input" name="input" placeholder="请输入您要使用的文本"></textarea>
+
+                    </div>
+                    <div class="panel-footer" style="display: flex;">
+
+                        <input name="file" multiple id="fileId" type="file" style="display:none"
+                               onchange="uploadFile()">
+                        <div class="input-append">
+                            <input id="uploadPath" class="input-large" type="text" style="height:30px;">
+                            <a class="btn btn-default" style="height: 30px ;margin-top: -4px;background-color: #337ab7;color: white" onclick="$('input[id=fileId]').click();">文件上传</a>
+                        </div>
+                        <button  class="btn btn-default"
+                                 style="height: 30px ;margin-left:180px;background-color: #337ab7;color: white"
+                                 id="btn">开始分类</button>
+                        <div style="padding-left: 300px;color: #0b96e5">
+                            <span>字数:</span></span><span class="textareaInput">0</span>/<span class="textareaTotal">1000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--分类结果显示框-->
+
+                <div class="spinner" id="spinner" style="display: none">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+                <div id="api_output"
+                     style="width: 548px;height:16px;margin-top:15px;margin-left:250px;text-align: center;display:none;">
+                    <div style="height: 6px;"></div>
+                </div>
+                <div id="first_div"
+                     style="margin-top:50px;margin-left:1px;width: 1000px;height:400px; "></div>
+            </div>
+        </div>
+        <!--页面背景-->
+        <div id="background"
+             style="display: block;height: 1200px;width: 100%;background-image: linear-gradient(to left,rgb(247,245,255),rgb(238,238,238));
+             position: absolute;top: 0;z-index: -10">
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        var lenInput = $("#input").val().length;
+        $("#input").keyup(function(){
+            lenInput = $(this).val().length;
+            if(lenInput>0 && lenInput<=1000){
+                $('.textareaInput').html(lenInput);
+            }else{
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('first_div'));
+
+    function showRela(data) {
+        myChart.setOption({
+            yAxis: {
+                data: data.classify,
+            },
+            series: [{
+                data: data.probability,
+            }]
+        });
+    }
+
+    <!--文本分类后端调用-->
+    function api_call(input) {
+        // hide button and make the spinner appear
+        $('#btn').toggle();
+        $('#spinner').toggle();
+        $.ajax({
+            url: "http://127.0.0.1:7000/classify",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_classify",//回调方法
+            contentType: 'application/json',
+            data: {input: JSON.stringify(input)},
+
+            success: function (data) {
+                $('#btn').toggle();
+                $('#spinner').toggle();
+                $('#api_output').hide();
+                showRela(data);
+                console.log(data);
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('#btn').toggle();
+                $('#spinner').toggle();
+                if ($('#api_output').is(':hidden')) {//如果当前隐藏
+                    $('#api_output').show();//那么就显示div
+                }
+                ;
+                $('#api_output').html("<p style='color: #0b96e5;font: 16px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
+                console.log(errorThrown);
+            }
+
+        });
+    }
+
+    var fileContent = null;
+
+
+    $('input[id=fileId]').change(function () {
+        $('#uploadpath').val($(this).val());
+
+    });
+
+    function uploadFile() {
+
+        var objFile = document.getElementById("fileId");
+        if (objFile.value == "") {
+            alert("文件内容不能为空")
+        }
+        var files = $('#fileId').prop('files'); //获取到文件列表
+        if (files.length == 0) {
+            alert('请选择文件');
+        } else {
+            $('#input').html("");
+            for (var i = 0; f = files[i]; i++) {
+                $("#uploadPath").prop("value","" + f.name);
+                var reader = new FileReader(); //新建一个FileReader
+                reader.readAsText(files[i], "UTF-8"); //读取文件
+                reader.onload = function (evt) { //读取完文件之后会回来这里
+                    var fileString = evt.target.result; // 读取文件内容
+                    fileContent = fileString;
+                    $('#input').html(fileContent);
+                    $()
+                    // console.log(fileString)
+                }
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        //粒子背景特效
+        // $('#background').particleground({
+        //     dotColor: '#5c9bbd',
+        //     lineColor: '#5c9bbd'
+        // });
+        // $("#background").css('position', 'absolute');
+        //echarts表格
+        myChart.setOption({
+            title: {
+                text: '分类结果',
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                /*  data: [ '2012年']*/
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01],
+                max: 1.0
+            },
+            yAxis: {
+                type: 'category',
+                data: ["环境", "人工智能", "计算机", "电子", "生物", "自动化", "化学", "通信", "物理", "航天", "能源", "制造", "材料", "空军", "陆军", "海军", "网络"]
+            },
+            series: [{
+                name: '准确度',
+                type: 'bar',
+                itemStyle: {
+                    normal: {
+                        color: '#0b96e5'
+                    }
+                },
+                data: []
+            }]
+        });
+        // request when clicking on the button
+        $('#btn').click(function () {
+            var input = null;
+            // 判断输入的为中文还是英文
+            if (fileContent == null) {
+                input = $('#input').val();
+            } else {
+                input = fileContent;
+            }
+            if (input.match(/[\u4e00-\u9fa5]/g) != null && (input.match(/[\u4e00-\u9fa5]/g).length >= input.length / 2)) {
+                //Chinese
+                console.log("Chinese");
+                //capi_call(input);
+            } else {
+                //English
+                console.log("English");
+                api_call(input);
+            }
+            input = null;
+            fileContent = null;
+        });
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.mapper.DataItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.entity.DataItem">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="field" jdbcType="VARCHAR" property="field" />
+        <result column="label" jdbcType="VARCHAR" property="label" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="source" jdbcType="VARCHAR" property="source" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+
+    </resultMap>
+
+    <select id="Sel" resultType="com.example.entity.DataItem">
+        select * from dataitem where id = #{id}
+    </select>
+
+
+    <select id="selectAllDataItem" resultType="com.example.entity.DataItem">
+		select * from dataitem
+	</select>
+
+
+</mapper>
+

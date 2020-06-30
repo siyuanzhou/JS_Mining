@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>后台布局</title>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap-theme.css">
+    <link rel="stylesheet" href="./css/bootstrap/style.css">
+    <link rel="stylesheet" href="./css/bootstrap/custom.css">
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap-table.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" href="./css/multmodel/style.css" >
+
+    <script src="./js/bootstrap/jquery.min.js"></script>
+    <script src="./js/bootstrap/bootstrap.min.js"></script>
+    <script src="./js/bootstrap/bootstrap-table.min.js"></script>
+
+    <style>
+        .intro {
+            background-color: #425da7;
+            font-color: #fff;
+        }
+
+        .ov {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    </style>
+</head>
+<body style="background-color: #eeeeee" >
+<div th:insert="~{/JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div style="display:block;height: 500px;width:100%">
+        <div class="main-header" style="padding-top: 20px;padding-left: 45px">
+        <div class="main-search">
+            <div class="main-search-input">
+                <input type="text" placeholder="请输入您想搜索的武器" class="entity" id="weapon-content" maxlength="10">
+                <a id="weapon-search"  class="s-btn">搜索武器</a>
+            </div>
+            <div class="main-search-txt keyword"><span>武器热搜：</span><a href="JS_Weapon_Item?name=歼-20" target="_blank">歼-20</a>|<a href="JS_Weapon_Item?name=国产航母" target="_blank">国产航母</a>|<a href="https://military.china.com/weapon/warship/qzj/130002622/20190724/11630.html" target="_blank">“阿利·伯克”级</a>|<a href="https://military.china.com/weapon/warship/qzj/130002622/20190912/38711.html" target="_blank">055大驱</a></div>
+        </div>
+        </div>
+        <hr>
+
+        <div class="group">
+            <div class="group-row">
+                <div class="gr-key">大分类：</div>
+                <div class="gr-value-control" style="display: none;"></div>
+                <div id="biglist_div" class="gr-value category">
+
+                </div>
+            </div>
+        </div>
+
+        <!-- </ul>-->
+        <span class="hidden-a"><input type="hidden" class="weapon_name_a" value="飞行器"></span>
+        <!-- 选择框 -->
+        <div class="group">
+            <div class="group-row">
+                <div class="gr-key">小分类：</div>
+                <div class="gr-value-control" style="display: none;"></div>
+                <div id="list_div" class="gr-value category" style="height: auto;">
+
+                </div>
+            </div>
+        </div>
+        <div class="group">
+            <div class="group-row">
+                <div class="gr-key">原产国：</div>
+                <div id="country_div" class="gr-value country" style="height: 76px;">
+                </div>
+            </div>
+        </div>
+        <div class="group">
+            <div class="group-row">
+                <div class="gr-key">诞生期：</div>
+                <div class="gr-value-control" style="display: none;"></div>
+                <div id="time_div" class="gr-value time" style="height: auto;">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="group">
+            <div class="group-btn">
+                <a class="sub" style="background-color:#425da7" id="btn">筛选</a>
+                <a href="javascript:void(0);" class="group-btn-reset" style="color:#425da7;">重置条件</a>
+            </div>
+        </div>
+
+        <!-- 主体 -->
+        <div class="wrapper border-t clearfix">
+            <div class="wp-title" style="border-bottom:solid 1px #0f4485">
+                <h2 style="background-color:#425da7">武器库</h2>
+                <div class="wp-title-download"style="color: #0C0C0C">团结起来-振兴中华</div>
+                <div class="wp-title-txt" style="color: #0C0C0C">共<span class="big" style="color: #0f4485">528</span>种<span style="color: black">飞行器</span>武器，共<span class="totalPage" style="color: #0f4485">67</span>页
+                </div>
+            </div>
+
+            <div class="row" id="image_div" style="clear: left">
+
+            </div>
+
+        </div>
+
+        <script>
+            $(document).ready(function () {
+
+                var data = {
+                    "biglist": "biglist",//
+                    "list": "list",//
+                    "country": "country",//
+                    "time": "time",//
+                };
+
+                $.ajax({
+                    url: "/Weapon_List_First",
+                    type: "POST",
+                    data: data,
+                    success: function (data) {
+
+                        var info = "";
+                        var info2 = "";
+                        var info3 = "";
+                        var info4 = "";
+                        var jsonb = eval(data);
+                        $.each(jsonb, function (index, item) {
+
+                            $.each(item['biglist'], function (y, e) {
+                                info += "<a class='weapon_name' data-name=" + e + ">" + e + "</a>";
+                            });
+                            $.each(item['list'], function (y, e) {
+                                info2 += "<a id='list'>" + e + "</a>";
+                            });
+                            $.each(item['country'], function (y, e) {
+                                info3 += "<a id='country'>" + e + "</a>";
+                            });
+                            $.each(item['time'], function (y, e) {
+                                info4 += "<a id='time'>" + e + "</a>";
+                            });
+
+                        });
+
+                        $("#biglist_div").html(info);
+                        $("#list_div").html(info2);
+                        $("#country_div").html(info3);
+                        $("#time_div").html(info4);
+                    },
+                    error: function () {
+                        alert("请求失败");
+                    },
+                });
+                // request when clicking on the button
+                $('#txt2img').click(function () {
+                    $('#image_div').html("");
+                    // get the input data
+                    var input = $("#input").val();
+                    txt2img(input);
+                    var t = document.getElementById('showout');
+                    t.style.visibility = 'visible'; // 显示元素
+                });
+                $('#img2txt').click(function () {
+                    upload();
+                    $('#image_div').html("");
+                    var t = document.getElementById('showout');
+                    t.style.visibility = 'visible'; // 显示元素
+                });
+
+            });
+            var biglist = " 飞行器";
+            var list = null;
+            var country = null;
+            var time = null;
+            $(document).on('click', '.weapon_name', function () {
+                biglist = null;
+                list = null;
+                country = null;
+                time = null;
+                biglist = jQuery(this).attr('data-name');
+                $(".weapon_name").removeClass("intro");
+                jQuery(this).addClass("intro");
+                $.ajax({
+                    url: "/Weapon_List_Select",
+                    type: "POST",
+                    data: {"type": biglist},
+                    success: function (data) {
+                        console.log("======data=====");
+                        console.log(data);
+                        var jsonb = eval(data);
+                        console.log("======jsonb=====");
+                        console.log(jsonb);
+                        var info = "";
+                        var info2 = "";
+                        var info3 = "";
+                        var info4 = "";
+                        $("#list_div").html("");
+                        $("#country_div").html("");
+                        $("#time_div").html("");
+                        $.each(jsonb, function (index, item) {
+
+                            $.each(item['list'], function (y, e) {
+                                info2 += "<a id='list'>" + e + "</a>";
+                            });
+                            $.each(item['country'], function (y, e) {
+                                info3 += "<a id='country'>" + e + "</a>";
+                            });
+                            $.each(item['time'], function (y, e) {
+                                info4 += "<a id='time'>" + e + "</a>";
+                            });
+
+                        });
+                        $("#list_div").html(info2);
+                        $("#country_div").html(info3);
+                        $("#time_div").html(info4);
+                    },
+                    error: function () {
+                        alert("请求失败");
+                    },
+                })
+
+            });
+
+
+            $(document).on('click', 'a#list', function () {
+                $('#list_div a').removeClass("intro");
+                list = jQuery(this).text();
+                jQuery(this).addClass("intro");
+            });
+
+            $(document).on('click', 'a#country', function () {
+                $('#country_div a').removeClass("intro");
+                country = jQuery(this).text();
+                jQuery(this).addClass("intro");
+
+            });
+
+            $(document).on('click', 'a#time', function () {
+                $('#time_div a').removeClass("intro");
+                time = jQuery(this).text();
+                jQuery(this).addClass("intro");
+            });
+
+            $("#btn").click(function () {
+                $('#mode_div').html("");
+                var data2 = {
+                    "biglist": biglist,//
+                    "list": list,//
+                    "country": country,//
+                    "time": time,//
+                };
+                $.ajax({
+                    url: "/Weapon_Btn_Select",
+                    type: "POST",
+                    data: data2,
+                    success: function (data) {
+                        console.log("======data=====");
+                        console.log(data);
+                        /*alert(data);*/
+                        var jsonb = eval(data);
+                        console.log("======jsonb=====");
+                        console.log(jsonb);
+                        var info5 = "";
+                        $("#image_div").html("");
+                        $.each(jsonb, function (index, item) {
+                            $.each(item['resultlist'], function (y, e) {
+                                var json = eval(e);
+                                info5 += "<div class='col-md-3 thumbnail'> <img src=" + json.Img_url + "><p class='ov'  >" + json.Img_desc + "</p>\n" +
+                                    "                                    <a href=JS_Weapon_Item?name="+ json.Weaponname + "> <font color='blue\'>" + json.Weaponname + "</font>\n </a>" +
+                                    "                                    </div>";
+                            });
+                        });
+                        $("#image_div").html(info5);
+                    },
+                    error: function () {
+                        alert("请求失败");
+                    },
+                })
+            });
+
+            $("#weapon-search").click(function () {
+                var tmp = document.getElementById("weapon-content").value;;
+                $.ajax({
+                    url: "/search/"+tmp+"/1/20",
+                    type: "Get",
+                    data: "",
+                    success: function (data) {
+                        console.log("======data=====");
+                        console.log(data);
+                        /*alert(data);*/
+                        var jsonb = eval(data);
+                        console.log("======jsonb=====");
+                        console.log(jsonb);
+                        var info5 = "";
+                        $("#image_div").html("");
+                        $.each(jsonb, function (index, item) {
+                            $.each(item['resultlist'], function (y, e) {
+                                var json = eval(e);
+                                info5 += "<div class='col-md-3 thumbnail'> <img src=" + json.Img_url + "><p class='ov'  >" + json.Img_desc + "</p>\n" +
+                                    "                                    <a href='www.baidu.com'><font color='blue\'>" + json.Weaponname + "</font>\n </a>" +
+                                    "                                    </div>";
+                            });
+                        });
+                        $("#image_div").html(info5);
+                    },
+                    error: function () {
+                        alert("请求失败");
+                    },
+                })
+            });
+
+            $("#weapon_item").click(function () {
+                $.ajax({
+                    url: "/Weapon_List",
+                    type: "POST",
+                    data: data2,
+                    success: function (data) {
+                        console.log("======data=====");
+                        console.log(data);
+                        var jsonb = eval(data);
+                        console.log("======jsonb=====");
+                        console.log(jsonb);
+                        var info5 = "";
+                        $("#image_div").html("");
+                        $.each(jsonb, function (index, item) {
+                            $.each(item['resultlist'], function (y, e) {
+                                var json = eval(e);
+                                info5 += "<div class='col-md-3 thumbnail'> <img src=" + json.Img_url + "><p class='ov'  >" + json.Img_desc + "</p>\n" +
+                                    "                                    <a href='www.baidu.com'><font color='blue\'>" + json.Weaponname + "</font>\n </a>" +
+                                    "                                    </div>";
+                            });
+                        });
+                        $("#image_div").html(info5);
+                    },
+                    error: function () {
+                        alert("请求失败");
+                    },
+                })
+            });
+        </script>
+
+    </div>
+
+</div>
+
+</body>
+</html>

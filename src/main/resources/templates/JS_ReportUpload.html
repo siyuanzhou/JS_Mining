@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <script src="./js/report_upload/jquery.min.js"></script>
+    <script src="./js/report_upload/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./js/report_upload/bootbox.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/report_upload/style.css">
+    <!--字体样式-->
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="./js/report_upload/mejs.js"></script>
+    <style type="text/css">
+        .myrow {
+            display: flex;
+            flex-direction: row;
+            /*margin-left:1em;*/
+        }
+
+        .xxxx {
+            height: 2px;
+            background: #999999;
+            margin-top: 16px;
+            width: 2em;
+            margin-left: 1em;
+            margin-right: 1em;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: inherit">
+
+<div th:insert="~{/JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div class="box">
+    <div class="title">请选择对应的文章生成简报</div>
+    <div class="content" >
+        <!--搜索输入框及查询、重置按钮-->
+        <div class="container content_width" style="height: auto">
+
+                <div class="row">
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>开始日期：</label>
+                            <!--指定 date标记-->
+                            <div class='input-group date' id='datetimepicker1'>
+
+                                <input type='text' class="form-control" style="z-index: 10000" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>结束日期：</label>
+                            <!--指定 date标记-->
+                            <div class='input-group date' id='datetimepicker2'>
+
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>领域</label>
+                             <select class="form-control select_down" style="font-size: 13px; color: #666;">
+                                <option>海军</option>
+                                <option>陆军</option>
+                                <option>空军</option>
+                                <option>人工智能</option>
+                                <option>网络攻防</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>范围</label>
+                            <select class="form-control select_down" style="font-size: 13px; color: #666;">
+                                <option>人工智能</option>
+                                <option>计算机</option>
+                                <option>电子</option>
+                                <option>生物</option>
+                                <option>自动化</option>
+                                <option>化学</option>
+                                <option>通信</option>
+                                <option>物理</option>
+                                <option>航天</option>
+                                <option>能源</option>
+                                <option>制造</option>
+                                <option>材料</option>
+                                <option>环境</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>来源</label>
+                            <select class="form-control select_down" style="font-size: 13px; color: #666;">
+                                <option>网站</option>
+                                <option>论文</option>
+                                <option>新闻</option>
+                                <option>专利</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="search_input" >
+                        <button class="btn btn-primary search_btn" type="button" id="search_btn">文章查询</button>
+                        <button class="btn btn-primary search_btn" style="margin-left: 20px" type="button" id="back_btn" onclick="javascrtpt:window.location.href='/JS_Report'">生成简报</button>
+                    </div>
+                </div>
+            </div>
+             <div class="line"></div>
+           </div>
+        <!--表格列表-->
+        <table id="tb" class="table">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>文章名称</th>
+                <th>发表日期</th>
+                <th>所属类别</th>
+                <th>作者</th>
+                <th>详细信息</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="show_tbody">
+            <tr>
+                <td>1</td>
+                <td>7652101</td>
+                <td>2012-01-09</td>
+                <td>人工智能</td>
+                <td>刘晓晓</td>
+                <td>www.js.com</td>
+                <td>
+                    <a href="#" class="edit">编辑</a>
+                    <a href="#" class="del">删除</a>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>7652102</td>
+                <td>2012-02-09</td>
+                <td>人工智能</td>
+                <td>李磊</td>
+                <td>www.js.com</td>
+                <td>
+                    <a href="#" class="edit">编辑</a>
+                    <a href="#" class="del">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+</div>
+</div>
+<script>
+    $(function () {
+        var picker1 = $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn'),
+            //minDate: '2016-7-1'
+        });
+        var picker2 = $('#datetimepicker2').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
+        //动态设置最小值
+        picker1.on('dp.change', function (e) {
+            picker2.data('DateTimePicker').minDate(e.date);
+        });
+        //动态设置最大值
+        picker2.on('dp.change', function (e) {
+            picker1.data('DateTimePicker').maxDate(e.date);
+        });
+
+    });
+</script>
+</div>
+</body>
+</html>
