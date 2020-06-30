@@ -353,7 +353,7 @@
                         console.log(rtn);
                         for(var entity of rtn){
                             console.log(entity);
-                            var pattern = new RegExp(entity.trim(), 'ig');
+                            var pattern = new RegExp(entity.trim(), 'g');
                             str1 = str1.replace(pattern, '<span style="color:red">' + entity + '</span>').replace(/\s+/g, ' ');
                         }
                         str1 = str1.replace(/\\n+/g, '');
