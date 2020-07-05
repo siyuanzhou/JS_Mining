@@ -144,7 +144,10 @@
         .evenrowcolor {
             background-color: #c3dde0;
         }
-
+        .pic_look{
+            width: 600px;
+            height: 280px ;
+        }
     </style>
 
 </head>
@@ -176,7 +179,7 @@
                     <div class="card-body" style="padding-bottom: 0.2cm;width: 1000px;">
 
                         <div class="panel panel-primary">
-                            <div  class="panel-heading" style="text-align: center">原文本内容</div>
+                            <div  class="panel-heading" style="text-align: center">图文分析</div>
 
                             <div id="preview" class="panel-body" style="height: 300px;padding: 10px">
                                 <textarea  style=" height: 100%;width: 100%;border-radius:5px;border: 0;
@@ -185,17 +188,38 @@
                                 </textarea>
                             </div>
 
-
                             <div class="panel-footer" style="display: flex">
                                 <input name="file" multiple id="fileId" type="file" style="display:none"
                                        onchange="uploadFile()">
-                                <input name="file" multiple id="fileId2" type="file" style="display:none"
-                                       onchange="uploadFile2()">
+                                <input name="file" multiple id="fileId3" type="file" style="display:none"
+                                       onchange="uploadFile3()">
                                 <div class="input-append">
                                     <input id="uploadPath" class="input-large" type="text" disabled style="height:30px;">
                                     <a class="btn btn-default"
                                        style="height: 30px ;margin-top: -4px;background-color: #337ab7;color: white"
                                        onclick="$('input[id=fileId]').click();">文本上传</a>
+                                    <a class="btn btn-default"
+                                       style="height: 30px ;margin-top: -4px;background-color: #337ab7;color: white"
+                                       onclick="$('input[id=fileId3]').click();">图片上传</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-primary">
+                            <div  class="panel-heading" style="text-align: center">视频分析</div>
+
+                            <div id="preview2" class="panel-body" style="height: 300px;padding: 10px">
+                                <textarea  style=" height: 100%;width: 100%;border-radius:5px;border: 0;
+                                        background-color:rgb(255,255,255);text-align:justify;overflow: auto" id="input2" type="text"
+                                           name="input2" placeholder="请输入需要识别的视频">
+                                </textarea>
+                            </div>
+
+                            <div class="panel-footer" style="display: flex">
+                                <input name="file" multiple id="fileId2" type="file" style="display:none"
+                                       onchange="uploadFile2()">
+                                <div class="input-append">
+                                    <input id="uploadPath2" class="input-large" type="text" disabled style="height:30px;">
                                     <a class="btn btn-default"
                                        style="height: 30px ;margin-top: -4px;background-color: #337ab7;color: white"
                                        onclick="$('input[id=fileId2]').click();">视频上传</a>
@@ -213,7 +237,7 @@
                         </div>
 
                         <div class="panel panel-primary">
-                            <div class="panel-heading" style="text-align: center">文本简介</div>
+                            <div class="panel-heading" style="text-align: center">内容简介</div>
                             <div class="panel-body" style="overflow: auto;">
                                 <!--展示文本摘要的结果-->
                                 <div id="text_sum"  style="height: 100px;width: 100%;border: 0;border-radius:5px;
@@ -630,7 +654,7 @@
                     alert("请选择文件");
                     return false;
                 }
-                $("#uploadPath").val("" + objFile.name);
+                $("#uploadPath2").val("" + objFile.name);
                 var createObjectURL = function(objFile) {
                     return window[window.webkitURL ? 'webkitURL' : 'URL']['createObjectURL'](objFile);
                 };
@@ -651,9 +675,47 @@
                         alert("上传失败");
                     }
                 });
-                var t = document.getElementById('input');//选取id为test的元素
+                var t = document.getElementById('input2');//选取id为test的元素
                 t.style.display = 'none';	// 隐藏选择的元素
-                $("#preview").append("<video width=\"862\" height=\"290\" controls='' autoplay='' name='media'><source src='" + videoSrc + "'  type='video/mp4'></video>");
+                $("#preview2").append("<video width=\"862\" height=\"290\" controls='' autoplay='' name='media'><source src='" + videoSrc + "'  type='video/mp4'></video>");
+            }
+
+            <!--图片文件上传调用-->
+            function uploadFile3() {
+                var files = [];
+                var objFile = document.getElementById("fileId3").files[0];
+                if (objFile==undefined ||objFile == "") {
+                    alert("请选择文件");
+                    return false;
+                }
+                var fr = new FileReader();
+                var imgStr;
+                fr.readAsDataURL(objFile);
+                fr.onload = function(objFile) {
+                    var imgNew = new Image();
+                    imgNew.src = objFile.target.result;
+                    $("#uploadPath").val("" + objFile.name);
+                    imgStr = "<div> <img src="+ imgNew.src +" class='pic_look'></div>";
+                    var t = document.getElementById('input');//选取id为test的元素
+                    t.style.display = 'none';	// 隐藏选择的元素
+                    $("#preview").append(imgStr);
+                    files.push(imgNew.src);
+                };
+
+                $.ajax({
+                    type: 'post',
+                    url: "http://127.0.0.1:5000/receive", //上传文件的请求路径必须是绝对路径
+                    data: files,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data){
+                        alert("上传成功");
+                    },
+                    error:function () {
+                        alert("上传失败");
+                    }
+                });
             }
 
             <!--表格隔行换色-->

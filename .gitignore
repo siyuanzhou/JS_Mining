@@ -3,11 +3,9 @@
 
 # Log file
 *.log
-
+*.iml
 # BlueJ files
 *.ctxt
-*.iml
-
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -30,7 +28,6 @@ out/
 /checkouts
 /.lein-*
 /.env
-/.idea
 .DS_Store
 */target
 .svn
@@ -40,4 +37,5 @@ out/
 logs
 /log
 /tmp
+/.idea
 hotspot.log
