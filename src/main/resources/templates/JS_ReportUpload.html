@@ -47,7 +47,7 @@
     <div class="title">请选择对应的文章生成简报</div>
     <div class="content" >
         <!--搜索输入框及查询、重置按钮-->
-        <div class="container content_width" style="height: auto">
+        <div class="container content_width" style="height: auto;width: 1268px">
 
                 <div class="row">
                     <div class='col-sm-3'>
@@ -76,12 +76,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>国家</label>
+                            <select id = "country" class="form-control select_down" style="font-size: 13px; color: #666;">
+                                <option>中国</option>
+                                <option>美国</option>
+                                <option>德国</option>
+                                <option>意大利</option>
+                                <option>法国</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>领域</label>
-                             <select class="form-control select_down" style="font-size: 13px; color: #666;">
+                             <select id = "firstScope" class="form-control select_down" style="font-size: 13px; color: #666;">
                                 <option>海军</option>
                                 <option>陆军</option>
                                 <option>空军</option>
@@ -94,7 +106,7 @@
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>范围</label>
-                            <select class="form-control select_down" style="font-size: 13px; color: #666;">
+                            <select id="secondScope" class="form-control select_down" style="font-size: 13px; color: #666;">
                                 <option>人工智能</option>
                                 <option>计算机</option>
                                 <option>电子</option>
@@ -115,7 +127,7 @@
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>来源</label>
-                            <select class="form-control select_down" style="font-size: 13px; color: #666;">
+                            <select id="publisher" class="form-control select_down" style="font-size: 13px; color: #666;">
                                 <option>网站</option>
                                 <option>论文</option>
                                 <option>新闻</option>
@@ -137,40 +149,18 @@
         <table id="tb" class="table">
             <thead>
             <tr>
-                <th>编号</th>
-                <th>文章名称</th>
+                <th style="width: 50px">编号</th>
+                <th style="width: 366px">文章名称</th>
                 <th>发表日期</th>
-                <th>所属类别</th>
-                <th>作者</th>
+                <th style="width: 100px">所属类别</th>
+                <th>来源</th>
+                <th style="width: 50px">国家</th>
                 <th>详细信息</th>
-                <th>操作</th>
+                <th style="width: 100px">操作</th>
             </tr>
             </thead>
             <tbody id="show_tbody">
-            <tr>
-                <td>1</td>
-                <td>7652101</td>
-                <td>2012-01-09</td>
-                <td>人工智能</td>
-                <td>刘晓晓</td>
-                <td>www.js.com</td>
-                <td>
-                    <a href="#" class="edit">编辑</a>
-                    <a href="#" class="del">删除</a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>7652102</td>
-                <td>2012-02-09</td>
-                <td>人工智能</td>
-                <td>李磊</td>
-                <td>www.js.com</td>
-                <td>
-                    <a href="#" class="edit">编辑</a>
-                    <a href="#" class="del">删除</a>
-                </td>
-            </tr>
+
             </tbody>
         </table>
     </div>
@@ -199,7 +189,73 @@
         picker2.on('dp.change', function (e) {
             picker1.data('DateTimePicker').maxDate(e.date);
         });
+    });
+    //时间戳转换
+    function createTime(v){
+        var date = new Date(v);
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        m = m<10?'0'+m:m;
 
+        var d = date.getDate();
+        d = d<10?("0"+d):d;
+        var str = y+m+d;
+        return str;
+    }
+    $("#search_btn").click(function () {
+        var start = createTime($("#datetimepicker1").find("input").val());
+        var end = createTime($("#datetimepicker2").find("input").val());
+        var firstScope = $('#firstScope option:selected').text();//文本
+        var secondScope = $('#secondScope option:selected').text();//文本
+        var publisher = $('#publisher option:selected').text();//文本
+        var country = $('#country option:selected').text();//文本
+        var report = {
+            "start": start,
+            "end": end,
+            "firstScope": firstScope,
+            "secondScope":secondScope,
+            "publisher":publisher,
+            "country":country,
+        }
+        /*var url ="/JS_ArticleShow" + '?start=' + start+ '&'+'end=' + end+'&'+'firstScope=' + firstScope+ '&'+'secondScope=' + secondScope+ '&'+'publisher=' + publisher ;
+        alert(JSON.stringify(json));
+        window.location.href ="/JS_ArticleShow?para="+ JSON.stringify(json);//编码传值*/
+        $.ajax({
+            url: "/JS_ArticleShow",
+            type: "POST",
+            data: report,
+            success: function (data) {
+                var jsonb = eval(data);
+                console.log("======jsonb=====");
+                console.log(jsonb);
+                alert(data);
+                var info5 = "";
+                $("#show_tbody").html("");
+                $.each(jsonb, function (index, item) {
+                    $.each(item['resultlist'], function (y, e) {
+                        var json = eval(e);
+                        info5 +="<tr >\n" +
+                            "                        <td>"+json.id+"</td>\n" +
+                            "                        <td>"+json.name+"</td>\n" +
+                            "                        <td>"+json.date+"</td>\n" +
+                            "                        <td>"+json.realScope+"</td>\n" +
+                            "                        <td>"+json.publisher+"</td>\n" +
+                            "                        <td>"+json.country+"</td>\n" +
+                            "                        <td>"+json.url+"</td>\n" +
+                            "                        <td>\n" +
+                            "                        <a href=\"#\" class=\"edit\">编辑</a>\n" +
+                            "                            <a href=\"#\" class=\"del\">删除</a>\n" +
+                            "                            </td>\n" +
+                            "                            </tr>"
+
+                    });
+                });
+                $("#show_tbody").html(info5);
+            },
+            error: function () {
+                alert("请求失败");
+            },
+        })
     });
 </script>
 </div>

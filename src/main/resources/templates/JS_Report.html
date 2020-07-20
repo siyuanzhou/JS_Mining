@@ -1,186 +1,282 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<!--layout:decorator="layui/result">-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>短文本摘要</title>
-    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
-    <!-- Bootstrap -->
-    <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/bootstrap/custom.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/bootstrap/ui-elements/card.css">
-    <link rel="stylesheet" href="../css/bootstrap/style.css">
-    <link rel="stylesheet" href="../css/bootstrap/bootstrap-table.min.css">
-    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-    <script src="../js/bootstrap/jquery.min.js"></script>
-    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-    <script src="../js/bootstrap/bootstrap.min.js"></script>
-    <script src="../js/bootstrap/bootstrap-table.min.js"></script>
-    <!--有道智云API所需JS文件-->
-    <script src="http://shared.ydstatic.com/js/jquery/jquery-3.1.1.min.js"></script>
-    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
-    <script src="https://cdn.bootcss.com/js-sha256/0.9.0/sha256.js"></script>
-    <!--下面不用改-->
-    <!--字体样式-->
-    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
-    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
-    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
-    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <link href="./css/resume/flow.css" rel="stylesheet" type="text/css"  />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
+    <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="./css/report/all.min.css" />
+    <link rel="stylesheet" href="./css/report/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/report/templatemo-style.css" />
+
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="./css/weapon/style.css">
+
+    <title>科技简报</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            /*font-size: 12px;*/
+        .marginleft{
+            margin-left: 15px;
         }
-        html, body {
-            height: 100%;
-            width: 100%;
-        }
-        #alert {
-            z-index: 2;
-            border: 1px solid rgba(0,0,0,.2);
-            width: 598px;
-            height: auto;
-            border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.5);
-            background: #fff;
-            z-index: 1000;
-            position: absolute;
-            left: 50%;
-            top: 15%;
-            margin-left: -299px;
-            display: none;
-        }
-        .model-head {
-            padding: 15px;
-            color: #73879C;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        .close {
-            padding: 0;
-            cursor: pointer;
-            background: 0 0;
-            border: 0;
-            float: right;
-            font-size: 14px !important;
-            font-weight: 700;
-            text-shadow: 0 1px 0 #fff;
-            opacity: 0.4;
-            margin-top: 5px;
-        }
-        #close:hover {
-            cursor: pointer;
-            color: #000;
-        }
-        #mask {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            background: #000;
-            opacity: 0.3;
-            display: none;
-            z-index: 1;
-        }
-        .model-content {
-            position: relative;
-            padding: 15px;
-        }
-        .model-foot {
-            padding: 15px;
-            text-align: right;
-        }
+
     </style>
-
 </head>
+<!--
+Sided Template
+https://templatemo.com/tm-527-sided
+-->
 <body>
+<div class="columns-bg">
+    <!-- Logo & Intro -->
+    <section id="logo" class="tm-section-logo">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="">
+                        <div class="">
+                            <h1 class="text-uppercase tm-text-primary tm-site-name">
+                                “韩国政府研发预算中长期投资战略”
+                            </h1>
+                            <p class="tm-text-primary tm-site-description" style="margin-left:1000px">
+                                军事科技简报
+                            </p>
 
-<div th:insert="~{/JS_Common::topbar}"></div>
-<div style="display: flex;">
-    <div th:insert="~{/JS_Common::leftbar}"></div>
-    <div style="display: block;height: 800px;width:100%">
-        <!--次导航栏-->
-        <blockquote class="layui-elem-quote layui-text" style="margin-bottom: 0">
-            <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
-                <li><a href="JS_Index">首页</a></li>
-                <li><a href="JS_TextClassify">信息生成</a></li>
-                <li class="active">简报生成</li>
-            </ol>
-        </blockquote>
-        <!--主内容-->
-        <div style="display: flex;width: 100%;height: 700px;margin-top: 0;background-image: url(asset/imgs/BGP-1.jpg);background-size: cover;">
-
-            <div id="content" style="text-align:center;margin-top: 25%;margin-left: 60%">
-                <a style="font-size:36px;color: #0ca1bc" href="#">生成简报</a> </div>
-
-            <div id="alert" class="">
-                <div class="model-head">
-                    <span class="close">&times;</span>
-                    <h4 class="modal-title">分析流程</h4>
-                </div>
-                <div class="model-content">
-                    <div class="main">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="flow">
-                                    <div class="flowListBox"> </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12" id="flowDiv">
-                                <ol id="iList">
-                                    <div id="contA"><h4>开始流程...</h4></font></div>
-                                    <div class="contentList" id="contB"><h4>正在文本分类...</h4></div>
-                                    <div class="contentList" id="contC"><h4>正在实体识别...</h4></div>
-                                    <div class="contentList" id="contD"><h4>正在简报生成...</h4></div>
-                                </ol>
-                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="foot-btn">
-                    <button type="button" class="btn btn-default"  style="float:right; display:none" id="btnok">完成</button>
-                    <button type="button" class="btn btn-success"  style="float:right; margin-right:10px;" id="btnNext">下一步</button>
+                <div class="tm-section-text-container-3tm-bg-gray h-100" style="padding-top: 20px;margin-left: 40px">
+                    <ul class="info">
+                        <li><span class="first-block">范围:</span><span class="second-block"><a> 人工智能</a></span></li>
+                        <li><span class="first-block">领域:</span><span class="second-block"><a >计算机</a></span></li>
+                        <li><span class="first-block">来源:</span><span class="second-block"><a >新闻网站</a></span></li>
+                        <li><span class="first-block">国家:</span><span class="second-block"><a >美国</a></span></li>
+                        <li><span class="first-block">开始日期:</span><span class="second-block"><a >2015.06.01</a></span></li>
+                        <li><span class="first-block">结束日期:</span><span class="second-block"><a> 2020.06.01</a></span></li>
+                    </ul>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div id="mask"></div>
-
-            <!--content/-->
-
-            <script type="text/javascript" src="./js/resume/jquery.min.js"></script>
-            <script type="text/javascript" src="./js/resume/flow.js"></script>
-            <script type="text/javascript">
-                var myAlert = document.getElementById("alert");
-                var myMask=document.getElementById('mask');
-
-                $("#content a").click(function(){
-                    myMask.style.display="block";
-                    myAlert.style.display = "block";
-                    document.body.style.overflow = "hidden";
-                })
-                $(".close").click(function(){
-                    myAlert.style.display = "none";
-                    myMask.style.display = "none";
-                })
-                $("#btnok").click(function(){
-                    window.location.href ="/JS_ReportDetail";
-                })
-
-            </script>
-
-            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+    <!-- Section 1 -->
+    <section id="section_1" class="tm-section-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 pl-lg-0">
+                    <div class="tm-section-text-container-3 tm-bg-gray h-100">
+                        <h2 class="tm-section-title-mb">摘要</h2>
+                        <hr class="tm-hr-mb" />
+                        <p class="tm-p-mb">
+                            Sided Template has 3 HTML pages. <a href="index.html">Index</a>, <a href="page-2.html">Page 2</a> and <a href="page-3.html">Page 3</a>.
+                            This is Bootstrap v4.2.1 layout. You may visit></a> for latest updates. Thank you.
+                        </p>
+                        <div class="text-right">
+                            <a href="#section_3" class="btn btn-primary">查看更多</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section id="section_2" class="tm-section-4">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-12 pl-lg-0">
+                    <div class="tm-section-text-container-3 tm-bg-gray h-100">
+                        <h2 class="tm-section-title-mb">实体识别</h2>
+                        <hr class="tm-hr-mb" />
+                        <p class="tm-p-mb">
+                            Suspendisse ultricies scelerisque tellus, id sollicitudin
+                            magna aliquet porttitor. Orci varius natoque penatibus et
+                            magnis dis parturient montes, nascetur ridiculus mus. Quisque
+                            pharetra mauris in libero.
+                        </p>
+                        <div class="text-right">
+                            <a href="#section_3" class="btn btn-primary">查看更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3 -->
+    <section id="section_3" class="tm-section-4">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-12 pl-lg-0">
+                    <div class="tm-section-text-container-3 tm-bg-gray h-100">
+                        <h2 class="tm-section-title-mb">关系抽取</h2>
+                        <hr class="tm-hr-mb" />
+                        <p class="tm-p-mb">
+                            Suspendisse ultricies scelerisque tellus, id sollicitudin
+                            magna aliquet porttitor. Orci varius natoque penatibus et
+                            magnis dis parturient montes, nascetur ridiculus mus. Quisque
+                            pharetra mauris in libero.
+                        </p>
+                        <div class="text-right">
+                            <a href="#section_3" class="btn btn-primary">查看更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section id="section_4" class="tm-section-4">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-12 pl-lg-0">
+                    <div class="tm-section-text-container-3 tm-bg-gray h-100">
+                        <h2 class="tm-section-title-mb">实力对比</h2>
+                        <hr class="tm-hr-mb" />
+                        <p class="tm-p-mb">
+                            Suspendisse ultricies scelerisque tellus, id sollicitudin
+                            magna aliquet porttitor. Orci varius natoque penatibus et
+                            magnis dis parturient montes, nascetur ridiculus mus. Quisque
+                            pharetra mauris in libero.
+                        </p>
+                        <div class="text-right">
+                            <a href="#section_3" class="btn btn-primary">查看更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section id="section_6" class="tm-section-4">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-12 pl-lg-0">
+                    <div class="tm-section-text-container-3 tm-bg-gray h-100">
+                        <h2 class="tm-section-title-mb">趋势预测</h2>
+                        <hr class="tm-hr-mb" />
+                        <p class="tm-p-mb">
+                            Orci varius natoque penatibus et magnis dis parturient montes,
+                            nascetur ridiculus mus. Quisque pharetra mauris in libero
+                            varius tristique. Duis eget eleifend risus. Curabitur
+                            hendrerit, elit et efficitur placerat, purus nunc fringilla
+                            orci, et condimentum dui sem sed risus. Proin sed fringilla
+                            felis. Maecenas vel felis vitae turpis bibendum accumsan.
+                            Nulla pretium tortor non vulputate scelerisque.
+                        </p>
+                        <p class="tm-p-mb">
+                            Quisque viverra dui purus, at rutrum nibh suscipit ut. Lorem
+                            ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus
+                            ac mauris maximus auctor. Nullam eget dignissim orci. Donec
+                            tincidunt blandit libero iaculis fermentum. Aliquam erat
+                            volutpat. Integer suscipit aliquam augue ac rutrum. Phasellus
+                            sit amet erat id sapien efficitur euismod.
+                        </p>
+                        <div class="text-right">
+                            <a href="#section_3" class="btn btn-primary">查看更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beautiful Rollovers -->
+    <section id="gallery">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 tm-section-title-mb " style="margin-left: 15px">
+                    <h2 class="" style="margin-left: 15px">详细分析</h2>
+                    <hr class="tm-section-title-underline" />
+                </div>
+
+                <div class="col-12">
+                    <div class="grid">
+                        <figure class="effect-duke mb-3">
+                            <img
+                                    src="./asset/imgs/3.jpg"
+                                    alt="Image"
+                                    class="img-fluid"
+                            />
+                            <figcaption>
+                                <h2>新领域<span></span></h2>
+                                <p>When he looks at the sky, he feels to run.</p>
+                                <a href="#">View more</a>
+                            </figcaption>
+                        </figure>
+                        <figure class="effect-duke">
+                            <img
+                                    src="./asset/imgs/3.jpg"
+                                    alt="Image"
+                                    class="img-fluid"
+                            />
+                            <figcaption>
+                                <h2>实力对比</span></h2>
+                                <p>When he looks at the sky, he feels to run.</p>
+                                <a href="page-2.html">View more</a>
+                            </figcaption>
+                        </figure>
+                        <figure class="effect-duke mb-3">
+                            <img
+                                    src="./asset/imgs/4.jpg"
+                                    alt="Image"
+                                    class="img-fluid"
+                            />
+                            <figcaption>
+                                <h2>趋势预测<span></span></h2>
+                                <p>When he looks at the sky, he feels to run.</p>
+                                <a href="#">View more</a>
+                            </figcaption>
+                        </figure>
+                        <figure class="effect-duke">
+                            <img
+                                    src="./asset/imgs/5.jpg"
+                                    alt="Image"
+                                    class="img-fluid"
+                            />
+                            <figcaption>
+                                <h2>多模态推荐</span></h2>
+                                <p>When he looks at the sky, he feels to run.</p>
+                                <a href="#">View more</a>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <div class="tm-section-text-container-3tm-bg-gray h-100" style="padding-top: 20px;margin-left: 1140px">
+        <ul class="info">
+            <li><span >产出机构:</span><span ><a >创造营2020</a></span></li>
+            <li><span >提交机构:</span><span ><a >创造营2020</a></span></li>
+            <li><span >产出日期:</span><span ><a >2020.06.01</a></span></li>
+            <li><span >发布日期:</span><span ><a >2020.06.01</a></span></li>
+            <li><span >作者:</span><span ><a> 吴亦凡</a></span></li>
+        </ul>
     </div>
 
+    <section id="outro">
+        <div class="container-fluid">
+            <div class="row">
+                <footer class="col-sm-12 col-md-6">
+                    <p class="tm-copyright-text mb-0 tm-text-primary">
+                        Copyright &copy; 2019 Company Name
+                        - Design:HUST
+                    </p>
+                </footer>
+            </div>
+        </div>
+    </section>
 </div>
-
+<!-- /.columns-bg -->
 </body>
 </html>

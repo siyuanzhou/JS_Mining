@@ -93,4 +93,24 @@ public class JSController {
         return "JS_ReportUpload";
     }
 
+    @RequestMapping("/JS_PowerContrast")
+    public String JS_PowerContrast(){
+        return "/JS_PowerContrast";
+    }
+
+    @RequestMapping("/JS_PowerUpload")
+    public String JS_PowerUpload(){
+        return "/JS_PowerUpload";
+    }
+
+    @RequestMapping("/JS_PredictUpload")
+    public String JS_PredictUpload(){
+        return "/JS_PredictUpload";
+    }
+
+    @RequestMapping("/JS_Predict")
+    public String JS_Predict(){
+        return "/JS_Predict";
+    }
+
 }

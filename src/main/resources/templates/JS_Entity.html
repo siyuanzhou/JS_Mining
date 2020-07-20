@@ -225,7 +225,7 @@
                                        onclick="$('input[id=fileId2]').click();">视频上传</a>
                                 </div>
                                 <button class="btn btn-default"
-                                        style="height: 30px ;margin-left:160px;background-color: #337ab7;color: white"
+                                        style="height: 30px ;margin-left:5px;background-color: #337ab7;color: white"
                                         id="btn">信息提取
                                 </button>
                             </div>
@@ -411,6 +411,93 @@
 
                 });
             }
+
+
+            // <!--实体识别关系抽取API调用-->
+            // function identifyEntity(input) {
+            //     var fileName = $("#fileId2").val();
+            //     var strFileName = fileName.substring(fileName.lastIndexOf("\\")+1);
+            //     $('#btn').toggle();
+            //     $('#spinner').toggle();
+            //     $("#alternatecolor  tr:not(:first)").html("");
+            //     $("#alternatecolor1  tr:not(:first)").html("");
+            //     $.ajax({
+            //         url: "http://127.0.0.1:5000/api",
+            //         method: 'POST',
+            //         dataType: 'jsonp',
+            //         jsonp: "callback",
+            //         jsonpCallback: "successCallback_entity",//回调方法
+            //         contentType: 'application/json',
+            //         data:{
+            //             'input': JSON.stringify(input),
+            //             'multi-file':strFileName
+            //         },
+            //         success: function (data) {
+            //             // toggle the spinner and button
+            //             $('#btn').toggle();
+            //             $('#spinner').toggle();
+            //             //由于可能是视频文件只能进行字幕提取由后端返回
+            //             var str1 = data.input;
+            //             console.log("Input为"+str1);
+            //             textClassify(str1);
+            //             var entityMap = data.listDemo;
+            //             var raw_relations = data.raw_relations;
+            //             var datas = raw_relations[0];
+            //             var links = raw_relations[1];
+            //             showRela(datas, links);
+            //             console.log(links);
+            //             console.log(entityMap);
+            //             // color = ["red","yellow","blue"];
+            //             for (var prop in entityMap) {
+            //                 var entity = "";
+            //                 if (entityMap.hasOwnProperty(prop)) {
+            //                     for (var i = 0; i < entityMap[prop].length; i++) {
+            //                         if (entityMap[prop][i] !== "") {
+            //                             entity = entity + entityMap[prop][i] + "、";
+            //                             str1 = str1.replaceAll(entityMap[prop][i], "<span style='color:red'>$&</span>");
+            //                         }
+            //                     }
+            //                 }
+            //                 if (entity != null) {
+            //                     var tr = $("<tr></tr>");
+            //                     tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
+            //                     $("#alternatecolor").append(tr);
+            //                 }
+            //             }
+            //             for (var i = 0; i < links.length; i++) {
+            //                 relationMap = links[i];
+            //                 var tr = $("<tr></tr>");
+            //                 tr.html("<td width='90px'>" + relationMap['source'] + "</td><td width='90px'>" + relationMap['name'] + "</td><td width='250px'>" + relationMap['target'] + "</td>");
+            //                 $("#alternatecolor1").append(tr);
+            //             }
+            //             $('#alternatecolor td').css({
+            //                 "text-align": "center",
+            //                 "border-width": "1px",
+            //                 "padding": "8px",
+            //                 "border-style": "solid",
+            //                 "border-color": "#a9c6c9"
+            //             });
+            //             $('#alternatecolor th').css({
+            //                 "text-align": "center",
+            //                 "border-width": "1px",
+            //                 "padding": "18px",
+            //                 "border-style": "solid",
+            //                 "border-color": "#a9c6c9"
+            //             });
+            //             // $('#api_output_father').css("border","1px solid #0b96e5");
+            //             $('#api_output').css("text-align", "justify").html(str1);
+            //             altRows('alternatecolor');
+            //             altRows('alternatecolor1');
+            //         },
+            //         error: function (jqXhr, textStatus, errorThrown) {
+            //             $('#btn').toggle();
+            //             $('#spinner').toggle();
+            //             $('#api_output').css("text-align", "center").html("<p style='color: #0b96e5;font: 14px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
+            //             console.log(errorThrown);
+            //         }
+            //
+            //     });
+            // }
 
             var fileContent = null;//文件内容
             <!--中文实体识别关系抽取API调用-->

@@ -306,7 +306,6 @@ public class WeaponController {
         List<Map<String,String>> result = new ArrayList<>();
 
         for( Weapon w : List_quary){
-
             HashMap<String,String> temp_obj = new HashMap();
             temp_obj.put("Img_url",w.getImg_url());
             temp_obj.put("country",w.getCountry());

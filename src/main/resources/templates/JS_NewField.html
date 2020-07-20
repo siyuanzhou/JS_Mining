@@ -107,7 +107,7 @@
         }
 
         .list {
-            width: 500px;
+            width: 450px;
         }
 
         .list table {
@@ -196,23 +196,19 @@
                             <div class="panel-heading"><span style="margin-right:450px;">原模型识别</span>迁移模型识别</div>
                             <div class="panel-body" style="display: flex;padding: 0px">
                                 <div style=" display: flex; flex-direction: row;width: 1100px">
-                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                                    <div id="scroll" style="width:500px;height: 300px;overflow-y: auto">
                                         <br>
-                                        <div id="api_output_father">
-                                            <div id="api_output"
-                                                 style="height: 150px;width: 100%;border: 0;border-radius:5px;
-                                         background-color:rgb(255,255,255);text-align:justify;" type="text">
-                                            </div>
+                                        <div id="api_output"
+                                             style="height: 150px;width: 100%;border: 0;border-radius:5px;
+                                     background-color:rgb(255,255,255);text-align:justify;" type="text">
                                         </div>
                                     </div>
                                     <div style="float:left;margin-top: 0px;width: 1px;height: 300px; background:#eeeeee;"></div>
-                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                                    <div id="scroll2" style="width:500px;height: 300px;overflow-y: auto">
                                         <br>
-                                        <div id="api_output_father2">
-                                            <div id="api_output2"
-                                                 style="height: 150px;width: 100%;border: 0;border-radius:5px;
-                                         background-color:rgb(255,255,255);text-align:justify;" type="text">
-                                            </div>
+                                        <div id="api_output2"
+                                             style="height: 150px;width: 100%;border: 0;border-radius:5px;
+                                     background-color:rgb(255,255,255);text-align:justify;" type="text">
                                         </div>
                                     </div>
                                 </div>
@@ -221,26 +217,28 @@
 
                         <div class="panel panel-primary">
                             <div class="panel-heading"><span style="margin-right:450px;">原模型识别</span>迁移模型识别</div>
-                            <div class="panel-body" style="display: flex;">
-                                <div style=" display: flex; flex-direction: row;width: 1100px">
-                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                            <div class="panel-body" style="display: flex;flex-direction: row;justify-content:space-between">
+                                <div style="overflow-y: auto;">
+                                    <div style="width:450px;height: 300px;">
                                         <br>
                                         <div class="list">
                                             <table class="altrowstable" id="alternatecolor">
                                                 <tr>
-                                                    <th width="140px">实体类别</th>
+                                                    <th width="150px">实体类别</th>
                                                     <th width="300px">实体</th>
                                                     <!--<th width="90px">颜色标注</th>-->
                                                 </tr>
                                             </table>
                                         </div>
                                     </div>
-                                    <div style="width:500px;height: 300px;overflow-y: auto">
+                                </div>
+                                <div style="overflow-y: auto;">
+                                    <div style="width:450px;height: 300px;">
                                         <br>
                                         <div class="list">
                                             <table class="altrowstable" id="alternatecolor2">
                                                 <tr>
-                                                    <th width="140px">实体类别</th>
+                                                    <th width="150px">实体类别</th>
                                                     <th width="300px">实体</th>
                                                     <!--<th width="90px">颜色标注</th>-->
                                                 </tr>
@@ -251,6 +249,10 @@
                             </div>
                         </div>
 
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">新旧模型实体对比图</div>
+                            <div class="panel-body" id="echart" style="height: 600px"></div>
+                        </div>
                     </div>
 
                 </div>
@@ -364,7 +366,146 @@
             }
             jquery1.html(input);
         }
+
+        /**
+         * 展示新旧模型对比()
+         */
+        function echartShow(old_only,new_only,intersect){
+            var myChart = echarts.init(document.getElementById('echart'));
+            var categories = [];
+            categories[0] = {name: "旧模型识别实体"};
+            categories[1] = {name: "新模型识别实体"};
+            categories[2] = {name: "新旧模型实体识别"};
+            var data = [];
+            var count = 0;
+            for (var key in old_only){
+                for (var i = 0 ; i < old_only[key].length ; i++){
+                    data[count] = {
+                        name: old_only[key][i],
+                        symbolSize: 50,
+                        category: 0
+                    };
+                    count ++;
+                }
+            }
+            for (key in new_only){
+                for ( i = 0 ; i < new_only[key].length ; i++){
+                    data[count] = {
+                        name: new_only[key][i],
+                        symbolSize: 50,
+                        category: 1
+                    };
+                    count ++;
+                }
+            }
+            for (key in intersect){
+                for ( i = 0 ; i < intersect[key].length ; i++){
+                    data[count] = {
+                        name: intersect[key][i],
+                        symbolSize: 50,
+                        category: 2
+                    };
+                    count ++;
+                }
+            }
+            option = {
+                // 图的标题
+                title: {
+                    text: '新旧模型实体对比图'
+                },
+                // 提示框的配置
+                tooltip: {
+                    formatter: function (x) {
+                        return x.data.des;
+                    }
+                },
+                // 工具箱
+                toolbox: {
+                    // 显示工具箱
+                    show: true,
+                    feature: {
+                        mark: {
+                            show: true
+                        },
+                        // 还原
+                        restore: {
+                            show: true
+                        },
+                        // 保存为图片
+                        saveAsImage: {
+                            show: true
+                        }
+                    }
+                },
+                legend: [{
+                    // selectedMode: 'single',
+                    data: categories.map(function (a) {
+                        return a.name;
+                    })
+                }],
+                series: [{
+                    type: 'graph', // 类型:关系图
+                    layout: 'force', //图的布局，类型为力导图
+                    symbolSize: 50, // 调整节点的大小
+                    roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                    edgeSymbol: ['circle', 'arrow'],
+                    edgeSymbolSize: [2, 10],
+                    edgeLabel: {
+                        normal: {
+                            textStyle: {
+                                fontSize: 20
+                            }
+                        }
+                    },
+                    force: {
+                        repulsion: 2500,
+                        edgeLength: [10, 50]
+                    },
+                    draggable: true,
+                    lineStyle: {
+                        normal: {
+                            width: 2,
+                            color: '#4b565b',
+                        }
+                    },
+                    edgeLabel: {
+                        normal: {
+                            show: true,
+                            formatter: function (x) {
+                                return x.data.name;
+                            }
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            textStyle: {}
+                        }
+                    },
+                    // 数据
+                    /**
+                     * 格式：{
+                        name: 'node01',
+                        des: 'nodedes01',
+                        symbolSize: 70,
+                        category: 0}
+                     */
+                    data: data,
+                    categories: categories
+                }]
+            };
+            myChart.setOption(option);
+        }
+
         $(function () {
+            $("#scroll").scroll(function () {
+                $("#scroll2").scrollTop($(this).scrollTop());
+            });
+            $("#scroll2").scroll(function () {
+                $("#scroll").scrollTop($(this).scrollTop());
+            });
+            console.log(new Date());
+            echartShow();
             $("#btn").click(function () {
                 $('#btn').toggle();
                 $('#spinner').toggle();
@@ -383,7 +524,8 @@
                         var input2 = inputText.val();
                         flagColor($("#api_output"),$("#alternatecolor"),data.old,fileContent,'red');
                         flagColor($("#api_output2"),$("#alternatecolor2"),data.new,fileContent,'red');
-                        flagColor($("#api_output2"),null,data.diff,$("#api_output2").html(),'blue');
+                        flagColor($("#api_output2"),null,data.new_only,$("#api_output2").html(),'blue');
+                        echartShow(data.old_only,data.new_only,data.intersect);
                     },
                     error:function () {
                         $('#btn').toggle();
@@ -395,7 +537,6 @@
         });
     </script>
 </div>
-
 
 </body>
 </html>

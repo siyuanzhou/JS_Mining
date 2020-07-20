@@ -317,7 +317,7 @@ h1, h2, h3, h4, h5, h6, figure {
 .info {
   margin: 0;
   padding: 0;
-  width: 90%;
+  width: 60%;
   float: left;
 }
 @media screen and (max-width: 768px) {
@@ -326,10 +326,9 @@ h1, h2, h3, h4, h5, h6, figure {
   }
 }
 .info li {
-  width: 100%;
+  width: 50%;
   float: left;
   list-style: none;
-  padding: 10px 0;
 }
 .info li:first-child {
   padding-top: 0;
