@@ -39,11 +39,18 @@
     <script src="../contrast/js/respond.min.js"></script>
     <script src="../contrast/js/lte-ie7.js"></script>
     <![endif]-->
+    <!--旭日图所需script文件-->
+    <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/sunburst.js"></script>
     <!--字体样式-->
     <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+
+    <!--旭日图所需样式-->
+    <link rel="icon" href="https://static.jianshukeji.com/hcode/images/favicon.ico">
 </head>
 
 <body style="background-color: inherit;color: #0f0f0f">
@@ -87,7 +94,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <!-- List starts -->
+                     <!--List starts-->
                     <ul class="today-datas">
                         <!-- List #1 -->
                         <li>
@@ -113,6 +120,7 @@
                             <div class="datas-text">12,000000 visitors every Month</div>
                         </li>
                     </ul>
+
                 </div>
 
 
@@ -321,12 +329,27 @@
                 </div><!--/col-->
 
             </div>
+
+            <div class="row">
+                <div class="row">
+                    <div class="col-lg-9 col-md-12">
+                        <div class="panel panel-default" style="width: 600px;height: 600px">
+                            <div class="panel-heading">
+                                <h3>指标1</h3>
+                            </div>
+                            <div class="panel-body" id="sunshine" style="width: 600px;height: 600px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </section>
     <!--main content end-->
 </section>
 <!-- container section start -->
-
+</div>
+</div>
 <!-- javascripts -->
 <script src="../contrast/js/jquery.js"></script>
 <script src="../contrast/js/jquery-ui-1.10.4.min.js"></script>
@@ -355,7 +378,8 @@
 <!--custome script for all page-->
 <script src="../contrast/js/scripts.js"></script>
 <!-- custom script for this page-->
-<script src="../contrast/js/sparkline-chart.js"></script>
+<script src="../contrast/js/data.js"></script>
+<!--<script src="../contrast/js/sparkline-chart.js"></script>-->
 <script src="../contrast/js/easy-pie-chart.js"></script>
 <script src="../contrast/js/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../contrast/js/jquery-jvectormap-world-mill-en.js"></script>
@@ -413,7 +437,76 @@
         });
     });
 
+    $(function () {
+        Highcharts.setOptions({
+            lang: {
+                thousandsSep: ','
+            }
+        });
+        Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+        Highcharts.chart('sunshine', {
+            chart: {
+                height: '100%'
+            },
 
+            title: {
+                text: '空军指标体系'
+            },
+            subtitle: {
+                text: '指标一'
+            },
+            series: [{
+                type: "sunburst",
+                data: aircraft,
+                allowDrillToNode: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    /**
+                     * A custom formatter that returns the name only if the inner arc
+                     * is longer than a certain pixel size, so the shape has place for
+                     * the label.
+                     */
+                    formatter: function () {
+                        var shape = this.point.node.shapeArgs;
+
+                        var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
+                        var perimeter = 2 * Math.PI * shape.innerR;
+
+                        var innerArcPixels = innerArcFraction * perimeter;
+
+                        if (innerArcPixels > 16) {
+                            return this.point.name;
+                        }
+                    }
+                },
+                levels: [{
+                    level: 2,
+                    colorByPoint: true,
+                    dataLabels: {
+                        rotationMode: 'parallel'
+                    }
+                },
+                    {
+                        level: 3,
+                        colorVariation: {
+                            key: 'brightness',
+                            to: -0.5
+                        }
+                    }, {
+                        level: 4,
+                        colorVariation: {
+                            key: 'brightness',
+                            to: 0.5
+                        }
+                    }]
+
+            }],
+            tooltip: {
+                headerFormat: "",
+                pointFormat: '<b>{point.name}</b>的指标为：<b>{point.value}</b>'
+            }
+        });
+    });
 
 </script>
 
