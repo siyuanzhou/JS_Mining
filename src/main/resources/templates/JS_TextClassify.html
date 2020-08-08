@@ -22,7 +22,7 @@
     <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
 </head>
-<body style="background-color: inherit;color: #0f0f0f">
+<body style="background-color: inherit">
 <div th:insert="~{/JS_Common::topbar}"></div>
 <div style="display: flex;">
     <div th:insert="~{/JS_Common::leftbar}"></div>
@@ -63,8 +63,8 @@
                         <button  class="btn btn-default"
                                  style="height: 30px ;margin-left:180px;background-color: #337ab7;color: white"
                                  id="btn">开始分类</button>
-                        <div style="padding-left: 300px;color: #0b96e5">
-                            <span>字数:</span></span><span class="textareaInput">0</span>/<span class="textareaTotal">1000</span>
+                        <div style="padding-left: 250px;color: #0b96e5">
+                            <span>字数:</span></span><span class="textareaInput">0</span>/<span class="textareaTotal">2000</span>
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
         var lenInput = $("#input").val().length;
         $("#input").keyup(function(){
             lenInput = $(this).val().length;
-            if(lenInput>0 && lenInput<=1000){
+            if(lenInput>0 && lenInput<=2000){
                 $('.textareaInput').html(lenInput);
             }else{
             }
@@ -178,8 +178,7 @@
                     var fileString = evt.target.result; // 读取文件内容
                     fileContent = fileString;
                     $('#input').html(fileContent);
-                    $()
-                    // console.log(fileString)
+                    $('.textareaInput').html(fileContent.length);
                 }
             }
         }
@@ -219,7 +218,7 @@
             },
             yAxis: {
                 type: 'category',
-                data: ["环境", "人工智能", "计算机", "电子", "生物", "自动化", "化学", "通信", "物理", "航天", "能源", "制造", "材料", "空军", "陆军", "海军", "网络"]
+                data: ["计算机视觉", "自然语言处理", "个性化推荐", "语音识别", "优化算法理论", "机器人技术", "AI计划与应用"]
             },
             series: [{
                 name: '准确度',
