@@ -88,6 +88,11 @@ public class JSController {
         return "/JS_ReportDetail";
     }
 
+    @RequestMapping("JS_ReportPrepare")
+    public String JS_ReportPrepare(){
+        return "/JS_ReportPrepare";
+    }
+
     @RequestMapping("JS_ReportUpload")
     public String JS_ReportUpload(){
         return "JS_ReportUpload";

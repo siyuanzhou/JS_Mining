@@ -43,12 +43,19 @@
     <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts/modules/sunburst.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
     <!--字体样式-->
     <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
-
+    <style>
+        * {
+            touch-action: pan-y;
+        }
+    </style>
     <!--旭日图所需样式-->
     <link rel="icon" href="https://static.jianshukeji.com/hcode/images/favicon.ico">
 </head>
@@ -101,24 +108,36 @@
                             <!-- Graph -->
                             <div><span id="todayspark1" class="spark"></span></div>
                             <!-- Text -->
-                            <div class="datas-text">11,500 指标1 y</div>
+                            <div class="datas-text">科技论文数 指标1</div>
                         </li>
                         <li>
                             <div><span id="todayspark2" class="spark"></span></div>
-                            <div class="datas-text">15,000 指标2</div>
+                            <div class="datas-text">高科技产品 指标2</div>
                         </li>
                         <li>
                             <div><span id="todayspark3" class="spark"></span></div>
-                            <div class="datas-text">30.55% 指标3</div>
+                            <div class="datas-text">科研环境 指标3</div>
                         </li>
                         <li>
                             <div><span id="todayspark4" class="spark"></span></div>
-                            <div class="datas-text">$16,00 指标4</div>
+                            <div class="datas-text">研究机构数量 指标4</div>
                         </li>
                         <li>
                             <div><span id="todayspark5" class="spark"></span></div>
-                            <div class="datas-text">12,000000 visitors every Month</div>
+                            <div class="datas-text">科研投入 指标5</div>
                         </li>
+                       <!-- <li>
+                            <div><span id="todayspark6" class="spark"></span></div>
+                            <div class="datas-text">新型技术 指标6</div>
+                        </li>
+                        <li>
+                            <div><span id="todayspark7" class="spark"></span></div>
+                            <div class="datas-text">科技产出 指标7</div>
+                        </li>
+                        <li>
+                            <div><span id="todayspark8" class="spark"></span></div>
+                            <div class="datas-text">开展项目总数 指标8</div>
+                        </li>-->
                     </ul>
 
                 </div>
@@ -151,123 +170,80 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td><img src="../contrast/img/Germany.png" style="height:18px; margin-top:-2px;"></td>
-                                    <td>Germany</td>
-                                    <td>2563</td>
-                                    <td>1025</td>
+                                    <td>1</td>
+                                    <td>美国</td>
+                                    <td>网络攻防</td>
+                                    <td>0.952</td>
                                     <td>
                                         <div class="progress thin">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 73%">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
                                             </div>
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100" style="width: 27%">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
                                             </div>
                                         </div>
-                                        <span class="sr-only">73%</span>
+                                        <span class="sr-only">90%</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><img src="../contrast/img/India.png" style="height:18px; margin-top:-2px;"></td>
-                                    <td>India</td>
-                                    <td>3652</td>
-                                    <td>2563</td>
+                                    <td>2</td>
+                                    <td>中国</td>
+                                    <td>网络攻防</td>
+                                    <td>0.7291</td>
                                     <td>
                                         <div class="progress thin">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width: 57%">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 72%">
                                             </div>
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100" style="width: 43%">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 28%">
                                             </div>
                                         </div>
-                                        <span class="sr-only">57%</span>
+                                        <span class="sr-only">72%</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><img src="../contrast/img/Spain.png" style="height:18px; margin-top:-2px;"></td>
-                                    <td>Spain</td>
-                                    <td>562</td>
-                                    <td>452</td>
+                                    <td>3</td>
+                                    <td>俄罗斯</td>
+                                    <td>网络攻防</td>
+                                    <td>0.7057</td>
                                     <td>
                                         <div class="progress thin">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="93" aria-valuemin="0" aria-valuemax="100" style="width: 93%">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 70%">
                                             </div>
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="7" aria-valuemin="0" aria-valuemax="100" style="width: 7%">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
                                             </div>
                                         </div>
-                                        <span class="sr-only">93%</span>
+                                        <span class="sr-only">40%</span>
                                     </td>
                                 </tr>
+
                                 <tr>
-                                    <td><img src="../contrast/img/India.png" style="height:18px; margin-top:-2px;"></td>
-                                    <td>Russia</td>
-                                    <td>1258</td>
-                                    <td>958</td>
+                                    <td>4</td>
+                                    <td>英国</td>
+                                    <td>网络攻防</td>
+                                    <td>0.3096</td>
                                     <td>
                                         <div class="progress thin">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 70%">
+                                            </div>
+                                        </div>
+                                        <span class="sr-only">30%</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>5</td>
+                                    <td>中东</td>
+                                    <td>网络攻防</td>
+                                    <td>0.196</td>
+                                    <td>
+                                        <div class="progress thin">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 19.6%">
                                             </div>
                                             <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
                                             </div>
                                         </div>
-                                        <span class="sr-only">20%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="../contrast/img/Spain.png" style="height:18px; margin-top:-2px;"></td>
-                                    <td>USA</td>
-                                    <td>4856</td>
-                                    <td>3621</td>
-                                    <td>
-                                        <div class="progress thin">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                            </div>
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                            </div>
-                                        </div>
-                                        <span class="sr-only">20%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="../contrast/img/Germany.png" style="height:18px; margin-top:-2px;"></td>
-                                    <td>China</td>
-                                    <td>265</td>
-                                    <td>102</td>
-                                    <td>
-                                        <div class="progress thin">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                            </div>
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                            </div>
-                                        </div>
-                                        <span class="sr-only">20%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="../contrast/img/Germany.png" style="height:18px; margin-top:-2px;"></td>
-                                    <td>France</td>
-                                    <td>265</td>
-                                    <td>102</td>
-                                    <td>
-                                        <div class="progress thin">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                            </div>
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                            </div>
-                                        </div>
-                                        <span class="sr-only">20%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="../contrast/img/Germany.png" style="height:18px; margin-top:-2px;"></td>
-                                    <td>Koria</td>
-                                    <td>265</td>
-                                    <td>102</td>
-                                    <td>
-                                        <div class="progress thin">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                            </div>
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                            </div>
-                                        </div>
-                                        <span class="sr-only">20%</span>
+                                        <span class="sr-only">30%</span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -275,56 +251,6 @@
                         </div>
 
                     </div>
-
-                </div><!--/col-->
-                <div class="col-md-3">
-
-                    <div class="social-box facebook">
-                        <i class="fa fa-facebook"></i>
-                        <ul>
-                            <li>
-                                <strong>256k</strong>
-                                <span>文章数量</span>
-                            </li>
-                            <li>
-                                <strong>894</strong>
-                                <span>文章类别</span>
-                            </li>
-                        </ul>
-                    </div><!--/social-box-->
-                </div>
-                <div class="col-md-3">
-
-                    <div class="social-box google-plus">
-                        <i class="fa fa-google-plus"></i>
-                        <ul>
-                            <li>
-                                <strong>962</strong>
-                                <span>实体数量</span>
-                            </li>
-                            <li>
-                                <strong>256</strong>
-                                <span>实体类别</span>
-                            </li>
-                        </ul>
-                    </div><!--/social-box-->
-
-                </div><!--/col-->
-                <div class="col-md-3">
-
-                    <div class="social-box twitter">
-                        <i class="fa fa-twitter"></i>
-                        <ul>
-                            <li>
-                                <strong>1562k</strong>
-                                <span>国家数量</span>
-                            </li>
-                            <li>
-                                <strong>2562</strong>
-                                <span>国家类别</span>
-                            </li>
-                        </ul>
-                    </div><!--/social-box-->
 
                 </div><!--/col-->
 
@@ -343,6 +269,11 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="panel-body" id="serialsLabel" style="width: 800px;height: 400px">
+                </div>
+            </div>
         </section>
     </section>
     <!--main content end-->
@@ -353,7 +284,7 @@
 <!-- javascripts -->
 <script src="../contrast/js/jquery.js"></script>
 <script src="../contrast/js/jquery-ui-1.10.4.min.js"></script>
-<script src="../contrast/js/jquery-1.8.3.min.js"></script>
+<script src="../js/bootstrap/jquery.min.js"></script>
 <script type="text/javascript" src="../contrast/js/jquery-ui-1.9.2.custom.min.js"></script>
 <!-- bootstrap -->
 <script src="../contrast/js/bootstrap.min.js"></script>
@@ -409,7 +340,6 @@
             slideSpeed : 300,
             paginationSpeed : 400,
             singleItem : true
-
         });
     });
 
@@ -437,10 +367,125 @@
         });
     });
 
+    function printSerialsLabel(data) {
+        var serialChart = Highcharts.chart('serialsLabel', {
+            title: {
+                text: '2010 ~ 2017 年中美两国科技实力对比'
+            },
+            subtitle: {
+                text: 'ADE出品，必属精品'
+            },
+            yAxis: {
+                title: {
+                    text: '实力指数'
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 2010
+                }
+            },
+            series: [
+            //     {
+            //     name: ' ',
+            //     data: []
+            // },{
+            //     name: '资金投入',
+            //     data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+            // }, {
+            //     name: '企业实力',
+            //     data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+            // }, {
+            //     name: '人员投入',
+            //     data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+            // }, {
+            //     name: '其他',
+            //     data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+            // }
+                data
+            ],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        })
+    }
+    
     $(function () {
+        $.ajax({
+            url: "http://127.0.0.1:8000/sunburst",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback",//回调方法
+            contentType: 'application/json',
+            data: {
+                'field_name': "AI",
+                'country_list': JSON.stringify(['中国', '美国', '俄罗斯', '法国', '英国']),
+                'start_year': 2010,
+                'end_year': 2019
+            },
+            success: function (data) {
+                var datas =JSON.parse(data);
+                var arr = [];
+                for(var i=0;i<datas.length;i++){
+                    console.log(datas[i]);
+                    var jsonStr = JSON.stringify(datas[i]);       //转为JSON字符串
+                    console.log(jsonStr);
+                    var jsObject = JSON.parse(jsonStr);    //转换为json对象
+                    console.log(jsObject);
+                    arr.push(jsObject);
+                }
+                printSunShine(arr);
+                console.log(arr);
+            }
+        });
+
+        /*$.ajax({
+            url: "http://127.0.0.1:8000/linechart",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_LineChart",//回调方法
+            contentType: 'application/json',
+            data: {
+                'field_name': "AI",
+                'country_list': JSON.stringify(['中国', '美国', '俄罗斯', '法国', '英国']),
+                'start_year': 2010,
+                'end_year': 2019,
+                'indicator_name': "科技产出"
+            },
+            success: function (data) {
+                console.log(JSON.parse(data));
+                printSerialsLabel(data);
+            }
+        });*/
+
+    })
+
+    function printSunShine(data) {
         Highcharts.setOptions({
             lang: {
-                thousandsSep: ','
+                thousandsSep: ',',
+                turboThreshold: 2000
             }
         });
         Highcharts.getOptions().colors.splice(0, 0, 'transparent');
@@ -450,14 +495,14 @@
             },
 
             title: {
-                text: '空军指标体系'
+                text: '军事实力对比体系'
             },
             subtitle: {
                 text: '指标一'
             },
             series: [{
                 type: "sunburst",
-                data: aircraft,
+                data: data,
                 allowDrillToNode: true,
                 cursor: 'pointer',
                 dataLabels: {
@@ -503,10 +548,12 @@
             }],
             tooltip: {
                 headerFormat: "",
-                pointFormat: '<b>{point.name}</b>的指标为：<b>{point.value}</b>'
+                pointFormat: '<b>{point.name}</b>的得分为：<b>{point.value}</b>'
             }
-        });
-    });
+            }
+        )
+    }
+
 
 </script>
 

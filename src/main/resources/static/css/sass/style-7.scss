@@ -10,7 +10,7 @@ $padding-base-vertical: 14px !default;
 
 $brand-primary: #0278AE !default;
 
-$brand-white: #fff;
+$brand-white: #171616;
 $brand-black: #000;
 $brand-darker: #444;
 $brand-gray: #ccc;
@@ -762,6 +762,7 @@ h1, h2, h3, h4, h5, h6, figure {
 		height: 270px;
 		background: $brand-white;
 		opacity: 0;
+		color:black;
 		@include transition(.3s);
 		h3{
 			font-size: 20px;
