@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>简报信息</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap/bootstrap-table.min.css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="../js/bootstrap/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../js/bootstrap/bootstrap-table.min.js"></script>
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="./css/weapon/style.css">
+    <!--字体样式-->
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <!--echarts插件-->
+    <script src="./predict/js/echarts.js"></script>
+    <script src="./predict/js/echarts-all.js"></script>
+
+    <script type="text/javascript">
+        function showBarChart() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('barChart'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: '中东地区网络攻防资金投入'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+
+        function showLineChart(){
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('lineChart'));
+
+            // 指定图表的配置项和数据
+            option = {
+                title:{
+                    text: '中东地区网络攻防投入资金变化'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    type: 'line',
+                    smooth: true
+                }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+
+        $(function () {
+            showBarChart();
+            showLineChart();
+        })
+    </script>
+</head>
+<body style="background-color: inherit">
+
+<div th:insert="~{/JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div>
+        <!--次导航栏-->
+        <div style="display: block; padding: 0">
+            <blockquote class="layui-elem-quote layui-text">
+                <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
+                    <li><a href="JS_Index">首页</a></li>
+                    <li><a href="JS_TextClassify">简报</a></li>
+                </ol>
+            </blockquote>
+        </div>
+
+        <div id="main-content" class="box" style="margin-top: 1px;margin-left: 30px">
+
+            <!--<h1 style="text-align: center">文本分类</h1>-->
+            <div class="container" style="padding-left: 50px;height:1000px;display: flex;flex-direction: column;width:100%;overflow-y: auto">
+            <h1 style="text-align: center;width: 1000px;color: #0f0f0f">中东地区网络攻防发展现状分析</h1>
+            <div style="margin-left: 500px">
+                <ul class="info" style="width: 400px;">
+                    <li><span class="first-block">范围:</span><span class="second-block"><a> 网络攻防</a></span></li>
+                    <li><span class="first-block">领域:</span><span class="second-block"><a >计算机</a></span></li>
+                    <li><span class="first-block">来源:</span><span class="second-block"><a >新闻网站</a></span></li>
+                    <li><span class="first-block">国家:</span><span class="second-block"><a >中东</a></span></li>
+                    <li><span class="first-block">开始日期:</span><span class="second-block"><a >2016.06.01</a></span></li>
+                    <li><span class="first-block">结束日期:</span><span class="second-block"><a> 2020.08.29</a></span></li>
+                </ul>
+            </div>
+            <p style="color: black;width: 1000px"><span style="color: blue">摘要：</span>我觉得这里可以放通过选择的多个文本来进行一次综合性的摘要分析，
+                此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符
+                此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符</p>
+            <p style="color: black;width: 1000px"><span style="color: blue">关键词：</span>我觉得这里可以放多个文本中进行实体识别出现的单词
+                频率最多的几个单词,比如有<a href="">勒索病毒</a>、<a>DOS攻击</a>、<a>CLOSE_WAIT状态</a>同时这几个关键词可以进行点击检索,检索实体库中的相关信息
+            </p>
+            <span style="color: blue">图形化展示:</span>
+
+            <div>
+                <div id="barChart" style="width: 500px;height: 400px;float: left"></div>
+                <div id="lineChart" style="width: 500px;height: 400px;float: right"></div>
+            </div>
+            </div>
+        </div>
+</div>
+</div>
+
+</body>
+</html>
