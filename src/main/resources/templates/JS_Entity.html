@@ -291,9 +291,8 @@
                         </div>
                         <div class="panel panel-primary">
                             <div class="panel-heading" style="text-align: center">信息提取图</div>
-                            <div class="panel-body" style="height: 420px">
-                                <div id="first_div">
-                                </div>
+                            <div id="first_div" class="panel-body" style="height: 420px">
+
                             </div>
                         </div>
                     </div>
@@ -518,21 +517,90 @@
                     data: {input: JSON.stringify(input)},
 
                     success: function (data) {
-                        // toggle the spinner and button
                         $('#btn').toggle();
                         $('#spinner').toggle();
-                        var entityMap = data.output;
-                        var str1 = data.input_data;
+                        var str1 = data.input;
+                        var entityMap = data.listDemo;
+                        var raw_relations = data.raw_relations;
+                        var datas = raw_relations[0];
+                        var links = raw_relations[1];
+                        showRela(datas, links);
+                        console.log(str1);
+                        // color = ["red","yellow","blue"];
+                        arr = [];
+                        // 显示实体表格
                         for (var prop in entityMap) {
+                            var entity = "";
                             if (entityMap.hasOwnProperty(prop)) {
                                 for (var i = 0; i < entityMap[prop].length; i++) {
-                                    var pattern = new RegExp(entityMap[prop][i].trim(), 'im');
-                                    str1 = str1.replace(pattern, '<span style="color:red">' + entityMap[prop][i] + '</span>').replace(/\s+/g, ' ');
+                                    arr.push(entityMap[prop][i]);
+                                    if (entityMap[prop][i] !== "") {
+                                        entity = entity + entityMap[prop][i] + "、";
+                                    }
                                 }
                             }
+                            if (entity != null) {
+                                var tr = $("<tr></tr>");
+                                tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
+                                $("#alternatecolor").append(tr);
+                            }
+                        }
+                        //显示关系表格
+                        for (var i = 0; i < links.length; i++) {
+                            relationMap = links[i];
+                            var tr = $("<tr></tr>");
+                            tr.html("<td width='90px'>" + relationMap['source'] + "</td><td width='90px'>" + relationMap['name'] + "</td><td width='250px'>" + relationMap['target'] + "</td>");
+                            $("#alternatecolor1").append(tr);
+                        }
+
+                        //将出现实体标红
+                        const rtn = arr.map(i => ({raw: i, len: i.length}))
+                            .sort((p, n) => n.len - p.len)
+                            .map(i => i.raw);
+                        console.log(rtn);
+                        for(var entity of rtn){
+                            console.log(entity);
+                            var pattern = new RegExp(entity.trim(), 'g');
+                            str1 = str1.replace(pattern, '<span style="color:red">' + entity + '</span>').replace(/\s+/g, ' ');
                         }
                         str1 = str1.replace(/\\n+/g, '');
-                        $('#api_output').html(str1).css("text-align", "justify");
+                        console.log(str1);
+                        $('#alternatecolor td').css({
+                            "text-align": "center",
+                            "border-width": "1px",
+                            "padding": "8px",
+                            "border-style": "solid",
+                            "border-color": "#a9c6c9"
+                        });
+                        $('#alternatecolor th').css({
+                            "text-align": "center",
+                            "border-width": "1px",
+                            "padding": "18px",
+                            "border-style": "solid",
+                            "border-color": "#a9c6c9"
+                        });
+                        // $('#api_output_father').css("border","1px solid #0b96e5");
+                        $('#api_output').css("text-align", "justify").html(str1);
+                        altRows('alternatecolor');
+                        altRows('alternatecolor1');
+                        //
+                        //
+                        //
+                        // // toggle the spinner and button
+                        // $('#btn').toggle();
+                        // $('#spinner').toggle();
+                        // var entityMap = data.output;
+                        // var str1 = data.input_data;
+                        // for (var prop in entityMap) {
+                        //     if (entityMap.hasOwnProperty(prop)) {
+                        //         for (var i = 0; i < entityMap[prop].length; i++) {
+                        //             var pattern = new RegExp(entityMap[prop][i].trim(), 'im');
+                        //             str1 = str1.replace(pattern, '<span style="color:red">' + entityMap[prop][i] + '</span>').replace(/\s+/g, ' ');
+                        //         }
+                        //     }
+                        // }
+                        // str1 = str1.replace(/\\n+/g, '');
+                        // $('#api_output').html(str1).css("text-align", "justify");
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
                         $('#btn').toggle();
