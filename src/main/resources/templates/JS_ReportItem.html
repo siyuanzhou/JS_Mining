@@ -52,8 +52,7 @@
         }
     </style>
     <!--echarts插件-->
-    <script src="./predict/js/echarts.js"></script>
-    <script src="./predict/js/echarts-all.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
 
 </head>
 <body style="background-color: inherit;color: #0f0f0f">
@@ -66,7 +65,7 @@
         <section id="container" class="">
 
             <!--<h1 style="text-align: center">文本分类</h1>-->
-            <div class="container" style="padding-left: 50px;height:1000px;display: flex;flex-direction: column;width:100%;overflow-y: auto">
+            <div class="container"> <!--style="padding-left: 50px;height:1000px;display: flex;flex-direction: column;width:100%;overflow-y: auto"-->
             <h1 id="head" style="text-align: center;width: 1000px;color: #0f0f0f"></h1>
             <div style="margin-left: 700px">
                 <ul class="info" style="width: 600px;">
@@ -83,7 +82,7 @@
                 </ul>
             </div>
             <p style="color: black;width: 1000px"><span style="color: blue">摘要：</span>
-            <a id="summary"></a>
+            <a id="summary">目前暂不支持中文摘要。</a>
             </p>
             <p style="color: black;width: 1000px"><span style="color: blue">关键词：</span>
                 <a id="keywords"></a>
@@ -91,11 +90,20 @@
             <span style="color: blue">正文</span>
 
                 <div class="row">
+                    <div class="panel panel-primary" style="margin-left: 30px;">
+                        <p id="introduce"> </p>
+                        <!--<div class="panel-heading" style="text-align: center">关键实体</div>-->
+                        <div id="entity" class="panel-body" style="height: 420px;border: 0px">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div id="detail1" style="margin-left:30px;display:inline-block;">
                     </div>
                     <div class="col-lg-6 col-md-6" style="margin-top:10px;margin-left:50px;display:inline-block;">
                         <div class="panel panel-default" style="width: 600px;height: 600px">
-                            <div class="panel-body" id="sunshine" style="width: 600px;height: 600px">
+                            <div class="panel-body" id="sunshine" style="width: 600px;height: 600px;margin-left: 150px">
                             </div>
                         </div>
                     </div>
@@ -104,9 +112,14 @@
                 </div>
 
                 <div class="row">
-                    <div class="panel-body" id="predict_div" style="width: 800px;height: 400px">
+                    <div class="panel-body" id="serialsLabel" style="width: 800px;height: 400px;margin-left: 150px">
                     </div>
+                </div>
+
+                <div class="row">
                     <div id="detail3" style="margin-top:1px;margin-left:50px;">
+                    </div>
+                    <div class="panel-body" id="predict_div" style="width: 800px;height: 400px;margin-left: 150px;">
                     </div>
                 </div>
             </div>
@@ -129,14 +142,18 @@
         var secondScope = localStorage.getItem("secondScope");
         var source = localStorage.getItem("source");
         var text_data = localStorage.getItem("text_data");
-        $("#head").html(start.substring(0,4)+"-"+end.substring(0,4)+country+firstScope+"军事科技简报")
+        var countrys = country.split(",");
+        alert(countrys);
+        $("#introduce").html(firstScope+"领域主要实体如下：");
+        $("#head").html(start.substring(0,4)+"-"+end.substring(0,4)+country+firstScope+"领域科技简报");
         $("#fscope").html(firstScope);
         $("#sscope").html(secondScope);
         $("#country").html(country);
         $("#source").html(source);
         $("#start").html(start);
         $("#end").html(end);
-        $.ajax({
+
+        /*$.ajax({
             url: "http://127.0.0.1:8000/multiReport",
             method: 'POST',
             dataType: 'jsonp',
@@ -151,65 +168,14 @@
                 alert(JSON.stringify(data));
                 $("#summary").html(JSON.stringify(data));
             }
-        });
-
-
-        $.ajax({
-            url: "http://127.0.0.1:7450/detail",
-            method: 'POST',
-            dataType: 'jsonp',
-            jsonp: "callback",
-            jsonpCallback: "successCallback",//回调方法
-            contentType: 'application/json',
-            data: {
-                'field_name': "AI",
-                'country_list': JSON.stringify(['中国', '美国', '俄罗斯', '法国', '英国']),
-                'start_year': 2010,
-                'end_year': 2019
-            },
-            success: function (data) {
-                console.log(data);
-                var info = JSON.parse(data);
-                console.log(info);
-                $("#detail1").html(info.before_pic);
-                $("#detail2").html(info.after_pic);
-                $.ajax({
-                    url: "http://127.0.0.1:7450/sunburst",
-                    method: 'POST',
-                    dataType: 'jsonp',
-                    jsonp: "callback",
-                    jsonpCallback: "successCallback",//回调方法
-                    contentType: 'application/json',
-                    data: {
-                        'field_name': "AI",
-                        'country_list': JSON.stringify(['中国', '美国', '俄罗斯', '法国', '英国']),
-                        'start_year': 2010,
-                        'end_year': 2019
-                    },
-                    success: function (data) {
-                        var datas =JSON.parse(data);
-                        var arr = [];
-                        for(var i=0;i<datas.length;i++){
-                            console.log(datas[i]);
-                            var jsonStr = JSON.stringify(datas[i]);       //转为JSON字符串
-                            console.log(jsonStr);
-                            var jsObject = JSON.parse(jsonStr);    //转换为json对象
-                            console.log(jsObject);
-                            arr.push(jsObject);
-                        }
-                        printSunShine(arr);
-                        console.log(arr);
-                    }
-                });
-            }
-        });
+        });*/
 
         $.ajax({
             url: "http://127.0.0.1:8888/keywords",
             method: 'POST',
             dataType: 'jsonp',
             jsonp: "callback",
-            jsonpCallback: "successCallback",//回调方法
+            jsonpCallback: "successCallback_keywords",//回调方法
             contentType: 'application/json',
             data: {
                 'text': text_data.toString(),
@@ -221,82 +187,289 @@
             }
         });
 
+        $.ajax({
+               url: "http://127.0.0.1:8888/api",
+               method: 'POST',
+               dataType: 'jsonp',
+               jsonp: "callback",
+               jsonpCallback: "successCallback_api",//回调方法
+               contentType: 'application/json',
+               data: {input: JSON.stringify(text_data)},
 
-    })
+               success: function (data) {
+                   var str1 = data.input;
+                   var entityMap = data.listDemo;
+                   var raw_relations = data.raw_relations;
+                   var datas = raw_relations[0];
+                   var links = raw_relations[1];
+                   showRela(datas, links);
+                   console.log(str1);
+               },
+               error: function (jqXhr, textStatus, errorThrown) {
+                   console.log(errorThrown);
+               }
+       });
 
-    function printSunShine(data) {
-        Highcharts.setOptions({
-            lang: {
-                thousandsSep: ',',
-                turboThreshold: 2000
+        $.ajax({
+            url: "http://127.0.0.1:7450/detail",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_detail",//回调方法
+            contentType: 'application/json',
+            data: {
+                'field_name': "AI",
+                'country_list': JSON.stringify(countrys),
+                'start_year': start.substring(0,4),
+                'end_year': end.substring(0,4),
+            },
+            success: function (data) {
+                console.log(data);
+                var info = JSON.parse(data);
+                $("#detail1").html(info.before_pic);
+                $("#detail2").html(info.after_pic);
+                $.ajax({
+                    url: "http://127.0.0.1:7450/sunburst",
+                    method: 'POST',
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback_sunburst",//回调方法
+                    contentType: 'application/json',
+                    data: {
+                        'field_name': "AI",
+                        'country_list': JSON.stringify(countrys),
+                        'start_year': start.substring(0,4),
+                        'end_year': end.substring(0,4),
+                    },
+                    success: function (data) {
+                        var datas =JSON.parse(data);
+                        var arr = [];
+                        for(var i=0;i<datas.length;i++){
+                            var jsonStr = JSON.stringify(datas[i]);       //转为JSON字符串
+                            var jsObject = JSON.parse(jsonStr);    //转换为json对象
+                            arr.push(jsObject);
+                        }
+                        printSunShine(arr);
+                    }
+                });
             }
         });
-        Highcharts.getOptions().colors.splice(0, 0, 'transparent');
-        Highcharts.chart('sunshine', {
-                chart: {
-                    height: '100%'
-                },
 
-                title: {
-                    text: '军事实力对比体系'
-                },
-                subtitle: {
-                    text: '指标一'
-                },
-                series: [{
-                    type: "sunburst",
-                    data: data,
-                    allowDrillToNode: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        /**
-                         * A custom formatter that returns the name only if the inner arc
-                         * is longer than a certain pixel size, so the shape has place for
-                         * the label.
-                         */
-                        formatter: function () {
-                            var shape = this.point.node.shapeArgs;
+        $.ajax({
+            url: "http://127.0.0.1:7450/linechart",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_LineChart",//回调方法
+            contentType: 'application/json',
+            data: {
+                'field_name': "AI",
+                'country_list': JSON.stringify(countrys),
+                'start_year': start.substring(0,4),
+                'end_year': end.substring(0,4),
+                'indicator_name': "科技产出"
+            },
+            success: function (data) {
+                console.log("data=" + data);
+                printSerialsLabel(JSON.parse(data));
+            }
+        });
 
-                            var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
-                            var perimeter = 2 * Math.PI * shape.innerR;
-
-                            var innerArcPixels = innerArcFraction * perimeter;
-
-                            if (innerArcPixels > 16) {
-                                return this.point.name;
-                            }
-                        }
-                    },
-                    levels: [{
-                        level: 2,
-                        colorByPoint: true,
-                        dataLabels: {
-                            rotationMode: 'parallel'
-                        }
-                    },
-                        {
-                            level: 3,
-                            colorVariation: {
-                                key: 'brightness',
-                                to: -0.5
-                            }
-                        }, {
-                            level: 4,
-                            colorVariation: {
-                                key: 'brightness',
-                                to: 0.5
-                            }
-                        }]
-
-                }],
-                tooltip: {
-                    headerFormat: "",
-                    pointFormat: '<b>{point.name}</b>的得分为：<b>{point.value}</b>'
+        //数组去重
+        function UniqObj(array) {     // 对象去重方法
+            var allArr = [];    //建立新的临时数组
+            for (var i = 0; i < array.length; i++) {
+                var flag = true;
+                for (var j = 0; j < allArr.length; j++) {
+                    if (array[i].name == allArr[j].name) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    allArr.push(array[i]);
                 }
             }
-        )
-    }
+            return allArr;
+        }
 
+        //显示关系图
+        function showRela(data, links) {
+            var myChart = echarts.init(document.getElementById('entity'));
+            var categories = [];
+            for (var i = 0; i < 2; i++) {
+                categories[i] = {
+                    name: '类目' + i
+                };
+            }
+            option = {
+                series: [{
+                    type: 'graph', // 类型:关系图
+                    layout: 'force', //图的布局，类型为力导图
+                    symbolSize: 50, // 调整节点的大小
+                    roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                    edgeSymbol: ['circle', 'arrow'],
+                    edgeSymbolSize: [2, 10],
+                    edgeLabel: {
+                        normal: {
+                            textStyle: {
+                                fontSize: 20
+                            }
+                        }
+                    },
+                    force: {
+                        repulsion: 250,
+                        edgeLength: [100, 150]
+                    },
+                    draggable: true,
+                    lineStyle: {
+                        normal: {
+                            width: 2,
+                            color: '#4b565b'
+                        }
+                    },
+                    edgeLabel: {
+                        normal: {
+                            show: true,
+                            formatter: function (x) {
+                                return x.data.name;
+                            }
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            textStyle: {}
+                        }
+                    },
+                    categories: categories
+                }]
+            };
+            var tmp = option.series;
+            tmp[0]['data'] = UniqObj(data);
+            tmp[0]['links'] = links;
+            // console.log(tmp[0]['data'],tmp[0]['links']);
+            myChart.setOption(option);
+        }
+
+        function printSerialsLabel(data) {
+            console.log(typeof data);
+            console.log("lineData=" + data);
+            var serialChart = Highcharts.chart('serialsLabel', {
+                title: {
+                    text: '国家科技实力对比折线图'
+                },
+                subtitle: {
+                    text: 'ADE出品，必属精品'
+                },
+                yAxis: {
+                    title: {
+                        text: '实力指数'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 2010
+                    }
+                },
+                series:data,
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            })
+        }
+
+        function printSunShine(data) {
+            Highcharts.setOptions({
+                lang: {
+                    thousandsSep: ',',
+                    turboThreshold: 2000
+                }
+            });
+            Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+            Highcharts.chart('sunshine', {
+                    chart: {
+                        height: '100%'
+                    },
+
+                    title: {
+                        text: '军事实力对比体系'
+                    },
+                    subtitle: {
+                        text: '指标一'
+                    },
+                    series: [{
+                        type: "sunburst",
+                        data: data,
+                        allowDrillToNode: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            /**
+                             * A custom formatter that returns the name only if the inner arc
+                             * is longer than a certain pixel size, so the shape has place for
+                             * the label.
+                             */
+                            formatter: function () {
+                                var shape = this.point.node.shapeArgs;
+
+                                var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
+                                var perimeter = 2 * Math.PI * shape.innerR;
+
+                                var innerArcPixels = innerArcFraction * perimeter;
+
+                                if (innerArcPixels > 16) {
+                                    return this.point.name;
+                                }
+                            }
+                        },
+                        levels: [{
+                            level: 2,
+                            colorByPoint: true,
+                            dataLabels: {
+                                rotationMode: 'parallel'
+                            }
+                        },
+                            {
+                                level: 3,
+                                colorVariation: {
+                                    key: 'brightness',
+                                    to: -0.5
+                                }
+                            }, {
+                                level: 4,
+                                colorVariation: {
+                                    key: 'brightness',
+                                    to: 0.5
+                                }
+                            }]
+
+                    }],
+                    tooltip: {
+                        headerFormat: "",
+                        pointFormat: '<b>{point.name}</b>的得分为：<b>{point.value}</b>'
+                    }
+                }
+            )
+        }
+    });
 
 </script>
 <script type="text/javascript">
@@ -308,25 +481,30 @@
             title: {
                 text: '趋势预测',
             },
-            //工具箱
-            //保存图片
-            toolbox:{
-                show:true,
-                feature:{
-                    saveAsImage:{
-                        show:true
-                    }
+            subtitle: {
+                text: 'ADE出品，必属精品'
+            },
+            yAxis: {
+                title: {
+                    text: '论文数量'
                 }
             },
-            //图例-每一条数据的名字叫销量
-            legend:{
-                data:['数量']
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 2010
+                }
             },
             xAxis: {
                 type: 'category',
                 data: [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
-            },
-            yAxis: {
             },
             series: [{
                 name: '论文数量',

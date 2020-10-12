@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title></title>
-
     <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/bootstrap.min.js" charset="utf-8"></script>
@@ -42,7 +41,21 @@
     <div class="content" >
         <!--搜索输入框及查询、重置按钮-->
         <div class="container content_width" style="height: auto;width: 1268px">
-
+                <div class="row">
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>关键词：</label>
+                            <!--指定 date标记-->
+                            <div class='input-group'>
+                                <input id="keyword" style="width: 290px" type='text' class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search_input" >
+                        <button class="btn btn-primary search_btn" type="button" id="search_btn">文章查询</button>
+                        <button class="btn btn-primary search_btn" style="margin-left: 20px" type="button" id="report_btn" >生成简报</button>
+                    </div>
+                </div>
                 <div class="row">
                     <div class='col-sm-3'>
                         <div class="form-group">
@@ -82,13 +95,6 @@
                             </select>
                         </div>
                     </div>
-
-                   <!-- <select  id = "test"  multiple = "true" >
-                        <option  value = "option-A" >option-A</option >
-                        <option  value = "option-B" >option-B</option >
-                        <option  value = "option-C" >option-C</option >
-                        <option  value = "option-D" >option-D</option >
-                    </select >-->
 
                 </div>
                 <div class="row">
@@ -139,21 +145,7 @@
                     </div>
 
                 </div>
-                <div class="row">
-                    <div class='col-sm-3'>
-                        <div class="form-group">
-                            <label>关键词：</label>
-                            <!--指定 date标记-->
-                            <div class='input-group'>
-                                <input id="keyword" style="width: 290px" type='text' class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="search_input" >
-                        <button class="btn btn-primary search_btn" type="button" id="search_btn">文章查询</button>
-                        <button class="btn btn-primary search_btn" style="margin-left: 20px" type="button" id="report_btn" >生成简报</button>
-                    </div>
-                </div>
+
             </div>
              <div class="line"></div>
            </div>
@@ -220,16 +212,14 @@
         var str = y+m+d;
         return str;
     }
-    function  fun(){
 
-    }
     $("#report_btn").click(function () {
         var start = createTime($("#datetimepicker1").find("input").val());
         var end = createTime($("#datetimepicker2").find("input").val());
         var firstScope = $('#firstScope option:selected').text();//文本
         var secondScope = $('#secondScope option:selected').text();//文本
         var publisher = $('#publisher option:selected').text();//文本
-        var country = $('#country option:selected').text();//文本
+        var country = $('#country').val();//文本
         localStorage.setItem("start",start);//key要用单引号或者双引号包括着，value就是你要存的数据
         localStorage.setItem("end",end);
         localStorage.setItem("country",country);
@@ -237,7 +227,6 @@
         localStorage.setItem("secondScope",secondScope);
         localStorage.setItem("source",publisher);
         localStorage.setItem("text_data",text_data);
-        alert(text_data);
         window.location.href="/JS_ReportItem";
     });
 
@@ -247,7 +236,7 @@
         var firstScope = $('#firstScope option:selected').text();//文本
         var secondScope = $('#secondScope option:selected').text();//文本
         var publisher = $('#publisher option:selected').text();//文本
-        var country = $("#country").val();
+        var country = $('#country').val();//文本
         var report = {
             "start": start,
             "end": end,
