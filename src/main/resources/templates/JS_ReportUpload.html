@@ -25,7 +25,9 @@
             flex-direction: row;
             /*margin-left:1em;*/
         }
-
+        .roleCodes{
+            color: #7e5bbe;
+        }
         .xxxx {
             height: 2px;
             background: #999999;
@@ -89,6 +91,16 @@
                             </select>
                         </div>
                     </div>
+
+                   <!-- <select  id = "test"  multiple = "true" >
+                        <option  value = "option-A" >option-A</option >
+                        <option  value = "option-B" >option-B</option >
+                        <option  value = "option-C" >option-C</option >
+                        <option  value = "option-D" >option-D</option >
+                    </select >-->
+
+                    <input  type = "button" value = "确定" onclick = "fun()"/>
+
                 </div>
                 <div class="row">
                     <div class='col-sm-3'>
@@ -136,11 +148,21 @@
                             </select>
                         </div>
                     </div>
+
                 </div>
                 <div class="row">
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>关键词：</label>
+                            <!--指定 date标记-->
+                            <div class='input-group'>
+                                <input id="keyword" style="width: 290px" type='text' class="form-control" />
+                            </div>
+                        </div>
+                    </div>
                     <div class="search_input" >
                         <button class="btn btn-primary search_btn" type="button" id="search_btn">文章查询</button>
-                        <button class="btn btn-primary search_btn" style="margin-left: 20px" type="button" id="back_btn" onclick="javascrtpt:window.location.href='/JS_Report'">生成简报</button>
+                        <button class="btn btn-primary search_btn" style="margin-left: 20px" type="button" id="report_btn" >生成简报</button>
                     </div>
                 </div>
             </div>
@@ -152,12 +174,12 @@
             <tr>
                 <th style="width: 50px">编号</th>
                 <th style="width: 366px">文章名称</th>
-                <th>发表日期</th>
+<!--                <th>发表日期</th>
                 <th style="width: 100px">所属类别</th>
                 <th>来源</th>
-                <th style="width: 50px">国家</th>
-                <th>详细信息</th>
-                <th style="width: 100px">操作</th>
+                <th style="width: 50px">国家</th>-->
+                <th style="width: 566px">详细信息</th>
+                <th style="width: 180px">操作</th>
             </tr>
             </thead>
             <tbody id="show_tbody">
@@ -173,6 +195,13 @@
 </div>
 <script>
     $(function () {
+
+       /* $("#testdiv ul").on("click","li", function() {
+            alert("hello");
+            var text = $(this).parents("tr").find(".roleCodes").val();
+            alert(text);
+        });*/
+
         var picker1 = $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM-DD',
             locale: moment.locale('zh-cn'),
@@ -203,6 +232,27 @@
         var str = y+m+d;
         return str;
     }
+    function  fun(){
+
+    }
+    $("#report_btn").click(function () {
+        var start = createTime($("#datetimepicker1").find("input").val());
+        var end = createTime($("#datetimepicker2").find("input").val());
+        var firstScope = $('#firstScope option:selected').text();//文本
+        var secondScope = $('#secondScope option:selected').text();//文本
+        var publisher = $('#publisher option:selected').text();//文本
+        var country = $('#country option:selected').text();//文本
+        localStorage.setItem("start",start);//key要用单引号或者双引号包括着，value就是你要存的数据
+        localStorage.setItem("end",end);
+        localStorage.setItem("country",country);
+        localStorage.setItem("firstScope",firstScope);
+        localStorage.setItem("secondScope",secondScope);
+        localStorage.setItem("source",publisher);
+        localStorage.setItem("text_data",text_data);
+        alert(text_data);
+        window.location.href="/JS_ReportItem";
+    });
+
     $("#search_btn").click(function () {
         var start = createTime($("#datetimepicker1").find("input").val());
         var end = createTime($("#datetimepicker2").find("input").val());
@@ -218,10 +268,17 @@
             "publisher":publisher,
             "country":country,
         }
+        localStorage.setItem("start",start);//key要用单引号或者双引号包括着，value就是你要存的数据
+        localStorage.setItem("end",end);
+        localStorage.setItem("country",country);
+        localStorage.setItem("firstScope",firstScope);
+        localStorage.setItem("secondScope",secondScope);
+        localStorage.setItem("source",publisher);
+
         /*var url ="/JS_ArticleShow" + '?start=' + start+ '&'+'end=' + end+'&'+'firstScope=' + firstScope+ '&'+'secondScope=' + secondScope+ '&'+'publisher=' + publisher ;
         alert(JSON.stringify(json));
         window.location.href ="/JS_ArticleShow?para="+ JSON.stringify(json);//编码传值*/
-        $.ajax({
+        /*$.ajax({
             url: "/JS_ArticleShow",
             type: "POST",
             data: report,
@@ -256,7 +313,56 @@
             error: function () {
                 alert("请求失败");
             },
+        })*/
+
+        $.ajax({
+            url: "http://127.0.0.1:8888/search",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback",//回调方法
+            contentType: 'application/json',
+            data: {
+                'search_word': $("#keyword").val(),
+            },
+            success: function (data) {
+                var info5 = "";
+                $("#show_tbody").html("");
+                var index = 0;
+                console.log("json对象："+data.new_list);
+                $.each(data.new_list, function (y, e) {
+                        var json = e;
+                        index++;
+                        info5 +="<tr >\n" +
+                            "                        <td>"+ index +"</td>\n" +
+                            "                        <td class=\"roleCodes\">"+json.title+"</td>\n" +
+                            "                        <td>"+json.content.substring(0,80)+"</td>\n" +
+                            "                        <td id=\"content\" style=\"display:none\">"+json.content+"</td>\n" +
+                            "                        <td>\n" +
+                            "                        <button id=\"edit\">加入购物车</button>\n" +
+                            "                            <button id=\"del\">删除</button>\n" +
+                            "                            </td>\n" +
+                            "                            </tr>"
+                });
+
+                $("#show_tbody").html(info5);
+            },
+            error: function () {
+                alert("请求失败");
+            },
         })
+    });
+
+    /*$('#show_tbody').on('click','tr', function() {
+        var text = $(this).find(".roleCodes").text();
+        alert(text);
+    });*/
+    var text_data = [];
+    $("#show_tbody").on('click',"button[id='edit']" ,function() {
+        var text = $(this).parents("tr").find("#content").text();
+        alert(text);
+        text_data.push(text);
+        text_data.push("###");
     });
 </script>
 </div>

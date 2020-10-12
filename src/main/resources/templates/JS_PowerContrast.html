@@ -39,6 +39,7 @@
     <script src="../contrast/js/respond.min.js"></script>
     <script src="../contrast/js/lte-ie7.js"></script>
     <![endif]-->
+
     <!--旭日图所需script文件-->
     <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
@@ -46,6 +47,7 @@
     <script src="https://code.highcharts.com.cn/highcharts/modules/series-label.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+
     <!--字体样式-->
     <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
@@ -257,8 +259,7 @@
             </div>
 
             <div class="row">
-                <div class="row">
-                    <div class="col-lg-9 col-md-12" style="margin-left:15px;">
+                    <div class="col-lg-6 col-md-6" style="margin-left:15px;">
                         <div class="panel panel-default" style="width: 600px;height: 600px">
                             <div class="panel-heading">
                                 <h3>指标1</h3>
@@ -267,7 +268,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                   <div id="detail" style="margin-top:50px;margin-left:700px;width: 300px;height: 600px;display:flex">
+                   </div>
             </div>
 
             <div class="row">
@@ -430,8 +432,28 @@
     }
     
     $(function () {
+
         $.ajax({
-            url: "http://127.0.0.1:8000/sunburst",
+            url: "http://127.0.0.1:7450/detail",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback",//回调方法
+            contentType: 'application/json',
+            data: {
+                'field_name': "AI",
+                'country_list': JSON.stringify(['中国', '美国', '俄罗斯', '法国', '英国']),
+                'start_year': 2010,
+                'end_year': 2019
+            },
+            success: function (data) {
+                alert(data);
+                $("#detail").html(data);
+            }
+        });
+
+        $.ajax({
+            url: "http://127.0.0.1:7450/sunburst",
             method: 'POST',
             dataType: 'jsonp',
             jsonp: "callback",
@@ -458,7 +480,6 @@
                 console.log(arr);
             }
         });
-
         /*$.ajax({
             url: "http://127.0.0.1:8000/linechart",
             method: 'POST',

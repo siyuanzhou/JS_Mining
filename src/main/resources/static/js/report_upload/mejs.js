@@ -99,7 +99,7 @@ var methods = {
     seachName: function () {
 
         var a = $('#show_tbody tr');
-        var nameVal = $('#Ktext').val().trim();
+        var nameVal = $('#Ktext').val();
         var nameStr = '',
             nameArr = [];
 

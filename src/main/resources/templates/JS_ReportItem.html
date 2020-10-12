@@ -2,137 +2,578 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>简报信息</title>
-    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
-    <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/bootstrap/custom.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/bootstrap/bootstrap-table.min.css">
-    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-    <script src="../js/bootstrap/jquery.min.js"></script>
-    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-    <script src="../js/bootstrap/bootstrap.min.js"></script>
-    <script src="../js/bootstrap/bootstrap-table.min.js"></script>
-    <!-- Theme style  -->
-    <link rel="stylesheet" href="./css/weapon/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+    <meta name="author" content="GeeksLabs">
+    <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+
+    <title>实力对比</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="../contrast/css/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap theme -->
+    <link href="../contrast/css/bootstrap-theme.css" rel="stylesheet">
+    <!--external css-->
+    <!-- font icon -->
+    <link href="../contrast/css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="../contrast/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="../contrast/css/fullcalendar.css">
+    <link href="../contrast/css/widgets.css" rel="stylesheet">
+    <link href="../contrast/css/style.css" rel="stylesheet">
+    <link href="../contrast/css/style-responsive.css" rel="stylesheet" />
+    <link href="../contrast/css/xcharts.min.css" rel=" stylesheet">
+    <link href="../contrast/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
+
+    <!--旭日图所需script文件-->
+    <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/sunburst.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+
     <!--字体样式-->
-    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <style>
+        * {
+            touch-action: pan-y;
+        }
+        .newli{
+            text-decoration: none;
+            list-style: none;//去掉li前面的圆点
+            display: inline;//让li横向排列
+            border: 1px solid #FFFFFF;
+            background-color: #30DDEB;
+            width:300px;
+        }
+    </style>
     <!--echarts插件-->
     <script src="./predict/js/echarts.js"></script>
     <script src="./predict/js/echarts-all.js"></script>
 
-    <script type="text/javascript">
-        function showBarChart() {
-            // 基于准备好的dom，初始化echarts实例
-            var myChart = echarts.init(document.getElementById('barChart'));
-
-            // 指定图表的配置项和数据
-            var option = {
-                title: {
-                    text: '中东地区网络攻防资金投入'
-                },
-                tooltip: {},
-                legend: {
-                    data:['销量']
-                },
-                xAxis: {
-                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-            };
-
-            // 使用刚指定的配置项和数据显示图表。
-            myChart.setOption(option);
-        }
-
-        function showLineChart(){
-            // 基于准备好的dom，初始化echarts实例
-            var myChart = echarts.init(document.getElementById('lineChart'));
-
-            // 指定图表的配置项和数据
-            option = {
-                title:{
-                    text: '中东地区网络攻防投入资金变化'
-                },
-                xAxis: {
-                    type: 'category',
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [{
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
-                    type: 'line',
-                    smooth: true
-                }]
-            };
-
-            // 使用刚指定的配置项和数据显示图表。
-            myChart.setOption(option);
-        }
-
-        $(function () {
-            showBarChart();
-            showLineChart();
-        })
-    </script>
 </head>
-<body style="background-color: inherit">
+<body style="background-color: inherit;color: #0f0f0f">
 
 <div th:insert="~{/JS_Common::topbar}"></div>
 <div style="display: flex;">
     <div th:insert="~{/JS_Common::leftbar}"></div>
-    <div>
-        <!--次导航栏-->
-        <div style="display: block; padding: 0">
-            <blockquote class="layui-elem-quote layui-text">
-                <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
-                    <li><a href="JS_Index">首页</a></li>
-                    <li><a href="JS_TextClassify">简报</a></li>
-                </ol>
-            </blockquote>
-        </div>
-
-        <div id="main-content" class="box" style="margin-top: 1px;margin-left: 30px">
+    <div style="display: block;width:100%">
+        <!-- container section start -->
+        <section id="container" class="">
 
             <!--<h1 style="text-align: center">文本分类</h1>-->
             <div class="container" style="padding-left: 50px;height:1000px;display: flex;flex-direction: column;width:100%;overflow-y: auto">
-            <h1 style="text-align: center;width: 1000px;color: #0f0f0f">中东地区网络攻防发展现状分析</h1>
-            <div style="margin-left: 500px">
-                <ul class="info" style="width: 400px;">
-                    <li><span class="first-block">范围:</span><span class="second-block"><a> 网络攻防</a></span></li>
-                    <li><span class="first-block">领域:</span><span class="second-block"><a >计算机</a></span></li>
-                    <li><span class="first-block">来源:</span><span class="second-block"><a >新闻网站</a></span></li>
-                    <li><span class="first-block">国家:</span><span class="second-block"><a >中东</a></span></li>
-                    <li><span class="first-block">开始日期:</span><span class="second-block"><a >2016.06.01</a></span></li>
-                    <li><span class="first-block">结束日期:</span><span class="second-block"><a> 2020.08.29</a></span></li>
+            <h1 id="head" style="text-align: center;width: 1000px;color: #0f0f0f"></h1>
+            <div style="margin-left: 700px">
+                <ul class="info" style="width: 600px;">
+                    <newli><span class="first-block">范围:</span><span class="second-block"><a id="fscope"></a></span></newli>
+                    <newli><span class="first-block">领域:</span><span class="second-block"><a id="sscope"></a></span></newli>
+                </ul>
+                <ul class="info" style="width: 600px;">
+                    <newli><span class="first-block">来源:</span><span class="second-block"><a id="source"></a></span></newli>
+                    <newli ><span class="first-block">国家:</span><span class="second-block"><a id="country"></a></span></newli>
+                </ul>
+                <ul class="info" style="width: 600px;">
+                    <newli><span class="first-block">开始日期:</span><span class="second-block"><a id="start"></a></span></newli>
+                    <newli><span class="first-block">结束日期:</span><span class="second-block"><a id="end"> </a></span></newli>
                 </ul>
             </div>
-            <p style="color: black;width: 1000px"><span style="color: blue">摘要：</span>我觉得这里可以放通过选择的多个文本来进行一次综合性的摘要分析，
-                此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符
-                此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符此处为占位符</p>
-            <p style="color: black;width: 1000px"><span style="color: blue">关键词：</span>我觉得这里可以放多个文本中进行实体识别出现的单词
-                频率最多的几个单词,比如有<a href="">勒索病毒</a>、<a>DOS攻击</a>、<a>CLOSE_WAIT状态</a>同时这几个关键词可以进行点击检索,检索实体库中的相关信息
+            <p style="color: black;width: 1000px"><span style="color: blue">摘要：</span>
+            <a id="summary"></a>
             </p>
-            <span style="color: blue">图形化展示:</span>
+            <p style="color: black;width: 1000px"><span style="color: blue">关键词：</span>
+                <a id="keywords"></a>
+            </p>
+            <span style="color: blue">正文</span>
 
-            <div>
-                <div id="barChart" style="width: 500px;height: 400px;float: left"></div>
-                <div id="lineChart" style="width: 500px;height: 400px;float: right"></div>
-            </div>
-            </div>
-        </div>
-</div>
-</div>
+                <div class="row">
+                    <div id="detail1" style="margin-left:30px;display:inline-block;">
+                    </div>
+                    <div class="col-lg-6 col-md-6" style="margin-top:10px;margin-left:50px;display:inline-block;">
+                        <div class="panel panel-default" style="width: 600px;height: 600px">
+                            <div class="panel-body" id="sunshine" style="width: 600px;height: 600px">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="detail2" style="margin-left:30px;display:inline-block;">
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="panel-body" id="predict_div" style="width: 800px;height: 400px">
+                    </div>
+                    <div id="detail3" style="margin-top:1px;margin-left:50px;">
+                    </div>
+                </div>
+            </div>
+
+        <!--main content end-->
+        </section>
+        <!-- container section start -->
+    </div>
+</div>
+<!-- javascripts -->
+<script src="../contrast/js/jquery.js"></script>
+
+<script>
+
+    $(function () {
+        var start = localStorage.getItem("start");
+        var end = localStorage.getItem("end");
+        var firstScope = localStorage.getItem("firstScope");
+        var country = localStorage.getItem("country");
+        var secondScope = localStorage.getItem("secondScope");
+        var source = localStorage.getItem("source");
+        var text_data = localStorage.getItem("text_data");
+        $("#head").html(start.substring(0,4)+"-"+end.substring(0,4)+country+firstScope+"军事科技简报")
+        $("#fscope").html(firstScope);
+        $("#sscope").html(secondScope);
+        $("#country").html(country);
+        $("#source").html(source);
+        $("#start").html(start);
+        $("#end").html(end);
+        $.ajax({
+            url: "http://127.0.0.1:8000/multiReport",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_multireport",//回调方法
+            contentType: 'application/json',
+            data: {
+                'texts': text_data.toString(),
+            },
+            success: function (data) {
+                console.log(data);
+                alert(JSON.stringify(data));
+                $("#summary").html(JSON.stringify(data));
+            }
+        });
+
+
+        $.ajax({
+            url: "http://127.0.0.1:7450/detail",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback",//回调方法
+            contentType: 'application/json',
+            data: {
+                'field_name': "AI",
+                'country_list': JSON.stringify(['中国', '美国', '俄罗斯', '法国', '英国']),
+                'start_year': 2010,
+                'end_year': 2019
+            },
+            success: function (data) {
+                console.log(data);
+                var info = JSON.parse(data);
+                console.log(info);
+                $("#detail1").html(info.before_pic);
+                $("#detail2").html(info.after_pic);
+                $.ajax({
+                    url: "http://127.0.0.1:7450/sunburst",
+                    method: 'POST',
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback",//回调方法
+                    contentType: 'application/json',
+                    data: {
+                        'field_name': "AI",
+                        'country_list': JSON.stringify(['中国', '美国', '俄罗斯', '法国', '英国']),
+                        'start_year': 2010,
+                        'end_year': 2019
+                    },
+                    success: function (data) {
+                        var datas =JSON.parse(data);
+                        var arr = [];
+                        for(var i=0;i<datas.length;i++){
+                            console.log(datas[i]);
+                            var jsonStr = JSON.stringify(datas[i]);       //转为JSON字符串
+                            console.log(jsonStr);
+                            var jsObject = JSON.parse(jsonStr);    //转换为json对象
+                            console.log(jsObject);
+                            arr.push(jsObject);
+                        }
+                        printSunShine(arr);
+                        console.log(arr);
+                    }
+                });
+            }
+        });
+
+        $.ajax({
+            url: "http://127.0.0.1:8888/keywords",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback",//回调方法
+            contentType: 'application/json',
+            data: {
+                'text': text_data.toString(),
+            },
+            success: function (data) {
+                console.log(data);
+                alert(JSON.stringify(data));
+                $("#keywords").html(JSON.stringify(data));
+            }
+        });
+
+
+    })
+
+    function printSunShine(data) {
+        Highcharts.setOptions({
+            lang: {
+                thousandsSep: ',',
+                turboThreshold: 2000
+            }
+        });
+        Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+        Highcharts.chart('sunshine', {
+                chart: {
+                    height: '100%'
+                },
+
+                title: {
+                    text: '军事实力对比体系'
+                },
+                subtitle: {
+                    text: '指标一'
+                },
+                series: [{
+                    type: "sunburst",
+                    data: data,
+                    allowDrillToNode: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        /**
+                         * A custom formatter that returns the name only if the inner arc
+                         * is longer than a certain pixel size, so the shape has place for
+                         * the label.
+                         */
+                        formatter: function () {
+                            var shape = this.point.node.shapeArgs;
+
+                            var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
+                            var perimeter = 2 * Math.PI * shape.innerR;
+
+                            var innerArcPixels = innerArcFraction * perimeter;
+
+                            if (innerArcPixels > 16) {
+                                return this.point.name;
+                            }
+                        }
+                    },
+                    levels: [{
+                        level: 2,
+                        colorByPoint: true,
+                        dataLabels: {
+                            rotationMode: 'parallel'
+                        }
+                    },
+                        {
+                            level: 3,
+                            colorVariation: {
+                                key: 'brightness',
+                                to: -0.5
+                            }
+                        }, {
+                            level: 4,
+                            colorVariation: {
+                                key: 'brightness',
+                                to: 0.5
+                            }
+                        }]
+
+                }],
+                tooltip: {
+                    headerFormat: "",
+                    pointFormat: '<b>{point.name}</b>的得分为：<b>{point.value}</b>'
+                }
+            }
+        )
+    }
+
+
+</script>
+<script type="text/javascript">
+
+    function showRela(data) {
+        var myChart = echarts.init(document.getElementById('predict_div'));
+        //echarts表格
+        myChart.setOption({
+            title: {
+                text: '趋势预测',
+            },
+            //工具箱
+            //保存图片
+            toolbox:{
+                show:true,
+                feature:{
+                    saveAsImage:{
+                        show:true
+                    }
+                }
+            },
+            //图例-每一条数据的名字叫销量
+            legend:{
+                data:['数量']
+            },
+            xAxis: {
+                type: 'category',
+                data: [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+            },
+            yAxis: {
+            },
+            series: [{
+                name: '论文数量',
+                type: 'line',
+                data: data.values,
+            }]
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: "http://127.0.0.1:7005/predict",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_classify",//回调方法
+            contentType: 'application/json',
+            data: {
+                "field":"人工智能"
+            },
+            success: function (data) {
+                showRela(data);
+                $("#detail3").html(data.explain);
+                console.log(data);
+            },
+        });
+    });
+
+</script>
 </body>
 </html>
+
+
+<!--
+<script>
+    function duibi() {
+        var start = localStorage.getItem("start");
+        var end = localStorage.getItem("end");
+        var firstScope = localStorage.getItem("firstScope");
+        var country = localStorage.getItem("country");
+
+        var report = {
+            "start": start,
+            "end": end,
+            "firstScope": firstScope,
+            "country":country,
+        }
+
+        $.ajax({
+            url: "http://127.0.0.1:7450/detail",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback",//回调方法
+            contentType: 'application/json',
+            data: {
+                'field_name': "AI",
+                'country_list': JSON.stringify(['中国', '美国', '俄罗斯', '法国', '英国']),
+                'start_year': 2016,
+                'end_year': 2019
+            },
+            success: function (data) {
+                alert(data);
+                $("#detail").html(data);
+            },
+            error: function () {
+                alert("请求失败");
+            },
+        });
+    }
+
+    function xuri() {
+        var start = localStorage.getItem("start");
+        var end = localStorage.getItem("end");
+        var firstScope = localStorage.getItem("firstScope");
+        var country = localStorage.getItem("country");
+
+        var report = {
+            "start": start,
+            "end": end,
+            "firstScope": firstScope,
+            "country":country,
+        }
+
+        $.ajax({
+            url: "http://127.0.0.1:7450/sunburst",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback",//回调方法
+            contentType: 'application/json',
+            data: {
+                'field_name': "AI",
+                'country_list': JSON.stringify(['中国', '美国', '俄罗斯', '法国', '英国']),
+                'start_year': 2010,
+                'end_year': 2019
+            },
+            success: function (data) {
+                var datas =JSON.parse(data);
+                var arr = [];
+                for(var i=0;i<datas.length;i++){
+                    console.log(datas[i]);
+                    var jsonStr = JSON.stringify(datas[i]);       //转为JSON字符串
+                    console.log(jsonStr);
+                    var jsObject = JSON.parse(jsonStr);    //转换为json对象
+                    console.log(jsObject);
+                    arr.push(jsObject);
+                }
+                printSunShine(arr);
+                console.log(arr);
+            }
+        });
+    }
+
+    function printSunShine(data) {
+        Highcharts.setOptions({
+            lang: {
+                thousandsSep: ',',
+                turboThreshold: 2000
+            }
+        });
+        Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+        Highcharts.chart('sunshine', {
+                chart: {
+                    height: '100%'
+                },
+
+                title: {
+                    text: '军事实力对比体系'
+                },
+                subtitle: {
+                    text: '指标一'
+                },
+                series: [{
+                    type: "sunburst",
+                    data: data,
+                    allowDrillToNode: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        /**
+                         * A custom formatter that returns the name only if the inner arc
+                         * is longer than a certain pixel size, so the shape has place for
+                         * the label.
+                         */
+                        formatter: function () {
+                            var shape = this.point.node.shapeArgs;
+
+                            var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
+                            var perimeter = 2 * Math.PI * shape.innerR;
+
+                            var innerArcPixels = innerArcFraction * perimeter;
+
+                            if (innerArcPixels > 16) {
+                                return this.point.name;
+                            }
+                        }
+                    },
+                    levels: [{
+                        level: 2,
+                        colorByPoint: true,
+                        dataLabels: {
+                            rotationMode: 'parallel'
+                        }
+                    },
+                        {
+                            level: 3,
+                            colorVariation: {
+                                key: 'brightness',
+                                to: -0.5
+                            }
+                        }, {
+                            level: 4,
+                            colorVariation: {
+                                key: 'brightness',
+                                to: 0.5
+                            }
+                        }]
+
+                }],
+                tooltip: {
+                    headerFormat: "",
+                    pointFormat: '<b>{point.name}</b>的得分为：<b>{point.value}</b>'
+                }
+            }
+        )
+    }
+
+    function showBarChart() {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('barChart'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '中东地区网络攻防资金投入'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+    function showLineChart(){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('lineChart'));
+        // 指定图表的配置项和数据
+        option = {
+            title:{
+                text: '中东地区网络攻防投入资金变化'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                type: 'line',
+                smooth: true
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+    $(function () {
+        showBarChart();
+        showLineChart();
+        xuri();
+        duibi();
+    })
+</script>
+</body>
+</html>-->
