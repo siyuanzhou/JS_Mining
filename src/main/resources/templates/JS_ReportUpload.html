@@ -4,9 +4,12 @@
     <meta charset="utf-8">
     <title></title>
 
-    <script src="./js/report_upload/jquery.min.js"></script>
-    <script src="./js/report_upload/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="./js/report_upload/bootbox.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/report_upload/bootbox.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/defaults-zh_CN.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/report_upload/style.css">
     <!--字体样式-->
     <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
@@ -16,25 +19,14 @@
 
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link  rel="stylesheet" href="./css/report_upload/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/report_upload/bootstrap-select.min.css">
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="./js/report_upload/mejs.js"></script>
     <style type="text/css">
-        .myrow {
-            display: flex;
-            flex-direction: row;
-            /*margin-left:1em;*/
-        }
         .roleCodes{
             color: #7e5bbe;
-        }
-        .xxxx {
-            height: 2px;
-            background: #999999;
-            margin-top: 16px;
-            width: 2em;
-            margin-left: 1em;
-            margin-right: 1em;
         }
     </style>
 
@@ -80,8 +72,8 @@
                     </div>
                     <div class='col-sm-3'>
                         <div class="form-group">
-                            <label>国家</label>
-                            <select id = "country" class="form-control select_down" style="font-size: 13px; color: #666;">
+                            <label>国家:</label>
+                            <select id = "country" class="form-control select_down selectpicker"  multiple data-live-search="true" title="请选择国家">
                                 <option>中国</option>
                                 <option>美国</option>
                                 <option>德国</option>
@@ -98,8 +90,6 @@
                         <option  value = "option-C" >option-C</option >
                         <option  value = "option-D" >option-D</option >
                     </select >-->
-
-                    <input  type = "button" value = "确定" onclick = "fun()"/>
 
                 </div>
                 <div class="row">
