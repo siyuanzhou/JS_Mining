@@ -1,6 +1,7 @@
 package com.example.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ReportQuaryTag implements Serializable {
 
@@ -8,8 +9,12 @@ public class ReportQuaryTag implements Serializable {
     private String end;
     private String firstScope;
     private String secondScope;
-    private String country;
+    private ArrayList<String> country;
     private String publisher;
+
+    public ReportQuaryTag() {
+        this.country = new ArrayList<String>();
+    }
 
     public String getStart() {
         return start;
@@ -43,12 +48,12 @@ public class ReportQuaryTag implements Serializable {
         this.secondScope = secondScope;
     }
 
-    public String getCountry() {
+    public ArrayList<String> getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCountry(ArrayList<String> countrys) {
+        this.country.addAll(countrys);
     }
 
     public String getPublisher() {

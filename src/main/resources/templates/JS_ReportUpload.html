@@ -177,7 +177,6 @@
             <div id="loading" style="display: inline-flex;margin-left: 40%;margin-top: 25px">
                 <div style="font-size: 20px;">正在加载中</div>
                 <div id="fountainG">
-
                     <div id="fountainG_1" class="fountainG"></div>
                     <div id="fountainG_2" class="fountainG"></div>
                     <div id="fountainG_3" class="fountainG"></div>
@@ -194,16 +193,12 @@
         <table id="tb" class="table">
             <thead>
             <tr>
-                <th><input id="checkAll" type="checkbox" /></th>
-                <th style="width: 50px">编号</th>
+                <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>
+                <th style="width: 100px">编号</th>
                 <th style="width: 466px">文章名称</th>
-<!--                <th>发表日期</th>
-                <th style="width: 100px">所属类别</th>
-                <th>来源</th>
-                <th style="width: 50px">国家</th>-->
-                <th style="width: 480px">文章内容</th>
-                <th style="width: 86px">文章字数</th>
-                <th style="width: 180px">操作</th>
+                <th style="width: 180px">日期</th>
+                <th style="width: 180px">国家</th>
+                <th style="width: 280px">操作</th>
             </tr>
             </thead>
             <tbody id="show_tbody">
@@ -296,8 +291,9 @@
             "firstScope": firstScope,
             "secondScope":secondScope,
             "publisher":publisher,
-            "country":country,
+            "country":country.toString(),
         }
+        alert(country);
         localStorage.setItem("start",start);//key要用单引号或者双引号包括着，value就是你要存的数据
         localStorage.setItem("end",end);
         localStorage.setItem("country",country);
@@ -308,44 +304,40 @@
         /*var url ="/JS_ArticleShow" + '?start=' + start+ '&'+'end=' + end+'&'+'firstScope=' + firstScope+ '&'+'secondScope=' + secondScope+ '&'+'publisher=' + publisher ;
         alert(JSON.stringify(json));
         window.location.href ="/JS_ArticleShow?para="+ JSON.stringify(json);//编码传值*/
-        /*$.ajax({
+        $.ajax({
             url: "/JS_ArticleShow",
             type: "POST",
             data: report,
             success: function (data) {
                 var jsonb = eval(data);
-                console.log("======jsonb=====");
-                console.log(jsonb);
-                alert(data);
                 var info5 = "";
                 $("#show_tbody").html("");
                 $.each(jsonb, function (index, item) {
                     $.each(item['resultlist'], function (y, e) {
                         var json = eval(e);
                         info5 +="<tr >\n" +
+                            "                        <td><input id=\"check\" type=\"checkbox\" /></td>"+
                             "                        <td>"+json.id+"</td>\n" +
-                            "                        <td>"+json.name+"</td>\n" +
+                            "                        <td class=\"roleCodes\">"+json.name+"</td>\n" +
                             "                        <td>"+json.date+"</td>\n" +
-                            "                        <td>"+json.realScope+"</td>\n" +
-                            "                        <td>"+json.publisher+"</td>\n" +
                             "                        <td>"+json.country+"</td>\n" +
-                            "                        <td>"+json.url+"</td>\n" +
+                            "                        <td id=\"content\" style=\"display:none\">"+json.content+"</td>\n" +
                             "                        <td>\n" +
-                            "                        <a href=\"#\" class=\"edit\">编辑</a>\n" +
-                            "                            <a href=\"#\" class=\"del\">删除</a>\n" +
-                            "                            </td>\n" +
-                            "                            </tr>"
-
+                            "                        <button class=\"btn btn-primary btn-sm\" id=\"edit\">添加</button>\n" +
+                            "                        <button class=\"btn btn-danger btn-sm\" id=\"del\">删除</button>\n" +
+                            "                        </td>\n" +
+                            "                        </tr>"
                     });
                 });
+                $('#loading').hide();
                 $("#show_tbody").html(info5);
             },
             error: function () {
                 alert("请求失败");
             },
-        })*/
+        })
 
-        $.ajax({
+        /*$.ajax({
             url: "http://127.0.0.1:8888/search",
             method: 'POST',
             dataType: 'jsonp',
@@ -384,12 +376,14 @@
                 alert("请求失败");
             },
         })
+        */
     });
 
     var text_data = [];
     $("#show_tbody").on('click',"button[id='edit']" ,function() {
         var text = $(this).parents("tr").find("#content").text();
-        alert("添加成功");
+        //alert("添加成功");
+        alert(text);
         text_data.push(text);
         text_data.push("###");
     });

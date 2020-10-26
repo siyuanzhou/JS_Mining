@@ -118,9 +118,10 @@ public class JSController {
         return "/JS_Predict";
     }
 
-    @RequestMapping("JS_ReportItem")
-    public String JS_ReportItem(){
-        return "JS_ReportItem";
-    }
+    @RequestMapping("/JS_ReportItem")
+    public String JS_ReportItem(){ return "JS_ReportItem"; }
+
+    @RequestMapping("Test")
+    public String JS_Test(){ return "Test"; }
 
 }
