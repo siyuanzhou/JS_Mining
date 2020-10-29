@@ -27,6 +27,9 @@
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="./js/report_upload/mejs.js"></script>
+
+    <link rel='stylesheet' href='./css/common/modalBox.css'>
+
     <style type="text/css">
         .roleCodes {
             color: #7e5bbe;
@@ -205,7 +208,25 @@
 
             </tbody>
         </table>
+
+        <!-- 模态框 -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="mhead">头部</h2>
+                    <span id="closeBtn" class="close">×</span>
+                </div>
+                <div id="mcontent" class="modal-body">
+                    <p>这是一个模态框！</p>
+                    <p>喜欢就点个赞吧！</p>
+                </div>
+                <div class="modal-footer">
+                    <h3></h3>
+                </div>
+            </div>
+        </div>
     </div>
+
 
 </div>
 
@@ -323,6 +344,7 @@
                             "                        <td>"+json.country+"</td>\n" +
                             "                        <td id=\"content\" style=\"display:none\">"+json.content+"</td>\n" +
                             "                        <td>\n" +
+                            "                        <button class=\"btn btn-success btn-sm\" id=\"triggerBtn\">查看</button>\n" +
                             "                        <button class=\"btn btn-primary btn-sm\" id=\"edit\">添加</button>\n" +
                             "                        <button class=\"btn btn-danger btn-sm\" id=\"del\">删除</button>\n" +
                             "                        </td>\n" +
@@ -331,6 +353,53 @@
                 });
                 $('#loading').hide();
                 $("#show_tbody").html(info5);
+                window.onload = (function() {
+                    /*建立模态框对象*/
+                    var modalBox = {};
+                    /*获取模态框*/
+                    modalBox.modal = document.getElementById("myModal");
+                    /*获得trigger按钮*/
+                    modalBox.triggerBtn = document.getElementById("triggerBtn");
+                    /*获得关闭按钮*/
+                    modalBox.closeBtn = document.getElementById("closeBtn");
+                    /*模态框显示*/
+                    modalBox.show = function(text,title) {
+                        console.log(this.modal);
+                        this.modal.style.display = "block";
+                        $("#mhead").html(title);
+                        //alert("添加成功");
+                        $("#mcontent").html(text);
+
+                    }
+                    /*模态框关闭*/
+                    modalBox.close = function() {
+                        this.modal.style.display = "none";
+                    }
+                    /*当用户点击模态框内容之外的区域，模态框也会关闭*/
+                    modalBox.outsideClick = function() {
+                        var modal = this.modal;
+                        window.onclick = function(event) {
+                            if(event.target == modal) {
+                                modal.style.display = "none";
+                            }
+                        }
+                    }
+                    /*模态框初始化*/
+                    modalBox.init = function() {
+                        var that = this;
+                        $("#show_tbody").on('click',"button[id='triggerBtn']" ,function() {
+                            var text = $(this).parents("tr").find("#content").text();
+                            var title = $(this).parents("tr").find(".roleCodes").text();
+                            that.show(text,title);
+                        })
+                        this.closeBtn.onclick = function() {
+                            that.close();
+                        }
+                        this.outsideClick();
+                    }
+                    modalBox.init();
+
+                })();
             },
             error: function () {
                 alert("请求失败");
@@ -382,12 +451,13 @@
     var text_data = [];
     $("#show_tbody").on('click',"button[id='edit']" ,function() {
         var text = $(this).parents("tr").find("#content").text();
-        //alert("添加成功");
-        alert(text);
+        alert("添加成功");
+        //alert(text);
         text_data.push(text);
         text_data.push("###");
     });
 </script>
 </div>
 </body>
+
 </html>

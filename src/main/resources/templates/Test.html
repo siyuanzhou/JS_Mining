@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="img/favicon.ico"/>
+    <link rel="bookmark" href="img/favicon.ico"/>
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css" type="text/css" >
+    <script type="text/javascript" src="./js/bootstrap/jquery.min.js"></script>
+    <script src="./js/bootstrap/bootstrap.min.js"></script>
+    <title>分页查询</title>
+</head>
+<body>
+<h1 class="text-center text-warning" style="margin-top: 10px;">用户列表</h1>
+
+<table class="table table-hover table-bordered table-striped text-center" style="width: 70%; margin:auto; margin-top: 30px;">
+    <thead>
+    <tr>
+        <th class="text-center">id</th>
+        <th class="text-center">姓名</th>
+        <th class="text-center">邮箱</th>
+        <th class="text-center">密码</th>
+        <th class="text-center">注册时间</th>
+        <th class="text-center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td>yuanhang</td>
+        <td>47582388@qq.com</td>
+        <td>12580kh</td>
+        <td>2020-03-01</td>
+        <td>
+            <button class="btn btn-primary btn-sm">修改</button>
+            <button class="btn btn-danger btn-sm">删除</button>
+        </td>
+    </tr>
+
+    </tbody>
+
+</table>
+<nav aria-label="Page navigation" class="text-center">
+
+    <ul class="pagination" id="page">
+
+    </ul>
+
+</nav>
+<div class="text-center">
+    <span>当前页数: <strong>[[${pageNum}]]</strong>  页</span>&nbsp;&nbsp;
+    <span>总页数: <strong>[[${pageSum}]]</strong> 页</span>&nbsp;&nbsp;
+    <span>总数据: <strong>[[${sum}]]</strong> 条</span>
+</div>
+
+<script>
+    $(function () {
+        //当前页数
+        var pageNum='[[${pageNum}]]';
+        //总数据
+        var sum='[[${sum}]]';
+        //总页数
+        var pageCount='[[${pageSum}]]';
+        if(pageNum==1){
+            $("#page").append("<li><a href='/user/findUser?pageNum=1' style='cursor:pointer;pointer-events: none'>&laquo;</a></li>");
+        }else{
+            $("#page").append("<li><a href='/user/findUser?pageNum="+(pageNum-1)+"'>&laquo;</a></li>");
+
+        }
+        //每页显示8条数据,ym表示页数
+        var ym =Math.floor((pageNum-1)/8)*8;
+        //分页栏只展示4页的内容，页数大于4则进行下一页
+        for(var i=1;i<5;i++){
+            ym = ym+i;
+
+            if(pageNum<4){
+                //发送的请求
+                var url='/user/findUser?pageNum='+ym;
+                //发亮设置
+                if(ym==pageNum){
+
+                    $("#page").append("<li class='active'><a href='"+url+"'>"+ym+"</a></li>");
+                }
+                else{
+                    $("#page").append("<li><a href='"+url+"'>"+ym+"</a></li>");
+                }
+            }
+            else{
+                //设置页码数值
+                ym+=pageNum-4;
+                //发送的请求
+                var url='/user/findUser?pageNum='+ym;
+                //发亮设置
+                if(ym==pageNum){
+
+                    $("#page").append("<li class='active'><a href='"+url+"'>"+ym+"</a></li>");
+                }
+                else{
+                    $("#page").append("<li><a href='"+url+"'>"+ym+"</a></li>");
+                }
+            }
+            //初始化
+            ym =Math.floor((pageNum-1)/8)*8;
+        }
+        //如果是最后一页,则禁用下一页的连接
+
+        if(pageNum==pageCount){//pageCount表示总页数，也表示最大页数(最后一页)
+            //禁用链接
+            $("#page").append("<li><a href='#' style='cursor:pointer;pointer-events: none'>&raquo;</a></li>");
+        }else{
+            pageNum++;
+            $("#page").append("<li><a href='/user/findUser?pageNum="+pageNum+"' >&raquo;</a></li>");
+        }
+    });
+
+</script>
+</body>
+</html>
