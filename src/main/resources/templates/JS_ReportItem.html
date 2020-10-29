@@ -11,17 +11,17 @@
 
     <!-- Bootstrap CSS -->
     <link href="../contrast/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- bootstrap theme -->
     <link href="../contrast/css/bootstrap-theme.css" rel="stylesheet">
     <!--external css-->
     <!-- font icon -->
-    <link href="../contrast/css/elegant-icons-style.css" rel="stylesheet" />
-    <link href="../contrast/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../contrast/css/elegant-icons-style.css" rel="stylesheet"/>
+    <link href="../contrast/css/font-awesome.min.css" rel="stylesheet"/>
 
     <link rel="stylesheet" href="../contrast/css/fullcalendar.css">
     <link href="../contrast/css/widgets.css" rel="stylesheet">
-    <link href="../contrast/css/style.css" rel="stylesheet">
-    <link href="../contrast/css/style-responsive.css" rel="stylesheet" />
+    <link href="../contrast/css/style-responsive.css" rel="stylesheet"/>
     <link href="../contrast/css/xcharts.min.css" rel=" stylesheet">
     <link href="../contrast/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
 
@@ -42,13 +42,18 @@
         * {
             touch-action: pan-y;
         }
-        .newli{
+
+        .newli {
             text-decoration: none;
-            list-style: none;//去掉li前面的圆点
-            display: inline;//让li横向排列
-            border: 1px solid #FFFFFF;
+            list-style: none;
+        / / 去掉li前面的圆点 display: inline;
+        / / 让li横向排列 border: 1 px solid #FFFFFF;
             background-color: #30DDEB;
-            width:300px;
+            width: 300px;
+        }
+
+        span.second-block{
+            margin-left: 12px;
         }
     </style>
     <!--echarts插件-->
@@ -65,41 +70,50 @@
         <section id="container" class="">
 
             <!--<h1 style="text-align: center">文本分类</h1>-->
-            <div class="container"> <!--style="padding-left: 50px;height:1000px;display: flex;flex-direction: column;width:100%;overflow-y: auto"-->
-            <h1 id="head" style="text-align: center;width: 1000px;color: #0f0f0f"></h1>
-            <div style="margin-left: 700px">
-                <ul class="info" style="width: 600px;">
-                    <newli><span class="first-block">范围:</span><span class="second-block"><a id="fscope"></a></span></newli>
-                    <newli><span class="first-block">领域:</span><span class="second-block"><a id="sscope"></a></span></newli>
-                </ul>
-                <ul class="info" style="width: 600px;">
-                    <newli><span class="first-block">来源:</span><span class="second-block"><a id="source"></a></span></newli>
-                    <newli ><span class="first-block">国家:</span><span class="second-block"><a id="country"></a></span></newli>
-                </ul>
-                <ul class="info" style="width: 600px;">
-                    <newli><span class="first-block">开始日期:</span><span class="second-block"><a id="start"></a></span></newli>
-                    <newli><span class="first-block">结束日期:</span><span class="second-block"><a id="end"> </a></span></newli>
-                </ul>
-            </div>
-            <p style="color: black;width: 1000px"><span style="color: blue">摘要：</span>
-            <a id="summary">目前暂不支持中文摘要。</a>
-            </p>
-            <p style="color: black;width: 1000px"><span style="color: blue">关键词：</span>
-                <a id="keywords"></a>
-            </p>
-            <span style="color: blue">正文</span>
+            <div class="container">
+                <!--style="padding-left: 50px;height:1000px;display: flex;flex-direction: column;width:100%;overflow-y: auto"-->
+                <h1 id="head" style="text-align: center;width: 1000px;color: #0f0f0f"></h1>
+                <div style="margin-left: 700px">
+                    <ul class="info" style="width: 600px;display: flex">
+                        <div style="width: 200px;text-align: left"><span class="first-block">范围:</span><span class="second-block"><a id="fscope"></a></span>
+                        </div>
+                        <div style="width: 300px;text-align: left"><span class="first-block">领域:</span><span class="second-block"><a id="sscope"></a></span>
+                        </div>
+                    </ul>
+                    <ul class="info" style="width: 600px;display: flex">
+                        <div style="width: 200px;text-align: left"><span class="first-block" style="width: 300px;text-align: left">来源:</span><span class="second-block"><a id="source"></a></span>
+                        </div>
+                        <div style="width: 200px;text-align: left"><span class="first-block" style="width: 300px;text-align: left">国家:</span><span class="second-block"><a
+                                id="country"></a></span></div>
+                    </ul>
+                    <ul class="info" style="width: 600px;display: flex">
+                        <div style="width: 200px;text-align: left"><span class="first-block" style="width: 300px;text-align: left">开始日期:</span><span class="second-block"><a
+                                id="start"></a></span></div>
+                        <div style="width: 200px;text-align: left"><span class="first-block" style="width: 300px;text-align: left">结束日期:</span><span class="second-block"><a id="end"> </a></span>
+                        </div>
+                    </ul>
+                </div>
+                <p style="color: black;width: 1000px"><span style="color: blue;font-weight:bold">摘要：</span>
+                    <a id="summary" style="line-height:1.8em">目前暂不支持中文摘要。</a>
+                </p>
+                <p style="color: black;width: 1000px"><span style="color: blue;font-weight:bold">关键词：</span>
+                    <a id="keywords"></a>
+                </p>
+                <span style="color: blue">  </span>
 
-                <div class="row">
+                <!--实体、关系展示-->
+                <div class="row" >
                     <div class="panel panel-primary" style="margin-left: 30px;">
-                        <p id="introduce"> </p>
+                        <p id="introduce" style="text-indent: 2em;line-height:2em"></p>
                         <!--<div class="panel-heading" style="text-align: center">关键实体</div>-->
                         <div id="entity" class="panel-body" style="height: 420px;border: 0px">
                         </div>
                     </div>
                 </div>
 
+                <!--旭日图实力对比-->
                 <div class="row">
-                    <div id="detail1" style="margin-left:30px;display:inline-block;">
+                    <div id="detail1" style="margin-left:30px;display:inline-block;text-indent:2em;line-height:2em">
                     </div>
                     <div class="col-lg-6 col-md-6" style="margin-top:10px;margin-left:50px;display:inline-block;">
                         <div class="panel panel-default" style="width: 600px;height: 600px">
@@ -107,15 +121,17 @@
                             </div>
                         </div>
                     </div>
-                    <div id="detail2" style="margin-left:30px;display:inline-block;">
+                    <div id="detail2" style="margin-left:30px;display:inline-block;text-indent:2em;line-height:2em">
                     </div>
                 </div>
 
+                <!--科技实力折线图对比-->
                 <div class="row">
                     <div class="panel-body" id="serialsLabel" style="width: 800px;height: 400px;margin-left: 150px">
                     </div>
                 </div>
 
+                <!--趋势预测-->
                 <div class="row">
                     <div id="detail3" style="margin-top:1px;margin-left:50px;">
                     </div>
@@ -124,7 +140,7 @@
                 </div>
             </div>
 
-        <!--main content end-->
+            <!--main content end-->
         </section>
         <!-- container section start -->
     </div>
@@ -144,8 +160,8 @@
         var text_data = localStorage.getItem("text_data");
         var countrys = country.split(",");
         alert(countrys);
-        $("#introduce").html(firstScope+"领域主要实体如下：");
-        $("#head").html(start.substring(0,4)+"-"+end.substring(0,4)+country+firstScope+"领域科技简报");
+        $("#introduce").html(firstScope + "领域主要实体如下：");
+        $("#head").html(start.substring(0, 4) + "-" + end.substring(0, 4) + country + firstScope + "领域科技简报");
         $("#fscope").html(firstScope);
         $("#sscope").html(secondScope);
         $("#country").html(country);
@@ -188,27 +204,27 @@
         });
 
         $.ajax({
-               url: "http://127.0.0.1:8888/api",
-               method: 'POST',
-               dataType: 'jsonp',
-               jsonp: "callback",
-               jsonpCallback: "successCallback_api",//回调方法
-               contentType: 'application/json',
-               data: {input: JSON.stringify(text_data)},
+            url: "http://127.0.0.1:8888/api",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_api",//回调方法
+            contentType: 'application/json',
+            data: {input: JSON.stringify(text_data)},
 
-               success: function (data) {
-                   var str1 = data.input;
-                   var entityMap = data.listDemo;
-                   var raw_relations = data.raw_relations;
-                   var datas = raw_relations[0];
-                   var links = raw_relations[1];
-                   showRela(datas, links);
-                   console.log(str1);
-               },
-               error: function (jqXhr, textStatus, errorThrown) {
-                   console.log(errorThrown);
-               }
-       });
+            success: function (data) {
+                var str1 = data.input;
+                var entityMap = data.listDemo;
+                var raw_relations = data.raw_relations;
+                var datas = raw_relations[0];
+                var links = raw_relations[1];
+                showRela(datas, links);
+                console.log(str1);
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
 
         $.ajax({
             url: "http://127.0.0.1:7450/detail",
@@ -220,8 +236,8 @@
             data: {
                 'field_name': "AI",
                 'country_list': JSON.stringify(countrys),
-                'start_year': start.substring(0,4),
-                'end_year': end.substring(0,4),
+                'start_year': start.substring(0, 4),
+                'end_year': end.substring(0, 4),
             },
             success: function (data) {
                 console.log(data);
@@ -238,13 +254,13 @@
                     data: {
                         'field_name': "AI",
                         'country_list': JSON.stringify(countrys),
-                        'start_year': start.substring(0,4),
-                        'end_year': end.substring(0,4),
+                        'start_year': start.substring(0, 4),
+                        'end_year': end.substring(0, 4),
                     },
                     success: function (data) {
-                        var datas =JSON.parse(data);
+                        var datas = JSON.parse(data);
                         var arr = [];
-                        for(var i=0;i<datas.length;i++){
+                        for (var i = 0; i < datas.length; i++) {
                             var jsonStr = JSON.stringify(datas[i]);       //转为JSON字符串
                             var jsObject = JSON.parse(jsonStr);    //转换为json对象
                             arr.push(jsObject);
@@ -265,8 +281,8 @@
             data: {
                 'field_name': "AI",
                 'country_list': JSON.stringify(countrys),
-                'start_year': start.substring(0,4),
-                'end_year': end.substring(0,4),
+                'start_year': start.substring(0, 4),
+                'end_year': end.substring(0, 4),
                 'indicator_name': "科技产出"
             },
             success: function (data) {
@@ -379,7 +395,7 @@
                         pointStart: 2010
                     }
                 },
-                series:data,
+                series: data,
                 responsive: {
                     rules: [{
                         condition: {
@@ -525,7 +541,7 @@
             jsonpCallback: "successCallback_classify",//回调方法
             contentType: 'application/json',
             data: {
-                "field":"人工智能"
+                "field": "人工智能"
             },
             success: function (data) {
                 showRela(data);
