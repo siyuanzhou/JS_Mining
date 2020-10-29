@@ -19,14 +19,13 @@
         select * from article where id = #{id}
     </select>
 
-
     <select id="selectAllArticle" resultType="com.example.entity.Article">
 		select * from article
 	</select>
 
     <select id="Select" resultType="com.example.entity.Article" parameterType="com.example.entity.ReportQuaryTag">
 
-        select id,country,name,url,publisher,date,realScope from article
+        select id,country,name,url,publisher,date,realScope,content from article
         <where>
             <if test="start!=null and start!=''">
                 and date &gt; #{start}
@@ -34,8 +33,12 @@
             <if test="end!=null and end!=''">
                 and date &lt; #{end}
             </if>
-            <if test="country!=null and country!=''">
-                and country=#{country}
+
+            <if test="country!=null and country.size>0">
+                and country in
+                <foreach collection="country" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
             </if>
         </where>
 

@@ -11,17 +11,17 @@
 
     <!-- Bootstrap CSS -->
     <link href="../contrast/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- bootstrap theme -->
     <link href="../contrast/css/bootstrap-theme.css" rel="stylesheet">
     <!--external css-->
     <!-- font icon -->
-    <link href="../contrast/css/elegant-icons-style.css" rel="stylesheet"/>
-    <link href="../contrast/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="../contrast/css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="../contrast/css/font-awesome.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="../contrast/css/fullcalendar.css">
     <link href="../contrast/css/widgets.css" rel="stylesheet">
-    <link href="../contrast/css/style-responsive.css" rel="stylesheet"/>
+    <link href="../contrast/css/style.css" rel="stylesheet">
+    <link href="../contrast/css/style-responsive.css" rel="stylesheet" />
     <link href="../contrast/css/xcharts.min.css" rel=" stylesheet">
     <link href="../contrast/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
 
@@ -42,18 +42,13 @@
         * {
             touch-action: pan-y;
         }
-
-        .newli {
+        .newli{
             text-decoration: none;
-            list-style: none;
-        / / 去掉li前面的圆点 display: inline;
-        / / 让li横向排列 border: 1 px solid #FFFFFF;
+            list-style: none;//去掉li前面的圆点
+            display: inline;//让li横向排列
+            border: 1px solid #FFFFFF;
             background-color: #30DDEB;
-            width: 300px;
-        }
-
-        span.second-block{
-            margin-left: 12px;
+            width:300px;
         }
     </style>
     <!--echarts插件-->
@@ -111,6 +106,8 @@
                     </div>
                 </div>
 
+                <div class="row"style="width: 1000px">
+                    <div id="detail1" style="margin-left:30px;display:inline-block;">
                 <!--旭日图实力对比-->
                 <div class="row">
                     <div id="detail1" style="margin-left:30px;display:inline-block;text-indent:2em;line-height:2em">
@@ -125,12 +122,14 @@
                     </div>
                 </div>
 
+                <div class="row" style="width: 1000px">
                 <!--科技实力折线图对比-->
                 <div class="row">
                     <div class="panel-body" id="serialsLabel" style="width: 800px;height: 400px;margin-left: 150px">
                     </div>
                 </div>
 
+                <div class="row" style="width: 1000px">
                 <!--趋势预测-->
                 <div class="row">
                     <div id="detail3" style="margin-top:1px;margin-left:50px;">
@@ -140,7 +139,7 @@
                 </div>
             </div>
 
-            <!--main content end-->
+        <!--main content end-->
         </section>
         <!-- container section start -->
     </div>
@@ -159,17 +158,17 @@
         var source = localStorage.getItem("source");
         var text_data = localStorage.getItem("text_data");
         var countrys = country.split(",");
-        alert(countrys);
-        $("#introduce").html(firstScope + "领域主要实体如下：");
-        $("#head").html(start.substring(0, 4) + "-" + end.substring(0, 4) + country + firstScope + "领域科技简报");
+        var random = localStorage.getItem("random");
+        $("#introduce").html("抽取"+firstScope+"领域相关实体如下：");
+        $("#head").html(start.substring(0,4)+"-"+end.substring(0,4)+country+firstScope+"领域科技简报");
         $("#fscope").html(firstScope);
         $("#sscope").html(secondScope);
         $("#country").html(country);
-        $("#source").html(source);
+        /*$("#source").html(source);*/
         $("#start").html(start);
         $("#end").html(end);
 
-        /*$.ajax({
+        $.ajax({
             url: "http://127.0.0.1:8000/multiReport",
             method: 'POST',
             dataType: 'jsonp',
@@ -181,10 +180,10 @@
             },
             success: function (data) {
                 console.log(data);
-                alert(JSON.stringify(data));
+                //alert(JSON.stringify(data));
                 $("#summary").html(JSON.stringify(data));
             }
-        });*/
+        });
 
         $.ajax({
             url: "http://127.0.0.1:8888/keywords",
@@ -198,10 +197,28 @@
             },
             success: function (data) {
                 console.log(data);
-                alert(JSON.stringify(data));
-                $("#keywords").html(JSON.stringify(data));
+                //alert(JSON.stringify(data));
+                var str ="";
+               for(var i=0;i<data.keywords.length;i++){
+                    str+=data.keywords[i]+";"
+                }
+                $("#keywords").html(str);
             }
         });
+
+        $.ajax({
+            url:"http://127.0.0.1:8888/up_file",
+            type:"POST",
+            dataType: 'jsonp',
+            jsonp: "callback",
+            data: {
+                'text': text_data.toString(),
+            },
+            jsonpCallback: "successCallback_up_file",//回调方法
+            success: function (data) {
+                document.getElementById('img1').innerHTML=data
+            }
+        })
 
         $.ajax({
             url: "http://127.0.0.1:8888/api",
@@ -254,8 +271,9 @@
                     data: {
                         'field_name': "AI",
                         'country_list': JSON.stringify(countrys),
-                        'start_year': start.substring(0, 4),
-                        'end_year': end.substring(0, 4),
+                        'start_year': start.substring(0,4),
+                        'end_year': end.substring(0,4),
+                        'random':random,
                     },
                     success: function (data) {
                         var datas = JSON.parse(data);
@@ -281,9 +299,10 @@
             data: {
                 'field_name': "AI",
                 'country_list': JSON.stringify(countrys),
-                'start_year': start.substring(0, 4),
-                'end_year': end.substring(0, 4),
-                'indicator_name': "科技产出"
+                'start_year': start.substring(0,4),
+                'end_year': end.substring(0,4),
+                'indicator_name': "科技产出",
+                'random':random,
             },
             success: function (data) {
                 console.log("data=" + data);
@@ -392,10 +411,10 @@
                         label: {
                             connectorAllowed: false
                         },
-                        pointStart: 2010
+                        pointStart: parseInt(start.substring(0,4))
                     }
                 },
-                series: data,
+                series:data,
                 responsive: {
                     rules: [{
                         condition: {
@@ -541,7 +560,7 @@
             jsonpCallback: "successCallback_classify",//回调方法
             contentType: 'application/json',
             data: {
-                "field": "人工智能"
+                "field":"人工智能"
             },
             success: function (data) {
                 showRela(data);
