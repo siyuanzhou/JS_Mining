@@ -499,7 +499,56 @@
 </script>
 <script type="text/javascript">
 
-    function showRela(data) {
+    function printPredictLabel(data) {
+        console.log(typeof data);
+        console.log("predictData=" + data);
+        console.log("2222="+ data.history);
+
+        var serialChart = Highcharts.chart('predict_div', {
+            title: {
+                text: '趋势预测图'
+            },
+            subtitle: {
+                text: 'ADE出品，必属精品'
+            },
+            yAxis: {
+                title: {
+                    text: '论文数量'
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 1958
+                }
+            },
+            series:data,
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        })
+    }
+
+
+   /* function showRela(data) {
         var myChart = echarts.init(document.getElementById('predict_div'));
         //echarts表格
         myChart.setOption({
@@ -538,24 +587,24 @@
             }]
         });
 
-    }
+    }*/
 
     $(document).ready(function () {
 
         $.ajax({
-            url: "http://127.0.0.1:7005/predict",
+            url: "http://127.0.0.1:7888/predict",
             method: 'POST',
             dataType: 'jsonp',
             jsonp: "callback",
-            jsonpCallback: "successCallback_classify",//回调方法
+            jsonpCallback: "successCallback_predict",//回调方法
             contentType: 'application/json',
             data: {
-                "field":"人工智能"
+                "field":"NLP"
             },
             success: function (data) {
-                showRela(data);
-                $("#detail3").html(data.explain);
-                console.log(data);
+                console.log("data=" + data);
+                data = JSON.stringify(data)
+                printPredictLabel(JSON.parse(data));
             },
         });
     });
