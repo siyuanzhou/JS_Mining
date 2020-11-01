@@ -136,6 +136,15 @@
                             </div>
                         </div>
 
+                        <!--文本分类-->
+                        <div class="row" style="margin: 30px;">
+                            <div id="detail4" style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
+                            </div>
+                            <div class="panel-body" id="classify_div"
+                                 style="width: 1000px;height: 400px;margin-left: 20px;">
+                            </div>
+                        </div>
+
                         <!--旭日图实力对比-->
                         <div class="row" style="margin: 30px;">
                             <div id="detail1" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
@@ -158,7 +167,7 @@
 
                         <!--趋势预测-->
                         <div class="row" style="margin: 30px;">
-                            <div id="detail3" style="margin-top:1px;margin-left:50px;font-family: 华光准圆_CNKI">
+                            <div id="detail3" style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
                             </div>
                             <div class="panel-body" id="predict_div"
                                  style="width: 800px;height: 400px;margin-left: 150px;">
@@ -280,6 +289,23 @@
         });
 
         $.ajax({
+            url: "http://127.0.0.1:7000/classify",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_classify",//回调方法
+            contentType: 'application/json',
+            data: {input: JSON.stringify(text_data)},
+            success: function (data) {
+                showType(data);
+                console.log(data);
+            },
+            error: function () {
+                console.log("error");
+            },
+        });
+
+        $.ajax({
             url: "http://127.0.0.1:7450/detail",
             method: 'POST',
             dataType: 'jsonp',
@@ -287,7 +313,7 @@
             jsonpCallback: "successCallback_detail",//回调方法
             contentType: 'application/json',
             data: {
-                'field_name': "AI",
+                'field_name': "NLP",
                 'country_list': JSON.stringify(countrys),
                 'start_year': start.substring(0, 4),
                 'end_year': end.substring(0, 4),
@@ -305,7 +331,7 @@
                     jsonpCallback: "successCallback_sunburst",//回调方法
                     contentType: 'application/json',
                     data: {
-                        'field_name': "AI",
+                        'field_name': "NLP",
                         'country_list': JSON.stringify(countrys),
                         'start_year': start.substring(0, 4),
                         'end_year': end.substring(0, 4),
@@ -333,7 +359,7 @@
             jsonpCallback: "successCallback_LineChart",//回调方法
             contentType: 'application/json',
             data: {
-                'field_name': "AI",
+                'field_name': "NLP",
                 'country_list': JSON.stringify(countrys),
                 'start_year': start.substring(0, 4),
                 'end_year': end.substring(0, 4),
@@ -344,6 +370,25 @@
                 console.log("data=" + data);
                 printSerialsLabel(JSON.parse(data));
             }
+        });
+
+        $.ajax({
+            url: "http://127.0.0.1:7650/predict",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_predict",//回调方法
+            contentType: 'application/json',
+            data: {
+                "field":"NLP"
+            },
+            success: function (data) {
+                console.log("data=" + data);
+                data = JSON.stringify(data);
+                var predict_data = JSON.parse(data);
+                $("#detail3").html(predict_data.text);
+                printPredictLabel(predict_data);
+            },
         });
 
         //数组去重
@@ -422,6 +467,55 @@
             myChart.setOption(option);
         }
 
+        var myTypeChart = echarts.init(document.getElementById('classify_div'));
+        function showType(data) {
+            //echarts表格
+            myTypeChart.setOption({
+                title: {
+                    text: '文本分类结果',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    /*  data: [ '2012年']*/
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01],
+                    max: 1.0
+                },
+                yAxis: {
+                    type: 'category',
+                    data: data.classify,
+                },
+                series: [{
+                    name: '数量',
+                    type: 'bar',
+                    itemStyle: {
+                        normal: {
+                            color: '#0b96e5'
+                        }
+                    },
+                    data: data.probability,
+                }]
+            });
+            setTimeout(function (){
+                window.onresize = function () {
+                    myTypeChart.resize();
+                }
+            },400)
+        }
+
         function printSerialsLabel(data) {
             console.log(typeof data);
             console.log("lineData=" + data);
@@ -484,9 +578,6 @@
                     title: {
                         text: '军事实力对比体系'
                     },
-                    subtitle: {
-                        text: '指标一'
-                    },
                     series: [{
                         type: "sunburst",
                         data: data,
@@ -539,71 +630,126 @@
                     }
                 }
             )
+        };
+
+        function printPredictLabel(data) {
+
+            var serialChart = Highcharts.chart('predict_div', {
+                title: {
+                    text: '趋势预测图'
+                },
+                subtitle: {
+                    text: 'ADE出品，必属精品'
+                },
+                yAxis: {
+                    title: {
+                        text: '论文数量'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 1958
+                    }
+                },
+                series:[],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+            console.log(typeof data);
+            console.log("historyData=" + data.history);
+            var result= [];
+            var push1 = {};
+            push1["name"] = "history";
+            push1["data"] = data.history;
+            var push2 = {};
+            push2["name"] = "predict";
+            push2["data"] = data.predict;
+            var push3 = {};
+            push3["name"] = "diff";
+            push3["data"] = data.diff;
+            result.push(push2);
+            result.push(push1);
+            var push4 = {};
+            //result.push(push3);
+            console.log("resultData=" + result);
+            serialChart.addSeries(push4);
+            serialChart.addSeries(push1);
+            serialChart.addSeries(push2)
+            serialChart.addSeries(push3)
         }
+
     });
 
 </script>
 <script type="text/javascript">
 
-    function showRela(data) {
-        var myChart = echarts.init(document.getElementById('predict_div'));
-        //echarts表格
-        myChart.setOption({
-            title: {
-                text: '趋势预测',
-            },
-            subtitle: {
-                text: 'ADE出品，必属精品'
-            },
-            yAxis: {
-                title: {
-                    text: '论文数量'
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-            plotOptions: {
-                series: {
-                    label: {
-                        connectorAllowed: false
-                    },
-                    pointStart: 2010
-                }
-            },
-            xAxis: {
-                type: 'category',
-                data: [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
-            },
-            series: [{
-                name: '论文数量',
-                type: 'line',
-                data: data.values,
-            }]
-        });
 
-    }
+
+
+    /* function showRela(data) {
+         var myChart = echarts.init(document.getElementById('predict_div'));
+         //echarts表格
+         myChart.setOption({
+             title: {
+                 text: '趋势预测',
+             },
+             subtitle: {
+                 text: 'ADE出品，必属精品'
+             },
+             yAxis: {
+                 title: {
+                     text: '论文数量'
+                 }
+             },
+             legend: {
+                 layout: 'vertical',
+                 align: 'right',
+                 verticalAlign: 'middle'
+             },
+             plotOptions: {
+                 series: {
+                     label: {
+                         connectorAllowed: false
+                     },
+                     pointStart: 2010
+                 }
+             },
+             xAxis: {
+                 type: 'category',
+                 data: [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+             },
+             series: [{
+                 name: '论文数量',
+                 type: 'line',
+                 data: data.values,
+             }]
+         });
+
+     }*/
 
     $(document).ready(function () {
 
-        $.ajax({
-            url: "http://127.0.0.1:7005/predict",
-            method: 'POST',
-            dataType: 'jsonp',
-            jsonp: "callback",
-            jsonpCallback: "successCallback_classify",//回调方法
-            contentType: 'application/json',
-            data: {
-                "field": "人工智能"
-            },
-            success: function (data) {
-                showRela(data);
-                $("#detail3").html(data.explain);
-                console.log(data);
-            },
-        });
+
     });
 
 </script>
