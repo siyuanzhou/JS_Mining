@@ -60,6 +60,21 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>数据范围</label>
+                            <select id="random" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;width: 290px">
+                                <option>1</option>
+                                <option>0.8</option>
+                                <option>0.6</option>
+                                <option>0.4</option>
+                                <option>0.2</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="search_input">
                         <button class="btn btn-primary search_btn" type="button" id="search_btn">文章查询</button>
                         <button class="btn btn-primary search_btn" style="margin-left: 20px" type="button"
@@ -67,6 +82,7 @@
                         </button>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class='col-sm-3'>
                         <div class="form-group">
@@ -80,12 +96,12 @@
                             </div>
                         </div>
                     </div>
+
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>结束日期：</label>
                             <!--指定 date标记-->
                             <div class='input-group date' id='datetimepicker2'>
-
                                 <input type='text' class="form-control" />
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -93,6 +109,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>国家:</label>
@@ -158,21 +175,6 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class='col-sm-2'>
-                        <div class="form-group">
-                            <label>数据范围</label>
-                            <select id="random" class="form-control select_down"
-                                    style="font-size: 13px; color: #666;">
-                                <option>1</option>
-                                <option>0.8</option>
-                                <option>0.6</option>
-                                <option>0.4</option>
-                                <option>0.2</option>
-                            </select>
-                        </div>
-                    </div>
-
                 </div>
 
             </div>
@@ -234,6 +236,7 @@
 </div>
 </div>
 <script>
+
     $(function () {
        /* $("#testdiv ul").on("click","li", function() {
             alert("hello");

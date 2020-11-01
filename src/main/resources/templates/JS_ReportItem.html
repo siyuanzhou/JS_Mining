@@ -188,11 +188,87 @@
         </section>
         <!-- container section start -->
     </div>
+
+    <!--右键菜单定义-->
+    <div id="popupRC" style="display:none;" class="panel panel-primary  ">
+        <div class="panel-heading" style="background-color: #F1F1F1;">
+            <a href="javascript:txt2img(getSelectionText())">多模态检索图片</a>
+        </div>
+        <div class="panel-body" id="showImg">
+            <!-- <div class="form-group">
+                <label class="control-label col-md-2">Color</label>
+
+                <input type="color" class="form-control" id="idcolorr" />
+            </div> -->
+            <div style="display: flex;flex-direction: row">
+
+            </div>
+        </div>
+        <div class="panel-footer"><input type="button"  class="btn btn-danger" value="关闭" onClick="closeMenu()" /></div>
+    </div>
 </div>
 <!-- javascripts -->
 <script src="../contrast/js/jquery.js"></script>
 
 <script>
+
+    <!--右键菜单多模态检索图片相关-->
+    function getSelectionText() {
+        if(window.getSelection) {
+            return  window.getSelection().toString();
+        } else if(document.selection && document.selection.createRange) {
+            return document.selection.createRange().text;
+        }
+        return '';
+    }
+
+    function txt2img(input) {
+        $.ajax({
+            url: "http://127.0.0.1:2346/txt2img",
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(input),
+            success: function( data ){
+                // fill the html for answer
+                var array=data['output'];
+                // alert(array[0][0]);
+                if (array.length === 0){
+                    $("#showImg").append("目前未检索到相似结果");
+                }
+                for(var i=0;i<array.length/2;i++){
+                    // $('#menu').append('          <div class="col-sm-6 col-md-3">\n' +
+                    //     '                <div class="thumbnail">\n' +
+                    //     '                  <img src='+array[i][0]+' alt="...">\n' +
+                    //     '                  <div class="caption">\n' +
+                    //     '                    <p><b>武器介绍</b></p>\n' +
+                    //     '                    <p>'+array[i][1]+'</p>\n' +
+                    //     '                  </div>\n' +
+                    //     '                </div>\n' +
+                    //     '          </div>');
+                    $('#showImg').append("<div style=\"display: flex;flex-direction: row\">\n" +
+                        "                <img style='width: 180px;height: 120px' src=\"" + array[i * 2][0]+  "\">\n" +
+                        "                <img style='width: 180px;height: 120px' src=\"" + array[i * 2 + 1][0]+  "\">\n" +
+                        "            </div>");
+                }
+            },
+            error: function( jqXhr, textStatus, errorThrown ){
+                console.log( errorThrown );
+            },
+            timeout: 200000 // sets timeout to 10 seconds
+        });
+    }
+
+    function closeMenu(){
+        $('#popupRC').css({ display: 'none' });
+        $('#showImg').html("");
+    }
+
+    $(function () {
+        $("#container").bind('contextmenu', function (e) {
+            e.preventDefault(); // prevents default menu
+            $("#popupRC").css({ position: "fixed", top: e.screenY - 50, left: e.screenX, display: "block" });
+        });
+    });
 
     $(function () {
         var start = localStorage.getItem("start");

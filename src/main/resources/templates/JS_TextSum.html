@@ -169,15 +169,9 @@
         }
 
         $(document).ready(function () {
-
-            $('#checkboxDiv').find('input[type=checkbox]').bind('click', function () {
-                $('#checkboxDiv').find('input[type=checkbox]').not(this).attr("checked", false);
-            });
-
             $("#container").bind('contextmenu', function (e) {
                 e.preventDefault(); // prevents default menu
                 $("#popupRC").css({ position: "fixed", top: e.screenY - 50, left: e.screenX, display: "block" });
-
             });
 
             // request when clicking on the button
