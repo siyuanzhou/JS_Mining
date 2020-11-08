@@ -922,7 +922,7 @@
             },{
                 name: '预警点',
                 data: [{x: 1958 + data_history.length - 1, y: warn_point}],
-                label: false,
+                showInLegend: false,
                 marker: {
                     symbol: 'circle',
                     radius:5
@@ -968,16 +968,14 @@
                 }
             },
             legend: {
-                enabled: false,
+                enabled: true,
                 layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'middle'
             },
             plotOptions: {
                 series: {
-                    label: {
-                        connectorAllowed: false
-                    },
+                    label: false,
                     pointStart: 2000
                 }
             },
@@ -1000,34 +998,38 @@
 
         var result= [];
         var red1 = {};
-        red1["name"] = "真实值";
+        red1["name"] = "历史统计值";
         red1["data"] = data.red1;
         red1["color"] = "#FF0000";
+        red1["marker"] = {radius: 2}
         //red1["symbol"] = "circle";
         serialChart2.addSeries(red1)
         for(var i=1;i<6;i++) {
             var blue = {};
-            blue["name"] = "";
+            blue["name"] = "未来预测值";
             var num = eval('data.blue'+i);
             console.log(num);
             blue["data"] = num;
             blue["color"] = "#005eff";
-            var type = {};
+            var type = {radius: 2};
             type["symbol"] = "circle";
             blue["marker"] = type;
             var zone = [];
             var tmp = {};
             tmp["value"] = 2024;
-            tmp["dashStyle"] = 'dot';
+            tmp["dashStyle"] = 'ShortDot';
             zone.push(tmp);
             blue["zones"] = zone;
+            if(i != 1){
+                blue["showInLegend"] = false;
+            }
             result.push(blue);
             serialChart2.addSeries(blue);
         }
 
         for(var i=1;i<9;i++) {
             var green = {};
-            green["name"] = "";
+            green["name"] = "历史预测值";
             var num = eval('data.green'+i);
             console.log(num);
             green["data"] = num;
@@ -1036,13 +1038,16 @@
             var zone = [];
             var tmp = {};
             tmp["value"] = 2024;
-            tmp["dashStyle"] = 'dot';
-            var type = {};
+            tmp["dashStyle"] = 'ShortDot';
+            var type = {radius: 2};
             type["symbol"] = "diamond";
             green["marker"] = type;
             zone.push(tmp);
             green["zones"] = zone;
             result.push(green);
+            if(i != 1){
+                green["showInLegend"] = false;
+            }
             serialChart2.addSeries(green);
         }
 
