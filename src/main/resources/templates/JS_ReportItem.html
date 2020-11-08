@@ -35,6 +35,8 @@
     <script src="https://code.highcharts.com.cn/highcharts/modules/series-label.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/wordcloud.js"></script>
+
 
     <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
@@ -393,7 +395,7 @@
             },
             jsonpCallback: "successCallback_up_file",//回调方法
             success: function (data) {
-                document.getElementById('img1').innerHTML = data
+                printWordsLabel();
             }
         })
 
@@ -573,6 +575,29 @@
         return allArr;
     }
 
+    function printWordsLabel() {
+
+        var data =  [
+            ['布艺装饰',10],
+            ['家电',20],
+            ['家具',27],
+            ['设计费',5],
+            ['管理费',4],
+            ['人工费',10],
+            ['材料费',24]
+        ];
+        var wordChart = Highcharts.chart('img1', {
+            series: [{
+                type: 'wordcloud',
+                data: data
+            }],
+            title: {
+                text: ''
+            }
+        });
+
+    }
+
     //显示关系图
     function showRela(data, links) {
         var myChart = echarts.init(document.getElementById('entity'));
@@ -681,6 +706,8 @@
         },400)
     }
 
+
+
     function printSerialsLabel(data) {
         console.log(typeof data);
         console.log("lineData=" + data);
@@ -689,7 +716,7 @@
                 text: '国家科技实力对比折线图'
             },
             subtitle: {
-                text: 'ADE出品，必属精品'
+                text: ''
             },
             yAxis: {
                 title: {
@@ -870,14 +897,15 @@
                 text: '趋势预测图'
             },
             subtitle: {
-                text: 'ADE出品，必属精品'
+                text: ''
             },
             yAxis: {
                 title: {
-                    text: '论文数量'
+                    text: '科技研发实力'
                 }
             },
             legend: {
+                enabled: false,
                 layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'middle'
@@ -887,7 +915,7 @@
                     label: {
                         connectorAllowed: false
                     },
-                    pointStart: 2007
+                    pointStart: 2000
                 }
             },
             series:[],
@@ -906,30 +934,57 @@
                 }]
             }
         });
-        console.log(typeof data);
-        console.log("historyData=" + data.history);
+
         var result= [];
-        var push1 = {};
-        push1["name"] = "history";
-        push1["data"] = data.history;
-        var push2 = {};
-        push2["name"] = "predict";
-        push2["data"] = data.predict;
-        push2["color"] = "#FF0000";
-        var zone = [];
-        var tmp2 = {};
-        tmp2["value"] = 2024;
-        tmp2["dashStyle"] = 'dot';
-        zone.push(tmp2)
-        push2["zones"] = zone;
-        result.push(push2);
-        result.push(push1);
-        var push4 = {};
-        //result.push(push3);
+        var red1 = {};
+        red1["name"] = "真实值";
+        red1["data"] = data.red1;
+        red1["color"] = "#FF0000";
+        //red1["symbol"] = "circle";
+        serialChart2.addSeries(red1)
+        for(var i=1;i<6;i++) {
+            var blue = {};
+            blue["name"] = "";
+            var num = eval('data.blue'+i);
+            console.log(num);
+            blue["data"] = num;
+            blue["color"] = "#005eff";
+            var type = {};
+            type["symbol"] = "circle";
+            blue["marker"] = type;
+            var zone = [];
+            var tmp = {};
+            tmp["value"] = 2024;
+            tmp["dashStyle"] = 'dot';
+            zone.push(tmp);
+            blue["zones"] = zone;
+            result.push(blue);
+            serialChart2.addSeries(blue);
+        }
+
+        for(var i=1;i<9;i++) {
+            var green = {};
+            green["name"] = "";
+            var num = eval('data.green'+i);
+            console.log(num);
+            green["data"] = num;
+            green["color"] = "#00ff22";
+            //green["symbol"] = "circle";
+            var zone = [];
+            var tmp = {};
+            tmp["value"] = 2024;
+            tmp["dashStyle"] = 'dot';
+            var type = {};
+            type["symbol"] = "diamond";
+            green["marker"] = type;
+            zone.push(tmp);
+            green["zones"] = zone;
+            result.push(green);
+            serialChart2.addSeries(green);
+        }
+
+        result.push(red1);
         console.log("resultData=" + result);
-        serialChart2.addSeries(push4);
-        serialChart2.addSeries(push1);
-        serialChart2.addSeries(push2)
     }
 
 </script>
