@@ -124,4 +124,6 @@ public class JSController {
     @RequestMapping("Test")
     public String JS_Test(){ return "Test"; }
 
+    @RequestMapping("mytest")
+    public String mytest(){ return "mytest"; }
 }

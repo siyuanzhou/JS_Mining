@@ -55,6 +55,7 @@ public class DataItemController {
         reportQuaryTag.setSecondScope(secondScope);
         System.out.println(reportQuaryTag.toString());
         List<Article> lists = articleService.Select(reportQuaryTag);
+        lists = lists.subList(0,10);
         //方法二  根据时间进行排序
         Collections.sort(lists, (Comparator) (o1, o2) -> {
             Article u1 = (Article) o1;

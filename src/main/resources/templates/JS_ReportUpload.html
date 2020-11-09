@@ -319,11 +319,13 @@
 
         $('#loading').hide();
         $('#greyblock').hide();
-        for(var i = 0; i<$("#check").length; i++){
-            var checkbox = $("#check")[i];
+        var checks = document.getElementsByName("love");
+        var contents = document.getElementsByName("content");
+        for(var i = 0; i< checks.length; i++){
+            var checkbox = checks[i];
+            var content = contents[i];
             if(checkbox.checked){
-                var text = $(this).parents("tr").find("#content").text();
-                text_data.push(text);
+                text_data.push(content.innerHTML);
                 text_data.push("###");
             }else{
                 // do something
@@ -392,7 +394,7 @@
                             "                        <td class=\"roleCodes\">"+json.name+"</td>\n" +
                             "                        <td>"+json.date+"</td>\n" +
                             "                        <td>"+json.country+"</td>\n" +
-                            "                        <td id=\"content\" style=\"display:none\">"+json.content+"</td>\n" +
+                            "                        <td id=\"content\" name=\"content\" style=\"display:none\">"+json.content+"</td>\n" +
                             "                        <td>\n" +
                             "                        <button class=\"btn btn-success btn-sm\" id=\"triggerBtn\">查看</button>\n" +
                             "                        <button class=\"btn btn-primary btn-sm\" id=\"edit\">添加</button>\n" +
