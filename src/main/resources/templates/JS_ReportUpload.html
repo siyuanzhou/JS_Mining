@@ -198,7 +198,7 @@
         <table id="tb" class="table">
             <thead>
             <tr>
-                <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>
+                <th style="width: 50px"><input id="checkAll" type="checkbox" onclick="setAllNo()" /></th>
                 <th style="width: 100px">编号</th>
                 <th style="width: 466px">文章名称</th>
                 <th style="width: 180px">日期</th>
@@ -210,6 +210,18 @@
 
             </tbody>
         </table>
+        <nav aria-label="Page navigation" class="text-center">
+
+            <ul class="pagination" id="page">
+
+            </ul>
+
+        </nav>
+        <div class="text-center">
+            <span>当前页数: <strong>[[${pageNum}]]</strong>  页</span>&nbsp;&nbsp;
+            <span>总页数: <strong>[[${pageSum}]]</strong> 页</span>&nbsp;&nbsp;
+            <span>总数据: <strong>[[${sum}]]</strong> 条</span>
+        </div>
 
         <!-- 模态框 -->
         <div id="myModal" class="modal">
@@ -279,9 +291,44 @@
         return str;
     }
 
+    //全选函数
+    function setAll() {
+        alert("hello");
+        var loves = document.getElementsByName("love");
+        for (var i = 0; i < loves.length; i++) {
+            loves[i].checked = true;
+        }
+    }
+
+    //全选/全不选操作
+    function setAllNo(){
+        var box = document.getElementById("checkAll");
+        var loves = document.getElementsByName("love");
+        if(box.checked == false){
+            for (var i = 0; i < loves.length; i++) {
+                loves[i].checked = false;
+            }
+        }else{
+            for (var i = 0; i < loves.length; i++) {
+                loves[i].checked = true;
+            }
+        }
+    }
+    var text_data = [];
     $("#report_btn").click(function () {
-        $('#loading').hide()
-        $('#greyblock').hide()
+
+        $('#loading').hide();
+        $('#greyblock').hide();
+        for(var i = 0; i<$("#check").length; i++){
+            var checkbox = $("#check")[i];
+            if(checkbox.checked){
+                var text = $(this).parents("tr").find("#content").text();
+                text_data.push(text);
+                text_data.push("###");
+            }else{
+                // do something
+            }
+        }
         var start = createTime($("#datetimepicker1").find("input").val());
         var end = createTime($("#datetimepicker2").find("input").val());
         var firstScope = $('#firstScope option:selected').text();//文本
@@ -301,6 +348,7 @@
     });
 
     $("#search_btn").click(function () {
+
         $('#loading').show();
         //$('#greyblock').show()
         var start = createTime($("#datetimepicker1").find("input").val());
@@ -339,7 +387,7 @@
                     $.each(item['resultlist'], function (y, e) {
                         var json = eval(e);
                         info5 +="<tr >\n" +
-                            "                        <td><input id=\"check\" type=\"checkbox\" /></td>"+
+                            "                        <td><input id=\"check\" name=\"love\" type=\"checkbox\" /></td>"+
                             "                        <td>"+json.id+"</td>\n" +
                             "                        <td class=\"roleCodes\">"+json.name+"</td>\n" +
                             "                        <td>"+json.date+"</td>\n" +
@@ -450,11 +498,67 @@
         */
     });
 
-    var text_data = [];
+    $(function () {
+        //当前页数
+        var pageNum='[[${pageNum}]]';
+        //总数据
+        var sum='[[${sum}]]';
+        //总页数
+        var pageCount='[[${pageSum}]]';
+        if(pageNum==1){
+            $("#page").append("<li><a href='/user/findUser?pageNum=1' style='cursor:pointer;pointer-events: none'>&laquo;</a></li>");
+        }else{
+            $("#page").append("<li><a href='/user/findUser?pageNum="+(pageNum-1)+"'>&laquo;</a></li>");
+
+        }
+        //每页显示8条数据,ym表示页数
+        var ym =Math.floor((pageNum-1)/8)*8;
+        //分页栏只展示4页的内容，页数大于4则进行下一页
+        for(var i=1;i<5;i++){
+            ym = ym+i;
+            if(pageNum<4){
+                //发送的请求
+                var url='/user/findUser?pageNum='+ym;
+                //发亮设置
+                if(ym==pageNum){
+
+                    $("#page").append("<li class='active'><a href='"+url+"'>"+ym+"</a></li>");
+                }
+                else{
+                    $("#page").append("<li><a href='"+url+"'>"+ym+"</a></li>");
+                }
+            }
+            else{
+                //设置页码数值
+                ym+=pageNum-4;
+                //发送的请求
+                var url='/user/findUser?pageNum='+ym;
+                //发亮设置
+                if(ym==pageNum){
+
+                    $("#page").append("<li class='active'><a href='"+url+"'>"+ym+"</a></li>");
+                }
+                else{
+                    $("#page").append("<li><a href='"+url+"'>"+ym+"</a></li>");
+                }
+            }
+            //初始化
+            ym =Math.floor((pageNum-1)/8)*8;
+        }
+        //如果是最后一页,则禁用下一页的连接
+
+        if(pageNum==pageCount){//pageCount表示总页数，也表示最大页数(最后一页)
+            //禁用链接
+            $("#page").append("<li><a href='#' style='cursor:pointer;pointer-events: none'>&raquo;</a></li>");
+        }else{
+            pageNum++;
+            $("#page").append("<li><a href='/user/findUser?pageNum="+pageNum+"' >&raquo;</a></li>");
+        }
+    });
+
     $("#show_tbody").on('click',"button[id='edit']" ,function() {
         var text = $(this).parents("tr").find("#content").text();
         alert("添加成功");
-        //alert(text);
         text_data.push(text);
         text_data.push("###");
     });
