@@ -16,16 +16,16 @@
     </resultMap>
 
     <select id="Sel" resultType="com.example.entity.Article">
-        select * from article where id = #{id}
+        select * from report_data where id = #{id}
     </select>
 
     <select id="selectAllArticle" resultType="com.example.entity.Article">
-		select * from article
+		select * from report_data
 	</select>
 
     <select id="Select" resultType="com.example.entity.Article" parameterType="com.example.entity.ReportQuaryTag">
 
-        select id,country,name,url,publisher,date,realScope,content from article
+        select id,country,name,url,publisher,date,realScope,content from report_data
         <where>
             <if test="start!=null and start!=''">
                 and date &gt; #{start}
