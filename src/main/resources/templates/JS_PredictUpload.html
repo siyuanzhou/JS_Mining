@@ -2,12 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title></title>
-
-    <script src="./js/report_upload/jquery.min.js"></script>
-    <script src="./js/report_upload/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="./js/report_upload/bootbox.min.js"></script>
+    <title>实力对比</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/report_upload/bootbox.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/defaults-zh_CN.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/report_upload/style.css">
+    <!--加载等待样式-->
+    <link rel="stylesheet" type="text/css" href="./css/report_upload/loadingbutton.css">
+
     <!--字体样式-->
     <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
@@ -15,24 +21,25 @@
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
 
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+    <!--<link  rel="stylesheet" href="./css/report_upload/bootstrap.min.css">-->
+    <link rel="stylesheet" href="./css/report_upload/bootstrap-select.min.css">
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="./js/report_upload/mejs.js"></script>
-    <style type="text/css">
-        .myrow {
-            display: flex;
-            flex-direction: row;
-            /*margin-left:1em;*/
-        }
 
-        .xxxx {
-            height: 2px;
-            background: #999999;
-            margin-top: 16px;
-            width: 2em;
-            margin-left: 1em;
-            margin-right: 1em;
+    <!--旭日图所需script文件-->
+    <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/sunburst.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+
+    <style type="text/css">
+        .roleCodes {
+            color: #7e5bbe;
         }
     </style>
 
@@ -43,61 +50,48 @@
 <div th:insert="~{/JS_Common::topbar}"></div>
 <div style="display: flex;">
     <div th:insert="~{/JS_Common::leftbar}"></div>
+
     <div class="box">
-        <div class="title">请选择对应的文章生成预测</div>
-        <div class="content" >
+        <!--次导航栏-->
+        <div style="display: block; padding: 0;margin-left: 20px">
+            <blockquote class="layui-elem-quote layui-text">
+                <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
+                    <li><a href="JS_Index">首页</a></li>
+                    <li><a href="JS_PowerUpload">趋势预测</a></li>
+                    <li class="active">趋势预测</li>
+                </ol>
+            </blockquote>
+        </div>
+        <div id="greyblock"
+             style="position: absolute;width: 100%;height: 100%;opacity: 0.5;background-color: grey;z-index: 99999"></div>
+        <div class="content" style="margin-left: 15px;margin-top: 30px">
             <!--搜索输入框及查询、重置按钮-->
             <div class="container content_width" style="height: auto;width: 1268px">
 
                 <div class="row">
                     <div class='col-sm-3'>
                         <div class="form-group">
-                            <label>开始日期：</label>
-                            <!--指定 date标记-->
-                            <div class='input-group date' id='datetimepicker1'>
-
-                                <input type='text' class="form-control" style="z-index: 10000" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='col-sm-3'>
-                        <div class="form-group">
-                            <label>结束日期：</label>
-                            <!--指定 date标记-->
-                            <div class='input-group date' id='datetimepicker2'>
-
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                 </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='col-sm-3'>
-                        <div class="form-group">
-                            <label>国家</label>
-                            <select id = "country" class="form-control select_down" style="font-size: 13px; color: #666;">
+                            <label>国家:</label>
+                            <select id="country" class="form-control select_down selectpicker" multiple
+                                    data-live-search="true" title="请选择国家">
                                 <option>中国</option>
                                 <option>美国</option>
                                 <option>德国</option>
                                 <option>意大利</option>
                                 <option>法国</option>
+                                <option>中东</option>
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>领域</label>
-                            <select id = "firstScope" class="form-control select_down" style="font-size: 13px; color: #666;">
+                            <select id="firstScope" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;">
+                                <option>人工智能</option>
                                 <option>海军</option>
                                 <option>陆军</option>
                                 <option>空军</option>
-                                <option>人工智能</option>
                                 <option>网络攻防</option>
                             </select>
                         </div>
@@ -106,72 +100,98 @@
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>范围</label>
-                            <select id="secondScope" class="form-control select_down" style="font-size: 13px; color: #666;">
-                                <option>人工智能</option>
-                                <option>计算机</option>
-                                <option>电子</option>
-                                <option>生物</option>
-                                <option>自动化</option>
-                                <option>化学</option>
-                                <option>通信</option>
-                                <option>物理</option>
-                                <option>航天</option>
-                                <option>能源</option>
-                                <option>制造</option>
-                                <option>材料</option>
-                                <option>环境</option>
+                            <select id="secondScope" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;">
+                                <option>自然语言处理</option>
+                                <option>计算机视觉</option>
+                                <option>AI计划与应用</option>
+                                <option>机器人技术</option>
+                                <option>优化算法与理论</option>
+                                <option>语音识别</option>
+                                <option>个性化推荐</option>
                             </select>
                         </div>
                     </div>
 
+                </div>
+                <div class="row">
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>来源</label>
-                            <select id="publisher" class="form-control select_down" style="font-size: 13px; color: #666;">
-                                <option>网站</option>
+                            <select id="publisher" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;">
                                 <option>论文</option>
                                 <option>新闻</option>
-                                <option>专利</option>
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="search_input" >
-                        <button class="btn btn-primary search_btn" type="button" id="search_btn">文章查询</button>
-                        <button class="btn btn-primary search_btn" style="margin-left: 20px" type="button" id="back_btn" onclick="javascrtpt:window.location.href='/JS_Predict'">趋势预测</button>
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>数据范围</label>
+                            <select id="random" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;width: 290px">
+                                <option>100%</option>
+                                <option>80%</option>
+                                <option>60%</option>
+                                <option>40%</option>
+                                <option>20%</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="search_input">
+                        <button class="btn btn-primary search_btn" type="button" id="yuce">趋势预测</button>
                     </div>
                 </div>
+                <div class="line"></div>
             </div>
-            <div class="line"></div>
+            <!--加载等待框-->
+            <div id="loading" style="display: inline-flex;margin-left: 40%;margin-top: 25px">
+                <div style="font-size: 20px;">正在加载中</div>
+                <div id="fountainG">
+                    <div id="fountainG_1" class="fountainG"></div>
+                    <div id="fountainG_2" class="fountainG"></div>
+                    <div id="fountainG_3" class="fountainG"></div>
+                    <div id="fountainG_4" class="fountainG"></div>
+                    <div id="fountainG_5" class="fountainG"></div>
+                    <div id="fountainG_6" class="fountainG"></div>
+                    <div id="fountainG_7" class="fountainG"></div>
+                    <div id="fountainG_8" class="fountainG"></div>
+                </div>
+            </div>
         </div>
-        <!--表格列表-->
-        <table id="tb" class="table">
-            <thead>
-            <tr>
-                <th style="width: 50px">编号</th>
-                <th style="width: 366px">文章名称</th>
-                <th>发表日期</th>
-                <th style="width: 100px">所属类别</th>
-                <th>来源</th>
-                <th style="width: 50px">国家</th>
-                <th>详细信息</th>
-                <th style="width: 100px">操作</th>
-            </tr>
-            </thead>
-            <tbody id="show_tbody">
 
-            </tbody>
-        </table>
+        <!--趋势预测-->
+        <div class="row" style="margin: 30px;">
+            <div id="detail5" style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
+            </div>
+            <div class="panel-body" id="predict_div2"
+                 style="width: 800px;height: 400px;margin-left: 150px;">
+            </div>
+        </div>
+
+        <!--趋势预测-技术突袭-->
+        <div class="row" style="margin: 30px;">
+            <div id="detail3" style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
+            </div>
+            <div class="panel-body" id="predict_div"
+                 style="width: 800px;height: 400px;margin-left: 150px;">
+            </div>
+        </div>
+
     </div>
-
 </div>
 
 <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
 </div>
 </div>
 <script>
+
     $(function () {
+
+        $('#loading').hide();
+        $('#greyblock').hide();
+
         var picker1 = $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM-DD',
             locale: moment.locale('zh-cn'),
@@ -190,6 +210,7 @@
             picker1.data('DateTimePicker').maxDate(e.date);
         });
     });
+
     //时间戳转换
     function createTime(v){
         var date = new Date(v);
@@ -202,62 +223,294 @@
         var str = y+m+d;
         return str;
     }
-    $("#search_btn").click(function () {
-        var start = createTime($("#datetimepicker1").find("input").val());
-        var end = createTime($("#datetimepicker2").find("input").val());
-        var firstScope = $('#firstScope option:selected').text();//文本
-        var secondScope = $('#secondScope option:selected').text();//文本
-        var publisher = $('#publisher option:selected').text();//文本
-        var country = $('#country option:selected').text();//文本
-        var report = {
-            "start": start,
-            "end": end,
-            "firstScope": firstScope,
-            "secondScope":secondScope,
-            "publisher":publisher,
-            "country":country,
-        }
-        /*var url ="/JS_ArticleShow" + '?start=' + start+ '&'+'end=' + end+'&'+'firstScope=' + firstScope+ '&'+'secondScope=' + secondScope+ '&'+'publisher=' + publisher ;
-        alert(JSON.stringify(json));
-        window.location.href ="/JS_ArticleShow?para="+ JSON.stringify(json);//编码传值*/
-        $.ajax({
-            url: "/JS_ArticleShow",
-            type: "POST",
-            data: report,
-            success: function (data) {
-                var jsonb = eval(data);
-                console.log("======jsonb=====");
-                console.log(jsonb);
-                alert(data);
-                var info5 = "";
-                $("#show_tbody").html("");
-                $.each(jsonb, function (index, item) {
-                    $.each(item['resultlist'], function (y, e) {
-                        var json = eval(e);
-                        info5 +="<tr >\n" +
-                            "                        <td>"+json.id+"</td>\n" +
-                            "                        <td>"+json.name+"</td>\n" +
-                            "                        <td>"+json.date+"</td>\n" +
-                            "                        <td>"+json.realScope+"</td>\n" +
-                            "                        <td>"+json.publisher+"</td>\n" +
-                            "                        <td>"+json.country+"</td>\n" +
-                            "                        <td>"+json.url+"</td>\n" +
-                            "                        <td>\n" +
-                            "                        <a href=\"#\" class=\"edit\">编辑</a>\n" +
-                            "                            <a href=\"#\" class=\"del\">删除</a>\n" +
-                            "                            </td>\n" +
-                            "                            </tr>"
 
-                    });
-                });
-                $("#show_tbody").html(info5);
-            },
-            error: function () {
-                alert("请求失败");
-            },
-        })
+
+    $(function () {
+        var start = 2000;
+        var end = 2019;
+        $("#yuce").click(function () {
+            $('#loading').show();
+            start = createTime($("#datetimepicker1").find("input").val());
+            end = createTime($("#datetimepicker2").find("input").val());
+            var firstScope = $('#firstScope option:selected').text();//文本
+            var lingyu = $('#secondScope option:selected').text();//文本
+            var random = $('#random option:selected').text();//文本
+            var country = $('#country').val().toString();//文本
+            var countrys = country.split(",");
+
+            if(lingyu=="自然语言处理"){
+                select_area = "NLP"
+            }else{
+                select_area = "CV"
+            }
+
+            $.ajax({
+                url: "http://127.0.0.1:7650/predict",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback_predict",//回调方法
+                contentType: 'application/json',
+                data: {
+                    "field": select_area
+                },
+                success: function (data) {
+                    console.log("data=" + data);
+                    data = JSON.stringify(data);
+                    var predict_data = JSON.parse(data);
+                    $("#detail3").html(predict_data.text);
+                    printPredictLabel(predict_data);
+                },
+            });
+
+            $.ajax({
+                url: "http://127.0.0.1:7005/predict2",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback_predict2",//回调方法
+                contentType: 'application/json',
+                data: {
+                    "field": select_area
+                },
+                success: function (data) {
+                    console.log("data=" + data);
+                    data = JSON.stringify(data);
+                    var predict_data = JSON.parse(data);
+                    $("#detail5").html(predict_data.text);
+                    printPredictLabel2(predict_data);
+                },
+            });
+        });
+
+        //预测-技术成熟度
+        function printPredictLabel(data) {
+            console.log(typeof data);
+            var result= [];
+            var push1 = {};
+            push1["name"] = "历史数据";
+            var data_history = Array.prototype.slice.call(data.history);
+            var warn_point = data_history.pop();
+            data_history.push({y: warn_point, id: 'warn'});
+            push1["data"] = data_history;
+            var push2 = {};
+            push2["name"] = "预测数据";
+            push2["data"] = data.predict;
+            var push3 = {};
+            push3["name"] = "diff";
+            push3["data"] = data.diff;
+            result.push(push2);
+            result.push(push1);
+            result.push(push3);
+            console.log("resultData=" + result);
+
+            var serialChart = Highcharts.chart('predict_div', {
+                title: {
+                    text: '技术成熟度'
+                },
+                subtitle: {
+                    text: ''
+                },
+                colors: ['rgba(3,95,227,0.74)', '#c70831', 'rgba(0,201,66,0.97)',],
+                yAxis: {
+                    title: {
+                        text: '技术实力'
+                    }
+                },
+                //x轴分四个阶段用不同背景颜色表示
+                xAxis: {
+                    plotBands: [
+                        { //彩色带横跨绘图区，标志着轴间隔。
+                            color: 'rgba(201,236,206,0.88)',
+                            from: 1958,
+                            to: 1958 + data.萌芽期,
+                            label:{
+                                text: '萌芽期'
+                            }
+                        },
+                        { //彩色带横跨绘图区，标志着轴间隔。
+                            color: 'rgba(222,209,186,0.95)',
+                            from: 1958 + data.萌芽期,
+                            to: 1958 + data.发展期,
+                            label:{
+                                text: '发展期'
+                            }
+                        },
+                        { //彩色带横跨绘图区，标志着轴间隔。
+                            color: 'rgba(232,199,199,0.83)',
+                            from: 1958 + data.发展期,
+                            to: 1958 + data.成熟期,
+                            label:{
+                                text: '成熟期'
+                            }
+                        },
+                        { //彩色带横跨绘图区，标志着轴间隔。
+                            color: 'rgba(219,198,236,0.82)',
+                            from: 1958 + data.成熟期,
+                            to: 3000,
+                            label:{
+                                text: '衰退期'
+                            }
+                        },
+                    ],
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: false,
+                        pointStart: 1958
+                    }
+                },
+                series:[{
+                    name: '技术发展',
+                    data: data_history,
+                },{
+                    name: '生命周期',
+                    data: data.predict,
+                },{
+                    name: '一阶差分',
+                    data: data.diff,
+                },{
+                    name: '预警点',
+                    data: [{x: 1958 + data_history.length - 1, y: warn_point}],
+                    showInLegend: false,
+                    marker: {
+                        symbol: 'circle',
+                        radius:5
+                    }
+                },],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                },
+                //预警标注
+                annotations: [{
+                    labels: [{
+                        point: 'warn',
+                        text: '技术突袭预警\n预警等级：' + data.warning_level
+                    }],
+                }],
+            });
+        }
+
+        //趋势预测
+        function printPredictLabel2(data) {
+
+            var serialChart2 = Highcharts.chart('predict_div2', {
+                title: {
+                    text: '趋势预测图'
+                },
+                subtitle: {
+                    text: ''
+                },
+                yAxis: {
+                    title: {
+                        text: '科技研发实力'
+                    }
+                },
+                legend: {
+                    enabled: true,
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: false,
+                        pointStart: 2000
+                    }
+                },
+                series:[],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
+            var result= [];
+            var red1 = {};
+            red1["name"] = "历史统计值";
+            red1["data"] = data.red1;
+            red1["color"] = "#FF0000";
+            red1["marker"] = {radius: 2}
+            //red1["symbol"] = "circle";
+            serialChart2.addSeries(red1)
+            for(var i=1;i<6;i++) {
+                var blue = {};
+                blue["name"] = "未来预测值";
+                var num = eval('data.blue'+i);
+                console.log(num);
+                blue["data"] = num;
+                blue["color"] = "#005eff";
+                var type = {radius: 2};
+                type["symbol"] = "circle";
+                blue["marker"] = type;
+                var zone = [];
+                var tmp = {};
+                tmp["value"] = 2024;
+                tmp["dashStyle"] = 'ShortDot';
+                zone.push(tmp);
+                blue["zones"] = zone;
+                if(i != 1){
+                    blue["showInLegend"] = false;
+                }
+                result.push(blue);
+                serialChart2.addSeries(blue);
+            }
+
+            for(var i=1;i<9;i++) {
+                var green = {};
+                green["name"] = "历史预测值";
+                var num = eval('data.green'+i);
+                console.log(num);
+                green["data"] = num;
+                green["color"] = "#00ff22";
+                //green["symbol"] = "circle";
+                var zone = [];
+                var tmp = {};
+                tmp["value"] = 2024;
+                tmp["dashStyle"] = 'ShortDot';
+                var type = {radius: 2};
+                type["symbol"] = "diamond";
+                green["marker"] = type;
+                zone.push(tmp);
+                green["zones"] = zone;
+                result.push(green);
+                if(i != 1){
+                    green["showInLegend"] = false;
+                }
+                serialChart2.addSeries(green);
+            }
+            result.push(red1);
+            $('#loading').hide();
+        }
     });
 </script>
 </div>
 </body>
+
 </html>

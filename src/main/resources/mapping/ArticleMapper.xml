@@ -40,6 +40,11 @@
                     #{item}
                 </foreach>
             </if>
+
+            <if test="keywords!=null and keywords!=''">
+                and name like "%"#{keywords}"%"
+            </if>
+
         </where>
 
 

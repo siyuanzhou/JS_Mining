@@ -11,9 +11,18 @@ public class ReportQuaryTag implements Serializable {
     private String secondScope;
     private ArrayList<String> country;
     private String publisher;
+    private String keywords;
 
     public ReportQuaryTag() {
         this.country = new ArrayList<String>();
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 
     public String getStart() {

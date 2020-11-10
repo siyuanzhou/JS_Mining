@@ -2,13 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title></title>
-
-    <script src="./js/report_upload/jquery.min.js"></script>
-    <script src="./js/report_upload/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="./js/report_upload/bootbox.min.js"></script>
-    <script src="./js/report_upload/selectMultip.js"></script>
+    <title>实力对比</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/report_upload/bootbox.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/defaults-zh_CN.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/report_upload/style.css">
+    <!--加载等待样式-->
+    <link rel="stylesheet" type="text/css" href="./css/report_upload/loadingbutton.css">
+
     <!--字体样式-->
     <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
@@ -16,24 +21,25 @@
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
 
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+    <!--<link  rel="stylesheet" href="./css/report_upload/bootstrap.min.css">-->
+    <link rel="stylesheet" href="./css/report_upload/bootstrap-select.min.css">
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="./js/report_upload/mejs.js"></script>
-    <style type="text/css">
-        .myrow {
-            display: flex;
-            flex-direction: row;
-            /*margin-left:1em;*/
-        }
 
-        .xxxx {
-            height: 2px;
-            background: #999999;
-            margin-top: 16px;
-            width: 2em;
-            margin-left: 1em;
-            margin-right: 1em;
+    <!--旭日图所需script文件-->
+    <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/sunburst.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+
+    <style type="text/css">
+        .roleCodes {
+            color: #7e5bbe;
         }
     </style>
 
@@ -44,9 +50,21 @@
 <div th:insert="~{/JS_Common::topbar}"></div>
 <div style="display: flex;">
     <div th:insert="~{/JS_Common::leftbar}"></div>
+
     <div class="box">
-        <div class="title">请选择对应的文章进行对比</div>
-        <div class="content" >
+        <!--次导航栏-->
+        <div style="display: block; padding: 0;margin-left: 20px">
+            <blockquote class="layui-elem-quote layui-text">
+                <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
+                    <li><a href="JS_Index">首页</a></li>
+                    <li><a href="JS_PowerUpload">实力对比</a></li>
+                    <li class="active">实力对比</li>
+                </ol>
+            </blockquote>
+        </div>
+        <div id="greyblock"
+             style="position: absolute;width: 100%;height: 100%;opacity: 0.5;background-color: grey;z-index: 99999"></div>
+        <div class="content" style="margin-left: 15px;margin-top: 30px">
             <!--搜索输入框及查询、重置按钮-->
             <div class="container content_width" style="height: auto;width: 1268px">
 
@@ -56,20 +74,19 @@
                             <label>开始日期：</label>
                             <!--指定 date标记-->
                             <div class='input-group date' id='datetimepicker1'>
-
-                                <input type='text' class="form-control" style="z-index: 10000" />
+                                <input type='text' class="form-control" style="z-index: 10000"/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
                         </div>
                     </div>
+
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>结束日期：</label>
                             <!--指定 date标记-->
                             <div class='input-group date' id='datetimepicker2'>
-
                                 <input type='text' class="form-control" />
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -77,29 +94,33 @@
                             </div>
                         </div>
                     </div>
+
                     <div class='col-sm-3'>
                         <div class="form-group">
-                            <label>国家</label>
-                            <select  multiple="multiple" id = "country" class="form-control select_down" style="font-size: 13px; color: #666;">
+                            <label>国家:</label>
+                            <select id="country" class="form-control select_down selectpicker" multiple
+                                    data-live-search="true" title="请选择国家">
                                 <option>中国</option>
                                 <option>美国</option>
                                 <option>德国</option>
                                 <option>意大利</option>
                                 <option>法国</option>
-                                <option>英国</option>
+                                <option>中东</option>
                             </select>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>领域</label>
-                            <select id = "firstScope" class="form-control select_down" style="font-size: 13px; color: #666;">
+                            <select id="firstScope" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;">
+                                <option>人工智能</option>
                                 <option>海军</option>
                                 <option>陆军</option>
                                 <option>空军</option>
-                                <option>人工智能</option>
                                 <option>网络攻防</option>
                             </select>
                         </div>
@@ -108,20 +129,15 @@
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>范围</label>
-                            <select id="secondScope" class="form-control select_down" style="font-size: 13px; color: #666;">
-                                <option>人工智能</option>
-                                <option>计算机</option>
-                                <option>电子</option>
-                                <option>生物</option>
-                                <option>自动化</option>
-                                <option>化学</option>
-                                <option>通信</option>
-                                <option>物理</option>
-                                <option>航天</option>
-                                <option>能源</option>
-                                <option>制造</option>
-                                <option>材料</option>
-                                <option>环境</option>
+                            <select id="secondScope" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;">
+                                <option>自然语言处理</option>
+                                <option>计算机视觉</option>
+                                <option>AI计划与应用</option>
+                                <option>机器人技术</option>
+                                <option>优化算法与理论</option>
+                                <option>语音识别</option>
+                                <option>个性化推荐</option>
                             </select>
                         </div>
                     </div>
@@ -129,43 +145,71 @@
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>来源</label>
-                            <select id="publisher" class="form-control select_down" style="font-size: 13px; color: #666;">
-                                <option>网站</option>
+                            <select id="publisher" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;">
                                 <option>论文</option>
                                 <option>新闻</option>
-                                <option>专利</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="search_input" >
-                        <button class="btn btn-primary search_btn" type="button" id="search_btn">文章查询</button>
-                        <button class="btn btn-primary search_btn" style="margin-left: 20px" type="button" id="back_btn" onclick="javascrtpt:window.location.href='/JS_PowerContrast'">实力对比</button>
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>数据范围</label>
+                            <select id="random" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;width: 290px">
+                                <option>100%</option>
+                                <option>80%</option>
+                                <option>60%</option>
+                                <option>40%</option>
+                                <option>20%</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="search_input">
+                        <button class="btn btn-primary search_btn" type="button" id="duibi">实力对比</button>
                     </div>
                 </div>
+                <div class="line"></div>
             </div>
-            <div class="line"></div>
+            <!--加载等待框-->
+            <div id="loading" style="display: inline-flex;margin-left: 40%;margin-top: 25px">
+                <div style="font-size: 20px;">正在加载中</div>
+                <div id="fountainG">
+                    <div id="fountainG_1" class="fountainG"></div>
+                    <div id="fountainG_2" class="fountainG"></div>
+                    <div id="fountainG_3" class="fountainG"></div>
+                    <div id="fountainG_4" class="fountainG"></div>
+                    <div id="fountainG_5" class="fountainG"></div>
+                    <div id="fountainG_6" class="fountainG"></div>
+                    <div id="fountainG_7" class="fountainG"></div>
+                    <div id="fountainG_8" class="fountainG"></div>
+                </div>
+            </div>
         </div>
-        <!--表格列表-->
-        <table id="tb" class="table">
-            <thead>
-            <tr>
-                <th style="width: 50px">编号</th>
-                <th style="width: 366px">文章名称</th>
-                <th>发表日期</th>
-                <th style="width: 100px">所属类别</th>
-                <th>来源</th>
-                <th style="width: 50px">国家</th>
-                <th>详细信息</th>
-                <th style="width: 100px">操作</th>
-            </tr>
-            </thead>
-            <tbody id="show_tbody">
+        <!--旭日图实力对比-->
+        <div class="row" style="margin: 30px;">
+            <div id="detail1" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
+            </div>
+            <!--                            <div class="col-lg-6 col-md-6" style="margin-top:10px;margin-left:50px;display:inline-block;">-->
+            <div class="panel panel-default" >
+                <div class="panel-body" id="sunshine" style="margin: auto;width: 600px;height: 600px;">
+                </div>
+            </div>
+            <!--                            </div>-->
+            <div id="detail2" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
+            </div>
+        </div>
 
-            </tbody>
-        </table>
+        <!--科技实力折线图对比-->
+        <div class="row" style="margin: 30px;">
+            <div class="panel-body" id="serialsLabel" style="width: 800px;height: 400px;margin-left: 150px">
+            </div>
+        </div>
     </div>
+
 
 </div>
 
@@ -173,7 +217,10 @@
 </div>
 </div>
 <script>
+
     $(function () {
+
+        $('#loading').hide();
         var picker1 = $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM-DD',
             locale: moment.locale('zh-cn'),
@@ -192,6 +239,7 @@
             picker1.data('DateTimePicker').maxDate(e.date);
         });
     });
+
     //时间戳转换
     function createTime(v){
         var date = new Date(v);
@@ -204,62 +252,237 @@
         var str = y+m+d;
         return str;
     }
-    $("#search_btn").click(function () {
-        var start = createTime($("#datetimepicker1").find("input").val());
-        var end = createTime($("#datetimepicker2").find("input").val());
-        var firstScope = $('#firstScope option:selected').text();//文本
-        var secondScope = $('#secondScope option:selected').text();//文本
-        var publisher = $('#publisher option:selected').text();//文本
-        var country = $('#country option:selected').text();//文本
-        var report = {
-            "start": start,
-            "end": end,
-            "firstScope": firstScope,
-            "secondScope":secondScope,
-            "publisher":publisher,
-            "country":country,
-        }
-        /*var url ="/JS_ArticleShow" + '?start=' + start+ '&'+'end=' + end+'&'+'firstScope=' + firstScope+ '&'+'secondScope=' + secondScope+ '&'+'publisher=' + publisher ;
-        alert(JSON.stringify(json));
-        window.location.href ="/JS_ArticleShow?para="+ JSON.stringify(json);//编码传值*/
-        $.ajax({
-            url: "/JS_ArticleShow",
-            type: "POST",
-            data: report,
-            success: function (data) {
-                var jsonb = eval(data);
-                console.log("======jsonb=====");
-                console.log(jsonb);
-                alert(data);
-                var info5 = "";
-                $("#show_tbody").html("");
-                $.each(jsonb, function (index, item) {
-                    $.each(item['resultlist'], function (y, e) {
-                        var json = eval(e);
-                        info5 +="<tr >\n" +
-                            "                        <td>"+json.id+"</td>\n" +
-                            "                        <td>"+json.name+"</td>\n" +
-                            "                        <td>"+json.date+"</td>\n" +
-                            "                        <td>"+json.realScope+"</td>\n" +
-                            "                        <td>"+json.publisher+"</td>\n" +
-                            "                        <td>"+json.country+"</td>\n" +
-                            "                        <td>"+json.url+"</td>\n" +
-                            "                        <td>\n" +
-                            "                        <a href=\"#\" class=\"edit\">编辑</a>\n" +
-                            "                            <a href=\"#\" class=\"del\">删除</a>\n" +
-                            "                            </td>\n" +
-                            "                            </tr>"
 
+
+    $(function () {
+        var start = 2000;
+        var end = 2019;
+        $("#duibi").click(function () {
+            $('#loading').show();
+            start = createTime($("#datetimepicker1").find("input").val());
+            end = createTime($("#datetimepicker2").find("input").val());
+            var firstScope = $('#firstScope option:selected').text();//文本
+            var lingyu = $('#secondScope option:selected').text();//文本
+            var random = $('#random option:selected').text();//文本
+            var country = $('#country').val().toString();//文本
+            var countrys = country.split(",");
+
+            if(lingyu=="自然语言处理"){
+                select_area = "NLP"
+            }else{
+                select_area = "CV"
+            }
+
+            $.ajax({
+                url: "http://127.0.0.1:7450/detail",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback_detail",//回调方法
+                contentType: 'application/json',
+                data: {
+                    'field_name':  select_area,
+                    'country_list': JSON.stringify(countrys),
+                    'start_year': start.substring(0, 4),
+                    'end_year': end.substring(0, 4),
+                },
+                success: function (data) {
+                    console.log(data);
+                    var info = JSON.parse(data);
+                    $("#detail1").html(info.before_pic);
+                    $("#detail2").html(info.after_pic);
+                    $.ajax({
+                        url: "http://127.0.0.1:7450/sunburst",
+                        method: 'POST',
+                        dataType: 'jsonp',
+                        jsonp: "callback",
+                        jsonpCallback: "successCallback_sunburst",//回调方法
+                        contentType: 'application/json',
+                        data: {
+                            'field_name':  select_area,
+                            'country_list': JSON.stringify(countrys),
+                            'start_year': start.substring(0, 4),
+                            'end_year': end.substring(0, 4),
+                            'random': random,
+                        },
+                        success: function (data) {
+                            var datas = JSON.parse(data);
+                            var arr = [];
+                            for (var i = 0; i < datas.length; i++) {
+                                var jsonStr = JSON.stringify(datas[i]);       //转为JSON字符串
+                                var jsObject = JSON.parse(jsonStr);    //转换为json对象
+                                arr.push(jsObject);
+                            }
+                            printSunShine(arr);
+                        }
                     });
-                });
-                $("#show_tbody").html(info5);
-            },
-            error: function () {
-                alert("请求失败");
-            },
-        })
+                }
+            });
+
+            $.ajax({
+                url: "http://127.0.0.1:7450/linechart",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback_LineChart",//回调方法
+                contentType: 'application/json',
+                data: {
+                    'field_name':  select_area,
+                    'country_list': JSON.stringify(countrys),
+                    'start_year': start.substring(0, 4),
+                    'end_year': end.substring(0, 4),
+                    'indicator_name': "科技产出",
+                    'random': random,
+                },
+                success: function (data) {
+                    console.log("data=" + data);
+                    printSerialsLabel(JSON.parse(data));
+                    $('#loading').hide();
+                }
+            });
+
+
+        });
+
+        //数组去重
+        function UniqObj(array) {     // 对象去重方法
+            var allArr = [];    //建立新的临时数组
+            for (var i = 0; i < array.length; i++) {
+                var flag = true;
+                for (var j = 0; j < allArr.length; j++) {
+                    if (array[i].name == allArr[j].name) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    allArr.push(array[i]);
+                }
+            }
+            return allArr;
+        }
+
+        function printSerialsLabel(data) {
+            console.log(typeof data);
+            console.log("lineData=" + data);
+            var serialChart = Highcharts.chart('serialsLabel', {
+                title: {
+                    text: '国家科技实力对比折线图'
+                },
+                subtitle: {
+                    text: ''
+                },
+                yAxis: {
+                    title: {
+                        text: '实力指数'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: parseInt(start.substring(0, 4))
+                    }
+                },
+
+                series: data,
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
+        }
+
+        //旭日图
+        function printSunShine(data) {
+            Highcharts.setOptions({
+                lang: {
+                    thousandsSep: ',',
+                    turboThreshold: 2000
+                }
+            });
+            Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+            Highcharts.chart('sunshine', {
+                    chart: {
+                        height: '100%'
+                    },
+
+                    title: {
+                        text: '军事实力对比体系'
+                    },
+                    series: [{
+                        type: "sunburst",
+                        data: data,
+                        allowDrillToNode: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            /**
+                             * A custom formatter that returns the name only if the inner arc
+                             * is longer than a certain pixel size, so the shape has place for
+                             * the label.
+                             */
+                            formatter: function () {
+                                var shape = this.point.node.shapeArgs;
+
+                                var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
+                                var perimeter = 2 * Math.PI * shape.innerR;
+
+                                var innerArcPixels = innerArcFraction * perimeter;
+
+                                if (innerArcPixels > 16) {
+                                    return this.point.name;
+                                }
+                            }
+                        },
+                        levels: [{
+                            level: 2,
+                            colorByPoint: true,
+                            dataLabels: {
+                                rotationMode: 'parallel'
+                            }
+                        },
+                            {
+                                level: 3,
+                                colorVariation: {
+                                    key: 'brightness',
+                                    to: -0.5
+                                }
+                            }, {
+                                level: 4,
+                                colorVariation: {
+                                    key: 'brightness',
+                                    to: 0.5
+                                }
+                            }]
+
+                    }],
+                    tooltip: {
+                        headerFormat: "",
+                        pointFormat: '<b>{point.name}</b>的得分为：<b>{point.value}</b>'
+                    }
+                }
+            )
+        };
     });
+
 </script>
 </div>
 </body>
+
 </html>

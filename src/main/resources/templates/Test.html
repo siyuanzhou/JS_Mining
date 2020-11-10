@@ -47,6 +47,7 @@
     </ul>
 
 </nav>
+
 <div class="text-center">
     <span>当前页数: <strong>[[${pageNum}]]</strong>  页</span>&nbsp;&nbsp;
     <span>总页数: <strong>[[${pageSum}]]</strong> 页</span>&nbsp;&nbsp;
@@ -78,7 +79,6 @@
                 var url='/user/findUser?pageNum='+ym;
                 //发亮设置
                 if(ym==pageNum){
-
                     $("#page").append("<li class='active'><a href='"+url+"'>"+ym+"</a></li>");
                 }
                 else{

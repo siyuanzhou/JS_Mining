@@ -39,7 +39,8 @@ public class DataItemController {
     @RequestMapping(value = "JS_ArticleShow")
     public String JS_ArticleShow(@RequestParam("start") String start,@RequestParam("end") String end,
                                  @RequestParam("publisher") String publisher,@RequestParam("country") String country,
-                                 @RequestParam("firstScope") String firstScope,@RequestParam("secondScope") String secondScope){
+                                 @RequestParam("firstScope") String firstScope,@RequestParam("secondScope") String secondScope,
+                                 @RequestParam("keywords") String keywords){
         ReportQuaryTag reportQuaryTag = new ReportQuaryTag();
         System.out.println(country);
         ArrayList<String> list = new ArrayList<>();
@@ -53,9 +54,10 @@ public class DataItemController {
         reportQuaryTag.setPublisher(publisher);
         reportQuaryTag.setFirstScope(firstScope);
         reportQuaryTag.setSecondScope(secondScope);
+        reportQuaryTag.setKeywords(keywords);
         System.out.println(reportQuaryTag.toString());
         List<Article> lists = articleService.Select(reportQuaryTag);
-        lists = lists.subList(0,10);
+        /*lists = lists.subList(0,10);*/
         //方法二  根据时间进行排序
         Collections.sort(lists, (Comparator) (o1, o2) -> {
             Article u1 = (Article) o1;
@@ -67,7 +69,7 @@ public class DataItemController {
 
         for( Article article : lists){
             HashMap<String,String> temp_obj = new HashMap();
-            temp_obj.put("id",article.getId().toString());
+            temp_obj.put("id",(article.getId()*100+5)+"");
             temp_obj.put("country",article.getCountry());
             temp_obj.put("name",article.getName());
             if(article.getDate().length()>4) {
