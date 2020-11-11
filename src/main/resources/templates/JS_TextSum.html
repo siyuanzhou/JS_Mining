@@ -158,9 +158,7 @@
                     var reader = new FileReader(); //新建一个FileReader
                     reader.readAsText(files[i], "UTF-8"); //读取文件
                     reader.onload = function (evt) { //读取完文件之后会回来这里
-                        var fileString = evt.target.result; // 读取文件内容
-                        fileContent = fileString;
-                        alert(fileContent);
+                        fileContent = evt.target.result; // 读取文件内容
                         $('#input').html(fileContent);
                         // console.log(fileString)
                     }
@@ -211,7 +209,6 @@
                 <li class="active">短文本摘要</li>
             </ol>
         </blockquote>
-        <!--<h1 style="text-align: center;color: #3385e1">短文本摘要</h1>-->
         <div class="container" style="height:800px;width:1000px;"  id="container">
             <!--待分析文本输入框-->
             <div class="panel panel-primary">
