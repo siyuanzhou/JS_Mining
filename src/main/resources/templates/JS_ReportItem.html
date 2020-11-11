@@ -512,6 +512,7 @@
             },
             success: function (data) {
                 console.log("data=" + data);
+                $("#serialsLabel").empty();
                 printSerialsLabel(JSON.parse(data));
             }
         });
@@ -716,6 +717,8 @@
             title: {
                 text: c + select_area + '领域科技实力对比折线图'
             },
+            colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
+                'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
             subtitle: {
                 text: ''
             },
@@ -739,20 +742,20 @@
             },
 
             series: data,
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
-                    }
-                }]
-            }
+            // responsive: {
+            //     rules: [{
+            //         condition: {
+            //             maxWidth: 500
+            //         },
+            //         chartOptions: {
+            //             legend: {
+            //                 layout: 'horizontal',
+            //                 align: 'center',
+            //                 verticalAlign: 'bottom'
+            //             }
+            //         }
+            //     }]
+            // }
         });
 
     }
@@ -772,14 +775,10 @@
                 chart: {
                     height: '100%'
                 },
-
+                colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
+                    'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
                 title: {
                     text: c + select_area + '领域实力对比体系'
-                },
-                Legend:{
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom'
                 },
                 series: [{
                     type: "sunburst",
@@ -1021,6 +1020,8 @@
             title: {
                 text: select_area + '领域发展趋势预测图'
             },
+            colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
+                'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
             subtitle: {
                 text: ''
             },
