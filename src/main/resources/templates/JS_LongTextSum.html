@@ -78,8 +78,8 @@
                     </div>
                     <button class="btn btn-default" onclick="addText()"
                                 style="height: 30px ;margin-left:470px;background-color: #337ab7;color: white;float: right;">添加</button>
-                    <button class="btn btn-default" onclick="deleteText(this)"
-                                style="height: 30px ;margin-left:50px;background-color: #337ab7;color: white;float: right;">删除</button>
+                    <button class="btn btn-default" onclick="javascript:{alert('根节点不可删除');void(0)}"
+                                style="height: 30px ;margin-left:50px;background-color: #337ab7;color: white;float: right;" disabled>删除</button>
                 </div>
                </div>
                 <div style="display: flex;flex-direction: row;justify-content: space-between">
@@ -115,10 +115,10 @@
                 </div>
                 <div class="panel-body" style="height: 300px">
                     <div>
-                    <textarea
+                        <textarea
                             style="height: 250px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;"
                             type="text" id="result_chinese">
-                    </textarea>
+                        </textarea>
                     </div>
                 </div>
             </div>
@@ -221,7 +221,7 @@
                 $('#spinner').toggle();
                 $('#api_output').css("text-align","center");
                 //$('#api_output').html("Sorry, the server is asleep...<br/>Try again in a moment!" );
-                console.log( errorThrown );
+                console.log(errorThrown);
             }
 
         });
@@ -243,8 +243,7 @@
                 var reader = new FileReader(); //新建一个FileReader
                 reader.readAsText(files[i], "UTF-8"); //读取文件
                 reader.onload = function (evt) { //读取完文件之后会回来这里
-                    var fileString = evt.target.result; // 读取文件内容
-                    fileContent = fileString;
+                    fileContent = evt.target.result; // 读取文件内容
                     $('#input').html(fileContent);
                     // console.log(fileString)
                 }

@@ -545,7 +545,7 @@
         });
     });
 
-    //数组去重
+    // 数组去重
     function UniqObj(array) {     // 对象去重方法
         var allArr = [];    //建立新的临时数组
         for (var i = 0; i < array.length; i++) {
@@ -585,7 +585,7 @@
 
     }
 
-    //显示关系图
+    // 显示关系图
     function showRela(data, links) {
         var myChart = echarts.init(document.getElementById('entity'));
         var categories = [];
@@ -644,6 +644,7 @@
         myChart.setOption(option);
     }
 
+    // 文本分类图
     var myTypeChart = echarts.init(document.getElementById('classify_div'));
     function showType(data) {
         //echarts表格
@@ -677,7 +678,7 @@
             },
             series: [{
                 name: '数量',
-                type: 'bar',
+                type: 'column',
                 itemStyle: {
                     normal: {
                         color: '#0b96e5'
@@ -694,13 +695,15 @@
     }
 
 
-
+    // 实力对比折线图
     function printSerialsLabel(data) {
-        console.log(typeof data);
+
         console.log("lineData=" + data);
+        var countries =  countrys
+        var c = countries.toString().replaceAll(",", "、")
         var serialChart = Highcharts.chart('serialsLabel', {
             title: {
-                text: '国家科技实力对比折线图'
+                text: c + select_area + '领域科技实力对比折线图'
             },
             subtitle: {
                 text: ''
@@ -745,6 +748,8 @@
 
     //旭日图
     function printSunShine(data) {
+        var countries =  countrys
+        var c = countries.toString().replaceAll(",", "、")
         Highcharts.setOptions({
             lang: {
                 thousandsSep: ',',
@@ -758,7 +763,12 @@
                 },
 
                 title: {
-                    text: '军事实力对比体系'
+                    text: c + select_area + '领域实力对比体系'
+                },
+                Legend:{
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
                 },
                 series: [{
                     type: "sunburst",
@@ -812,10 +822,11 @@
                 }
             }
         )
-    };
+    }
 
     //预测-技术成熟度
     function printPredictLabel(data) {
+
         console.log(typeof data);
         var result= [];
         var push1 = {};
@@ -834,20 +845,47 @@
         result.push(push1);
         result.push(push3);
         console.log("resultData=" + result);
+        console.log("技术成果=" + data.技术成果);
 
         var serialChart = Highcharts.chart('predict_div', {
             title: {
-                text: '技术成熟度'
+                text: select_area + '技术成熟度分析图'
             },
             subtitle: {
                 text: ''
             },
-            colors: ['rgba(3,95,227,0.74)', '#c70831', 'rgba(0,201,66,0.97)',],
-            yAxis: {
+            colors: ['rgba(1,45,101,0.74)', '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)'],
+            yAxis: [{
                 title: {
-                    text: '技术实力'
-                }
-            },
+                    // text: '技术成熟度',
+                    enabled: false
+                },
+                labels:{
+                    enabled: false
+                },
+            },{
+                title: {
+                    text: '论文增长量',
+                    style:{
+                    },
+                },
+                labels:{
+                    style:{
+                    },
+                },
+            },{
+                title: {
+                    text: '技术成果',
+                    style:{
+                    },
+
+                },
+                labels:{
+                    style:{
+                    },
+                },
+                opposite:true
+            },],
             //x轴分四个阶段用不同背景颜色表示
             xAxis: {
                 plotBands: [
@@ -860,7 +898,7 @@
                         }
                     },
                     { //彩色带横跨绘图区，标志着轴间隔。
-                        color: 'rgba(222,209,186,0.95)',
+                        color: 'rgb(238,245,197)',
                         from: 1958 + data.萌芽期,
                         to: 1958 + data.发展期,
                         label:{
@@ -885,11 +923,6 @@
                     },
                 ],
             },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
             plotOptions: {
                 series: {
                     label: false,
@@ -897,44 +930,76 @@
                 }
             },
             series:[{
+                type:'scatter',
                 name: '技术发展',
                 data: data_history,
-            },{
-                name: '生命周期',
-                data: data.predict,
-            },{
-                name: '一阶差分',
-                data: data.diff,
-            },{
-                name: '预警点',
-                data: [{x: 1958 + data_history.length - 1, y: warn_point}],
-                showInLegend: false,
-                marker: {
-                    symbol: 'circle',
-                    radius:5
+                zIndex: 6,
+                marker:{
+                    enable: true,
+                    radius: 2,
                 }
-            },],
+            },{
+                name: '技术生命周期',
+                data: data.predict,
+                zIndex: 6,
+
+            },{
+                name: '论文增长量',
+                data: data.diff,
+                zIndex: 5,
+                yAxis: 1
+            },{
+                name: '技术成果',
+                data: data.技术成果,
+                type: 'column',
+                yAxis: 2,
+                zIndex: 0,
+                marker:{
+                    enabled: true,
+                    symbol: 'square'
+                }
+            },
+            //     {
+            //     name: '预警点',
+            //     data: [{x: 1958 + data_history.length - 1, y: warn_point}],
+            //     showInLegend: false,
+            //     marker: {
+            //         symbol: 'circle',
+            //         radius:5
+            //     }
+            // },
+            ],
+            legend: {
+                // layout: 'horizontal',
+                // align: 'center',
+                // verticalAlign: 'bottom'
+                layout: 'vertical',
+                align: 'left',
+                x: 85,
+                verticalAlign: 'top',
+                y: 55,
+                floating: true,
+                symbolHeight:8,
+                symbolWidth: 16,
+                symbolRadius: 0,
+            },
             responsive: {
                 rules: [{
                     condition: {
                         maxWidth: 500
                     },
                     chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
+
                     }
                 }]
             },
             //预警标注
-            annotations: [{
-                    labels: [{
-                    point: 'warn',
-                    text: '技术突袭预警\n预警等级：' + data.warning_level
-                }],
-            }],
+            // annotations: [{
+            //         labels: [{
+            //         point: 'warn',
+            //         text: '技术突袭预警\n预警等级：' + data.warning_level
+            //     }],
+            // }],
         });
     }
 
@@ -943,7 +1008,7 @@
 
         var serialChart2 = Highcharts.chart('predict_div2', {
             title: {
-                text: '趋势预测图'
+                text: select_area + '领域发展趋势预测图'
             },
             subtitle: {
                 text: ''
