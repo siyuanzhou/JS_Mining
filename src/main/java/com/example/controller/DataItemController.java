@@ -1,10 +1,13 @@
 package com.example.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.entity.Article;
 import com.example.entity.DataItem;
+import com.example.entity.Entity;
 import com.example.entity.ReportQuaryTag;
 import com.example.service.ArticleService;
 import com.example.service.DataItemService;
+import com.github.pagehelper.PageInfo;
 import org.activiti.engine.impl.util.json.JSONArray;
 import org.activiti.engine.impl.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +97,13 @@ public class DataItemController {
         array.put(obj);
         return array.toString();
 
+    }
+
+    @RequestMapping(value = "JS_Helper")
+    public String Helper(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum){
+        PageInfo pageInfo = dataItemService.selectList(pageNum,10);
+        model.addAttribute("pageInfo",pageInfo);
+        return "JS_DataShow";
     }
 
 }

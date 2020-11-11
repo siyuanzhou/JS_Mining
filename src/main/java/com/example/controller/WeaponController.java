@@ -62,8 +62,8 @@ public class WeaponController {
         biglist.add("枪械与单兵");
         biglist.add("坦克装甲车辆");
         biglist.add("火炮");
-        biglist.add("网络攻防");
-
+        biglist.add("太空装备");
+        biglist.add("武器导弹");
         List<String> countrylist= new ArrayList();
 
         countrylist.add("中国");
@@ -75,11 +75,31 @@ public class WeaponController {
         countrylist.add("西班牙");
         countrylist.add("日本");
 
+        countrylist.add("印度");
+        countrylist.add("韩国");
+        countrylist.add("欧盟");
+        countrylist.add("荷兰");
+        countrylist.add("巴西");
+        countrylist.add("加拿大");
+        countrylist.add("以色列");
+        countrylist.add("乌克兰");
+
+        countrylist.add("奥地利");
+        countrylist.add("比利时");
+        countrylist.add("丹麦");
+        countrylist.add("芬兰");
+        countrylist.add("希腊");
+        countrylist.add("爱尔兰");
+        countrylist.add("挪威");
+        countrylist.add("葡萄牙");
+        countrylist.add("瑞典");
+        countrylist.add("波兰");
         List<String> timelist= new ArrayList();
         timelist.add("二战前");
         timelist.add("二战期间");
         timelist.add("二战后至冷战期间");
         timelist.add("冷战后至今");
+        timelist.add("未知");
 
         JSONArray array = new JSONArray();
 
@@ -121,11 +141,12 @@ public class WeaponController {
 
 
             biglist.add("飞行器");
-            biglist.add("舰船坚挺");
+            biglist.add("舰船舰艇");
             biglist.add("枪械与单兵");
             biglist.add("坦克装甲车辆");
             biglist.add("火炮");
-            biglist.add("网络攻防");
+            biglist.add("太空装备");
+            biglist.add("武器导弹");
 
             countrylist.add("中国");
             countrylist.add("美国");
@@ -135,14 +156,26 @@ public class WeaponController {
             countrylist.add("意大利");
             countrylist.add("西班牙");
             countrylist.add("日本");
+
             countrylist.add("印度");
-            countrylist.add("苏俄");
             countrylist.add("韩国");
-            countrylist.add("朝鲜");
+            countrylist.add("欧盟");
+            countrylist.add("荷兰");
             countrylist.add("巴西");
             countrylist.add("加拿大");
-            countrylist.add("西班牙");
-            countrylist.add("日本");
+            countrylist.add("以色列");
+            countrylist.add("乌克兰");
+
+            countrylist.add("奥地利");
+            countrylist.add("比利时");
+            countrylist.add("丹麦");
+            countrylist.add("芬兰");
+            countrylist.add("希腊");
+            countrylist.add("爱尔兰");
+            countrylist.add("挪威");
+            countrylist.add("葡萄牙");
+            countrylist.add("瑞典");
+            countrylist.add("波兰");
 
 
 
@@ -150,7 +183,7 @@ public class WeaponController {
             timelist.add("二战期间");
             timelist.add("二战后至冷战期间");
             timelist.add("冷战后至今");
-
+            timelist.add("未知");
         }else if(type.equals("飞行器")){
             list.add("战斗机");
             list.add("攻击机");
@@ -165,8 +198,8 @@ public class WeaponController {
             biglist.add("枪械与单兵");
             biglist.add("坦克装甲车辆");
             biglist.add("火炮");
-            biglist.add("网络攻防");
-
+            biglist.add("太空装备");
+            biglist.add("武器导弹");
 
             countrylist.add("中国");
             countrylist.add("美国");
@@ -177,11 +210,31 @@ public class WeaponController {
             countrylist.add("西班牙");
             countrylist.add("日本");
 
+            countrylist.add("印度");
+            countrylist.add("韩国");
+            countrylist.add("欧盟");
+            countrylist.add("荷兰");
+            countrylist.add("巴西");
+            countrylist.add("加拿大");
+            countrylist.add("以色列");
+            countrylist.add("乌克兰");
+
+            countrylist.add("奥地利");
+            countrylist.add("比利时");
+            countrylist.add("丹麦");
+            countrylist.add("芬兰");
+            countrylist.add("希腊");
+            countrylist.add("爱尔兰");
+            countrylist.add("挪威");
+            countrylist.add("葡萄牙");
+            countrylist.add("瑞典");
+            countrylist.add("波兰");
 
             timelist.add("二战前");
             timelist.add("二战期间");
             timelist.add("二战后至冷战期间");
             timelist.add("冷战后至今");
+            timelist.add("未知");
         }else if(type.equals("枪械与单兵")){
             list.add("非自动步枪");
             list.add("自动步枪");
@@ -200,8 +253,8 @@ public class WeaponController {
             biglist.add("枪械与单兵");
             biglist.add("坦克装甲车辆");
             biglist.add("火炮");
-
-
+            biglist.add("太空装备");
+            biglist.add("武器导弹");
 
             countrylist.add("中国");
             countrylist.add("美国");
@@ -211,22 +264,32 @@ public class WeaponController {
             countrylist.add("意大利");
             countrylist.add("西班牙");
             countrylist.add("日本");
+
             countrylist.add("印度");
-            countrylist.add("苏俄");
             countrylist.add("韩国");
-            countrylist.add("朝鲜");
+            countrylist.add("欧盟");
+            countrylist.add("荷兰");
             countrylist.add("巴西");
             countrylist.add("加拿大");
-            countrylist.add("西班牙");
-            countrylist.add("日本");
+            countrylist.add("以色列");
             countrylist.add("乌克兰");
-            countrylist.add("伊拉克");
 
+            countrylist.add("奥地利");
+            countrylist.add("比利时");
+            countrylist.add("丹麦");
+            countrylist.add("芬兰");
+            countrylist.add("希腊");
+            countrylist.add("爱尔兰");
+            countrylist.add("挪威");
+            countrylist.add("葡萄牙");
+            countrylist.add("瑞典");
+            countrylist.add("波兰");
 
             timelist.add("二战前");
             timelist.add("二战期间");
             timelist.add("二战后至冷战期间");
             timelist.add("冷战后至今");
+            timelist.add("未知");
         }else if(type.equals("坦克装甲车辆")){
             list.add("步兵坦克车");
             list.add("特种坦克车");
@@ -240,7 +303,8 @@ public class WeaponController {
             biglist.add("枪械与单兵");
             biglist.add("坦克装甲车辆");
             biglist.add("火炮");
-            biglist.add("网络攻防");
+            biglist.add("太空装备");
+            biglist.add("武器导弹");
 
             countrylist.add("中国");
             countrylist.add("美国");
@@ -250,26 +314,198 @@ public class WeaponController {
             countrylist.add("意大利");
             countrylist.add("西班牙");
             countrylist.add("日本");
+
             countrylist.add("印度");
-            countrylist.add("苏俄");
             countrylist.add("韩国");
-            countrylist.add("朝鲜");
+            countrylist.add("欧盟");
+            countrylist.add("荷兰");
             countrylist.add("巴西");
             countrylist.add("加拿大");
-            countrylist.add("西班牙");
-            countrylist.add("日本");
+            countrylist.add("以色列");
             countrylist.add("乌克兰");
-            countrylist.add("朝鲜");
-            countrylist.add("巴西");
-            countrylist.add("加拿大");
-            countrylist.add("西班牙");
-            countrylist.add("日本");
-            countrylist.add("乌克兰");
+
+            countrylist.add("奥地利");
+            countrylist.add("比利时");
+            countrylist.add("丹麦");
+            countrylist.add("芬兰");
+            countrylist.add("希腊");
+            countrylist.add("爱尔兰");
+            countrylist.add("挪威");
+            countrylist.add("葡萄牙");
+            countrylist.add("瑞典");
+            countrylist.add("波兰");
 
             timelist.add("二战前");
             timelist.add("二战期间");
             timelist.add("二战后至冷战期间");
             timelist.add("冷战后至今");
+            timelist.add("未知");
+        }else if(type.equals("火炮")){
+            list.add("榴弹炮");
+            list.add("加农炮");
+            list.add("迫击炮");
+            list.add("火箭炮");
+            list.add("高射炮");
+            list.add("坦克炮");
+            list.add("反坦克炮炮");
+            list.add("无后座炮");
+            list.add("装甲车载炮");
+            list.add("航空炮");
+            list.add("自行火炮");
+            list.add("舰炮");
+
+            biglist.add("飞行器");
+            biglist.add("舰船舰艇");
+            biglist.add("枪械与单兵");
+            biglist.add("坦克装甲车辆");
+            biglist.add("火炮");
+            biglist.add("太空装备");
+            biglist.add("武器导弹");
+
+            countrylist.add("中国");
+            countrylist.add("美国");
+            countrylist.add("法国");
+            countrylist.add("英国");
+            countrylist.add("德国");
+            countrylist.add("意大利");
+            countrylist.add("西班牙");
+            countrylist.add("日本");
+
+            countrylist.add("印度");
+            countrylist.add("韩国");
+            countrylist.add("欧盟");
+            countrylist.add("荷兰");
+            countrylist.add("巴西");
+            countrylist.add("加拿大");
+            countrylist.add("以色列");
+            countrylist.add("乌克兰");
+
+            countrylist.add("奥地利");
+            countrylist.add("比利时");
+            countrylist.add("丹麦");
+            countrylist.add("芬兰");
+            countrylist.add("希腊");
+            countrylist.add("爱尔兰");
+            countrylist.add("挪威");
+            countrylist.add("葡萄牙");
+            countrylist.add("瑞典");
+            countrylist.add("波兰");
+
+            timelist.add("二战前");
+            timelist.add("二战期间");
+            timelist.add("二战后至冷战期间");
+            timelist.add("冷战后至今");
+            timelist.add("未知");
+        }else if(type.equals("武器导弹")){
+            list.add("反弹道导弹");
+            list.add("地地导弹");
+            list.add("舰地导弹");
+            list.add("地空导弹");
+            list.add("航空导弹");
+            list.add("空空导弹");
+            list.add("空地导弹");
+            list.add("潜舰导弹");
+            list.add("岸舰导弹");
+            list.add("空舰导弹");
+            list.add("舰舰导弹");
+
+            biglist.add("飞行器");
+            biglist.add("舰船舰艇");
+            biglist.add("枪械与单兵");
+            biglist.add("坦克装甲车辆");
+            biglist.add("火炮");
+            biglist.add("太空装备");
+            biglist.add("武器导弹");
+
+            countrylist.add("中国");
+            countrylist.add("美国");
+            countrylist.add("法国");
+            countrylist.add("英国");
+            countrylist.add("德国");
+            countrylist.add("意大利");
+            countrylist.add("西班牙");
+            countrylist.add("日本");
+
+            countrylist.add("印度");
+            countrylist.add("韩国");
+            countrylist.add("欧盟");
+            countrylist.add("荷兰");
+            countrylist.add("巴西");
+            countrylist.add("加拿大");
+            countrylist.add("以色列");
+            countrylist.add("乌克兰");
+
+            countrylist.add("奥地利");
+            countrylist.add("比利时");
+            countrylist.add("丹麦");
+            countrylist.add("芬兰");
+            countrylist.add("希腊");
+            countrylist.add("爱尔兰");
+            countrylist.add("挪威");
+            countrylist.add("葡萄牙");
+            countrylist.add("瑞典");
+            countrylist.add("波兰");
+
+            timelist.add("二战前");
+            timelist.add("二战期间");
+            timelist.add("二战后至冷战期间");
+            timelist.add("冷战后至今");
+            timelist.add("未知");
+        }else if(type.equals("太空装备")){
+            list.add("航天机构");
+            list.add("运载火箭");
+            list.add("航天基地");
+            list.add("军事卫星");
+            list.add("航天卫星");
+            list.add("科学卫星");
+            list.add("应用卫星");
+            list.add("空间探测器");
+            list.add("航天飞机");
+            list.add("宇宙飞船");
+            list.add("技术试验卫星");
+
+            biglist.add("飞行器");
+            biglist.add("舰船舰艇");
+            biglist.add("枪械与单兵");
+            biglist.add("坦克装甲车辆");
+            biglist.add("火炮");
+            biglist.add("太空装备");
+            biglist.add("武器导弹");
+
+            countrylist.add("中国");
+            countrylist.add("美国");
+            countrylist.add("法国");
+            countrylist.add("英国");
+            countrylist.add("德国");
+            countrylist.add("意大利");
+            countrylist.add("西班牙");
+            countrylist.add("日本");
+
+            countrylist.add("印度");
+            countrylist.add("韩国");
+            countrylist.add("欧盟");
+            countrylist.add("荷兰");
+            countrylist.add("巴西");
+            countrylist.add("加拿大");
+            countrylist.add("以色列");
+            countrylist.add("乌克兰");
+
+            countrylist.add("奥地利");
+            countrylist.add("比利时");
+            countrylist.add("丹麦");
+            countrylist.add("芬兰");
+            countrylist.add("希腊");
+            countrylist.add("爱尔兰");
+            countrylist.add("挪威");
+            countrylist.add("葡萄牙");
+            countrylist.add("瑞典");
+            countrylist.add("波兰");
+
+            timelist.add("二战前");
+            timelist.add("二战期间");
+            timelist.add("二战后至冷战期间");
+            timelist.add("冷战后至今");
+            timelist.add("未知");
         }
 
 

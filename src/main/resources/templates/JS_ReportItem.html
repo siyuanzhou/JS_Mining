@@ -375,27 +375,16 @@
             success: function (data) {
                 console.log(data);
                 //alert(JSON.stringify(data));
+                alert(data.keywords);
                 var str = "";
                 for (var i = 0; i < data.keywords.length; i++) {
                     str += data.keywords[i] + ";"
                 }
                 $("#keywords").html(str);
+                printWordsLabel(data.cloud);
             }
         });
 
-        $.ajax({
-            url: "http://127.0.0.1:8888/up_file",
-            type: "POST",
-            dataType: 'jsonp',
-            jsonp: "callback",
-            data: {
-                'text': text_data.toString(),
-            },
-            jsonpCallback: "successCallback_up_file",//回调方法
-            success: function (data) {
-                printWordsLabel();
-            }
-        })
 
         $.ajax({
             url: "http://127.0.0.1:8888/api",
@@ -573,9 +562,9 @@
         return allArr;
     }
 
-    function printWordsLabel() {
+    function printWordsLabel(data) {
 
-        var data =  [
+        /*var data =  [
             ['布艺装饰',10],
             ['家电',20],
             ['家具',27],
@@ -583,11 +572,11 @@
             ['管理费',4],
             ['人工费',10],
             ['材料费',24]
-        ];
+        ];*/
         var wordChart = Highcharts.chart('img1', {
             series: [{
                 type: 'wordcloud',
-                data: data
+                data: data,
             }],
             title: {
                 text: ''
