@@ -23,7 +23,6 @@
 
     <!--下面不用改-->
     <!--字体样式-->
-    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
@@ -36,7 +35,7 @@
         <div th:insert="~{/JS_Common::leftbar}"></div>
         <div style="display: block;height: 2000px;width:100%">
         <blockquote class="layui-elem-quote layui-text">
-            <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0";>
+            <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0">
                 <li><a href="JS_Index">首页</a></li>
                 <li><a href="JS_TextSum">信息生成</a></li>
                 <li class="active">长文本摘要</li>
@@ -70,7 +69,7 @@
                 </div>
                 <div class="panel-footer" style="display: flex;">
                     <input name="file" multiple id="fileId" type="file" style="display:none"
-                           onchange="uploadFile()">
+                           onchange="uploadFile(this)">
                     <div class="input-append">
                         <input id="uploadpath" class="input-large" type="text" style="height:30px;">
                         <a class="btn btn-default" style="height: 30px ;margin-top: -4px;background-color: #337ab7;
@@ -126,6 +125,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    //作为文本输入框计数器,用来给文本输入框一个唯一id
+    var inputCount = 1;
     <!--有道智云文本翻译API调用-->
     function truncate(q){
         var len = q.length;
@@ -135,22 +136,23 @@
     }
 
     function addText(){
-        var boarddiv = "<div id =\"div\"><div class=\"panel-body\">\n" +
-        "    <textarea style=\"height: 30px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"title\" name=\"title\" placeholder=\"请输入段落标题\"></textarea>\n" +
+        inputCount ++;
+        var boardDiv = "<div id =\"div\"><div class=\"panel-body\">\n" +
+        "    <textarea style=\"height: 30px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"title" + inputCount + "\" placeholder=\"请输入段落标题\"></textarea>\n" +
         "    <hr style=\"margin: 1px;background-color:#ebebeb \">\n" +
-        "    <textarea style=\"height: 150px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"input\" name=\"input\" placeholder=\"请输入段落文本\"></textarea>\n" +
+        "    <textarea style=\"height: 150px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"input" + inputCount + "\" placeholder=\"请输入段落文本\"></textarea>\n" +
         "    </div>\n" +
         "    <div class=\"panel-footer\" style=\"display: flex;\">\n" +
-        "    <input name=\"file\" multiple id=\"fileId\" type=\"file\" style=\"display:none\"onchange=\"uploadFile()\"/>\n" +
+        "    <input name=\"file\" multiple id=\"fileId"+ inputCount  +"\" type=\"file\" style=\"display:none\"onchange=\"uploadFile(this)\"/>\n" +
         "    <div class=\"input-append\">\n" +
         "       <input id=\"uploadpath\" class=\"input-large\" type=\"text\" style=\"height:30px;\">\n" +
-        "       <a class=\"btn btn-default\" style=\"height: 30px ;margin-top: -4px;background-color: #337ab7;color: white\" onclick=\"$('input[id=fileId]').click();\">文件上传</a>\">\n" +
+        "       <a class=\"btn btn-default\" style=\"height: 30px ;margin-top: -4px;background-color: #337ab7;color: white\" onclick=\"$('input[id=fileId" + inputCount + "]').click();\">文件上传</a>\">\n" +
         "    </div>\n" +
         "       <button class=\"btn btn-default\" onclick=\"addText()\"style=\"height: 30px ;margin-left:450px;background-color: #337ab7;color: white;float: right;\">添加</button>\n" +
-        "       <button class=\"btn btn-default\"onclick=\"deleteText(this)\" style=\"height: 30px ;margin-left:50px;background-color: #337ab7;color: white;float: right;\">删除</button>\n" + "    " +
+        "       <button class=\"btn btn-default\" onclick=\"deleteText(this)\" style=\"height: 30px ;margin-left:50px;background-color: #337ab7;color: white;float: right;\">删除</button>\n" + "    " +
             "</div>\n" +
             "</div>";
-        $("#div").append(boarddiv);
+        $("#div").append(boardDiv);
     }
 
     function deleteText(This){
@@ -228,28 +230,33 @@
     }
 
     var fileContent = null;
-    function uploadFile() {
-        var objFile = document.getElementById("fileId");
+    function uploadFile(fileInput) {
+        console.log("fileInput = " + fileInput);
+        var id = $(fileInput).prop("id");
+        var input = "input";
+        if (id != "fileId"){
+            input += id.substring(id.length - 1,id.length);
+        }
+        var objFile = document.getElementById(id);
         if(objFile.value == "") {
             alert("文件内容不能为空")
         }
-        var files = $('#fileId').prop('files'); //获取到文件列表
-        console.log(files.length);
+        var files = $(fileInput).prop('files'); //获取到文件列表
         if(files.length == 0) {
             alert('请选择文件');
         } else {
-            $('#input').html("");
             for (var i = 0; f = files[i]; i++) {
                 var reader = new FileReader(); //新建一个FileReader
                 reader.readAsText(files[i], "UTF-8"); //读取文件
                 reader.onload = function (evt) { //读取完文件之后会回来这里
                     fileContent = evt.target.result; // 读取文件内容
-                    $('#input').html(fileContent);
-                    // console.log(fileString)
+                    console.log(fileContent);
+                    document.getElementById(input).innerText = fileContent;
                 }
             }
         }
     }
+
     $( document ).ready(function() {
 
         /*$('#checkboxDiv').find('input[type=checkbox]').bind('click', function() {
@@ -259,18 +266,14 @@
         $('#btn').click(function() {
             var input=$("#Onetitle").val();
             input+="###";
+            $("#div textarea").each(function(){
+                input+=$(this).val();
+                input+="###";
+            });
+            $("#sentenceConut").html(input.split('.').length);
+            $("#wordCount").html(input.split(/\s+/mg).length);
+            $("#count").toggle();
             // 判断输入的为中文还是英文
-            if (fileContent == null) {
-                $("#div textarea").each(function(){
-                    input+=$(this).val();
-                    input+="###";
-                });
-                $("#sentenceConut").html(input.split('.').length);
-                $("#wordCount").html(input.split(/\s+/mg).length);
-                $("#count").toggle();
-            }else{
-                input = fileContent;
-            }
             if (input.match(/[\u4e00-\u9fa5]/g) != null&&(input.match(/[\u4e00-\u9fa5]/g).length >= input.length/2)){
                 //Chinese
                 console.log("Chinese");
