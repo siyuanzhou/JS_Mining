@@ -23,7 +23,6 @@
     <script src="https://cdn.bootcss.com/js-sha256/0.9.0/sha256.js"></script>
     <!--下面不用改-->
     <!--字体样式-->
-    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
@@ -158,9 +157,7 @@
                     var reader = new FileReader(); //新建一个FileReader
                     reader.readAsText(files[i], "UTF-8"); //读取文件
                     reader.onload = function (evt) { //读取完文件之后会回来这里
-                        var fileString = evt.target.result; // 读取文件内容
-                        fileContent = fileString;
-                        alert(fileContent);
+                        fileContent = evt.target.result; // 读取文件内容
                         $('#input').html(fileContent);
                         // console.log(fileString)
                     }
@@ -211,7 +208,6 @@
                 <li class="active">短文本摘要</li>
             </ol>
         </blockquote>
-        <!--<h1 style="text-align: center;color: #3385e1">短文本摘要</h1>-->
         <div class="container" style="height:800px;width:1000px;"  id="container">
             <!--待分析文本输入框-->
             <div class="panel panel-primary">

@@ -36,8 +36,8 @@ public class WeaponService {
 
 
     public List<Weapon> queryByTags(Tag tag){
-       List<Weapon>items;
-       Object weapon = redisTemplate.opsForValue().get(tag.toString());
+        /*List<Weapon>items;
+        Object weapon = redisTemplate.opsForValue().get(tag.toString());
         if(weapon==null){
             items = weaponMapper.queryByTags(tag);
             System.out.println("查询数据库！！！！");
@@ -45,7 +45,9 @@ public class WeaponService {
         }else{
             System.out.println("查询缓存！！！！");
             items = (List<Weapon>)weapon;
-        }
+        }*/
+        List<Weapon>items = weaponMapper.queryByTags(tag);
+        System.out.println("查询数据库！！！！");
         return items;
     }
 
