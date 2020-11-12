@@ -280,7 +280,10 @@
 
         //预测-技术成熟度
         function printPredictLabel(data) {
+
             console.log(typeof data);
+            var country = $("#country").val().toString().replaceAll(",", "、")
+            var field = $("#firstScope").val().toString()
             var result= [];
             var push1 = {};
             push1["name"] = "历史数据";
@@ -298,20 +301,47 @@
             result.push(push1);
             result.push(push3);
             console.log("resultData=" + result);
+            console.log("技术成果=" + data.技术成果);
 
             var serialChart = Highcharts.chart('predict_div', {
                 title: {
-                    text: '技术成熟度'
+                    text: country + field + '技术成熟度分析图'
                 },
                 subtitle: {
                     text: ''
                 },
-                colors: ['rgba(3,95,227,0.74)', '#c70831', 'rgba(0,201,66,0.97)',],
-                yAxis: {
+                colors: ['rgba(1,45,101,0.74)', '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)'],
+                yAxis: [{
                     title: {
-                        text: '技术实力'
-                    }
-                },
+                        // text: '技术成熟度',
+                        enabled: false
+                    },
+                    labels:{
+                        enabled: false
+                    },
+                },{
+                    title: {
+                        text: '论文增长量',
+                        style:{
+                        },
+                    },
+                    labels:{
+                        style:{
+                        },
+                    },
+                },{
+                    title: {
+                        text: '技术成果',
+                        style:{
+                        },
+
+                    },
+                    labels:{
+                        style:{
+                        },
+                    },
+                    opposite:true
+                },],
                 //x轴分四个阶段用不同背景颜色表示
                 xAxis: {
                     plotBands: [
@@ -321,23 +351,39 @@
                             to: 1958 + data.萌芽期,
                             label:{
                                 text: '萌芽期'
-                            }
+                            },
+                            zIndex: 1
                         },
                         { //彩色带横跨绘图区，标志着轴间隔。
-                            color: 'rgba(222,209,186,0.95)',
+                            color: 'rgb(238,245,197)',
                             from: 1958 + data.萌芽期,
                             to: 1958 + data.发展期,
                             label:{
                                 text: '发展期'
-                            }
+                            },
+                            zIndex: 1
                         },
                         { //彩色带横跨绘图区，标志着轴间隔。
-                            color: 'rgba(232,199,199,0.83)',
+                            color: 'rgba(253,137,137,0.83)',
                             from: 1958 + data.发展期,
                             to: 1958 + data.成熟期,
                             label:{
                                 text: '成熟期'
-                            }
+                            },
+                            zIndex: 1
+                        },
+                        { //彩色带横跨绘图区，标志着轴间隔。
+                            color: 'rgba(253,137,137,0.83)',
+                            from: 1958 + data.发展期,
+                            to: 1958 + data.成熟期,
+                            label:{
+                                text: '(突袭期)',
+                                y:30,
+                                style:{
+                                    color: 'red'
+                                }
+                            },
+                            zIndex: 1
                         },
                         { //彩色带横跨绘图区，标志着轴间隔。
                             color: 'rgba(219,198,236,0.82)',
@@ -345,14 +391,26 @@
                             to: 3000,
                             label:{
                                 text: '衰退期'
-                            }
+                            },
+                            zIndex: 0
                         },
                     ],
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
+                    // 突袭期起点和终点两条标线
+                    // plotLines:[{
+                    //     color:'#ff0000',
+                    //     dashStyle:'dash',
+                    //     value: 1958 + data.发展期,
+                    //     width:6,
+                    //     zIdenx: 99999
+                    //
+                    // },{
+                    //     color:'#ff0000',
+                    //     dashStyle:'dash',
+                    //     value: 1958 + data.成熟期,
+                    //     width:6,
+                    //     zIdenx: 99999
+                    //
+                    // }],
                 },
                 plotOptions: {
                     series: {
@@ -361,54 +419,90 @@
                     }
                 },
                 series:[{
+                    type:'scatter',
                     name: '技术发展',
                     data: data_history,
-                },{
-                    name: '生命周期',
-                    data: data.predict,
-                },{
-                    name: '一阶差分',
-                    data: data.diff,
-                },{
-                    name: '预警点',
-                    data: [{x: 1958 + data_history.length - 1, y: warn_point}],
-                    showInLegend: false,
-                    marker: {
-                        symbol: 'circle',
-                        radius:5
+                    zIndex: 6,
+                    marker:{
+                        enable: true,
+                        radius: 2,
                     }
-                },],
+                },{
+                    name: '技术生命周期',
+                    data: data.predict,
+                    zIndex: 6,
+
+                },{
+                    name: '论文增长量',
+                    data: data.diff,
+                    zIndex: 5,
+                    yAxis: 1
+                },{
+                    name: '技术成果',
+                    data: data.技术成果,
+                    type: 'column',
+                    yAxis: 2,
+                    zIndex: 0,
+                    marker:{
+                        enabled: true,
+                        symbol: 'square'
+                    }
+                },
+                    //     {
+                    //     name: '预警点',
+                    //     data: [{x: 1958 + data_history.length - 1, y: warn_point}],
+                    //     showInLegend: false,
+                    //     marker: {
+                    //         symbol: 'circle',
+                    //         radius:5
+                    //     }
+                    // },
+                ],
+                legend: {
+                    // layout: 'horizontal',
+                    // align: 'center',
+                    // verticalAlign: 'bottom'
+                    layout: 'vertical',
+                    align: 'left',
+                    x: 85,
+                    verticalAlign: 'top',
+                    y: 55,
+                    floating: true,
+                    symbolHeight:8,
+                    symbolWidth: 16,
+                    symbolRadius: 0,
+                },
                 responsive: {
                     rules: [{
                         condition: {
                             maxWidth: 500
                         },
                         chartOptions: {
-                            legend: {
-                                layout: 'horizontal',
-                                align: 'center',
-                                verticalAlign: 'bottom'
-                            }
+
                         }
                     }]
                 },
                 //预警标注
-                annotations: [{
-                    labels: [{
-                        point: 'warn',
-                        text: '技术突袭预警\n预警等级：' + data.warning_level
-                    }],
-                }],
+                // annotations: [{
+                //         labels: [{
+                //         point: 'warn',
+                //         text: '技术突袭预警\n预警等级：' + data.warning_level
+                //     }],
+                // }],
             });
         }
 
         //趋势预测
         function printPredictLabel2(data) {
 
+            var country = $("#country").val().toString().replaceAll(",", "、")
+            var field = $("#firstScope").val().toString()
             var serialChart2 = Highcharts.chart('predict_div2', {
                 title: {
-                    text: '趋势预测图'
+                    text: country + field + '领域发展趋势预测图'
                 },
+                colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
+                    'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
                 subtitle: {
                     text: ''
                 },
@@ -445,7 +539,6 @@
                     }]
                 }
             });
-
             var result= [];
             var red1 = {};
             red1["name"] = "历史统计值";
@@ -500,8 +593,9 @@
                 }
                 serialChart2.addSeries(green);
             }
+
             result.push(red1);
-            $('#loading').hide();
+            console.log("resultData=" + result);
         }
     });
 </script>
