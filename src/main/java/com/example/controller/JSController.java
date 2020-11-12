@@ -121,8 +121,8 @@ public class JSController {
     @RequestMapping("/JS_ReportItem")
     public String JS_ReportItem(){ return "JS_ReportItem"; }
 
-    @RequestMapping("Test")
-    public String JS_Test(){ return "Test"; }
+    @RequestMapping("/Index")
+    public String JS_Test(){ return "Index"; }
 
 /*    @RequestMapping("/JS_DataShow")
     public String JS_DataShow(){ return "JS_DataShow"; }*/

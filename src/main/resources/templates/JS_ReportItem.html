@@ -743,7 +743,7 @@
     function printSerialsLabel(data) {
 
         console.log("实力对比折线图返回数据=" + data);
-        var country = $("#pcountry").val().toString().replaceAll(",", "、")
+        var country = $("#dcountry").val().toString().replaceAll(",", "、")
         var field = $("#psecondScope").val().toString()
         var serialChart = Highcharts.chart('serialsLabel', {
             title: {
@@ -794,7 +794,7 @@
 
     //旭日图
     function printSunShine(data) {
-        var country = $("#pcountry").val().toString().replaceAll(",", "、")
+        var country = $("#dcountry").val().toString().replaceAll(",", "、")
         var field = $("#psecondScope").val().toString()
         Highcharts.setOptions({
             lang: {
