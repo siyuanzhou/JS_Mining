@@ -85,7 +85,7 @@
             $('#btn').toggle();
             $('#spinner').toggle();
             $.ajax({
-                url: "http://127.0.0.1:8000/textsum",
+                url: "http://127.0.0.1:8124/textsum",
                 method: 'POST',
                 dataType: 'jsonp',
                 jsonp: "callback",
@@ -96,6 +96,7 @@
                     $('#btn').toggle();
                     $('#spinner').toggle();
                     $('#result').text(data);
+                    $('#chineseSum').show();
                     var appKey = '241d46d9da752d9f';
                     var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
                     var salt = (new Date).getTime();
@@ -131,8 +132,35 @@
                     //$('#api_output').html("Sorry, the server is asleep...<br/>Try again in a moment!" );
                     console.log(errorThrown);
                 }
-
             });
+        }
+
+        //中文文本摘要调用
+        function capi_call(input) {
+            $('#btn').toggle();
+            $('#spinner').toggle();
+            $.ajax({
+                url: "http://127.0.0.1:8000/chineseTextSum",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback_chinesetextsum",//回调方法
+                contentType: 'application/json',
+                data: {input: JSON.stringify(input)},
+                success: function (data) {
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    $('#result').text(data);
+                    $('#chineseSum').hide();
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    $('#api_output').css("text-align", "center");
+                    //$('#api_output').html("Sorry, the server is asleep...<br/>Try again in a moment!" );
+                    console.log(errorThrown);
+                }
+            })
         }
 
         var fileContent = null;
@@ -180,10 +208,10 @@
                 } else {
                     input = fileContent;
                 }
-                if (input.match(/[\u4e00-\u9fa5]/g) != null && (input.match(/[\u4e00-\u9fa5]/g).length >= input.length / 2)) {
+                if (input.match(/[\u4e00-\u9fa5]/g) != null && (input.match(/[\u4e00-\u9fa5]/g).length !== 0)) {
                     //Chinese
                     console.log("Chinese");
-                    //capi_call(input);
+                    capi_call(input);
                 } else {
                     //English
                     console.log("English");
@@ -249,19 +277,19 @@
                 <div class="panel-body">
                     <div>
                     <textarea
-                            style="height: 150px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;"
+                            style="height: 200px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;"
                             type="text" id="result"></textarea>
                     </div>
                 </div>
             </div>
 
             <!--文本摘要翻译-->
-            <div class="panel panel-primary">
+            <div id="chineseSum" class="panel panel-primary">
                 <div class="panel-heading" style="text-align: center;align-content: center;">摘要翻译
                 </div>
                 <div class="panel-body">
                     <div>
-                        <textarea style="height: 150px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;" type="text" id="translation">
+                        <textarea style="height: 200px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;" type="text" id="translation">
                         </textarea>
                     </div>
                 </div>
