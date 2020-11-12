@@ -161,7 +161,7 @@
                             <div class='col-sm-3'>
                                 <div class="form-group">
                                     <label>国家:</label>
-                                    <select id="mcountry" class="form-control select_down selectpicker" multiple
+                                    <select id="dcountry" class="form-control select_down selectpicker" multiple
                                             data-live-search="true" title="请选择国家">
                                         <option>中国</option>
                                         <option>美国</option>
@@ -188,7 +188,7 @@
                             </div>
                             <div class='col-sm-3'>
                                 <div class="search_input" style="margin-top: 30px">
-                                    <button class="btn btn-primary search_btn" type="button" id="search">确定</button>
+                                    <button class="btn btn-primary search_btn" type="button" id="duibi">实力对比</button>
                                 </div>
                             </div>
                         </div>
@@ -213,7 +213,44 @@
                             </div>
                         </div>
 
-                        <!--趋势预测-->
+                        <div class="row" style="margin: 30px;">
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label>国家:</label>
+                                    <select id="pcountry" class="form-control select_down" title="请选择国家">
+                                        <option>中国</option>
+                                        <option>美国</option>
+                                        <option>德国</option>
+                                        <option>意大利</option>
+                                        <option>法国</option>
+                                        <option>中东</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label>范围</label>
+                                    <select id="psecondScope" class="form-control select_down"
+                                            style="font-size: 13px; color: #666;">
+                                        <option name="NLP">自然语言处理</option>
+                                        <option name="CV" >计算机视觉</option>
+                                        <option name="AI projects and applications">AI计划与应用</option>
+                                        <option name="robot technology">机器人技术</option>
+                                        <option name="Optimization algorithm theory">优化算法与理论</option>
+                                        <option>语音识别</option>
+                                        <option name="Recommended system">个性化推荐</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class='col-sm-3'>
+                                <div class="search_input" style="margin-top: 30px">
+                                    <button class="btn btn-primary search_btn" type="button" id="yuce">趋势预测</button>
+                                </div>
+                            </div>
+                        </div>
+                            <!--趋势预测-->
                         <div class="row" style="margin: 30px;">
                             <div id="detail5" style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
                             </div>
@@ -428,16 +465,10 @@
 
     });
 
-    $("#search").click(function () {
+    $("#duibi").click(function () {
 
         var select_area = $('#lingyu option:selected').text();//文本
-
-       /* if(lingyu=="自然语言处理"){
-            select_area = "NLP"
-        }else{
-            select_area = "CV"
-        }*/
-        countrys = $('#mcountry').val();//文本
+        countrys = $('#dcountry').val();//文本
         $.ajax({
             url: "http://127.0.0.1:7450/detail",
             method: 'POST',
@@ -506,6 +537,14 @@
             }
         });
 
+    });
+
+    $("#yuce").click(function () {
+
+        var country = $('#pcountry').val().toString();//文本
+        var obj = document.getElementById("psecondScope");
+        var index=obj.selectedIndex;
+        var select_area = obj.options[index].getAttribute("name");
         $.ajax({
             url: "http://127.0.0.1:7650/predict",
             method: 'POST',
@@ -534,7 +573,8 @@
             jsonpCallback: "successCallback_predict2",//回调方法
             contentType: 'application/json',
             data: {
-                "field": select_area
+                "field": select_area,
+                "country":country,
             },
             success: function (data) {
                 console.log("data=" + data);

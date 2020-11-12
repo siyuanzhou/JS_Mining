@@ -70,8 +70,7 @@
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>国家:</label>
-                            <select id="country" class="form-control select_down selectpicker" multiple
-                                    data-live-search="true" title="请选择国家">
+                            <select id="country" class="form-control select_down" title="请选择国家">
                                 <option>中国</option>
                                 <option>美国</option>
                                 <option>德国</option>
@@ -100,13 +99,13 @@
                             <label>范围</label>
                             <select id="secondScope" class="form-control select_down"
                                     style="font-size: 13px; color: #666;">
-                                <option>自然语言处理</option>
-                                <option>计算机视觉</option>
-                                <option>AI计划与应用</option>
-                                <option>机器人技术</option>
-                                <option>优化算法与理论</option>
+                                <option name="NLP">自然语言处理</option>
+                                <option name="CV" >计算机视觉</option>
+                                <option name="AI projects and applications">AI计划与应用</option>
+                                <option name="robot technology">机器人技术</option>
+                                <option name="Optimization algorithm theory">优化算法与理论</option>
                                 <option>语音识别</option>
-                                <option>个性化推荐</option>
+                                <option name="Recommended system">个性化推荐</option>
                             </select>
                         </div>
                     </div>
@@ -140,6 +139,7 @@
                     <div class="search_input">
                         <button class="btn btn-primary search_btn" type="button" id="yuce">趋势预测</button>
                     </div>
+
                 </div>
                 <div class="line"></div>
             </div>
@@ -230,17 +230,13 @@
             $('#loading').show();
             start = createTime($("#datetimepicker1").find("input").val());
             end = createTime($("#datetimepicker2").find("input").val());
-            var firstScope = $('#firstScope option:selected').text();//文本
-            var lingyu = $('#secondScope option:selected').text();//文本
-            var random = $('#random option:selected').text();//文本
+            //var firstScope = $('#firstScope option:selected').text();//文本
+            //var lingyu = $('#secondScope option:selected').text();//文本
+            //var random = $('#random option:selected').text();//文本
             var country = $('#country').val().toString();//文本
-            var countrys = country.split(",");
-
-            if(lingyu=="自然语言处理"){
-                select_area = "NLP"
-            }else{
-                select_area = "CV"
-            }
+            var obj = document.getElementById("secondScope");
+            var index=obj.selectedIndex;
+            var select_area = obj.options[index].getAttribute("name");
 
             $.ajax({
                 url: "http://127.0.0.1:7650/predict",
@@ -269,7 +265,8 @@
                 jsonpCallback: "successCallback_predict2",//回调方法
                 contentType: 'application/json',
                 data: {
-                    "field": select_area
+                    "field": select_area,
+                    "country":country,
                 },
                 success: function (data) {
                     console.log("data=" + data);
