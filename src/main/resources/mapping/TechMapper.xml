@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.mapper.TechMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.entity.Tech">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="source" jdbcType="VARCHAR" property="source" />
+        <result column="label" jdbcType="VARCHAR" property="label" />
+        <result column="date" jdbcType="VARCHAR" property="date" />
+        <result column="time" jdbcType="VARCHAR" property="time" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+    </resultMap>
+
+    <select id="selectList" resultType="com.example.entity.Tech">
+        select * from 0_人工智能脑科学
+    </select>
+
+</mapper>

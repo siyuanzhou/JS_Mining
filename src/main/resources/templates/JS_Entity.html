@@ -167,7 +167,7 @@
                 </div>
                 <!--放置文本分类的结果-->
                 <!--<div>-->
-                    <!--<span>该文本所属范围为：<span id="text_classify" style="color: #00bcd4"></span></span>-->
+                <!--<span>该文本所属范围为：<span id="text_classify" style="color: #00bcd4"></span></span>-->
                 <!--</div>-->
             </div>
         </blockquote>
@@ -183,7 +183,7 @@
                             <div id="preview" class="panel-body" style="height: 300px;padding: 10px">
                                 <textarea  style=" height: 100%;width: 100%;border-radius:5px;border: 0;
                                         background-color:rgb(255,255,255);text-align:justify;overflow: auto" id="input" type="text"
-                                          name="input" placeholder="请输入需要识别的句子">
+                                           name="input" placeholder="请输入需要识别的句子">
                                 </textarea>
                             </div>
 
@@ -197,9 +197,6 @@
                                     <a class="btn btn-default"
                                        style="height: 30px ;margin-top: -4px;background-color: #337ab7;color: white"
                                        onclick="$('input[id=fileId]').click();">文本上传</a>
-                                    <a class="btn btn-default"
-                                       style="height: 30px ;margin-top: -4px;background-color: #337ab7;color: white"
-                                       onclick="$('input[id=fileId3]').click();">图片上传</a>
                                 </div>
                             </div>
                         </div>
@@ -300,651 +297,552 @@
             </div>
 
         </div>
-        </div>
+    </div>
 
 
-        <script type="text/javascript">
-            //使用s2替换掉所有的s1字串
-            String.prototype.replaceAll = function(s1,s2) {
-                return this.replace(new RegExp(s1,"img"),s2);
+    <script type="text/javascript">
+        //使用s2替换掉所有的s1字串
+        String.prototype.replaceAll = function(s1,s2) {
+            return this.replace(new RegExp(s1,"img"),s2);
 
+        };
+
+        <!--英文实体识别关系抽取API调用-->
+        function identifyEntity(input) {
+            var fileName = $("#fileId2").val();
+            var strFileName = fileName.substring(fileName.lastIndexOf("\\")+1);
+            console.log(strFileName)
+            // hide button and make the spinner appear
+            $("#alternatecolor  tr:not(:first)").html("");
+            $("#alternatecolor1  tr:not(:first)").html("");
+            $.ajax({
+                url: "http://127.0.0.1:5000/api",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback",//回调方法
+                contentType: 'application/json',
+                data:{
+                    'input': JSON.stringify(input),
+                    'multi-file':strFileName
+                },
+
+                success: function (data) {
+                    // toggle the spinner and button
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    var str1 = data.input;
+                    var entityMap = data.listDemo;
+                    var raw_relations = data.raw_relations;
+                    var datas = raw_relations[0];
+                    var links = raw_relations[1];
+                    showRela(datas, links);
+                    console.log(str1);
+                    // color = ["red","yellow","blue"];
+                    arr = [];
+                    // 显示实体表格
+                    for (var prop in entityMap) {
+                        var entity = "";
+                        if (entityMap.hasOwnProperty(prop)) {
+                            for (var i = 0; i < entityMap[prop].length; i++) {
+                                arr.push(entityMap[prop][i]);
+                                if (entityMap[prop][i] !== "") {
+                                    entity = entity + entityMap[prop][i] + "、";
+                                }
+                            }
+                        }
+                        if (entity != null) {
+                            var tr = $("<tr></tr>");
+                            tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
+                            $("#alternatecolor").append(tr);
+                        }
+                    }
+                    //显示关系表格
+                    for (var i = 0; i < links.length; i++) {
+                        relationMap = links[i];
+                        var tr = $("<tr></tr>");
+                        tr.html("<td width='90px'>" + relationMap['source'] + "</td><td width='90px'>" + relationMap['name'] + "</td><td width='250px'>" + relationMap['target'] + "</td>");
+                        $("#alternatecolor1").append(tr);
+                    }
+
+                    //将出现实体标红
+                    const rtn = arr.map(i => ({raw: i, len: i.length}))
+                        .sort((p, n) => n.len - p.len)
+                        .map(i => i.raw);
+                    console.log(rtn);
+                    for(var entity of rtn){
+                        console.log(entity);
+                        var pattern = new RegExp(entity.trim(), 'g');
+                        str1 = str1.replace(pattern, '<span style="color:red">' + entity + '</span>').replace(/\s+/g, ' ');
+                    }
+                    str1 = str1.replace(/\\n+/g, '');
+
+                    $('#alternatecolor td').css({
+                        "text-align": "center",
+                        "border-width": "1px",
+                        "padding": "8px",
+                        "border-style": "solid",
+                        "border-color": "#a9c6c9"
+                    });
+                    $('#alternatecolor th').css({
+                        "text-align": "center",
+                        "border-width": "1px",
+                        "padding": "18px",
+                        "border-style": "solid",
+                        "border-color": "#a9c6c9"
+                    });
+                    // $('#api_output_father').css("border","1px solid #0b96e5");
+                    $('#api_output').css("text-align", "justify").html(str1);
+                    altRows('alternatecolor');
+                    altRows('alternatecolor1');
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    $('#api_output').css("text-align", "center").html("<p style='color: #0b96e5;font: 14px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
+                    console.log(errorThrown);
+                }
+
+            });
+        }
+
+
+        var fileContent = null;//文件内容
+        <!--中文实体识别关系抽取API调用-->
+        function identifyEntity_c(input) {
+            // hide button and make the spinner appear
+            var fileName = $("#fileId2").val();
+            var strFileName = fileName.substring(fileName.lastIndexOf("\\")+1);
+            console.log(fileContent);
+            $('#btn').toggle();
+            $('#spinner').toggle();
+            $("#alternatecolor  tr:not(:first)").html("");
+            $("#alternatecolor1  tr:not(:first)").html("");
+            $.ajax({
+                url: "http://127.0.0.1:8888/api",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback",//回调方法
+                contentType: 'application/json',
+                data:{
+                    'input': JSON.stringify(input),
+                    'multi-file':strFileName
+                },
+
+                success: function (data) {
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    var str1 = data.input;
+                    var entityMap = data.listDemo;
+                    var raw_relations = data.raw_relations;
+                    var datas = raw_relations[0];
+                    var links = raw_relations[1];
+                    showRela(datas, links);
+                    console.log(str1);
+                    // color = ["red","yellow","blue"];
+                    arr = [];
+                    // 显示实体表格
+                    for (var prop in entityMap) {
+                        var entity = "";
+                        if (entityMap.hasOwnProperty(prop)) {
+                            for (var i = 0; i < entityMap[prop].length; i++) {
+                                arr.push(entityMap[prop][i]);
+                                if (entityMap[prop][i] !== "") {
+                                    entity = entity + entityMap[prop][i] + "、";
+                                }
+                            }
+                        }
+                        if (entity != null) {
+                            var tr = $("<tr></tr>");
+                            tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
+                            $("#alternatecolor").append(tr);
+                        }
+                    }
+                    //显示关系表格
+                    for (var i = 0; i < links.length; i++) {
+                        relationMap = links[i];
+                        var tr = $("<tr></tr>");
+                        tr.html("<td width='90px'>" + relationMap['source'] + "</td><td width='90px'>" + relationMap['name'] + "</td><td width='250px'>" + relationMap['target'] + "</td>");
+                        $("#alternatecolor1").append(tr);
+                    }
+
+                    //将出现实体标红
+                    const rtn = arr.map(i => ({raw: i, len: i.length}))
+                        .sort((p, n) => n.len - p.len)
+                        .map(i => i.raw);
+                    console.log(rtn);
+                    for(var entity of rtn){
+                        console.log(entity);
+                        var pattern = new RegExp(entity.trim(), 'g');
+                        str1 = str1.replace(pattern, '<span style="color:red">' + entity + '</span>').replace(/\s+/g, ' ');
+                    }
+                    str1 = str1.replace(/\\n+/g, '');
+                    console.log(str1);
+                    $('#alternatecolor td').css({
+                        "text-align": "center",
+                        "border-width": "1px",
+                        "padding": "8px",
+                        "border-style": "solid",
+                        "border-color": "#a9c6c9"
+                    });
+                    $('#alternatecolor th').css({
+                        "text-align": "center",
+                        "border-width": "1px",
+                        "padding": "18px",
+                        "border-style": "solid",
+                        "border-color": "#a9c6c9"
+                    });
+                    // $('#api_output_father').css("border","1px solid #0b96e5");
+                    $('#api_output').css("text-align", "justify").html(str1);
+                    altRows('alternatecolor');
+                    altRows('alternatecolor1');
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    $('#api_output').css("text-align", "center").html("Sorry, the server is asleep...<br/>Try again in a moment!");
+                    console.log(errorThrown);
+                }
+            });
+        }
+
+        <!--文本分类API调用-->
+        function textClassify(input) {
+            // hide button and make the spinner appear
+            $('#btn').toggle();
+            $('#spinner').toggle();
+            $.ajax({
+                url: "http://127.0.0.1:7000/classify",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback_classify",//回调方法
+                contentType: 'application/json',
+                data: {input: JSON.stringify(input)},
+
+                success: function (data) {
+
+                    var index = 0;//记录最大值所对应的分类类别
+                    for (var i = 0 ;i < data.probability.length ; i++){
+                        var max = 0;
+                        if (data.probability[i] > max){
+                            max = data.probability[i];
+                            index = i;
+                        }
+                    }
+                    $("#text_sum").html("经分析，该文本属于<span style='color: blue'>" + data.classify[index] + "</span>范围的文章。其大致内容为:");
+                    $.ajax({
+                        url: "http://127.0.0.1:8000/textsum",
+                        method: 'POST',
+                        dataType: 'jsonp',
+                        jsonp: "callback",
+                        jsonpCallback: "successCallback_sum",//回调方法
+                        contentType: 'application/json',
+                        data: {input: JSON.stringify(input)},
+                        success: function (data) {
+                            var appKey = '241d46d9da752d9f';
+                            var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
+                            var salt = (new Date).getTime();
+                            var curTime = Math.round(new Date().getTime()/1000);
+                            // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+                            var from = 'en';
+                            var to = 'zh-CHS';
+                            var str1 = appKey + truncate(data) + salt + curTime + key;
+                            var sign = sha256(str1);
+                            $.ajax({
+                                url: 'http://openapi.youdao.com/api',
+                                type: 'post',
+                                dataType: 'jsonp',
+                                data: {
+                                    q: data,
+                                    appKey: appKey,
+                                    salt: salt,
+                                    from: from,
+                                    to: to,
+                                    sign: sign,
+                                    signType: "v3",
+                                    curtime: curTime
+                                },
+                                success: function (data) {
+                                    $('#btn').toggle();
+                                    $('#spinner').toggle();
+                                    var orgin = $("#text_sum").html();
+                                    $("#text_sum").html(orgin + data.translation[0]);
+                                }
+                            })
+                        }
+                    });
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    if ($('#api_output').is(':hidden')) {//如果当前隐藏
+                        $('#api_output').show();//那么就显示div
+                    }
+                    $('#api_output').html("<p style='color: #0b96e5;font: 16px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
+                    console.log(errorThrown);
+                }
+
+            });
+        }
+
+        <!--获得上传文件内容-->
+        function uploadFile() {
+            var objFile = document.getElementById("fileId");
+            if (objFile.value == "") {
+                alert("文件内容不能为空")
+            }
+            var files = $('#fileId').prop('files'); //获取到文件列表
+            console.log(files.length);
+            if (files.length == 0) {
+                alert('请选择文件');
+            } else {
+                for (var i = 0; f = files[i]; i++) {
+                    var reader = new FileReader(); //新建一个FileReader
+                    reader.readAsText(files[i], "UTF-8"); //读取文件
+                    $("#uploadPath").val("" + f.name);
+                    reader.onload = function (evt) { //读取完文件之后会回来这里
+                        var fileString = evt.target.result; // 读取文件内容
+                        $("#input").val("" + fileString);
+                        fileContent = fileString;
+                        // console.log(fileString)
+                    }
+                }
+            }
+        }
+
+        <!--多模态视频文件上传调用-->
+        function uploadFile2() {
+            var objFile = document.getElementById("fileId2").files[0];
+            if (objFile==undefined ||objFile == "") {
+                alert("请选择文件");
+                return false;
+            }
+            $("#uploadPath2").val("" + objFile.name);
+            var createObjectURL = function(objFile) {
+                return window[window.webkitURL ? 'webkitURL' : 'URL']['createObjectURL'](objFile);
+            };
+            var videoSrc = createObjectURL(objFile);
+            var formData = new FormData(); // FormData 对象
+            formData.append("multi-file", objFile); // 文件对象
+            $.ajax({
+                type: 'post',
+                url: "http://127.0.0.1:5000/receive", //上传文件的请求路径必须是绝对路径
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data){
+                    alert("上传成功");
+                },
+                error:function () {
+                    alert("上传失败");
+                }
+            });
+            var t = document.getElementById('input2');//选取id为test的元素
+            t.style.display = 'none';	// 隐藏选择的元素
+            $("#preview2").append("<video width=\"862\" height=\"290\" controls='' autoplay='' name='media'><source src='" + videoSrc + "'  type='video/mp4'></video>");
+        }
+
+        <!--图片文件上传调用-->
+        function uploadFile3() {
+            var files = [];
+            var objFile = document.getElementById("fileId3").files[0];
+            if (objFile==undefined ||objFile == "") {
+                alert("请选择文件");
+                return false;
+            }
+            var fr = new FileReader();
+            var imgStr;
+            fr.readAsDataURL(objFile);
+            fr.onload = function(objFile) {
+                var imgNew = new Image();
+                imgNew.src = objFile.target.result;
+                $("#uploadPath").val("" + objFile.name);
+                imgStr = "<div> <img src="+ imgNew.src +" class='pic_look'></div>";
+                var t = document.getElementById('input');//选取id为test的元素
+                t.style.display = 'none';	// 隐藏选择的元素
+                $("#preview").append(imgStr);
+                files.push(imgNew.src);
             };
 
-            <!--实体识别关系抽取API调用-->
-            function identifyEntity(input) {
-                var fileName = $("#fileId2").val();
-                var strFileName = fileName.substring(fileName.lastIndexOf("\\")+1);
-                console.log(strFileName)
-                // hide button and make the spinner appear
-                $("#alternatecolor  tr:not(:first)").html("");
-                $("#alternatecolor1  tr:not(:first)").html("");
-                $.ajax({
-                    url: "http://127.0.0.1:5000/api",
-                    method: 'POST',
-                    dataType: 'jsonp',
-                    jsonp: "callback",
-                    jsonpCallback: "successCallback_entity",//回调方法
-                    contentType: 'application/json',
-                    data:{
-                        'input': JSON.stringify(input),
-                        'multi-file':strFileName
-                    },
-
-                    success: function (data) {
-                        // toggle the spinner and button
-                        $('#btn').toggle();
-                        $('#spinner').toggle();
-                        var str1 = data.input;
-                        var entityMap = data.listDemo;
-                        var raw_relations = data.raw_relations;
-                        var datas = raw_relations[0];
-                        var links = raw_relations[1];
-                        showRela(datas, links);
-                        console.log(str1);
-                        // color = ["red","yellow","blue"];
-                        arr = [];
-                        // 显示实体表格
-                        for (var prop in entityMap) {
-                            var entity = "";
-                            if (entityMap.hasOwnProperty(prop)) {
-                                for (var i = 0; i < entityMap[prop].length; i++) {
-                                    arr.push(entityMap[prop][i]);
-                                    if (entityMap[prop][i] !== "") {
-                                        entity = entity + entityMap[prop][i] + "、";
-                                    }
-                                }
-                            }
-                            if (entity != null) {
-                                var tr = $("<tr></tr>");
-                                tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
-                                $("#alternatecolor").append(tr);
-                            }
-                        }
-                        //显示关系表格
-                        for (var i = 0; i < links.length; i++) {
-                            relationMap = links[i];
-                            var tr = $("<tr></tr>");
-                            tr.html("<td width='90px'>" + relationMap['source'] + "</td><td width='90px'>" + relationMap['name'] + "</td><td width='250px'>" + relationMap['target'] + "</td>");
-                            $("#alternatecolor1").append(tr);
-                        }
-
-                        //将出现实体标红
-                        const rtn = arr.map(i => ({raw: i, len: i.length}))
-                            .sort((p, n) => n.len - p.len)
-                            .map(i => i.raw);
-                        console.log(rtn);
-                        for(var entity of rtn){
-                            console.log(entity);
-                            var pattern = new RegExp(entity.trim(), 'g');
-                            str1 = str1.replace(pattern, '<span style="color:red">' + entity + '</span>').replace(/\s+/g, ' ');
-                        }
-                        str1 = str1.replace(/\\n+/g, '');
-                        console.log(str1);
-
-                        $('#alternatecolor td').css({
-                            "text-align": "center",
-                            "border-width": "1px",
-                            "padding": "8px",
-                            "border-style": "solid",
-                            "border-color": "#a9c6c9"
-                        });
-                        $('#alternatecolor th').css({
-                            "text-align": "center",
-                            "border-width": "1px",
-                            "padding": "18px",
-                            "border-style": "solid",
-                            "border-color": "#a9c6c9"
-                        });
-                        // $('#api_output_father').css("border","1px solid #0b96e5");
-                        $('#api_output').css("text-align", "justify").html(str1);
-                        altRows('alternatecolor');
-                        altRows('alternatecolor1');
-                    },
-                    error: function (jqXhr, textStatus, errorThrown) {
-                        $('#btn').toggle();
-                        $('#spinner').toggle();
-                        $('#api_output').css("text-align", "center").html("<p style='color: #0b96e5;font: 14px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
-                        console.log(errorThrown);
-                    }
-
-                });
-            }
-
-
-            // <!--实体识别关系抽取API调用-->
-            // function identifyEntity(input) {
-            //     var fileName = $("#fileId2").val();
-            //     var strFileName = fileName.substring(fileName.lastIndexOf("\\")+1);
-            //     $('#btn').toggle();
-            //     $('#spinner').toggle();
-            //     $("#alternatecolor  tr:not(:first)").html("");
-            //     $("#alternatecolor1  tr:not(:first)").html("");
-            //     $.ajax({
-            //         url: "http://127.0.0.1:5000/api",
-            //         method: 'POST',
-            //         dataType: 'jsonp',
-            //         jsonp: "callback",
-            //         jsonpCallback: "successCallback_entity",//回调方法
-            //         contentType: 'application/json',
-            //         data:{
-            //             'input': JSON.stringify(input),
-            //             'multi-file':strFileName
-            //         },
-            //         success: function (data) {
-            //             // toggle the spinner and button
-            //             $('#btn').toggle();
-            //             $('#spinner').toggle();
-            //             //由于可能是视频文件只能进行字幕提取由后端返回
-            //             var str1 = data.input;
-            //             console.log("Input为"+str1);
-            //             textClassify(str1);
-            //             var entityMap = data.listDemo;
-            //             var raw_relations = data.raw_relations;
-            //             var datas = raw_relations[0];
-            //             var links = raw_relations[1];
-            //             showRela(datas, links);
-            //             console.log(links);
-            //             console.log(entityMap);
-            //             // color = ["red","yellow","blue"];
-            //             for (var prop in entityMap) {
-            //                 var entity = "";
-            //                 if (entityMap.hasOwnProperty(prop)) {
-            //                     for (var i = 0; i < entityMap[prop].length; i++) {
-            //                         if (entityMap[prop][i] !== "") {
-            //                             entity = entity + entityMap[prop][i] + "、";
-            //                             str1 = str1.replaceAll(entityMap[prop][i], "<span style='color:red'>$&</span>");
-            //                         }
-            //                     }
-            //                 }
-            //                 if (entity != null) {
-            //                     var tr = $("<tr></tr>");
-            //                     tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
-            //                     $("#alternatecolor").append(tr);
-            //                 }
-            //             }
-            //             for (var i = 0; i < links.length; i++) {
-            //                 relationMap = links[i];
-            //                 var tr = $("<tr></tr>");
-            //                 tr.html("<td width='90px'>" + relationMap['source'] + "</td><td width='90px'>" + relationMap['name'] + "</td><td width='250px'>" + relationMap['target'] + "</td>");
-            //                 $("#alternatecolor1").append(tr);
-            //             }
-            //             $('#alternatecolor td').css({
-            //                 "text-align": "center",
-            //                 "border-width": "1px",
-            //                 "padding": "8px",
-            //                 "border-style": "solid",
-            //                 "border-color": "#a9c6c9"
-            //             });
-            //             $('#alternatecolor th').css({
-            //                 "text-align": "center",
-            //                 "border-width": "1px",
-            //                 "padding": "18px",
-            //                 "border-style": "solid",
-            //                 "border-color": "#a9c6c9"
-            //             });
-            //             // $('#api_output_father').css("border","1px solid #0b96e5");
-            //             $('#api_output').css("text-align", "justify").html(str1);
-            //             altRows('alternatecolor');
-            //             altRows('alternatecolor1');
-            //         },
-            //         error: function (jqXhr, textStatus, errorThrown) {
-            //             $('#btn').toggle();
-            //             $('#spinner').toggle();
-            //             $('#api_output').css("text-align", "center").html("<p style='color: #0b96e5;font: 14px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
-            //             console.log(errorThrown);
-            //         }
-            //
-            //     });
-            // }
-
-            var fileContent = null;//文件内容
-            <!--中文实体识别关系抽取API调用-->
-            function identifyEntity_c(input) {
-                // hide button and make the spinner appear
-                console.log(fileContent);
-                $('#btn').toggle();
-                $('#spinner').toggle();
-                $("#alternatecolor  tr:not(:first)").html("");
-                $("#alternatecolor1  tr:not(:first)").html("");
-                $.ajax({
-                    url: "http://127.0.0.1:8888/api",
-                    method: 'POST',
-                    dataType: 'jsonp',
-                    jsonp: "callback",
-                    jsonpCallback: "successCallback",//回调方法
-                    contentType: 'application/json',
-                    data: {input: JSON.stringify(input)},
-
-                    success: function (data) {
-                        $('#btn').toggle();
-                        $('#spinner').toggle();
-                        var str1 = data.input;
-                        var entityMap = data.listDemo;
-                        var raw_relations = data.raw_relations;
-                        var datas = raw_relations[0];
-                        var links = raw_relations[1];
-                        showRela(datas, links);
-                        console.log(str1);
-                        // color = ["red","yellow","blue"];
-                        arr = [];
-                        // 显示实体表格
-                        for (var prop in entityMap) {
-                            var entity = "";
-                            if (entityMap.hasOwnProperty(prop)) {
-                                for (var i = 0; i < entityMap[prop].length; i++) {
-                                    arr.push(entityMap[prop][i]);
-                                    if (entityMap[prop][i] !== "") {
-                                        entity = entity + entityMap[prop][i] + "、";
-                                    }
-                                }
-                            }
-                            if (entity != null) {
-                                var tr = $("<tr></tr>");
-                                tr.html("<td width='90px'>" + prop + "</td><td width='250px'>" + entity + "</td><td width='90px'>red</td>");
-                                $("#alternatecolor").append(tr);
-                            }
-                        }
-                        //显示关系表格
-                        for (var i = 0; i < links.length; i++) {
-                            relationMap = links[i];
-                            var tr = $("<tr></tr>");
-                            tr.html("<td width='90px'>" + relationMap['source'] + "</td><td width='90px'>" + relationMap['name'] + "</td><td width='250px'>" + relationMap['target'] + "</td>");
-                            $("#alternatecolor1").append(tr);
-                        }
-
-                        //将出现实体标红
-                        const rtn = arr.map(i => ({raw: i, len: i.length}))
-                            .sort((p, n) => n.len - p.len)
-                            .map(i => i.raw);
-                        console.log(rtn);
-                        for(var entity of rtn){
-                            console.log(entity);
-                            var pattern = new RegExp(entity.trim(), 'g');
-                            str1 = str1.replace(pattern, '<span style="color:red">' + entity + '</span>').replace(/\s+/g, ' ');
-                        }
-                        str1 = str1.replace(/\\n+/g, '');
-                        console.log(str1);
-                        $('#alternatecolor td').css({
-                            "text-align": "center",
-                            "border-width": "1px",
-                            "padding": "8px",
-                            "border-style": "solid",
-                            "border-color": "#a9c6c9"
-                        });
-                        $('#alternatecolor th').css({
-                            "text-align": "center",
-                            "border-width": "1px",
-                            "padding": "18px",
-                            "border-style": "solid",
-                            "border-color": "#a9c6c9"
-                        });
-                        // $('#api_output_father').css("border","1px solid #0b96e5");
-                        $('#api_output').css("text-align", "justify").html(str1);
-                        altRows('alternatecolor');
-                        altRows('alternatecolor1');
-                        //
-                        //
-                        //
-                        // // toggle the spinner and button
-                        // $('#btn').toggle();
-                        // $('#spinner').toggle();
-                        // var entityMap = data.output;
-                        // var str1 = data.input_data;
-                        // for (var prop in entityMap) {
-                        //     if (entityMap.hasOwnProperty(prop)) {
-                        //         for (var i = 0; i < entityMap[prop].length; i++) {
-                        //             var pattern = new RegExp(entityMap[prop][i].trim(), 'im');
-                        //             str1 = str1.replace(pattern, '<span style="color:red">' + entityMap[prop][i] + '</span>').replace(/\s+/g, ' ');
-                        //         }
-                        //     }
-                        // }
-                        // str1 = str1.replace(/\\n+/g, '');
-                        // $('#api_output').html(str1).css("text-align", "justify");
-                    },
-                    error: function (jqXhr, textStatus, errorThrown) {
-                        $('#btn').toggle();
-                        $('#spinner').toggle();
-                        $('#api_output').css("text-align", "center").html("Sorry, the server is asleep...<br/>Try again in a moment!");
-
-                        console.log(errorThrown);
-                    }
-                });
-            }
-
-            <!--文本分类API调用-->
-            function textClassify(input) {
-                // hide button and make the spinner appear
-                $('#btn').toggle();
-                $('#spinner').toggle();
-                $.ajax({
-                    url: "http://127.0.0.1:7000/classify",
-                    method: 'POST',
-                    dataType: 'jsonp',
-                    jsonp: "callback",
-                    jsonpCallback: "successCallback_classify",//回调方法
-                    contentType: 'application/json',
-                    data: {input: JSON.stringify(input)},
-
-                    success: function (data) {
-
-                        var index = 0;//记录最大值所对应的分类类别
-                        for (var i = 0 ;i < data.probability.length ; i++){
-                            var max = 0;
-                            if (data.probability[i] > max){
-                                max = data.probability[i];
-                                index = i;
-                            }
-                        }
-                        $("#text_sum").html("经分析，该文本属于<span style='color: blue'>" + data.classify[index] + "</span>范围的文章。其大致内容为:");
-                        $.ajax({
-                                url: "http://127.0.0.1:8000/textsum",
-                                method: 'POST',
-                                dataType: 'jsonp',
-                                jsonp: "callback",
-                                jsonpCallback: "successCallback_sum",//回调方法
-                                contentType: 'application/json',
-                                data: {input: JSON.stringify(input)},
-                                success: function (data) {
-                                    var appKey = '241d46d9da752d9f';
-                                    var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
-                                    var salt = (new Date).getTime();
-                                    var curTime = Math.round(new Date().getTime()/1000);
-                                    // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
-                                    var from = 'en';
-                                    var to = 'zh-CHS';
-                                    var str1 = appKey + truncate(data) + salt + curTime + key;
-                                    var sign = sha256(str1);
-                                    $.ajax({
-                                        url: 'http://openapi.youdao.com/api',
-                                        type: 'post',
-                                        dataType: 'jsonp',
-                                        data: {
-                                            q: data,
-                                            appKey: appKey,
-                                            salt: salt,
-                                            from: from,
-                                            to: to,
-                                            sign: sign,
-                                            signType: "v3",
-                                            curtime: curTime
-                                        },
-                                        success: function (data) {
-                                            $('#btn').toggle();
-                                            $('#spinner').toggle();
-                                            var orgin = $("#text_sum").html();
-                                            $("#text_sum").html(orgin + data.translation[0]);
-                                        }
-                                    })
-                                }
-                        });
-                    },
-                    error: function (jqXhr, textStatus, errorThrown) {
-                        if ($('#api_output').is(':hidden')) {//如果当前隐藏
-                            $('#api_output').show();//那么就显示div
-                        }
-                        $('#api_output').html("<p style='color: #0b96e5;font: 16px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
-                        console.log(errorThrown);
-                    }
-
-                });
-            }
-
-            <!--获得上传文件内容-->
-            function uploadFile() {
-                var objFile = document.getElementById("fileId");
-                if (objFile.value == "") {
-                    alert("文件内容不能为空")
+            $.ajax({
+                type: 'post',
+                url: "http://127.0.0.1:5000/receive", //上传文件的请求路径必须是绝对路径
+                data: files,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data){
+                    alert("上传成功");
+                },
+                error:function () {
+                    alert("上传失败");
                 }
-                var files = $('#fileId').prop('files'); //获取到文件列表
-                console.log(files.length);
-                if (files.length == 0) {
-                    alert('请选择文件');
-                } else {
-                    for (var i = 0; f = files[i]; i++) {
-                        var reader = new FileReader(); //新建一个FileReader
-                        reader.readAsText(files[i], "UTF-8"); //读取文件
-                        $("#uploadPath").val("" + f.name);
-                        reader.onload = function (evt) { //读取完文件之后会回来这里
-                            var fileString = evt.target.result; // 读取文件内容
-                            $("#input").val("" + fileString);
-                            fileContent = fileString;
-                            // console.log(fileString)
-                        }
-                    }
-                }
-            }
+            });
+        }
 
-            <!--多模态文件上传调用-->
-            function uploadFile2() {
-                var objFile = document.getElementById("fileId2").files[0];
-                if (objFile==undefined ||objFile == "") {
-                    alert("请选择文件");
-                    return false;
-                }
-                $("#uploadPath2").val("" + objFile.name);
-                var createObjectURL = function(objFile) {
-                    return window[window.webkitURL ? 'webkitURL' : 'URL']['createObjectURL'](objFile);
-                };
-                var videoSrc = createObjectURL(objFile);
-                var formData = new FormData(); // FormData 对象
-                formData.append("multi-file", objFile); // 文件对象
-                $.ajax({
-                    type: 'post',
-                    url: "http://127.0.0.1:5000/receive", //上传文件的请求路径必须是绝对路径
-                    data: formData,
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    success: function (data){
-                        alert("上传成功");
-                    },
-                    error:function () {
-                        alert("上传失败");
-                    }
-                });
-                var t = document.getElementById('input2');//选取id为test的元素
-                t.style.display = 'none';	// 隐藏选择的元素
-                $("#preview2").append("<video width=\"862\" height=\"290\" controls='' autoplay='' name='media'><source src='" + videoSrc + "'  type='video/mp4'></video>");
-            }
+        <!--表格隔行换色-->
+        function altRows(id) {
+            if (document.getElementsByTagName) {
 
-            <!--图片文件上传调用-->
-            function uploadFile3() {
-                var files = [];
-                var objFile = document.getElementById("fileId3").files[0];
-                if (objFile==undefined ||objFile == "") {
-                    alert("请选择文件");
-                    return false;
-                }
-                var fr = new FileReader();
-                var imgStr;
-                fr.readAsDataURL(objFile);
-                fr.onload = function(objFile) {
-                    var imgNew = new Image();
-                    imgNew.src = objFile.target.result;
-                    $("#uploadPath").val("" + objFile.name);
-                    imgStr = "<div> <img src="+ imgNew.src +" class='pic_look'></div>";
-                    var t = document.getElementById('input');//选取id为test的元素
-                    t.style.display = 'none';	// 隐藏选择的元素
-                    $("#preview").append(imgStr);
-                    files.push(imgNew.src);
-                };
+                var table = document.getElementById(id);
+                var rows = table.getElementsByTagName("tr");
 
-                $.ajax({
-                    type: 'post',
-                    url: "http://127.0.0.1:5000/receive", //上传文件的请求路径必须是绝对路径
-                    data: files,
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    success: function (data){
-                        alert("上传成功");
-                    },
-                    error:function () {
-                        alert("上传失败");
-                    }
-                });
-            }
-
-            <!--表格隔行换色-->
-            function altRows(id) {
-                if (document.getElementsByTagName) {
-
-                    var table = document.getElementById(id);
-                    var rows = table.getElementsByTagName("tr");
-
-                    for (var i = 0; i < rows.length; i++) {
-                        if (i % 2 == 0) {
-                            rows[i].className = "evenrowcolor";
-                        } else {
-                            rows[i].className = "oddrowcolor";
-                        }
-                    }
-                }
-            }
-
-            <!--有道智云文本翻译API调用-->
-            function truncate(q){
-                var len = q.length;
-                if(len<=20) return q;
-                return q.substring(0, 10) + len + q.substring(len-10, len);
-            }
-
-
-            //数组去重
-            function UniqObj(array) {     // 对象去重方法
-                var allArr = [];    //建立新的临时数组
-                for (var i = 0; i < array.length; i++) {
-                    var flag = true;
-                    for (var j = 0; j < allArr.length; j++) {
-                        if (array[i].name == allArr[j].name) {
-                            flag = false;
-                        }
-                    }
-                    if (flag) {
-                        allArr.push(array[i]);
-                    }
-                }
-                return allArr;
-            }
-
-            //显示关系图
-            function showRela(data, links) {
-                var myChart = echarts.init(document.getElementById('first_div'));
-                var categories = [];
-                for (var i = 0; i < 2; i++) {
-                    categories[i] = {
-                        name: '类目' + i
-                    };
-                }
-                option = {
-                    series: [{
-                        type: 'graph', // 类型:关系图
-                        layout: 'force', //图的布局，类型为力导图
-                        symbolSize: 50, // 调整节点的大小
-                        roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
-                        edgeSymbol: ['circle', 'arrow'],
-                        edgeSymbolSize: [2, 10],
-                        edgeLabel: {
-                            normal: {
-                                textStyle: {
-                                    fontSize: 20
-                                }
-                            }
-                        },
-                        force: {
-                            repulsion: 250,
-                            edgeLength: [100, 150]
-                        },
-                        draggable: true,
-                        lineStyle: {
-                            normal: {
-                                width: 2,
-                                color: '#4b565b'
-                            }
-                        },
-                        edgeLabel: {
-                            normal: {
-                                show: true,
-                                formatter: function (x) {
-                                    return x.data.name;
-                                }
-                            }
-                        },
-                        label: {
-                            normal: {
-                                show: true,
-                                textStyle: {}
-                            }
-                        },
-                        categories: categories
-                    }]
-                };
-                var tmp = option.series;
-                tmp[0]['data'] = UniqObj(data);
-                tmp[0]['links'] = links;
-                // console.log(tmp[0]['data'],tmp[0]['links']);
-                myChart.setOption(option);
-            }
-
-            function tick() {
-                circle.attr("transform", transform1);
-                text.attr("transform", transform2);
-                edges_line.attr('d', function (d) {
-                    var path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
-                    return path;
-                });
-
-                edges_text.attr('transform', function (d, i) {
-                    if (d.target.x < d.source.x) {
-                        bbox = this.getBBox();
-                        rx = bbox.x + bbox.width / 2;
-                        ry = bbox.y + bbox.height / 2;
-                        return 'rotate(180 ' + rx + ' ' + ry + ')';
+                for (var i = 0; i < rows.length; i++) {
+                    if (i % 2 == 0) {
+                        rows[i].className = "evenrowcolor";
                     } else {
-                        return 'rotate(0)';
+                        rows[i].className = "oddrowcolor";
                     }
-                });
+                }
             }
+        }
 
-            function linkArc(d) {
-                return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y
-            }
+        <!--有道智云文本翻译API调用-->
+        function truncate(q){
+            var len = q.length;
+            if(len<=20) return q;
+            return q.substring(0, 10) + len + q.substring(len-10, len);
+        }
 
-            function transform1(d) {
-                return "translate(" + d.x + "," + d.y + ")";
-            }
 
-            function transform2(d) {
-                return "translate(" + (d.x) + "," + d.y + ")";
-            }
-
-            $(function () {
-                // request when clicking on the button
-                altRows('alternatecolor');
-                altRows('alternatecolor1');
-                $('#input').focus();
-                $('#btn').click(function () {
-                    var input = null;
-                    if (fileContent == null) {
-                        input = $('#input').val();
-                    } else {
-                        input = fileContent;
+        //数组去重
+        function UniqObj(array) {     // 对象去重方法
+            var allArr = [];    //建立新的临时数组
+            for (var i = 0; i < array.length; i++) {
+                var flag = true;
+                for (var j = 0; j < allArr.length; j++) {
+                    if (array[i].name == allArr[j].name) {
+                        flag = false;
                     }
-                    if (input.match(/[\u4e00-\u9fa5]/g) != null && (input.match(/[\u4e00-\u9fa5]/g).length >= input.length / 2)) {
-                        //Chinese
-                        identifyEntity_c(input);
-                    } else {
-                        //English
-                        identifyEntity(input);
-                    }
-                    input = null;
-                    fileContent = null;
-                });
+                }
+                if (flag) {
+                    allArr.push(array[i]);
+                }
+            }
+            return allArr;
+        }
+
+        //显示关系图
+        function showRela(data, links) {
+            var myChart = echarts.init(document.getElementById('first_div'));
+            var categories = [];
+            for (var i = 0; i < 2; i++) {
+                categories[i] = {
+                    name: '类目' + i
+                };
+            }
+            option = {
+                series: [{
+                    type: 'graph', // 类型:关系图
+                    layout: 'force', //图的布局，类型为力导图
+                    symbolSize: 50, // 调整节点的大小
+                    roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                    edgeSymbol: ['circle', 'arrow'],
+                    edgeSymbolSize: [2, 10],
+                    edgeLabel: {
+                        normal: {
+                            textStyle: {
+                                fontSize: 20
+                            }
+                        }
+                    },
+                    force: {
+                        repulsion: 250,
+                        edgeLength: [100, 150]
+                    },
+                    draggable: true,
+                    lineStyle: {
+                        normal: {
+                            width: 2,
+                            color: '#4b565b'
+                        }
+                    },
+                    edgeLabel: {
+                        normal: {
+                            show: true,
+                            formatter: function (x) {
+                                return x.data.name;
+                            }
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            textStyle: {}
+                        }
+                    },
+                    categories: categories
+                }]
+            };
+            var tmp = option.series;
+            tmp[0]['data'] = UniqObj(data);
+            tmp[0]['links'] = links;
+            // console.log(tmp[0]['data'],tmp[0]['links']);
+            myChart.setOption(option);
+        }
+
+        function tick() {
+            circle.attr("transform", transform1);
+            text.attr("transform", transform2);
+            edges_line.attr('d', function (d) {
+                var path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
+                return path;
             });
 
+            edges_text.attr('transform', function (d, i) {
+                if (d.target.x < d.source.x) {
+                    bbox = this.getBBox();
+                    rx = bbox.x + bbox.width / 2;
+                    ry = bbox.y + bbox.height / 2;
+                    return 'rotate(180 ' + rx + ' ' + ry + ')';
+                } else {
+                    return 'rotate(0)';
+                }
+            });
+        }
 
-        </script>
-    </div>
+        function linkArc(d) {
+            return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y
+        }
+
+        function transform1(d) {
+            return "translate(" + d.x + "," + d.y + ")";
+        }
+
+        function transform2(d) {
+            return "translate(" + (d.x) + "," + d.y + ")";
+        }
+
+        $(function () {
+            // request when clicking on the button
+            altRows('alternatecolor');
+            altRows('alternatecolor1');
+            $('#input').focus();
+            $('#btn').click(function () {
+                var fileName = $("#fileId2").val();
+                //alert(fileName);
+                var input = null;
+                if (fileContent == null) {
+                    input = $('#input').val();
+                } else {
+                    input = fileContent;
+                }
+                if (fileName.match(/[\u4e00-\u9fa5]/g) != null || (input.match(/[\u4e00-\u9fa5]/g) != null && (input.match(/[\u4e00-\u9fa5]/g).length >= input.length / 2))) {
+                    //Chinese
+                    identifyEntity_c(input);
+                } else {
+                    //English
+                    identifyEntity(input);
+                }
+                input = null;
+                fileContent = null;
+            });
+        });
+
+
+    </script>
+</div>
 </div>
 
 

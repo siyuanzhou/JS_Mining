@@ -106,4 +106,11 @@ public class DataItemController {
         return "JS_DataShow";
     }
 
+    @RequestMapping(value = "JS_Tech")
+    public String JS_Tech(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum){
+        PageInfo pageInfo = dataItemService.selectTechList(pageNum,10);
+        model.addAttribute("pageInfo",pageInfo);
+        return "JS_TechShow";
+    }
+
 }

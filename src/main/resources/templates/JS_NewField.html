@@ -296,8 +296,6 @@
                     reader.onload = function (evt) { //读取完文件之后会回来这里
                         var fileString = evt.target.result; // 读取文件内容
                         $("#input").val("" + fileString);
-                        fileContent = fileString;
-                        // console.log(fileString)
                     }
                 }
             }
@@ -344,7 +342,6 @@
          */
         function flagColor(jquery1,jquery2,map,input,color){
             for (var prop in map) {
-                console.log(prop)
                 var entity = "";
                 if (map.hasOwnProperty(prop)) {
                     for (var i = 0; i < map[prop].length; i++) {
@@ -518,10 +515,9 @@
             $("#scroll2").scroll(function () {
                 $("#scroll").scrollTop($(this).scrollTop());
             });
-            console.log(new Date());
             echartShow();
-
             $("#btn").click(function () {
+                var input = $("#input").val();
                 if (field == ""){
                     alert("请先选择领域后再点击按钮,效果会更好哦")
                 }else{
@@ -529,7 +525,7 @@
                     $('#spinner').toggle();
                     $.ajax({
                         url:'http://127.0.0.1:7500/api',
-                        data:{'input':JSON.stringify(fileContent),'field':field},
+                        data:{'input':JSON.stringify(input),'field':field},
                         dataType: 'jsonp',
                         jsonp: "callback",
                         jsonpCallback: "successCallback",//回调方法
@@ -540,8 +536,8 @@
                             var inputText = $("#input");
                             var input1 = inputText.val();
                             var input2 = inputText.val();
-                            flagColor($("#api_output"),$("#alternatecolor"),data.old,fileContent,'red');
-                            flagColor($("#api_output2"),$("#alternatecolor2"),data.new,fileContent,'red');
+                            flagColor($("#api_output"),$("#alternatecolor"),data.old,input1,'red');
+                            flagColor($("#api_output2"),$("#alternatecolor2"),data.new,input2,'red');
                             flagColor($("#api_output2"),null,data.new_only,$("#api_output2").html(),'blue');
                             echartShow(data.old_only,data.new_only,data.intersect);
                         },
