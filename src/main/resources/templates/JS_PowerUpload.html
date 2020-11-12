@@ -100,10 +100,18 @@
                                     data-live-search="true" title="请选择国家">
                                 <option>中国</option>
                                 <option>美国</option>
-                                <option>德国</option>
-                                <option>意大利</option>
+                                <option>英国</option>
                                 <option>法国</option>
-                                <option>中东</option>
+                                <option>俄罗斯</option>
+                                <option>德国</option>
+                                <option>印度</option>
+                                <option>加拿大</option>
+                                <option>澳大利亚</option>
+                                <option>韩国</option>
+                                <option>瑞士</option>
+                                <option>以色列</option>
+                                <option>爱尔兰</option>
+                                <option>瑞典</option>
                             </select>
                         </div>
                     </div>
@@ -166,6 +174,28 @@
                         </div>
                     </div>
 
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>对比指标</label>
+                            <select id="item" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;width: 290px">
+                                <option>综合实力</option>
+                                <option>科研环境</option>
+                                <option>科研投入</option>
+                                <option>科技产出</option>
+                                <option>科研人员数量</option>
+                                <option>研究机构数量</option>
+                                <option>开展项目总数</option>
+                                <option>研发经费</option>
+                                <option>科技论文数</option>
+                                <option>新型技术</option>
+                                <option>科技论文平均被引用次数</option>
+                                <option>高科技产品</option>
+                                <option>成果关注度</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="search_input">
                         <button class="btn btn-primary search_btn" type="button" id="duibi">实力对比</button>
                     </div>
@@ -187,6 +217,15 @@
                 </div>
             </div>
         </div>
+
+        <!--科技实力折线图对比-->
+        <div class="row" style="margin: 30px;">
+            <div id="detail9" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
+            </div>
+            <div class="panel-body" id="serialsLabel" style="width: 800px;height: 400px;margin: auto">
+            </div>
+        </div>
+
         <!--旭日图实力对比-->
         <div class="row" style="margin: 30px;">
             <div id="detail1" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
@@ -201,11 +240,7 @@
             </div>
         </div>
 
-        <!--科技实力折线图对比-->
-        <div class="row" style="margin: 30px;">
-            <div class="panel-body" id="serialsLabel" style="width: 800px;height: 400px;margin: auto">
-            </div>
-        </div>
+
     </div>
 
 
@@ -264,13 +299,12 @@
             var random = $('#random option:selected').text();//文本
             var country = $('#country').val().toString();//文本
             var countrys = country.split(",");
-
-            /*if(lingyu=="自然语言处理"){
-                select_area = "NLP"
-            }else{
-                select_area = "CV"
-            }*/
-
+            var indicator =  $('#item option:selected').text();//文本
+            alert(indicator);
+            if(indicator == "综合实力"){
+                indicator = select_area;
+            }
+            alert(indicator);
             $.ajax({
                 url: "http://127.0.0.1:7450/detail",
                 method: 'POST',
@@ -329,12 +363,17 @@
                     'country_list': JSON.stringify(countrys),
                     'start_year': start.substring(0, 4),
                     'end_year': end.substring(0, 4),
-                    'indicator_name': "科技产出",
+                    'indicator_name': indicator,
                     'random': random,
                 },
                 success: function (data) {
                     console.log("data=" + data);
                     printSerialsLabel(JSON.parse(data));
+                    if(indicator == select_area){
+                        indicator = "综合实力"
+                    }
+                    var text = "针对"+ countrys + "在" + select_area + "的"+ indicator + "指标对比结果如下";
+                    $("#detail9").html(text);
                     $('#loading').hide();
                 }
             });
@@ -365,9 +404,10 @@
             console.log("lineData=" + data);
             var country = $('#country').val().toString().replaceAll(",", "、")
             var field = $("#secondScope option:selected").text()
+            var indicator =  $('#item option:selected').text();//文本
             var serialChart = Highcharts.chart('serialsLabel', {
                 title: {
-                    text: country + field + '领域科技实力对比折线图'
+                    text: country + field + indicator+'指标对比折线图'
                 },
                 colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
                     'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
@@ -376,7 +416,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: '实力指数'
+                        text: indicator +'指数'
                     }
                 },
                 legend: {
@@ -430,7 +470,7 @@
                     colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
                     'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
                     title: {
-                        text: country + field + '军事实力对比体系'
+                        text: country + field + '综合科技实力对比'
                     },
                     series: [{
                         type: "sunburst",

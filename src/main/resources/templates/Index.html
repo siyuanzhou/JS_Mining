@@ -1,465 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600|Montserrat:200,300,400"
-          rel="stylesheet">
-    <link rel="stylesheet" href="assets/fonts/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="assets/fonts/law-icons/font/flaticon.css">
-    <link rel="stylesheet" href="assets/fonts/fontawesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/slick.css">
-    <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="assets/css/slick-theme.css">
-    <link rel="stylesheet" href="assets/css/helpers.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/landing-2.css">
-
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-    <script src="./js/jquery.min.js"></script>
-    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-    <script src="./js/bootstrap.min.js"></script>
-
+    <meta charset="utf-8"/>
+    <title>欢迎登录</title>
+    <meta name="author" content="DeathGhost" />
+    <link rel="stylesheet" type="text/css" href="./css/index/style.css" tppabs="./css/index/style.css" />
     <style>
-        .carousel-indicators {
-            background: transparent;
-        }
+        body{height:100%;background:#16a085;overflow:hidden;}
+        canvas{z-index:-1;position:absolute;}
     </style>
+    <script src="./js/index/jquery.js"></script>
+    <script src="./js/index/verificationNumbers.js" tppabs="./js/index/verificationNumbers.js"></script>
+    <script src="./js/index/Particleground.js" tppabs="./js/index/Particleground.js"></script>
+    <script>
+        $(document).ready(function() {
+            //粒子背景特效
+            $('body').particleground({
+                dotColor: '#5cbdaa',
+                lineColor: '#5cbdaa'
+            });
+            //验证码
+            createCode();
+            //测试提交，对接程序删除即可
+            $(".submit_btn").click(function(){
+                location.href="/JS_Index;"/*tpa=http://***index.html*/;
+            });
+        });
+    </script>
 </head>
 <body>
-<div style="height:900px;width: 100%">
-    <div id="carousel-example-generic" class="carousel slide " style="height:100%;" data-ride="carousel">
-        <!-- 指示器 -->
-        <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="4"></li>
-        </ol>
-        <!-- 轮播图片及说明文字 -->
-        <div class="carousel-inner" style="width:100%;height:100%;">
-            <div class="item  active " style="width:100%;height:100%;">
-                <img src="image/i-1.jpg" style="width:100%;height:100%;" alt="图片1">
-                <div class="carousel-caption " style="padding-bottom: 450px;padding-left: 0px">
-                    <div>
-                        <div class="col-md-6">
-                            <h1 class="heading mb-3"><font style="font-family:Times New Roman,Georgia,Serif;font-color:blue;font-weight: bold; font-style: italic;">智能情报分析系统</font></h1>
-                            <div class="sub-heading">
-                                <p class="mb-5" style="text-align: left">
-                                <p></br></p>
-                                <p class="mb-5">
-                                    <button data-toggle="modal" data-target="#myModal"
-                                            class="btn btn-success radius ml-50" type="button">开始使用
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
-                        <!--<button data-toggle="modal" data-target="#myModal" class="btn btn-success radius ml-50" type="button">开始使用</button>
-                -->    </div>
-                </div>
-            </div>
-            <div class="item  " style="width:100%;height:100%;">
-                <img src="image/i-9.gif" style="width:100%;height:100%;" alt="图片2">
-                <div class="carousel-caption " style="padding-bottom: 450px;padding-left: 0px">
-                    <div>
-                        <div class="col-md-6">
-                            <h1 class="heading mb-3"><font style="font-family:Times New Roman,Georgia,Serif;font-color:blue;font-weight: bold; font-style: italic;">智能情报分析系统</font></h1>
-                            <div class="sub-heading">
-                                <p class="mb-5" style="text-align: left">
-                                </p>
-                                <p></br></p>
-                                <p class="mb-5">
-                                    <button data-toggle="modal" data-target="#myModal"
-                                            class="btn btn-success radius ml-50" type="button">开始使用
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="item " style="width:100%;height:100%;">
-                <img src="image/i-3.jpg" style="width:100%;height:100%;" alt="图片3">
-                <div class="carousel-caption " style="padding-bottom: 450px;padding-left: 0px">
-                    <div>
-                        <div class="col-md-6">
-                            <h1 class="heading mb-3"><font style="font-family:Times New Roman,Georgia,Serif;font-color:blue;font-weight: bold; font-style: italic;">智能情报分析系统</font></h1>
-                            <div class="sub-heading">
-                                <p class="mb-5" style="text-align: left">
-                                <p></br></p>
-                                <p class="mb-5">
-                                    <button data-toggle="modal" data-target="#myModal"
-                                            class="btn btn-success radius ml-50" type="button">开始使用
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item " style="width:100%;height:100%;">
-                <img src="image/i-8.jpg" style="width:100%;height:100%;" alt="图片3">
-                <div class="carousel-caption " style="padding-bottom: 450px;padding-left: 0px">
-                    <div>
-                        <div class="col-md-6">
-                            <h1 class="heading mb-3"><font style="font-family:Times New Roman,Georgia,Serif;font-color:blue;font-weight: bold; font-style: italic;">智能情报分析系统</font></h1>
-                            <div class="sub-heading">
-                                <p class="mb-5" style="text-align: left">
-                                <p></br></p>
-                                <p class="mb-5">
-                                    <button data-toggle="modal" data-target="#myModal"
-                                            class="btn btn-success radius ml-50" type="button">开始使用
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item " style="width:100%;height:100%;">
-                <img src="image/i-6.jpg" style="width:100%;height:100%;" alt="图片3">
-                <div class="carousel-caption " style="padding-bottom: 450px;padding-left: 0px">
-                    <div>
-                        <div class="col-md-6">
-                            <h1 class="heading mb-3"><font style="font-family:Times New Roman,Georgia,Serif;font-color:blue;font-weight: bold; font-style: italic;">智能情报分析系统</font></h1>
-                            <div class="sub-heading">
-                                <p class="mb-5" style="text-align: left">
-                                <p class="mb-5">
-                                    <button data-toggle="modal" data-target="#myModal"
-                                            class="btn btn-success radius ml-50" type="button">开始使用
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="myModal" tabindex="-10000" role="dialog" aria-labelledby="myModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" style="padding-top: 100px;">
-                    <div class=" modal-content col-md-10 relative align-self-center">
-                        <form action="/JS_Index" class="bg-white rounded pb_form_v1">
-                            <h2 class="mb-4 mt-0 text-center">用户登录</h2>
-                            <div class="form-group">
-                                <input type="text" class="form-control pb_height-50 reverse" placeholder="用户名">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control pb_height-50 reverse" placeholder="密码">
-                            </div>
-
-                            <div class="form-group">
-                                <input type="submit"
-                                       class="btn btn-primary btn-lg btn-block pb_btn-pill  btn-shadow-blue" value="登录">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
+<dl class="admin_login">
+    <dt>
+        <strong>科技情报智能分析系统</strong>
+        <em>Management System</em>
+    </dt>
+    <dd class="user_icon">
+        <input type="text" placeholder="账号" class="login_txtbx"/>
+    </dd>
+    <dd class="pwd_icon">
+        <input type="password" placeholder="密码" class="login_txtbx"/>
+    </dd>
+    <dd class="val_icon">
+        <div class="checkcode">
+            <input type="text" id="J_codetext" placeholder="验证码" maxlength="4" class="login_txtbx">
+            <canvas class="J_codeimg" id="myCanvas" onclick="createCode()">对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
         </div>
-        <!-- 控制按钮：左右切换 -->
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-    </div>
-</div>
+        <input type="button" value="验证码核验" class="ver_btn" onClick="validate();">
+    </dd>
+    <dd>
+        <input type="button" value="立即登陆" class="submit_btn" onclick='location.href=("/JS_Index")' />
+    </dd>
+    <dd>
 
-
-<section class="pb_section bg-light pb_slant-white pb_pb-250" id="section-features">
-    <div class="container">
-        <div class="row justify-content-center mb-5">
-            <div class="col-md-6 text-center mb-5">
-                <h5 class="text-uppercase pb_font-15 mb-2 pb_color-dark-opacity-3 pb_letter-spacing-2">
-                    <strong>Features</strong></h5>
-                <h2>项目简介</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-md- col-sm-6">
-                <div class="media d-block pb_feature-v1 text-left">
-                    <div class="pb_icon"><i class="ion-ios-bookmarks-outline pb_icon-gradient"></i></div>
-                    <div class="media-body">
-                        <h5 class="mt-0 mb-3 heading">多模态信息提取</h5>
-                        <p class="text-sans-serif">通过一种自监督堆叠式多层自编码深度神经网络进行实体识别，可以有效满足军事信息多领域多范围的广度需求。</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md- col-sm-6">
-                <div class="media d-block pb_feature-v1 text-left">
-                    <div class="pb_icon"><i class="ion-ios-speedometer-outline pb_icon-gradient"></i></div>
-                    <div class="media-body">
-                        <h5 class="mt-0 mb-3 heading">多模态信息融合</h5>
-                        <p class="text-sans-serif">挖掘出不同模态数据的隐藏语义和它们之间的相互映射关系，以实现对多模态数据语义特征的有效融合</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md- col-sm-6">
-                <div class="media d-block pb_feature-v1 text-left">
-                    <div class="pb_icon"><i class="ion-ios-infinite-outline pb_icon-gradient"></i></div>
-                    <div class="media-body">
-                        <h5 class="mt-0 mb-3 heading">新知识领域识别</h5>
-                        <p class="text-sans-serif">针对既有知识领域和新知识领域命名实体识别的问题，提出一种融合迁移学习和深度学习的新知识领域命名实体识别模型。</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md- col-sm-6">
-                <div class="media d-block pb_feature-v1 text-left">
-                    <div class="pb_icon"><i class="ion-ios-color-filter-outline pb_icon-gradient"></i></div>
-                    <div class="media-body">
-                        <h5 class="mt-0 mb-3 heading">面向领域的文本分类</h5>
-                        <p class="text-sans-serif">提出一个高效的基于多粒度组合优化的文本分类算法模型，以更高准确率地对文本进行分类。</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md- col-sm-6">
-                <div class="media d-block pb_feature-v1 text-left">
-                    <div class="pb_icon"><i class="ion-ios-wineglass-outline pb_icon-gradient"></i></div>
-                    <div class="media-body">
-                        <h5 class="mt-0 mb-3 heading">科技信息概要生成</h5>
-                        <p class="text-sans-serif">用神经网络技术从语义理解的角度来生成军事科技文本摘要和军事科技信息简报。</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md- col-sm-6">
-                <div class="media d-block pb_feature-v1 text-left">
-                    <div class="pb_icon"><i class="ion-ios-paperplane-outline pb_icon-gradient"></i></div>
-                    <div class="media-body">
-                        <h5 class="mt-0 mb-3 heading">信息智能量化分析</h5>
-                        <p class="text-sans-serif">基于AHP决策分析的军事科技实力对比分析模型，评估并量化各领域可能出现技术突袭风险的指标。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- END section -->
-
-<section class="pb_section pb_slant-light" id="section-tech">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 mb-5">
-                <img src="image/c-6.jpg" alt="Image placeholder" class="img-fluid">
-            </div>
-            <div class="col-lg-8 pl-md-5 pl-sm-0">
-                <div class="row">
-                    <div class="col">
-                        <h2>技术途径</h2>
-                        <p class="pb_font-20">本项目针对多模态智能的军事科技信息发展动态挖掘分析的需求，有效地应用军事科技信息综合处理、挖掘以及分析的相关算法、技术和策略进行研究。</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg">
-
-                        <div class="media pb_feature-v2 text-left mb-1 mt-5">
-                            <div class="pb_icon d-flex mr-3 align-self-start pb_w-15"><i
-                                    class="ion-ios-bookmarks-outline pb_icon-gradient"></i></div>
-                            <div class="media-body">
-                                <h3 class="mt-2 mb-2 heading">关键技术</h3>
-                                <p class="text-sans-serif pb_font-16">通过迁移学习和BiLSTM-CRF模型的优化提高新知识领域识别准确率</p>
-                            </div>
-                        </div>
-
-                        <div class="media pb_feature-v2 text-left mb-1 mt-5">
-                            <div class="pb_icon d-flex mr-3 align-self-start pb_w-15"><i
-                                    class="ion-ios-infinite-outline pb_icon-gradient"></i></div>
-                            <div class="media-body">
-                                <h3 class="mt-2 mb-2 heading">关键技术</h3>
-                                <p class="text-sans-serif pb_font-16">通过多粒度及特征组合优化提升军事科技信息分类能力</p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-lg">
-
-                        <div class="media pb_feature-v2 text-left mb-1 mt-5">
-                            <div class="pb_icon d-flex mr-3 align-self-start pb_w-15"><i
-                                    class="ion-ios-speedometer-outline pb_icon-gradient"></i></div>
-                            <div class="media-body">
-                                <h3 class="mt-2 mb-2 heading">关键技术</h3>
-                                <p class="text-sans-serif pb_font-16">通过语义融合及长短文本迭代序列学习模型优化简报生成质量</p>
-                            </div>
-                        </div>
-
-                        <div class="media pb_feature-v2 text-left mb-1 mt-5">
-                            <div class="pb_icon d-flex mr-3 align-self-start pb_w-15"><i
-                                    class="ion-ios-color-filter-outline  pb_icon-gradient"></i></div>
-                            <div class="media-body">
-                                <h3 class="mt-2 mb-2 heading">关键技术</h3>
-                                <p class="text-sans-serif pb_font-16">通过记忆网络及注意力优化提升长时趋势预测能力</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</section>
-<!-- END section -->
-<div class="tlinks">Collect from <a href="http://www.cssmoban.com/" title="JS系统">JS系统</a></div>
-<section class="pb_section bg-light pb_slant-white" id="section-show">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 order-2">
-                <img src="image/c-1.jpg" alt="Image placeholder" class="img-fluid">
-            </div>
-            <div class="col-lg-8 pr-md-5 pr-sm-0 order-1  mb-5">
-                <div class="row">
-                    <div class="col">
-                        <h2>成果展示</h2>
-                        <p class="pb_font-20">
-                            包括科技信息文本关键信息抽取与新知识领域发现、军事科技文本摘要与简报生成、科技趋势预测分析及其实力对比分析等技术成果，为及时、全面、准确地把握军事情报信息、军事科技发展方向等应用提供理论和技术支持</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg">
-
-                        <div class="media pb_feature-v2 text-left mb-1 mt-5">
-                            <div class="pb_icon d-flex mr-3 align-self-start pb_w-15"><i
-                                    class="ion-ios-bookmarks-outline pb_icon-gradient"></i></div>
-                            <div class="media-body">
-                                <h3 class="mt-2 mb-2 heading">相关成果</h3>
-                                <p class="text-sans-serif pb_font-16">《面向多领域多范围的军事科技信息关键信息智能抽取研究报告》</p>
-                            </div>
-                        </div>
-
-                        <div class="media pb_feature-v2 text-left mb-1 mt-5">
-                            <div class="pb_icon d-flex mr-3 align-self-start pb_w-15"><i
-                                    class="ion-ios-infinite-outline pb_icon-gradient"></i></div>
-                            <div class="media-body">
-                                <h3 class="mt-2 mb-2 heading">相关成果</h3>
-                                <p class="text-sans-serif pb_font-16">《面向军事科技领域的文本分类研究报告》</p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-lg">
-
-                        <div class="media pb_feature-v2 text-left mb-1 mt-5">
-                            <div class="pb_icon d-flex mr-3 align-self-start pb_w-15"><i
-                                    class="ion-ios-speedometer-outline pb_icon-gradient"></i></div>
-                            <div class="media-body">
-                                <h3 class="mt-2 mb-2 heading">相关成果</h3>
-                                <p class="text-sans-serif pb_font-16">《面向多领域多范围的军事科技信息关键信息智能抽取测试报告》</p>
-                            </div>
-                        </div>
-
-                        <div class="media pb_feature-v2 text-left mb-1 mt-5">
-                            <div class="pb_icon d-flex mr-3 align-self-start pb_w-15"><i
-                                    class="ion-ios-color-filter-outline  pb_icon-gradient"></i></div>
-                            <div class="media-body">
-                                <h3 class="mt-2 mb-2 heading">相关成果</h3>
-                                <p class="text-sans-serif pb_font-16">《基于长短文本迭代序列学习模型的军事科技信息简报生成技术研究报告》</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</section>
-<!-- END section -->
-
-<section class="pb_section pb_slant-light pb_pb-220" id="section-app">
-    <div class="container">
-        <div class="row justify-content-center mb-1">
-            <div class="col-md-6 text-center mb-5">
-                <h5 class="text-uppercase pb_font-15 mb-2 pb_color-dark-opacity-3 pb_letter-spacing-2">
-                    <strong>Reviews</strong></h5>
-                <h2>应用场景</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md">
-                <div class="pb_slide_testimonial_sync_v1">
-                    <div class="pb_slider_content js-pb_slider_content2">
-                        <div>
-                            <div class="media d-block text-center testimonial_v1 pb_quote_v2">
-                                <div class="media-body">
-                                    <div class="quote"></div>
-                                    <blockquote class="mb-5">
-                                        项目为我方在面向多领域和多范围的多模态军事科技情报信息的发展动态深度挖掘与综合分析、军事科技发展态势及其未来方向等提供核心技术支持。
-                                    </blockquote>
-                                    <p>
-                                        <i class="ion-ios-star text-warning"></i>
-                                        <i class="ion-ios-star text-warning"></i>
-                                        <i class="ion-ios-star text-warning"></i>
-                                        <i class="ion-ios-star-half text-warning"></i>
-                                        <i class="ion-ios-star-outline text-warning"></i>
-                                    </p>
-                                    <h3 class="heading">JS 信息系统</h3>
-                                    <span class="subheading">@ADE</span>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mx-auto">
-                        <div class="pb_slider_nav js-pb_slider_nav2">
-                            <div class="author">
-                                <img class="img-fluid rounded-circle" src="image/c-2.jpg"
-                                     alt="Generic placeholder image">
-                            </div>
-                            <div class="author">
-                                <img class="img-fluid rounded-circle" src="image/c-3.jpg"
-                                     alt="Generic placeholder image">
-                            </div>
-                            <div class="author">
-                                <img class="img-fluid rounded-circle" src="image/c-4.jpg"
-                                     alt="Generic placeholder image">
-                            </div>
-                            <div class="author">
-                                <img class="img-fluid rounded-circle" src="image/c-5.jpg"
-                                     alt="Generic placeholder image">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- END sync_v1 -->
-        </div>
-    </div>
-    </div>
-</section>
-<!-- END section -->
-
-<!-- loader -->
-<div id="pb_loader" class="show fullscreen">
-    <svg class="circular" width="48px" height="48px">
-        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                stroke="#1d82ff"/>
-    </svg>
-</div>
-
-
-<script src="assets/js/jquery.min.js"></script>
-
-<script src="assets/js/popper.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/slick.min.js"></script>
-<script src="assets/js/jquery.mb.YTPlayer.min.js"></script>
-
-<script src="assets/js/jquery.waypoints.min.js"></script>
-<script src="assets/js/jquery.easing.1.3.js"></script>
-
-<script src="assets/js/main.js"></script>
-
+</dl>
 </body>
 </html>
