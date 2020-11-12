@@ -430,13 +430,13 @@
 
     $("#search").click(function () {
 
-        var lingyu = $('#lingyu option:selected').text();//文本
+        var select_area = $('#lingyu option:selected').text();//文本
 
-        if(lingyu=="自然语言处理"){
+       /* if(lingyu=="自然语言处理"){
             select_area = "NLP"
         }else{
             select_area = "CV"
-        }
+        }*/
         countrys = $('#mcountry').val();//文本
         $.ajax({
             url: "http://127.0.0.1:7450/detail",
@@ -565,15 +565,6 @@
 
     function printWordsLabel(data) {
 
-        /*var data =  [
-            ['布艺装饰',10],
-            ['家电',20],
-            ['家具',27],
-            ['设计费',5],
-            ['管理费',4],
-            ['人工费',10],
-            ['材料费',24]
-        ];*/
         var wordChart = Highcharts.chart('img1', {
             series: [{
                 type: 'wordcloud',

@@ -260,16 +260,16 @@
             start = createTime($("#datetimepicker1").find("input").val());
             end = createTime($("#datetimepicker2").find("input").val());
             var firstScope = $('#firstScope option:selected').text();//文本
-            var lingyu = $('#secondScope option:selected').text();//文本
+            select_area = $('#secondScope option:selected').text();//文本
             var random = $('#random option:selected').text();//文本
             var country = $('#country').val().toString();//文本
             var countrys = country.split(",");
 
-            if(lingyu=="自然语言处理"){
+            /*if(lingyu=="自然语言处理"){
                 select_area = "NLP"
             }else{
                 select_area = "CV"
-            }
+            }*/
 
             $.ajax({
                 url: "http://127.0.0.1:7450/detail",
