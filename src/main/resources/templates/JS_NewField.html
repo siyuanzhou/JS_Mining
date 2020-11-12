@@ -141,7 +141,7 @@
 <div th:insert="~{/JS_Common::topbar}"></div>
 <div style="display: flex;">
     <div th:insert="~{/JS_Common::leftbar}"></div>
-    <div style="display: block;height: 2000px;width:100%">
+    <div style="display: block;height: 2000px;width:100%;">
         <blockquote  class="layui-elem-quote layui-text">
             <div style="display: flex;flex-direction: row;justify-content: space-between">
                 <div>
@@ -154,13 +154,24 @@
             </div>
         </blockquote>
 
-        <div style="float: none;display: flex;flex-direction: column;align-items: center">
+        <div style="float: none;display: flex;flex-direction: column;margin-left: 50px">
+            <div style="display:flex; flex-direction: row">
+                <div class="form-group">
+                    <select id="firstScope" class="form-control select_down"
+                            style="font-size: 13px; color: #666" onclick="chooseField()">
+                        <option>请选择你需要的领域</option>
+                        <option>人工智能</option>
+                        <option>天基互联网</option>
+                    </select>
+                </div>
+                <p style="margin-top: 5px;margin-left: 10px;color: blue">说明:选择不同领域可以更好地识别不同领域的实体,例如选择人工智能领域,可以识别文本中人工智能领域特有实体</p>
+            </div>
             <div style="padding-bottom: 0.5cm;">
                 <div class="card text-center bg-light">
                     <div class="card-body" style="padding-bottom: 0.2cm;width: 1000px;">
 
                         <div class="panel panel-primary">
-                            <div  class="panel-heading" style="text-align: center">新领域文本内容</div>
+                            <div id="fieldTitle" class="panel-heading" style="text-align: center">新领域文本内容</div>
 
                             <div class="panel-body" style="height: 300px">
                                 <textarea style=" height: 100%;width: 100%;border-radius:5px;border: 0;
@@ -292,6 +303,21 @@
             }
         }
 
+        //存放所选择的领域信息
+        var field = "";
+        function chooseField(){
+            var select = document.getElementById("firstScope");
+            var index = select.selectedIndex;
+            if (select.options[index].value == "人工智能"){
+                field = "人工智能";
+            }
+            if (select.options[index].value == "天基互联网"){
+                field = "天基互联网";
+            }
+            if (field != ""){
+                $("#fieldTitle").html(field + "领域文本内容");
+            }
+        }
         <!--表格隔行换色-->
         function altRows(id) {
             if (document.getElementsByTagName) {
@@ -377,34 +403,31 @@
             categories[2] = {name: "新旧模型实体识别"};
             var data = [];
             var count = 0;
-            for (var key in old_only){
-                for (var i = 0 ; i < old_only[key].length ; i++){
-                    data[count] = {
-                        name: old_only[key][i],
+            for (var key1 in old_only){
+                for (var i = 0 ; i < old_only[key1].length ; i++){
+                    data[count ++] = {
+                        name: old_only[key1][i],
                         symbolSize: 50,
                         category: 0
                     };
-                    count ++;
                 }
             }
-            for (key in new_only){
-                for ( i = 0 ; i < new_only[key].length ; i++){
-                    data[count] = {
-                        name: new_only[key][i],
+            for (var key2 in new_only){
+                for ( i = 0 ; i < new_only[key2].length ; i++){
+                    data[count ++] = {
+                        name: new_only[key2][i],
                         symbolSize: 50,
                         category: 1
                     };
-                    count ++;
                 }
             }
-            for (key in intersect){
-                for ( i = 0 ; i < intersect[key].length ; i++){
-                    data[count] = {
-                        name: intersect[key][i],
+            for (var key3 in intersect){
+                for ( i = 0 ; i < intersect[key3].length ; i++){
+                    data[count ++] = {
+                        name: intersect[key3][i],
                         symbolSize: 50,
                         category: 2
                     };
-                    count ++;
                 }
             }
             option = {
@@ -464,7 +487,7 @@
                     lineStyle: {
                         normal: {
                             width: 2,
-                            color: '#4b565b',
+                            color: '#4b565b'
                         }
                     },
                     edgeLabel: {
@@ -481,14 +504,6 @@
                             textStyle: {}
                         }
                     },
-                    // 数据
-                    /**
-                     * 格式：{
-                        name: 'node01',
-                        des: 'nodedes01',
-                        symbolSize: 70,
-                        category: 0}
-                     */
                     data: data,
                     categories: categories
                 }]
@@ -505,33 +520,38 @@
             });
             console.log(new Date());
             echartShow();
+
             $("#btn").click(function () {
-                $('#btn').toggle();
-                $('#spinner').toggle();
-                $.ajax({
-                    url:'http://127.0.0.1:7500/api',
-                    data:{'input':JSON.stringify(fileContent)},
-                    dataType: 'jsonp',
-                    jsonp: "callback",
-                    jsonpCallback: "successCallback",//回调方法
-                    success:function (data) {
-                        console.log(data);
-                        $('#btn').toggle();
-                        $('#spinner').toggle();
-                        var inputText = $("#input");
-                        var input1 = inputText.val();
-                        var input2 = inputText.val();
-                        flagColor($("#api_output"),$("#alternatecolor"),data.old,fileContent,'red');
-                        flagColor($("#api_output2"),$("#alternatecolor2"),data.new,fileContent,'red');
-                        flagColor($("#api_output2"),null,data.new_only,$("#api_output2").html(),'blue');
-                        echartShow(data.old_only,data.new_only,data.intersect);
-                    },
-                    error:function () {
-                        $('#btn').toggle();
-                        $('#spinner').toggle();
-                        alert("服务器出现了一些问题，请稍后重试");
-                    }
-                });
+                if (field == ""){
+                    alert("请先选择领域后再点击按钮,效果会更好哦")
+                }else{
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    $.ajax({
+                        url:'http://127.0.0.1:7500/api',
+                        data:{'input':JSON.stringify(fileContent),'field':field},
+                        dataType: 'jsonp',
+                        jsonp: "callback",
+                        jsonpCallback: "successCallback",//回调方法
+                        success:function (data) {
+                            console.log(data);
+                            $('#btn').toggle();
+                            $('#spinner').toggle();
+                            var inputText = $("#input");
+                            var input1 = inputText.val();
+                            var input2 = inputText.val();
+                            flagColor($("#api_output"),$("#alternatecolor"),data.old,fileContent,'red');
+                            flagColor($("#api_output2"),$("#alternatecolor2"),data.new,fileContent,'red');
+                            flagColor($("#api_output2"),null,data.new_only,$("#api_output2").html(),'blue');
+                            echartShow(data.old_only,data.new_only,data.intersect);
+                        },
+                        error:function () {
+                            $('#btn').toggle();
+                            $('#spinner').toggle();
+                            alert("服务器出现了一些问题，请稍后重试");
+                        }
+                    });
+                }
             });
         });
     </script>
