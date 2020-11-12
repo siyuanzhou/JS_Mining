@@ -932,25 +932,6 @@
             },],
             //x轴分四个阶段用不同背景颜色表示
             xAxis: {
-
-
-                // 突袭期起点和终点两条标线
-                plotLines:[{
-                    color:'red',
-                    dashStyle:'longdashdot',
-                    value: 1958 + data.发展期,
-                    width:6,
-                    zIdenx: 99
-
-                },{
-                    color:'red',
-                    dashStyle:'longdashdot',
-                    value: 1958 + data.成熟期,
-                    width:6,
-                    zIdenx: 99
-
-                }],
-
                 plotBands: [
                     { //彩色带横跨绘图区，标志着轴间隔。
                         color: 'rgba(201,236,206,0.88)',
@@ -959,7 +940,7 @@
                         label:{
                             text: '萌芽期'
                         },
-                        zIndex: 0
+                        zIndex: 1
                     },
                     { //彩色带横跨绘图区，标志着轴间隔。
                         color: 'rgb(238,245,197)',
@@ -968,29 +949,29 @@
                         label:{
                             text: '发展期'
                         },
-                        zIndex: 0
+                        zIndex: 1
                     },
                     { //彩色带横跨绘图区，标志着轴间隔。
-                        color: 'rgba(232,199,199,0.83)',
+                        color: 'rgba(253,137,137,0.83)',
                         from: 1958 + data.发展期,
                         to: 1958 + data.成熟期,
                         label:{
                             text: '成熟期'
                         },
-                        zIndex: 0
+                        zIndex: 1
                     },
                     { //彩色带横跨绘图区，标志着轴间隔。
-                        color: 'rgba(232,199,199,0.83)',
+                        color: 'rgba(253,137,137,0.83)',
                         from: 1958 + data.发展期,
                         to: 1958 + data.成熟期,
                         label:{
                             text: '(突袭期)',
-                            y:50,
+                            y:30,
                             style:{
                                 color: 'red'
                             }
                         },
-                        zIndex: 0
+                        zIndex: 1
                     },
                     { //彩色带横跨绘图区，标志着轴间隔。
                         color: 'rgba(219,198,236,0.82)',
@@ -1002,6 +983,22 @@
                         zIndex: 0
                     },
                 ],
+                // 突袭期起点和终点两条标线
+                // plotLines:[{
+                //     color:'#ff0000',
+                //     dashStyle:'dash',
+                //     value: 1958 + data.发展期,
+                //     width:6,
+                //     zIdenx: 99999
+                //
+                // },{
+                //     color:'#ff0000',
+                //     dashStyle:'dash',
+                //     value: 1958 + data.成熟期,
+                //     width:6,
+                //     zIdenx: 99999
+                //
+                // }],
             },
             plotOptions: {
                 series: {
