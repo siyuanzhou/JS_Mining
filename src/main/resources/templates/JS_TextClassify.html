@@ -104,10 +104,10 @@
     function showRela(data) {
         myChart.setOption({
             yAxis: {
-                data: data.type,
+                data: data.type
             },
             series: [{
-                data: data.score,
+                data: data.score
             }]
         });
     }
@@ -115,10 +115,10 @@
     function showRela2(data) {
         myChart2.setOption({
             yAxis: {
-                data: data.classify,
+                data: data.classify
             },
             series: [{
-                data: data.probability,
+                data: data.probability
             }]
         });
     }
@@ -194,7 +194,7 @@
         //echarts表格
         myChart.setOption({
             title: {
-                text: '分类结果',
+                text: '分类结果'
             },
             tooltip: {
                 trigger: 'axis',
@@ -281,15 +281,7 @@
             } else {
                 input = fileContent;
             }
-            if (input.match(/[\u4e00-\u9fa5]/g) != null && (input.match(/[\u4e00-\u9fa5]/g).length >= input.length / 2)) {
-                //Chinese
-                console.log("Chinese");
-                //capi_call(input);
-            } else {
-                //English
-                console.log("English");
-                api_call(input);
-            }
+            api_call(input);
             input = null;
             fileContent = null;
         });
