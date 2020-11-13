@@ -32,10 +32,80 @@
     <link rel='stylesheet' href='./css/common/modalBox.css'>
 
     <style type="text/css">
-        .roleCodes {
-            color: #7e5bbe;
+        .spinner {
+            width: 40px;
+            height: 40px;
+
+            position: relative;
+            margin: auto;
+        }
+
+        .double-bounce1, .double-bounce2 {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #333;
+            opacity: 0.6;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+            animation: sk-bounce 2.0s infinite ease-in-out;
+        }
+
+        .double-bounce2 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        @-webkit-keyframes sk-bounce {
+            0%, 100% {
+                -webkit-transform: scale(0.0)
+            }
+            50% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @keyframes sk-bounce {
+            0%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+            }
+            50% {
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0);
+            }
         }
     </style>
+
+    <script>
+        function getPercent() {
+            $('#btn').toggle();
+            $('#spinner').toggle();
+            $.ajax({
+                url: "http://127.0.0.1:7005/indication",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback_predict2",//回调方法
+                contentType: 'application/json',
+                data: {},
+                success: function (percent) {
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    $('#percent_span').html(percent.indication);
+                    $('#percent_show').show();
+                },
+                error:function () {
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    alert("服务器出现了一点问题,请稍后重试");
+                }
+            });
+        }
+    </script>
 </head>
 <body style="background-color: inherit">
 
@@ -70,19 +140,31 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="data :${pageInfo.list}">
-                    <td><input type="checkbox"></td>
-                    <td  th:text="${data.id}"></td>
-                    <td  th:text="${data.title}"></td>
-                    <td  th:text="${data.url}"></td>
-                    <td  th:text="${data.source}"></td>
-                    <td  th:text="${data.label}"></td>
-                    <td  th:text="${data.field}"></td>
-                    <td  th:text="${data.date}"></td>
-                </tr>
-
+                    <tr th:each="data :${pageInfo.list}">
+                        <td><input type="checkbox"></td>
+                        <td  th:text="${data.id}"></td>
+                        <td  th:text="${data.title}"></td>
+                        <td  th:text="${data.url}"></td>
+                        <td  th:text="${data.source}"></td>
+                        <td  th:text="${data.label}"></td>
+                        <td  th:text="${data.field}"></td>
+                        <td  th:text="${data.date}"></td>
+                    </tr>
                 </tbody>
             </table>
+
+            <div>
+                <a id="btn" class="btn btn-default"
+                   style="height: 30px ;margin-top: -4px;margin-left:45%;margin-right:5%;background-color: #337ab7;color: white" onclick="getPercent()">指标验证</a>
+                <div id="percent_show" hidden style="font-size: 16px;">
+                    测试集的准确率为<span id="percent_span" style="font-size: 16px;color: blue;">92%</span>
+                </div>
+            </div>
+
+            <div class="spinner" id="spinner" style="display: none">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
 
             <nav aria-label="Page navigation" class="" style="margin-left: 800px;">
                 <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
@@ -91,6 +173,7 @@
                 <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
                 <a th:href="@{/JS_Helper(pageNum=${pageInfo.pages})}">尾页</a>
             </nav>
+
 
         </div>
     </div>
