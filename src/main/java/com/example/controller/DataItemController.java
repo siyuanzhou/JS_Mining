@@ -99,17 +99,27 @@ public class DataItemController {
     }
 
     @RequestMapping(value = "JS_Helper")
-    public String Helper(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum){
-        PageInfo pageInfo = dataItemService.selectList(pageNum,10);
+    public String Helper(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
+        PageInfo pageInfo = dataItemService.selectList(pageNum,10,keywords);
         model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("key",keywords);
         return "JS_DataShow";
     }
 
     @RequestMapping(value = "JS_Tech")
-    public String JS_Tech(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum){
-        PageInfo pageInfo = dataItemService.selectTechList(pageNum,10);
+    public String JS_Tech(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
+        PageInfo pageInfo = dataItemService.selectTechList(pageNum,10,keywords);
         model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("key",keywords);
         return "JS_TechShow";
+    }
+
+    @RequestMapping(value = "JS_NewData")
+    public String JS_NewData(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
+        PageInfo pageInfo = dataItemService.selectFieldList(pageNum,10,keywords);
+        model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("key",keywords);
+        return "JS_FieldShow";
     }
 
 }

@@ -48,14 +48,28 @@
             <blockquote class="layui-elem-quote layui-text">
                 <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
                     <li><a href="JS_Index">首页</a></li>
-                    <li><a href="JS_PowerUpload">成果展示</a></li>
-                    <li class="active">数据成果</li>
+                    <li><a href="JS_PowerUpload">情报信息</a></li>
+                    <li class="active">原始语料库</li>
                 </ol>
             </blockquote>
         </div>
     <div style="padding-left: 50px">
-        <h2>多领域、多范围实体展示</h2>
-        <!--表格列表-->
+        <h2></h2>
+        <div class="row">
+
+            <div class='col-sm-3'>
+                <div class="form-group">
+                    <!--指定 date标记-->
+                    <div class='input-group'>
+                        <a>关键词：</a>
+                        <input id="keywords" style="width: 290px" type='text' class="form-control" placeholder="请输入要查找的实体名称"/>
+                    </div>
+                </div>
+            </div>
+            <div class="search_input">
+                <button class="btn btn-primary search_btn" type="button" id="search_btn">实体查询</button>
+            </div>
+        </div>        <!--表格列表-->
         <table id="tb" class="table">
             <thead>
             <tr>
@@ -63,8 +77,8 @@
                 <th style="width: 100px">编号</th>
                 <th style="">名称</th>
                 <th style="width: 180px">特征</th>
-                <th style="width: 380px">操作</th>
             </tr>
+
             </thead>
             <tbody>
             <tr th:each="data :${pageInfo.list}">
@@ -72,27 +86,28 @@
                 <td  th:text="${data.id}"></td>
                 <td  th:text="${data.name}"></td>
                 <td  th:text="${data.feature}"></td>
-                <td>
-                    <a class="btn btn-primary btn-sm">查看</a>
-                    <a class="btn btn-success btn-sm">编辑</a>
-                    <a class="btn btn-danger btn-sm">删除</a>                                        </td>
-                </td>
             </tr>
 
             </tbody>
         </table>
 
-        <nav aria-label="Page navigation" class="" style="margin-left: 800px;">
+        <nav aria-label="Page navigation" class="" style="margin-left: 890px;">
             <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
-            <a th:href="@{/JS_Helper}">首页</a>
-            <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
-            <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
-            <a th:href="@{/JS_Helper(pageNum=${pageInfo.pages})}">尾页</a>
+            <a th:href="@{'/JS_Helper?keywords='+${key}}">首页</a>
+            <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key})}">上一页</a>
+            <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key})}">下一页</a>
+            <a th:href="@{/JS_Helper(pageNum=${pageInfo.pages},keywords=${key})}">尾页</a>
         </nav>
 
     </div>
     </div>
 </div>
 </body>
+    <script>
+        $("#search_btn").click(function () {
+            var keywords = $('#keywords').val();
+            window.location.href="/JS_Helper?keywords="+keywords;
+        });
+    </script>
     <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 </html>

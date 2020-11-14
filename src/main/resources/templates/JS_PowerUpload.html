@@ -225,6 +225,14 @@
             </div>
         </div>
 
+        <!--科技实力折线图对比-->
+        <div class="row" style="margin: 30px;">
+            <div id="detail8" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
+            </div>
+            <div class="panel-body" id="serialsLabel2" style="width: 800px;height: 400px;margin: auto">
+            </div>
+        </div>
+
         <!--旭日图实力对比-->
         <div class="row" style="margin: 30px;">
             <div id="detail1" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
@@ -299,11 +307,9 @@
             var country = $('#country').val().toString();//文本
             var countrys = country.split(",");
             var indicator =  $('#item option:selected').text();//文本
-            alert(indicator);
             if(indicator == "综合实力"){
                 indicator = select_area;
             }
-            alert(indicator);
             $.ajax({
                 url: "http://127.0.0.1:7450/detail",
                 method: 'POST',
@@ -377,6 +383,32 @@
                 }
             });
 
+            $.ajax({
+                url: "http://127.0.0.1:7450/addchart",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback_addchart",//回调方法
+                contentType: 'application/json',
+                data: {
+                    'field_name':  select_area,
+                    'country_list': JSON.stringify(countrys),
+                    'start_year': start.substring(0, 4),
+                    'end_year': end.substring(0, 4),
+                    'indicator_name': indicator,
+                    'random': random,
+                },
+                success: function (data) {
+                    console.log("data=" + data);
+                    printSerialsLabel2(JSON.parse(data));
+                    if(indicator == select_area){
+                        indicator = "综合实力"
+                    }
+                    var text = "针对"+ countrys + "在" + select_area + "的"+ indicator + "指标增量对比结果如下";
+                    $("#detail8").html(text);
+                    $('#loading').hide();
+                }
+            });
 
         });
 
@@ -450,6 +482,61 @@
             });
 
         }
+
+        // 实力对比折线图
+        function printSerialsLabel2(data) {
+            console.log(typeof data);
+            console.log("lineData=" + data);
+            var country = $('#country').val().toString().replaceAll(",", "、")
+            var field = $("#secondScope option:selected").text()
+            var indicator =  $('#item option:selected').text();//文本
+            var serialChart = Highcharts.chart('serialsLabel2', {
+                title: {
+                    text: country + field + indicator+'指标增量对比折线图'
+                },
+                colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
+                    'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
+                subtitle: {
+                    text: ''
+                },
+                yAxis: {
+                    title: {
+                        text: indicator +'指数'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: parseInt(start.substring(0, 4))
+                    }
+                },
+
+                series: data,
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
+        }
+
 
         //旭日图
         function printSunShine(data) {
