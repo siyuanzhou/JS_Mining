@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.entity.DataItem;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,10 +44,7 @@ public class JSController {
     public String JS_LongTextSum(){
         return "JS_LongTextSum";
     }
-    @RequestMapping("JS_Result")
-    public String JS_Result(){
-        return "JS_Result";
-    }
+
 
     @RequestMapping("JS_Table")
     public String JS_Table(){
@@ -123,6 +121,8 @@ public class JSController {
 
     @RequestMapping("/Index")
     public String JS_Test(){ return "Index"; }
+
+
 
 /*    @RequestMapping("/JS_DataShow")
     public String JS_DataShow(){ return "JS_DataShow"; }*/
