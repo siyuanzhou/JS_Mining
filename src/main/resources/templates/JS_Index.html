@@ -25,6 +25,11 @@
             font-size: 21px;
             font-weight: 400;
         }
+
+        img{
+            width: 300px;
+            height: 161px;
+        }
     </style>
     <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
@@ -76,7 +81,7 @@
 <!-- Beautiful Rollovers -->
 <section id="gallery" style="padding: 1px">
     <div class="container-fluid">
-        <div class="row" style="margin-left: 0px">
+        <div class="row" style="margin-bottom: 50px">
             <div class="col-12 tm-section-title-mb " style="margin-left: 0px">
                 <h2 class="" style="margin-left: 1px">功能总览</h2>
                 <hr class="tm-section-title-underline" />
@@ -85,50 +90,42 @@
                 <div class="grid">
                     <figure class="effect-duke mb-3">
                         <img
-                                src="./asset/imgs/1.jpg"
+                                src="./asset/imgs/classify.jpg"
                                 alt="Image"
-                                class="img-fluid"
                         />
                         <figcaption>
-                            <h2>文本分类<span></span></h2>
-                            <p>点击可以查看更多详细信息</p>
+                            <h2 style="margin-top:30px;font-size: 30px">文本分类</h2>
                             <a href="/JS_TextClassify">View more</a>
                         </figcaption>
                     </figure>
                     <figure class="effect-duke">
                         <img
-                                src="./asset/imgs/2.jpg"
+                                src="./asset/imgs/multimode.jpg"
                                 alt="Image"
-                                class="img-fluid"
                         />
                         <figcaption>
-                            <h2>实体识别</span></h2>
-                            <p>点击可以查看更多详细信息</p>
-                            <a href="/JS_Entity">View more</a>
+                            <h2 style="margin-top:30px;font-size: 30px">多模态检索</h2>
+                            <a href="/JS_Multmodel">View more</a>
                         </figcaption>
                     </figure>
                     <figure class="effect-duke mb-3">
                         <img
-                                src="./asset/imgs/3.jpg"
+                                src="./asset/imgs/entity.jpeg"
                                 alt="Image"
-                                class="img-fluid"
                         />
                         <figcaption>
-                            <h2>新领域识别<span></span></h2>
-                            <p>点击可以查看更多详细信息</p>
-                            <a href="/JS_NewField">View more</a>
+                            <h2 style="margin-top:30px;font-size: 30px">信息提取</h2>
+                            <a href="/JS_Entity">View more</a>
                         </figcaption>
                     </figure>
                     <figure class="effect-duke">
                         <img
-                                src="./asset/imgs/4.jpg"
+                                src="./asset/imgs/newfield.jpg"
                                 alt="Image"
-                                class="img-fluid"
                         />
                         <figcaption>
-                            <h2>多模态检索</span></h2>
-                            <p>点击可以查看更多详细信息</p>
-                            <a href="/JS_Multmodel">View more</a>
+                            <h2 style="margin-top:30px;font-size: 30px;width: 250px">新知识领域识别</h2>
+                            <a href="/JS_NewField">View more</a>
                         </figcaption>
                     </figure>
                 </div>
@@ -138,49 +135,41 @@
                 <div class="grid">
                     <figure class="effect-duke mb-3">
                         <img
-                                src="./asset/imgs/5.jpg"
+                                src="./asset/imgs/power.png"
                                 alt="Image"
-                                class="img-fluid"
                         />
                         <figcaption>
-                            <h2>摘要生成<span></span></h2>
-                            <p>点击可以查看更多详细信息</p>
+                            <h2 style="margin-top:30px;font-size: 30px">实力对比</h2>
+                            <a href="/JS_PowerUpload">View more</a>
+                        </figcaption>
+                    </figure>
+                    <figure class="effect-duke">
+                        <img
+                                src="./asset/imgs/predict2.jpg"
+                                alt="Image"
+                        />
+                        <figcaption>
+                            <h2 style="margin-top:30px;font-size: 30px">趋势预测</h2>
+                            <a href="/JS_PredictUpload">View more</a>
+                        </figcaption>
+                    </figure>
+                    <figure class="effect-duke mb-3">
+                        <img
+                                src="./asset/imgs/textsum.jpg"
+                                alt="Image"
+                        />
+                        <figcaption>
+                            <h2 style="margin-top:30px;font-size: 30px">摘要生成</h2>
                             <a href="/JS_TextSum">View more</a>
                         </figcaption>
                     </figure>
                     <figure class="effect-duke">
                         <img
-                                src="./asset/imgs/6.jpg"
+                                src="./asset/imgs/report.jpeg"
                                 alt="Image"
-                                class="img-fluid"
                         />
                         <figcaption>
-                            <h2>实力对比</span></h2>
-                            <p>点击可以查看更多详细信息</p>
-                            <a href="/JS_PowerUpload">View more</a>
-                        </figcaption>
-                    </figure>
-                    <figure class="effect-duke mb-3">
-                        <img
-                                src="./asset/imgs/7.jpg"
-                                alt="Image"
-                                class="img-fluid"
-                        />
-                        <figcaption>
-                            <h2>趋势预测<span></span></h2>
-                            <p>点击可以查看更多详细信息</p>
-                            <a href="/JS_PredictUpload">View more</a>
-                        </figcaption>
-                    </figure>
-                    <figure class="effect-duke">
-                        <img
-                                src="./asset/imgs/8.jpg"
-                                alt="Image"
-                                class="img-fluid"
-                        />
-                        <figcaption>
-                            <h2>简报生成</span></h2>
-                            <p>点击可以查看更多详细信息</p>
+                            <h2 style="margin-top:30px;font-size: 30px">简报生成<span></span></h2>
                             <a href="/JS_ReportUpload">View more</a>
                         </figcaption>
                     </figure>
