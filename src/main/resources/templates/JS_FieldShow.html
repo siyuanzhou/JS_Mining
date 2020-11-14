@@ -119,7 +119,7 @@
                 <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
                     <li><a href="JS_Index">首页</a></li>
                     <li><a href="JS_PowerUpload">情报信息</a></li>
-                    <li class="active">原始语料库</li>
+                    <li class="active">新知识领域库</li>
                 </ol>
             </blockquote>
         </div>
@@ -132,12 +132,12 @@
                         <!--指定 date标记-->
                         <div class='input-group'>
                             <a>关键词：</a>
-                            <input id="keywords" style="width: 290px" type='text' class="form-control" placeholder="请输入要查找的文章名称"/>
+                            <input id="keywords" style="width: 290px" type='text' class="form-control" placeholder="请输入要查找的条件"/>
                         </div>
                     </div>
                 </div>
                 <div class="search_input">
-                    <button class="btn btn-primary search_btn" type="button" id="search_btn">文本查询</button>
+                    <button class="btn btn-primary search_btn" type="button" id="search_btn">内容查询</button>
                 </div>
             </div>        <!--表格列表-->
             <!--表格列表-->
@@ -147,24 +147,22 @@
                     <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>
                     <th style="width: 100px">编号</th>
                     <th style="width: 380px">标题</th>
-                    <th style="width: 180px">URL</th>
-                    <th style="width: 180px">来源</th>
-                    <th style="width: 180px">标签</th>
-                    <th style="width: 180px">所属领域</th>
                     <th style="width: 180px">日期</th>
+                    <th style="width: 180px">领域</th>
+                    <th style="width: 180px">准确率</th>
+                    <th style="width: 180px">召回率</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="data :${pageInfo.list}">
-                        <td><input type="checkbox"></td>
-                        <td  th:text="${data.id}"></td>
-                        <td  th:text="${data.title}"></td>
-                        <td  th:text="${data.url}"></td>
-                        <td  th:text="${data.source}"></td>
-                        <td  th:text="${data.label}"></td>
-                        <td  th:text="${data.field}"></td>
-                        <td  th:text="${data.date}"></td>
-                    </tr>
+                <tr th:each="data :${pageInfo.list}">
+                    <td><input type="checkbox"></td>
+                    <td  th:text="${data.id}"></td>
+                    <td  th:text="${data.title}"></td>
+                    <td  th:text="${data.date}"></td>
+                    <td  th:text="${data.field}"></td>
+                    <td  th:text="${data.precision}"></td>
+                    <td  th:text="${data.recall}"></td>
+                </tr>
                 </tbody>
             </table>
 
@@ -183,10 +181,10 @@
 
             <nav aria-label="Page navigation" class="" style="margin-left: 800px;">
                 <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
-                <a th:href="@{'/JS_Tech?keywords='+${key}}">首页</a>
-                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key})}">上一页</a>
-                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key})}">下一页</a>
-                <a th:href="@{/JS_Tech(pageNum=${pageInfo.pages},keywords=${key})}">尾页</a>
+                <a th:href="@{'/JS_NewData?keywords='+${key}}">首页</a>
+                <a th:href="@{/JS_NewData(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key})}">上一页</a>
+                <a th:href="@{/JS_NewData(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key})}">下一页</a>
+                <a th:href="@{/JS_NewData(pageNum=${pageInfo.pages},keywords=${key})}">尾页</a>
             </nav>
         </div>
     </div>
@@ -195,7 +193,7 @@
 <script>
     $("#search_btn").click(function () {
         var keywords = $('#keywords').val();
-        window.location.href="/JS_Tech?keywords="+keywords;
+        window.location.href="/JS_NewData?keywords="+keywords;
     });
 </script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->

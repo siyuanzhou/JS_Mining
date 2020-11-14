@@ -14,5 +14,13 @@
 		select * from 实体
 	</select>
 
+    <select id="selectKeywords" resultType="com.example.entity.Entity" parameterType="String">
+		select id,name,feature from 实体
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and name like "%"#{keywords}"%"
+            </if>
+        </where>
+	</select>
 </mapper>
 
