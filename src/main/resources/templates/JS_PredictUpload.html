@@ -36,6 +36,8 @@
     <script src="https://code.highcharts.com.cn/highcharts/modules/series-label.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/annotations.js"></script>
+
 
     <style type="text/css">
         .roleCodes {
@@ -311,6 +313,13 @@
             console.log("resultData=" + result);
             console.log("技术成果=" + data.技术成果);
 
+            var max = data.技术成果[0]
+            var maxIndex = 0
+            for(var i = 0; i < data.技术成果.length -1; i++){
+                maxIndex = max < data.技术成果[i+1] ? i+1 : maxIndex
+                max = max < data.技术成果[i+1] ? data.技术成果[i+1] : max
+            }
+
             var serialChart = Highcharts.chart('predict_div', {
                 title: {
                     text: country + field + '技术成熟度分析图'
@@ -351,7 +360,11 @@
                     opposite:true
                 },],
                 //x轴分四个阶段用不同背景颜色表示
-                xAxis: {
+                xAxis: [{
+                    labels:{
+                        rotation: -30
+                    },
+                    tickPositions: [1960,1970,1980,1990,2000,2010,2020,2030,2040,2050,2060,(1958 + data.发展期),(1958 + data.成熟期)],
                     plotBands: [
                         { //彩色带横跨绘图区，标志着轴间隔。
                             color: 'rgba(201,236,206,0.88)',
@@ -386,10 +399,8 @@
                             to: 1958 + data.成熟期,
                             label:{
                                 text: '(突袭期)',
-                                y:30,
-                                style:{
-                                    color: 'red'
-                                }
+                                y:35,
+
                             },
                             zIndex: 1
                         },
@@ -419,7 +430,7 @@
                     //     zIdenx: 99999
                     //
                     // }],
-                },
+                },],
                 plotOptions: {
                     series: {
                         label: false,
@@ -490,13 +501,41 @@
                         }
                     }]
                 },
-                //预警标注
-                // annotations: [{
-                //         labels: [{
-                //         point: 'warn',
-                //         text: '技术突袭预警\n预警等级：' + data.warning_level
-                //     }],
-                // }],
+                // 标注
+                annotations: [{
+                    labelOptions: {
+                        backgroundColor: 'rgba(255,255,255,0.5)',
+                        verticalAlign: 'top',
+                        y: 20,
+                        x: -100
+                    },
+                    labels: [{
+                        point: {
+                            xAxis: 0,
+                            yAxis: 0,
+                            x: data.predict.length - 1 + 1958,
+                            y: data.predict[data.predict.length - 1],
+                        },
+                        text: (data.predict.length - 1 + 1958) + '年<br>' + '论文累积量:' + parseInt(data.predict[data.predict.length - 1]),
+                    }],
+                },{
+                    labelOptions: {
+                        backgroundColor: 'rgba(255,255,255,0.5)',
+                        verticalAlign: 'top',
+                        y: 5,
+                        x: -90
+                    },
+                    labels: [{
+                        staggerLines: 3,
+                        point: {
+                            xAxis: 0,
+                            yAxis: 2,
+                            x: maxIndex + 1958,
+                            y: data.技术成果[maxIndex],
+                        },
+                        text: (maxIndex + 1958) + '年<br>' + '技术成果:' + data.技术成果[maxIndex],
+                    }],
+                }],
             });
         }
 
