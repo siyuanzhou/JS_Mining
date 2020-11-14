@@ -380,7 +380,7 @@
         $("#end").html(end);
 
         $.ajax({
-            url: "http://127.0.0.1:8000/multiReport",
+            url: "http://127.0.0.1:8550/multiReport",
             method: 'POST',
             dataType: 'jsonp',
             jsonp: "callback",
@@ -409,7 +409,7 @@
             success: function (data) {
                 console.log(data);
                 //alert(JSON.stringify(data));
-                alert(data.keywords);
+                //alert(data.keywords);
                 var str = "";
                 for (var i = 0; i < data.keywords.length; i++) {
                     str += data.keywords[i] + ";"
@@ -557,7 +557,7 @@
                 data = JSON.stringify(data);
                 var predict_data = JSON.parse(data);
                 $("#detail3").html(predict_data.text);
-                alert(predict_data.text)
+                //alert(predict_data.text)
                 printPredictLabel(predict_data);
             },
         });
@@ -721,7 +721,7 @@
             },
 
             series: [{
-                name: '数量',
+                name: '文本分类概率分布',
                 type: 'bar',
                 itemStyle: {
                     normal: {
@@ -810,7 +810,7 @@
                 colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
                     'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
                 title: {
-                    text: country + field + '领域实力对比体系'
+                    text: country + field + '领域综合实力对比'
                 },
                 series: [{
                     type: "sunburst",

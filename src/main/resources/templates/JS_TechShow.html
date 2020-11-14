@@ -168,10 +168,10 @@
 
             <nav aria-label="Page navigation" class="" style="margin-left: 800px;">
                 <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
-                <a th:href="@{/JS_Helper}">首页</a>
-                <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
-                <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
-                <a th:href="@{/JS_Helper(pageNum=${pageInfo.pages})}">尾页</a>
+                <a th:href="@{/JS_Tech}">首页</a>
+                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+                <a th:href="@{/JS_Tech(pageNum=${pageInfo.pages})}">尾页</a>
             </nav>
 
 

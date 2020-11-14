@@ -178,7 +178,7 @@
                     <div class="card-body" style="padding-bottom: 0.2cm;width: 1000px;">
 
                         <div class="panel panel-primary">
-                            <div  class="panel-heading" style="text-align: center">文章分析</div>
+                            <div  class="panel-heading" style="text-align: center">图文分析</div>
 
                             <div id="preview" class="panel-body" style="height: 300px;padding: 10px">
                                 <textarea  style=" height: 100%;width: 100%;border-radius:5px;border: 0;
@@ -221,7 +221,7 @@
                                        onclick="$('input[id=fileId2]').click();">视频上传</a>
                                 </div>
                                 <button class="btn btn-default"
-                                        style="height: 30px ;margin-left:225px;background-color: #337ab7;color: white"
+                                        style="height: 30px ;margin-left:5px;background-color: #337ab7;color: white"
                                         id="btn">信息提取
                                 </button>
                             </div>
@@ -287,7 +287,7 @@
                         </div>
                         <div class="panel panel-primary">
                             <div class="panel-heading" style="text-align: center">信息提取图</div>
-                            <div id="first_div" class="panel-body" style="height: 420px">
+                            <div id="first_div" class="panel-body" style="height: 800px">
 
                             </div>
                         </div>
@@ -423,7 +423,7 @@
                 method: 'POST',
                 dataType: 'jsonp',
                 jsonp: "callback",
-                jsonpCallback: "successCallback",//回调方法
+                jsonpCallback: "successCallback_api",//回调方法
                 contentType: 'application/json',
                 data:{
                     'input': JSON.stringify(input),

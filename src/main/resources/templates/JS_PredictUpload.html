@@ -58,7 +58,6 @@
                 <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
                     <li><a href="JS_Index">首页</a></li>
                     <li><a href="JS_PowerUpload">趋势预测</a></li>
-                    <li class="active">趋势预测</li>
                 </ol>
             </blockquote>
         </div>
@@ -262,6 +261,7 @@
                     var predict_data = JSON.parse(data);
                     $("#detail3").html(predict_data.text);
                     printPredictLabel(predict_data);
+                    $('#loading').hide();
                 },
             });
 
@@ -313,7 +313,7 @@
 
             var serialChart = Highcharts.chart('predict_div', {
                 title: {
-                    text: country + field + '技术突袭预警图'
+                    text: country + field + '技术成熟度分析图'
                 },
                 subtitle: {
                     text: ''
