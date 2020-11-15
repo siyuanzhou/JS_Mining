@@ -54,13 +54,8 @@
             touch-action: pan-y;
         }
 
-        .newli {
-            text-decoration: none;
-            list-style: none;
-        / / 去掉li前面的圆点 display: inline;
-        / / 让li横向排列 border: 1 px solid #FFFFFF;
-            background-color: #30DDEB;
-            width: 300px;
+        #tb th{
+            font-size: 18px;
         }
 
         span.second-block {
@@ -126,6 +121,23 @@
                         <p style="color: black;margin: 30px"><span style="color: #2759c2;font-weight:bold">摘要：</span>
                             <a id="summary" style="line-height:1.8em;color: #0f0f0f"></a>
                         </p>
+                        <button class="button" onclick="toggleTable()">查看详情</button>
+                        <table id="tb" class="table">
+                            <thead>
+                                <tr>
+                                    <th>文章ID</th>
+                                    <th>文章标题</th>
+                                    <th>文章简介</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>这是文章ID</th>
+                                    <th>这是文章标题</th>
+                                    <th>这是文章简介</th>
+                                </tr>
+                            </tbody>
+                        </table>
                         <p style="color: black;margin: 30px"><span style="color: #2759c2;font-weight:bold">关键词：</span>
                             <a id="keywords" style="color: #0f0f0f;font-weight: 700;"></a>
                         </p>
@@ -364,6 +376,11 @@
         $('#showImg').html("");
     }
 
+    //点击按钮隐藏或者显示table
+    function toggleTable(){
+        $("#tb").toggle();
+    }
+
     $(function () {
         $("#container").bind('contextmenu', function (e) {
             e.preventDefault(); // prevents default menu
@@ -500,7 +517,7 @@
             },
             error: function () {
                 console.log("error");
-            },
+            }
         });
 
     });
