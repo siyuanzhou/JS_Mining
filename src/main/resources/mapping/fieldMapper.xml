@@ -8,7 +8,7 @@
         <result column="id" jdbcType="VARCHAR" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
         <result column="content" jdbcType="VARCHAR" property="content" />
-        <result column="precision" jdbcType="VARCHAR" property="precision" />
+        <result column="prec" jdbcType="VARCHAR" property="prec" />
         <result column="recall" jdbcType="VARCHAR" property="recall" />
         <result column="date" jdbcType="VARCHAR" property="date" />
         <result column="field" jdbcType="VARCHAR" property="field" />
@@ -19,7 +19,7 @@
 	</select>
 
     <select id="selectKeywords" resultType="com.example.entity.FieldBean" parameterType="String">
-        select id,title,content,precision,recall,date,field from newfield_data
+        select id,title,content,recall,prec,date,field from newfield_data
         <where>
             <if test="keywords!=null and keywords!=''">
                 and title like "%"#{keywords}"%"
