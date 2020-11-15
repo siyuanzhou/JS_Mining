@@ -5,7 +5,7 @@ public class FieldBean {
     public String content;
     public String title;
     public String date;
-    public String precision;
+    public String prec;
     public String recall;
     public String field;
 
@@ -41,12 +41,12 @@ public class FieldBean {
         this.date = date;
     }
 
-    public String getPrecision() {
-        return precision;
+    public String getPrec() {
+        return prec;
     }
 
-    public void setPrecision(String precision) {
-        this.precision = precision;
+    public void setPrec(String prec) {
+        this.prec = prec;
     }
 
     public String getRecall() {
