@@ -1248,56 +1248,18 @@
 
         var country = $("#pcountry").val().toString().replaceAll(",", "、")
         var field = $("#psecondScope").val().toString()
-        var serialChart2 = Highcharts.chart('predict_div2', {
-            title: {
-                text: country + field + '领域发展趋势预测图'
-            },
-            colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
-                'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
-            subtitle: {
-                text: ''
-            },
-            yAxis: {
-                title: {
-                    text: '科技研发实力'
-                }
-            },
-            legend: {
-                enabled: true,
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-            plotOptions: {
-                series: {
-                    label: false,
-                    pointStart: 2000
-                }
-            },
-            series:[],
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
-                    }
-                }]
-            }
-        });
+
+        // 准备数据
         var result= [];
+        var greens = [];
+        var blues = [];
         var red1 = {};
         red1["name"] = "历史统计值";
         red1["data"] = data.red1;
         red1["color"] = "#FF0000";
         red1["marker"] = {radius: 2}
         //red1["symbol"] = "circle";
-        serialChart2.addSeries(red1)
+        // serialChart2.addSeries(red1)
         for(var i=1;i<6;i++) {
             var blue = {};
             blue["name"] = "未来预测值";
@@ -1317,8 +1279,9 @@
             if(i != 1){
                 blue["showInLegend"] = false;
             }
+            blues.push(blue);
             result.push(blue);
-            serialChart2.addSeries(blue);
+            // serialChart2.addSeries(blue);
         }
 
         for(var i=1;i<9;i++) {
@@ -1338,12 +1301,83 @@
             green["marker"] = type;
             zone.push(tmp);
             green["zones"] = zone;
+            greens.push(green)
             result.push(green);
             if(i != 1){
                 green["showInLegend"] = false;
             }
-            serialChart2.addSeries(green);
+            // serialChart2.addSeries(green);
         }
+
+        var greenAll = {}
+        greenAll["name"] = "预测趋势曲线"
+        greenAll["data"] = data.green_all
+        greenAll["color"] = "#ff8c00"
+        greenAll["animation"] = {
+            duration: 5000
+        }
+        var zone = [];
+        var tmp = {};
+        tmp["value"] = 2024;
+        zone.push(tmp);
+        greenAll["zones"] = zone;
+        var serialChart2 = Highcharts.chart('predict_div2', {
+            chart:{
+                animation:false
+            },
+            title: {
+                text: country + field + '领域发展趋势预测图'
+            },
+            colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
+                'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
+            subtitle: {
+                text: ''
+            },
+            xAxis:{
+                tickInterval: 1,
+            },
+            yAxis: {
+                title: {
+                    text: '科技研发实力'
+                }
+            },
+            legend: {
+                enabled: true,
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: false,
+                    pointStart: 2000,
+                    animation: {
+                        duration: 3000
+                    }
+                }
+            },
+            series:[red1].concat(greens, blues , greenAll) ,
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+
+        setTimeout(function () {
+            for(var i = 1; i < 14; i++){
+                serialChart2.series[1].remove()
+            }
+        }, 5000)
 
         result.push(red1);
         console.log("resultData=" + result);
