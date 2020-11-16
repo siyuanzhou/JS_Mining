@@ -277,6 +277,8 @@
             var select_area = $('#secondScope').val().toString();//文本
             alert(source);
             alert(select_area);
+            $("#predict_div").empty()
+            $("#predict_div2").empty()
             $.ajax({
                 url: "http://127.0.0.1:7650/predict",
                 method: 'POST',
@@ -564,7 +566,7 @@
                             x: maxIndex + 1958,
                             y: data.技术成果[maxIndex],
                         },
-                        text: (maxIndex + 1958) + '年<br>' + '技术成果:' + data.技术成果[maxIndex],
+                        text: (maxIndex + 1958) + '年<br>' + '技术成果:' + parseInt(data.技术成果[maxIndex]),
                     }],
                 }],
             });
