@@ -1,12 +1,13 @@
 package com.example.entity;
 
-public class Tech {
+public class Text {
     public String id;
     public String content;
     public String title;
     public String url;
     public String date;
     public String field;
+    public String label;
 
     public String getId() {
         return id;
@@ -56,4 +57,11 @@ public class Tech {
         this.field = field;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
 }

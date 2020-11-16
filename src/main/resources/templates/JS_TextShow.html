@@ -118,8 +118,8 @@
             <blockquote class="layui-elem-quote layui-text">
                 <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
                     <li><a href="JS_Index">首页</a></li>
-                    <li><a href="JS_PowerUpload">情报信息</a></li>
-                    <li class="active">原始语料库</li>
+                    <li><a href="JS_PowerUpload">指标验证</a></li>
+                    <li class="active">文本分类指标</li>
                 </ol>
             </blockquote>
         </div>
@@ -127,9 +127,9 @@
             <h2></h2>
             <div class="row">
 
-                <div class='col-sm-3'>
+                <!--<div class='col-sm-3'>
                     <div class="form-group">
-                        <!--指定 date标记-->
+                        &lt;!&ndash;指定 date标记&ndash;&gt;
                         <div class='input-group'>
                             <a>关键词：</a>
                             <input id="keywords" style="width: 290px" type='text' class="form-control" placeholder="请输入要查找的文章名称"/>
@@ -138,29 +138,36 @@
                 </div>
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">文本查询</button>
+                </div>-->
+                <div class="col-sm-4" style="margin-left: 30px">
+                  <!--  <a>天基互联网：准确率:0.8596,召回率:0.7891,F1:0.8228<br></a>
+                    <a>人工智能：准确率:0.8652,召回率:0.7713,F1:0.8156<br></a>-->
+                    <a>中文数据准确率:96.81% ; 英文数据准确率：98.73%<br></a>
                 </div>
             </div>        <!--表格列表-->
             <!--表格列表-->
             <table id="tb" class="table" width="100%"  style="table-layout:fixed">
                 <thead>
                 <tr>
-                   <!-- <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>-->
+                    <!--<th style="width: 50px"><input id="checkAll" type="checkbox" /></th>-->
                     <th style="width: 100px">编号</th>
                     <th style="width: 280px">标题</th>
                     <th style="width: 180px">所属领域</th>
+                    <th style="width: 180px">分类结果</th>
                     <th style="width: 180px">日期</th>
-                    <th style="width: 380px">URL</th>
+                    <th style="width: 280px">URL</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="data :${pageInfo.list}">
-                        <!--<td><input type="checkbox"></td>-->
-                        <td  th:text="${data.id}"></td>
-                        <td  th:text="${data.title}"></td>
-                        <td  th:text="${data.field}"></td>
-                        <td  th:text="${data.date}"></td>
-                        <td  th:text="${data.url}"></td>
-                    </tr>
+                <tr th:each="data :${pageInfo.list}">
+                   <!-- <td><input type="checkbox"></td>-->
+                    <td  th:text="${data.id}"></td>
+                    <td  th:text="${data.title}"></td>
+                    <td  th:text="${data.field}"></td>
+                    <td  th:text="${data.label}"></td>
+                    <td  th:text="${data.date}"></td>
+                    <td  th:text="${data.url}"></td>
+                </tr>
                 </tbody>
             </table>
 
@@ -179,10 +186,10 @@
 
             <nav aria-label="Page navigation" class="" style="margin-left: 800px;">
                 <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
-                <a th:href="@{'/JS_Tech?keywords='+${key}}">首页</a>
-                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key})}">上一页</a>
-                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key})}">下一页</a>
-                <a th:href="@{/JS_Tech(pageNum=${pageInfo.pages},keywords=${key})}">尾页</a>
+                <a th:href="@{'/JS_Text?keywords='+${key}}">首页</a>
+                <a th:href="@{/JS_Text(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key})}">上一页</a>
+                <a th:href="@{/JS_Text(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key})}">下一页</a>
+                <a th:href="@{/JS_Text(pageNum=${pageInfo.pages},keywords=${key})}">尾页</a>
             </nav>
         </div>
     </div>
