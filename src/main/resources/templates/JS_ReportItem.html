@@ -467,32 +467,6 @@
             }
         });
 
-        //把 领域 的中文名称 转换为 英文，便于传参
-        function fieldToEng(field_CN){
-            switch(field_CN){
-                case "自然语言处理":
-                    field = "NLP";
-                    break;
-                case "计算机视觉":
-                    field = "CV";
-                    break;
-                case "AI计划与应用":
-                    field = "AI projects and applications";
-                    break;
-                case "机器人技术":
-                    field = "robot technology";
-                    break;
-                case "优化算法与理论":
-                    field = "Optimization algorithm theory";
-                    break;
-                case "个性化推荐":
-                    field = "Recommended system";
-                    break;
-                default:
-                    field = "NLP";
-            }
-            return field
-        }
         $.ajax({
             url: "http://127.0.0.1:7000/classify",
             method: 'POST',
@@ -510,14 +484,14 @@
                     maxIndex = max < data.probability[i+1] ? i+1 : maxIndex
                     max = max < data.probability[i+1] ? data.probability[i+1] : max
                 }
-                var field_classified = data.classify[maxIndex] // field_classified 是 中文
-                var field = fieldToEng(field_classified)       // field 是 对应英文
+                var field_classified_CN = data.classify[maxIndex] // field_classified 是 中文
                 console.log('max:' + max);
                 console.log('maxIndex:' + maxIndex);
-                console.log('field_classified:' + field);
-                duibi_ajax(field_classified, country)                 // 对比模块传入的field 需为中文
+                console.log('field_classified:' + field_classified_CN);
+                duibi_ajax(field_classified_CN, country)         // 对比模块传入的field 为文本分类最大结果，需为中文
+                console.log('firstScope:' + firstScope);
                 var one_country = country.split(",")[0]
-                yuce_ajax(field, one_country)              // 预测模块传入的field需为英文
+                yuce_ajax(firstScope,secondScope, one_country)              // 预测模块传入的前一页面选择的领域
             },
             error: function () {
                 console.log("error");
@@ -631,7 +605,7 @@
     });
 
     // 提交所需参数给后端，并绘制对预测图
-    function yuce_ajax(field, country){
+    function yuce_ajax(source, field, country){
         $.ajax({
             url: "http://127.0.0.1:7650/predict",
             method: 'POST',
@@ -640,7 +614,8 @@
             jsonpCallback: "successCallback_predict",//回调方法
             contentType: 'application/json',
             data: {
-                "field": field
+                "field": field,
+                "source": source
             },
             success: function (data) {
                 console.log("data=" + data);
@@ -648,8 +623,7 @@
                 var predict_data = JSON.parse(data);
                 $("#detail3").html(predict_data.text);
                 //alert(predict_data.text)
-                var field = $("#psecondScope").val().toString()
-                printPredictLabel(predict_data, field);
+                printPredictLabel(predict_data, source);
             },
         });
 
@@ -661,15 +635,15 @@
             jsonpCallback: "successCallback_predict2",//回调方法
             contentType: 'application/json',
             data: {
-                "field": field,
-                "country":country,
+                "field": source,
+                "country": country,
             },
             success: function (data) {
                 console.log("data=" + data);
                 data = JSON.stringify(data);
                 var predict_data = JSON.parse(data);
                 $("#detail5").html(predict_data.text);
-                printPredictLabel2(predict_data);
+                printPredictLabel2(predict_data, field, country);
             },
         });
     }
@@ -1010,7 +984,12 @@
                 }],
                 tooltip: {
                     headerFormat: "",
-                    pointFormat: '<b>{point.name}</b>的得分为：<b>{point.value}</b>'
+                    pointFormatter: function(){
+                        if(this.name == '0.0'){
+                            return country + field + '综合科技实力对比'
+                        }
+                        return '<b>' + this.name + '</b>的得分为：<b>' + this.value + '</b>'
+                    }
                 }
             }
         )
@@ -1265,10 +1244,8 @@
     }
 
     //趋势预测
-    function printPredictLabel2(data) {
+    function printPredictLabel2(data,field,country) {
 
-        var country = $("#pcountry").val().toString().replaceAll(",", "、")
-        var field = $("#psecondScope").val().toString()
 
         // 准备数据
         var result= [];
@@ -1394,11 +1371,11 @@
             }
         });
 
-        setTimeout(function () {
-            for(var i = 1; i < 14; i++){
-                serialChart2.series[1].remove()
-            }
-        }, 5000)
+        // setTimeout(function () {
+        //     for(var i = 1; i < 14; i++){
+        //         serialChart2.series[1].remove()
+        //     }
+        // }, 5000)
 
         result.push(red1);
         console.log("resultData=" + result);

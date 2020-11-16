@@ -502,7 +502,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: indicator +'指数'
+                        text: indicator +'增量指数'
                     }
                 },
                 legend: {
@@ -609,7 +609,12 @@
                     }],
                     tooltip: {
                         headerFormat: "",
-                        pointFormat: '<b>{point.name}</b>的得分为：<b>{point.value}</b>'
+                        pointFormatter: function(){
+                            if(this.name == '0.0'){
+                                return country + field + '综合科技实力对比'
+                            }
+                            return '<b>' + this.name + '</b>的得分为：<b>' + this.value + '</b>'
+                        }
                     }
                 }
             )
