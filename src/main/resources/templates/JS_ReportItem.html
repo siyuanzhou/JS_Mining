@@ -824,6 +824,9 @@
         console.log("实力对比折线图返回数据=" + data);
         var countries = country.replaceAll(",", "、")
         var serialChart = Highcharts.chart('serialsLabel', {
+            credits:{
+                enabled: false
+            },
             title: {
                 text: countries + field + '领域科技实力对比折线图'
             },
@@ -874,6 +877,9 @@
     function printSerialsLabel2(data, field, country) {
         var countries = country.replaceAll(",", "、")
         var serialChart = Highcharts.chart('serialsLabel2', {
+            credits:{
+                enabled: false
+            },
             title: {
                 text: countries + field + '领域科技实力增量对比折线图'
             },
@@ -931,70 +937,73 @@
         });
         Highcharts.getOptions().colors.splice(0, 0, 'transparent');
         Highcharts.chart('sunshine', {
-                chart: {
-                    height: '100%'
-                },
-                colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
-                    'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
-                title: {
-                    text: countries + field + '领域综合实力对比'
-                },
-                series: [{
-                    type: "sunburst",
-                    data: data,
-                    color: 'white',
-                    allowDrillToNode: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        /**
-                         * A custom formatter that returns the name only if the inner arc
-                         * is longer than a certain pixel size, so the shape has place for
-                         * the label.
-                         */
-                        formatter: function () {
-                            var shape = this.point.node.shapeArgs;
+            credits:{
+                enabled: false
+            },
+            chart: {
+                height: '100%'
+            },
+            colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
+                'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
+            title: {
+                text: countries + field + '领域综合实力对比'
+            },
+            series: [{
+                type: "sunburst",
+                data: data,
+                color: 'white',
+                allowDrillToNode: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    /**
+                     * A custom formatter that returns the name only if the inner arc
+                     * is longer than a certain pixel size, so the shape has place for
+                     * the label.
+                     */
+                    formatter: function () {
+                        var shape = this.point.node.shapeArgs;
 
-                            var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
-                            var perimeter = 2 * Math.PI * shape.innerR;
+                        var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
+                        var perimeter = 2 * Math.PI * shape.innerR;
 
-                            var innerArcPixels = innerArcFraction * perimeter;
+                        var innerArcPixels = innerArcFraction * perimeter;
 
-                            if (innerArcPixels > 16) {
-                                return this.point.name;
-                            }
+                        if (innerArcPixels > 16) {
+                            return this.point.name;
                         }
-                    },
-                    levels: [{
-                        level: 2,
-                        colorByPoint: true,
-                        dataLabels: {
-                            rotationMode: 'parallel'
-                        }
-                    },
-                        {
-                            level: 3,
-                            colorVariation: {
-                                key: 'brightness',
-                                to: -0.5
-                            }
-                        }, {
-                            level: 4,
-                            colorVariation: {
-                                key: 'brightness',
-                                to: 0.5
-                            }
-                        }]
-
-                }],
-                tooltip: {
-                    headerFormat: "",
-                    pointFormatter: function(){
-                        if(this.name == '0.0'){
-                            return country + field + '综合科技实力对比'
-                        }
-                        return '<b>' + this.name + '</b>的得分为：<b>' + this.value + '</b>'
                     }
+                },
+                levels: [{
+                    level: 2,
+                    colorByPoint: true,
+                    dataLabels: {
+                        rotationMode: 'parallel'
+                    }
+                },
+                    {
+                        level: 3,
+                        colorVariation: {
+                            key: 'brightness',
+                            to: -0.5
+                        }
+                    }, {
+                        level: 4,
+                        colorVariation: {
+                            key: 'brightness',
+                            to: 0.5
+                        }
+                    }]
+
+            }],
+            tooltip: {
+                headerFormat: "",
+                pointFormatter: function(){
+                    if(this.name == '0.0'){
+                        return country + field + '综合科技实力对比'
+                    }
+                    return '<b>' + this.name + '</b>的得分为：<b>' + this.value + '</b>'
                 }
+            }
             }
         )
     }
@@ -1029,6 +1038,9 @@
             max = max < data.技术成果[i+1] ? data.技术成果[i+1] : max
         }
         var serialChart = Highcharts.chart('predict_div', {
+            credits:{
+                enabled: false
+            },
             title: {
                 text: field + '技术成熟度分析图'
             },
@@ -1325,6 +1337,9 @@
         zone.push(tmp);
         greenAll["zones"] = zone;
         var serialChart2 = Highcharts.chart('predict_div2', {
+            credits:{
+                enabled: false
+            },
             chart:{
                 animation:false
             },
