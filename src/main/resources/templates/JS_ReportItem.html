@@ -118,24 +118,20 @@
                                 </div>
                             </ul>
                         </div>
-                        <p style="color: black;margin: 30px"><span style="color: #2759c2;font-weight:bold">摘要：</span>
-                            <a id="summary" style="line-height:1.8em;color: #0f0f0f"></a>
+                        <p style="color: black"><span style="color: #2759c2;font-weight:bold;margin-left: 30px">关键信息：</span>
+                            <div id="summary" style="line-height:1.8em;color: #0f0f0f;padding-left: 30px"></div>
                         </p>
-                        <button class="button" onclick="toggleTable()">查看详情</button>
-                        <table id="tb" class="table">
+                        <table id="tb" class="table" hidden>
                             <thead>
                                 <tr>
-                                    <th>文章ID</th>
-                                    <th>文章标题</th>
-                                    <th>文章简介</th>
+                                    <th style="width: 100px">文章ID</th>
+                                    <th style="width: 100px">文章标题</th>
+                                    <th style="width: 500px">文章内容</th>
+                                    <th style="width: 500px">文章摘要</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th>这是文章ID</th>
-                                    <th>这是文章标题</th>
-                                    <th>这是文章简介</th>
-                                </tr>
+                            <tbody id="tbody" style="vertical-align: center">
+
                             </tbody>
                         </table>
                         <p style="color: black;margin: 30px"><span style="color: #2759c2;font-weight:bold">关键词：</span>
@@ -324,7 +320,6 @@
     var source = localStorage.getItem("source");
     var text_data = localStorage.getItem("text_data");
     var articles = localStorage.getItem("articles");
-    alert(articles);
     console.log(articles);
     var countrys = country.split(",");
     var random = localStorage.getItem("random");
@@ -402,21 +397,28 @@
         $("#source").html(source);
         $("#start").html(start);
         $("#end").html(end);
-
         $.ajax({
-            url: "http://127.0.0.1:8550/multiReport",
+            url: "http://127.0.0.1:8000/multiReport",
             method: 'POST',
             dataType: 'jsonp',
             jsonp: "callback",
             jsonpCallback: "successCallback_multireport",//回调方法
             contentType: 'application/json',
             data: {
-                'texts': text_data.toString(),
+                'texts': text_data.toString()
             },
             success: function (data) {
-                console.log(data);
-                //alert(JSON.stringify(data));
-                $("#summary").html(JSON.stringify(data));
+                var textsum = data["sumlist"];
+                var articleList = JSON.parse(articles)["article"];
+                for (var i = 0 ; i < articleList.length ; i ++){
+                    $("#tbody").append("<tr>\n" +
+                        "                                    <td style='text-align: center;vertical-align: middle'>" + articleList[i]["id"]+ "</td>\n" +
+                        "                                    <td style='text-align: center;vertical-align: middle'>" + articleList[i]["title"]+ "</td>\n" +
+                        "                                    <td><div style='overflow-y: auto;height: 200px;text-align: left'>" + articleList[i]["content"]+ "</div></td>\n" +
+                        "                                    <td style='text-align: center;vertical-align: middle'><div style='overflow-y: auto;height: 200px;display: flex;align-items: center;text-align: justify'>" + textsum[i] + "</div></td>\n" +
+                        "                                </tr>");
+                }
+                $("#summary").html(data['multi_textsum'] + "<a href='javascript:toggleTable()'>点击查看详细信息</a>");
             }
         });
 
@@ -533,7 +535,7 @@
                         'country_list': JSON.stringify(countries),
                         'start_year': start.substring(0, 4),
                         'end_year': end.substring(0, 4),
-                        'random': random,
+                        'random': random
                     },
                     success: function (data) {
                         var datas = JSON.parse(data);
