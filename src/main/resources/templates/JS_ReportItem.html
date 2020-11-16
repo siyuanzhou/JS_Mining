@@ -23,6 +23,8 @@
     <script src="../js/bootstrap/bootstrap.min.js"></script>
 
     <!--external css-->
+    <!--加载等待样式-->
+    <link rel="stylesheet" type="text/css" href="./css/report_upload/loadingbutton.css">
     <!-- font icon -->
     <link href="../contrast/css/elegant-icons-style.css" rel="stylesheet"/>
     <link href="../contrast/css/font-awesome.min.css" rel="stylesheet"/>
@@ -87,7 +89,24 @@
                     <div id="head" class="panel-heading" style="text-align: center;font-family: 华光准圆_CNKI;font-weight: 500;font-size: 38px">
                         <!--                        <h1 id="head" style="text-align: center;width: 1000px;color: #0f0f0f;font-family: 华光准圆_CNKI;font-weight: 800"></h1>-->
                     </div>
+                    <!--加载等待框-->
+                        <!--<div id="loading" style="display: inline-flex;margin-left: 40%;margin-top: 25px">-->
+                        <div id="loading" style="display: inline-flex;margin-left: 40%;margin-top: 25px;margin-bottom: 25px">
+                            <div style="font-size: 20px;">正在加载中</div>
+                            <div id="fountainG">
+                                <div id="fountainG_1" class="fountainG"></div>
+                                <div id="fountainG_2" class="fountainG"></div>
+                                <div id="fountainG_3" class="fountainG"></div>
+                                <div id="fountainG_4" class="fountainG"></div>
+                                <div id="fountainG_5" class="fountainG"></div>
+                                <!--                    <div id="fountainG_6" class="fountainG"></div>
+                                                    <div id="fountainG_7" class="fountainG"></div>
+                                                    <div id="fountainG_8" class="fountainG"></div>-->
+                            </div>
+                        </div>
+
                     <div class="panel-body" >
+
                         <div style="margin-left: 700px">
                             <ul class="info" style="width: 600px;display: flex">
                                 <div style="width: 200px;text-align: left"><span class="first-block">范围:</span><span
@@ -207,6 +226,7 @@
                         </div>
 
                         <!--旭日图实力对比-->
+
                         <div class="row" style="margin: 30px;">
                             <div id="detail1" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
                             </div>
@@ -403,6 +423,7 @@
             e.preventDefault(); // prevents default menu
             $("#popupRC").css({ position: "fixed", top: e.screenY - 50, left: e.screenX, display: "block" });
         });
+        $(".panel-body").hide()
     });
 
     function nextChange(field){
@@ -1325,6 +1346,9 @@
                 }],
             }],
         });
+        $('#loading').hide()
+        $('#greyblock').hide()
+        $(".panel-body").show()
     }
 
     //趋势预测
