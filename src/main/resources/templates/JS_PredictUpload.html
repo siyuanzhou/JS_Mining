@@ -236,28 +236,28 @@
         second.options.length = 0; // 清除second下拉框的所有内容
         if(first.selectedIndex == 0)
         {
-            second.options.add(new Option("自然语言处理", "0"));
-            second.options.add(new Option("AI计划与应用", "2"));
-            second.options.add(new Option("机器人技术", "3"));
-            second.options.add(new Option("优化算法与理论", "4"));
-            second.options.add(new Option("个性化推荐", "5"));
-            second.options.add(new Option("计算机视觉", "1", false, true));  // 默认选中区
+            second.options.add(new Option("自然语言处理", "自然语言处理"));
+            second.options.add(new Option("AI计划与应用", "AI计划与应用"));
+            second.options.add(new Option("机器人技术", "机器人技术"));
+            second.options.add(new Option("优化算法与理论", "优化算法与理论"));
+            second.options.add(new Option("个性化推荐", "个性化推荐"));
+            second.options.add(new Option("计算机视觉", "计算机视觉", false, true));  // 默认选中区
         }
         if(first.selectedIndex == 1)
         {
-            second.options.add(new Option("网络攻防", "0", false, true));  // 默认选中区
+            second.options.add(new Option("网络攻防", "网络攻防", false, true));  // 默认选中区
         }
         if(first.selectedIndex == 2)
         {
-            second.options.add(new Option("海军", "0", false, true));  // 默认选中区
+            second.options.add(new Option("海军", "海军", false, true));  // 默认选中区
         }
         if(first.selectedIndex == 3)
         {
-            second.options.add(new Option("陆军", "0", false, true));  // 默认选中区
+            second.options.add(new Option("陆军", "陆军", false, true));  // 默认选中区
         }
         if(first.selectedIndex == 4)
         {
-            second.options.add(new Option("空军", "0", false, true));  // 默认选中区
+            second.options.add(new Option("空军", "空军", false, true));  // 默认选中区
         }
 
     }
@@ -275,7 +275,8 @@
             var country = $('#country').val().toString();//文本
             var source = $('#firstScope').val().toString();//文本
             var select_area = $('#secondScope').val().toString();//文本
-
+            alert(source);
+            alert(select_area);
             $.ajax({
                 url: "http://127.0.0.1:7650/predict",
                 method: 'POST',

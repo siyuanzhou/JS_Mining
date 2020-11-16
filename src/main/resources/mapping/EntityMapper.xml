@@ -7,15 +7,16 @@
     <resultMap id="BaseResultMap" type="com.example.entity.Entity">
         <result column="id" jdbcType="INTEGER" property="id" />
         <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="feature" jdbcType="VARCHAR" property="feature" />
+        <result column="field" jdbcType="VARCHAR" property="field" />
+        <result column="label" jdbcType="VARCHAR" property="label" />
     </resultMap>
 
     <select id="selectList" resultType="com.example.entity.Entity">
-		select * from 实体
+		select * from entity
 	</select>
 
     <select id="selectKeywords" resultType="com.example.entity.Entity" parameterType="String">
-		select id,name,feature from 实体
+		select id,name,field,label from entity
         <where>
             <if test="keywords!=null and keywords!=''">
                 and name like "%"#{keywords}"%"
