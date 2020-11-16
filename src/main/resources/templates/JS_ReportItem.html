@@ -423,6 +423,7 @@
             e.preventDefault(); // prevents default menu
             $("#popupRC").css({ position: "fixed", top: e.screenY - 50, left: e.screenX, display: "block" });
         });
+        $(".panel-heading").hide()
         $(".panel-body").hide()
     });
 
@@ -1349,6 +1350,7 @@
         $('#loading').hide()
         $('#greyblock').hide()
         $(".panel-body").show()
+        $(".panel-heading").show()
     }
 
     //趋势预测
