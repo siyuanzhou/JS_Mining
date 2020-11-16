@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" href="../contrast/css/fullcalendar.css">
     <link href="../contrast/css/widgets.css" rel="stylesheet">
-<!--    <link href="../contrast/css/style.css" rel="stylesheet">-->
+    <!--    <link href="../contrast/css/style.css" rel="stylesheet">-->
     <link href="../contrast/css/style-responsive.css" rel="stylesheet"/>
     <link href="../contrast/css/xcharts.min.css" rel=" stylesheet">
     <link href="../contrast/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
@@ -85,7 +85,7 @@
                 <!--style="padding-left: 50px;height:1000px;display: flex;flex-direction: column;width:100%;overflow-y: auto"-->
                 <div class="panel panel-primary">
                     <div id="head" class="panel-heading" style="text-align: center;font-family: 华光准圆_CNKI;font-weight: 500;font-size: 38px">
-<!--                        <h1 id="head" style="text-align: center;width: 1000px;color: #0f0f0f;font-family: 华光准圆_CNKI;font-weight: 800"></h1>-->
+                        <!--                        <h1 id="head" style="text-align: center;width: 1000px;color: #0f0f0f;font-family: 华光准圆_CNKI;font-weight: 800"></h1>-->
                     </div>
                     <div class="panel-body" >
                         <div style="margin-left: 700px">
@@ -119,16 +119,16 @@
                             </ul>
                         </div>
                         <p style="color: black"><span style="color: #2759c2;font-weight:bold;margin-left: 30px">关键信息：</span>
-                            <div id="summary" style="line-height:1.8em;color: #0f0f0f;padding-left: 30px"></div>
+                        <div id="summary" style="line-height:1.8em;color: #0f0f0f;padding-left: 30px"></div>
                         </p>
                         <table id="tb" class="table" hidden>
                             <thead>
-                                <tr>
-                                    <th style="width: 100px">文章ID</th>
-                                    <th style="width: 100px">文章标题</th>
-                                    <th style="width: 500px">文章内容</th>
-                                    <th style="width: 500px">文章摘要</th>
-                                </tr>
+                            <tr>
+                                <th style="width: 100px">文章ID</th>
+                                <th style="width: 100px">文章标题</th>
+                                <th style="width: 500px">文章内容</th>
+                                <th style="width: 500px">文章摘要</th>
+                            </tr>
                             </thead>
                             <tbody id="tbody" style="vertical-align: center">
 
@@ -170,17 +170,25 @@
                                             data-live-search="true" title="请选择国家">
                                         <option>中国</option>
                                         <option>美国</option>
-                                        <option>德国</option>
-                                        <option>意大利</option>
+                                        <option>英国</option>
                                         <option>法国</option>
-                                        <option>中东</option>
+                                        <option>俄罗斯</option>
+                                        <option>德国</option>
+                                        <option>印度</option>
+                                        <option>加拿大</option>
+                                        <option>澳大利亚</option>
+                                        <option>韩国</option>
+                                        <option>瑞士</option>
+                                        <option>以色列</option>
+                                        <option>爱尔兰</option>
+                                        <option>瑞典</option>
                                     </select>
                                 </div>
                             </div>
                             <div class='col-sm-3'>
                                 <div class="form-group">
                                     <label>领域</label>
-                                    <select id = "lingyu" class="form-control select_down" style="font-size: 13px; color: #666;">
+                                    <select id = "dlingyu" class="form-control select_down" style="font-size: 13px; color: #666;">
                                         <option>自然语言处理</option>
                                         <option>计算机视觉</option>
                                         <option>AI计划与应用</option>
@@ -202,12 +210,12 @@
                         <div class="row" style="margin: 30px;">
                             <div id="detail1" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
                             </div>
-<!--                            <div class="col-lg-6 col-md-6" style="margin-top:10px;margin-left:50px;display:inline-block;">-->
-                                <div class="panel panel-default" >
-                                    <div class="panel-body" id="sunshine" style="margin: auto;width: 600px;height: 600px;">
-                                    </div>
+                            <!--                            <div class="col-lg-6 col-md-6" style="margin-top:10px;margin-left:50px;display:inline-block;">-->
+                            <div class="panel panel-default" >
+                                <div class="panel-body" id="sunshine" style="margin: auto;width: 600px;height: 600px;">
                                 </div>
-<!--                            </div>-->
+                            </div>
+                            <!--                            </div>-->
                             <div id="detail2" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
                             </div>
                         </div>
@@ -216,7 +224,6 @@
                         <div class="row" style="margin: 30px;">
                             <div class="panel-body" id="serialsLabel" style="width: 800px;height: 400px;margin-left: 150px">
                             </div>
-                            <div id="detail6" style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI">
                             <div class="panel-body" id="serialsLabel2" style="width: 800px;height: 400px;margin-left: 150px">
                             </div>
                         </div>
@@ -228,10 +235,18 @@
                                     <select id="pcountry" class="form-control select_down" title="请选择国家">
                                         <option>中国</option>
                                         <option>美国</option>
-                                        <option>德国</option>
-                                        <option>意大利</option>
+                                        <option>英国</option>
                                         <option>法国</option>
-                                        <option>中东</option>
+                                        <option>俄罗斯</option>
+                                        <option>德国</option>
+                                        <option>印度</option>
+                                        <option>加拿大</option>
+                                        <option>澳大利亚</option>
+                                        <option>韩国</option>
+                                        <option>瑞士</option>
+                                        <option>以色列</option>
+                                        <option>爱尔兰</option>
+                                        <option>瑞典</option>
                                     </select>
                                 </div>
                             </div>
@@ -241,13 +256,13 @@
                                     <label>范围</label>
                                     <select id="psecondScope" class="form-control select_down"
                                             style="font-size: 13px; color: #666;">
-                                        <option name="NLP">自然语言处理</option>
-                                        <option name="CV" >计算机视觉</option>
-                                        <option name="AI projects and applications">AI计划与应用</option>
-                                        <option name="robot technology">机器人技术</option>
-                                        <option name="Optimization algorithm theory">优化算法与理论</option>
-<!--                                        <option>语音识别</option>-->
-                                        <option name="Recommended system">个性化推荐</option>
+                                        <option>自然语言处理</option>
+                                        <option>计算机视觉</option>
+                                        <option>AI计划与应用</option>
+                                        <option>机器人技术</option>
+                                        <option>优化算法与理论</option>
+                                        <!--                                        <option>语音识别</option>-->
+                                        <option>个性化推荐</option>
                                     </select>
                                 </div>
                             </div>
@@ -257,8 +272,9 @@
                                     <button class="btn btn-primary search_btn" type="button" id="yuce">趋势预测</button>
                                 </div>
                             </div>
+
                         </div>
-                            <!--趋势预测-->
+                        <!--趋势预测-->
                         <div class="row" style="margin: 30px;">
                             <div id="detail5" style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
                             </div>
@@ -284,29 +300,29 @@
                 </div>
 
             </div>
-            </div>
-            <!--main content end-->
-        </section>
-        <!-- container section start -->
     </div>
+    <!--main content end-->
+    </section>
+    <!-- container section start -->
+</div>
 
-    <!--右键菜单定义-->
-    <div id="popupRC" style="display:none;" class="panel panel-primary  ">
-        <div class="panel-heading" style="background-color: #F1F1F1;">
-            <a href="javascript:txt2img(getSelectionText())">多模态检索图片</a>
-        </div>
-        <div class="panel-body" id="showImg">
-            <!-- <div class="form-group">
-                <label class="control-label col-md-2">Color</label>
-
-                <input type="color" class="form-control" id="idcolorr" />
-            </div> -->
-            <div style="display: flex;flex-direction: row">
-
-            </div>
-        </div>
-        <div class="panel-footer"><input type="button"  class="btn btn-danger" value="关闭" onClick="closeMenu()" /></div>
+<!--右键菜单定义-->
+<div id="popupRC" style="display:none;" class="panel panel-primary  ">
+    <div class="panel-heading" style="background-color: #F1F1F1;">
+        <a href="javascript:txt2img(getSelectionText())">多模态检索图片</a>
     </div>
+    <div class="panel-body" id="showImg">
+        <!-- <div class="form-group">
+            <label class="control-label col-md-2">Color</label>
+
+            <input type="color" class="form-control" id="idcolorr" />
+        </div> -->
+        <div style="display: flex;flex-direction: row">
+
+        </div>
+    </div>
+    <div class="panel-footer"><input type="button"  class="btn btn-danger" value="关闭" onClick="closeMenu()" /></div>
+</div>
 </div>
 <!-- javascripts -->
 <script src="../contrast/js/jquery.js"></script>
@@ -324,6 +340,7 @@
     var countrys = country.split(",");
     var random = localStorage.getItem("random");
     var select_area = "";
+    nextChange(firstScope);
     <!--右键菜单多模态检索图片相关-->
     function getSelectionText() {
         if(window.getSelection) {
@@ -387,6 +404,39 @@
         });
     });
 
+    function nextChange(field)
+    {
+        var first = field;
+        var second = document.getElementById("dlingyu");
+        second.options.length = 0; // 清除second下拉框的所有内容
+        if(first=="人工智能")
+        {
+            second.options.add(new Option("自然语言处理", "自然语言处理"));
+            second.options.add(new Option("AI计划与应用", "AI计划与应用"));
+            second.options.add(new Option("机器人技术", "机器人技术"));
+            second.options.add(new Option("优化算法与理论", "优化算法与理论"));
+            second.options.add(new Option("个性化推荐", "个性化推荐"));
+            second.options.add(new Option("计算机视觉", "计算机视觉", false, true));  // 默认选中区
+        }else if(first=="网络攻防") {
+            second.options.add(new Option("网络攻防", "网络攻防", false, true));  // 默认选中区
+        }
+
+        var second2 = document.getElementById("psecondScope");
+        second2.options.length = 0; // 清除second下拉框的所有内容
+        if(first=="人工智能")
+        {
+            second2.options.add(new Option("自然语言处理", "自然语言处理"));
+            second2.options.add(new Option("AI计划与应用", "AI计划与应用"));
+            second2.options.add(new Option("机器人技术", "机器人技术"));
+            second2.options.add(new Option("优化算法与理论", "优化算法与理论"));
+            second2.options.add(new Option("个性化推荐", "个性化推荐"));
+            second2.options.add(new Option("计算机视觉", "计算机视觉", false, true));  // 默认选中区
+        }else if(first=="网络攻防") {
+            second.options.add(new Option("网络攻防", "网络攻防", false, true));  // 默认选中区
+        }
+
+    }
+
     $(function () {
 
         $("#introduce").html("抽取" + firstScope + "领域相关实体如下：");
@@ -414,7 +464,7 @@
                     $("#tbody").append("<tr>\n" +
                         "                                    <td style='text-align: center;vertical-align: middle'>" + articleList[i]["id"]+ "</td>\n" +
                         "                                    <td style='text-align: center;vertical-align: middle'>" + articleList[i]["title"]+ "</td>\n" +
-                        "                                    <td><div style='overflow-y: auto;height: 200px;text-align: left  '>" + articleList[i]["content"]+ "</div></td>\n" +
+                        "                                    <td><div style='overflow-y: auto;height: 200px;text-align: left'>" + articleList[i]["content"]+ "</div></td>\n" +
                         "                                    <td style='text-align: center;vertical-align: middle'><div style='overflow-y: auto;height: 200px;display: flex;align-items: center;text-align: justify'>" + textsum[i] + "</div></td>\n" +
                         "                                </tr>");
                 }
@@ -444,7 +494,6 @@
                 printWordsLabel(data.cloud);
             }
         });
-
 
         $.ajax({
             url: "http://127.0.0.1:8888/api",
@@ -493,7 +542,7 @@
                 duibi_ajax(field_classified_CN, country)         // 对比模块传入的field 为文本分类最大结果，需为中文
                 console.log('firstScope:' + firstScope);
                 var one_country = country.split(",")[0]
-                yuce_ajax(firstScope,secondScope, one_country)              // 预测模块传入的前一页面选择的领域
+                yuce_ajax(firstScope,field_classified_CN, one_country)              // 预测模块传入的前一页面选择的领域
             },
             error: function () {
                 console.log("error");
@@ -570,39 +619,36 @@
                 console.log("data=" + data);
                 $("#serialsLabel").empty();
                 printSerialsLabel(JSON.parse(data), field, country);
-                printSerialsLabel2(JSON.parse(data), field, country);
             }
         });
 
-        // $.ajax({
-        //     url: "http://127.0.0.1:7450/addchart",
-        //     method: 'POST',
-        //     dataType: 'jsonp',
-        //     jsonp: "callback",
-        //     jsonpCallback: "successCallback_addchart",//回调方法
-        //     contentType: 'application/json',
-        //     data: {
-        //         'field_name':  field,
-        //         'country_list': JSON.stringify(country),
-        //         'start_year': start.substring(0, 4),
-        //         'end_year': end.substring(0, 4),
-        //         'indicator_name': "科技产出",
-        //         'random': random,
-        //     },
-        //     success: function (data) {
-        //         console.log("data=" + data);
-        //         printSerialsLabel2(JSON.parse(data));
-        //         var text = "针对"+ countrys + "在" + select_area + "的"+ indicator + "指标增量对比结果如下";
-        //         $("#detail6").html(text);
-        //     }
-        // });
+        $.ajax({
+            url: "http://127.0.0.1:7450/addchart",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_addchart",//回调方法
+            contentType: 'application/json',
+            data: {
+                'field_name':  field,
+                'country_list': JSON.stringify(countries),
+                'start_year': start.substring(0, 4),
+                'end_year': end.substring(0, 4),
+                'indicator_name': "科技产出",
+                'random': random,
+            },
+            success: function (data) {
+                console.log("data=" + data);
+                $("#serialsLabel2").empty();
+                printSerialsLabel2(JSON.parse(data),field,country);
+            }
+        });
     }
     $("#duibi").click(function () {
 
-        var select_area = $('#lingyu option:selected').text();//文本
+        var select_area = $('#dlingyu option:selected').text();//文本
         countrys = $('#dcountry').val().toString();//文本
         duibi_ajax(select_area, countrys)
-
 
     });
 
@@ -649,13 +695,13 @@
             },
         });
     }
+
     $("#yuce").click(function () {
 
         var country = $('#pcountry').val().toString();//文本
+        alert(country);
         var select_area = $('#psecondScope option:selected').text();//文本
-         $("#predict_div").empty()
-        $("#predict_div2").empty()
-        yuce_ajax(select_area, country)
+        yuce_ajax(firstScope,select_area, country)
 
     });
 
@@ -929,31 +975,28 @@
         });
         Highcharts.getOptions().colors.splice(0, 0, 'transparent');
         Highcharts.chart('sunshine', {
-            credits:{
-                enabled: false
-            },
-            chart: {
-                height: '100%'
-            },
-            colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
-                'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
-            title: {
-                text: countries + field + '领域综合实力对比'
-            },
-            series: [{
-                type: "sunburst",
-                data: data,
-                color: 'white',
-                allowDrillToNode: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    /**
-                     * A custom formatter that returns the name only if the inner arc
-                     * is longer than a certain pixel size, so the shape has place for
-                     * the label.
-                     */
-                    formatter: function () {
-                        var shape = this.point.node.shapeArgs;
+                chart: {
+                    height: '100%'
+                },
+                colors: [ '#c70831', 'rgba(0,201,66,0.97)','rgba(0,171,201,0.97)',
+                    'rgba(214,229,6,0.97)','rgba(118,57,220,0.97)','rgba(198,105,35,0.97)'],
+                title: {
+                    text: countries + field + '领域综合实力对比'
+                },
+                series: [{
+                    type: "sunburst",
+                    data: data,
+                    color: 'white',
+                    allowDrillToNode: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        /**
+                         * A custom formatter that returns the name only if the inner arc
+                         * is longer than a certain pixel size, so the shape has place for
+                         * the label.
+                         */
+                        formatter: function () {
+                            var shape = this.point.node.shapeArgs;
 
                             var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
                             var perimeter = 2 * Math.PI * shape.innerR;
@@ -986,16 +1029,16 @@
                             }
                         }]
 
-            }],
-            tooltip: {
-                headerFormat: "",
-                pointFormatter: function(){
-                    if(this.name == '0.0'){
-                        return country + field + '综合科技实力对比'
+                }],
+                tooltip: {
+                    headerFormat: "",
+                    pointFormatter: function(){
+                        if(this.name == '0.0'){
+                            return country + field + '综合科技实力对比'
+                        }
+                        return '<b>' + this.name + '</b>的得分为：<b>' + this.value + '</b>'
                     }
-                    return '<b>' + this.name + '</b>的得分为：<b>' + this.value + '</b>'
                 }
-            }
             }
         )
     }
@@ -1176,15 +1219,15 @@
                     symbol: 'square'
                 }
             },
-            //     {
-            //     name: '预警点',
-            //     data: [{x: 1958 + data_history.length - 1, y: warn_point}],
-            //     showInLegend: false,
-            //     marker: {
-            //         symbol: 'circle',
-            //         radius:5
-            //     }
-            // },
+                //     {
+                //     name: '预警点',
+                //     data: [{x: 1958 + data_history.length - 1, y: warn_point}],
+                //     showInLegend: false,
+                //     marker: {
+                //         symbol: 'circle',
+                //         radius:5
+                //     }
+                // },
             ],
             legend: {
                 // layout: 'horizontal',
@@ -1326,9 +1369,6 @@
         zone.push(tmp);
         greenAll["zones"] = zone;
         var serialChart2 = Highcharts.chart('predict_div2', {
-            credits:{
-                enabled: false
-            },
             chart:{
                 animation:false
             },
