@@ -2,15 +2,16 @@ package com.example.entity;
 
 public class Entity {
 
-    private Integer id;
+    private String id;
     private String name;
-    private String feature;
+    private String field;
+    private String label;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -22,11 +23,19 @@ public class Entity {
         this.name = name;
     }
 
-    public String getFeature() {
-        return feature;
+    public String getField() {
+        return field;
     }
 
-    public void setFeature(String feature) {
-        this.feature = feature;
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

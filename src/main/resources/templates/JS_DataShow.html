@@ -76,7 +76,8 @@
                 <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>
                 <th style="width: 100px">编号</th>
                 <th style="">名称</th>
-                <th style="width: 180px">特征</th>
+                <th style="width: 180px">领域</th>
+                <th style="width: 180px">标签</th>
             </tr>
 
             </thead>
@@ -85,7 +86,8 @@
                 <td><input type="checkbox"></td>
                 <td  th:text="${data.id}"></td>
                 <td  th:text="${data.name}"></td>
-                <td  th:text="${data.feature}"></td>
+                <td  th:text="${data.field}"></td>
+                <td  th:text="${data.label}"></td>
             </tr>
 
             </tbody>
