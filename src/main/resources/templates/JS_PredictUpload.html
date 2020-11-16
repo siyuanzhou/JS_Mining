@@ -330,7 +330,7 @@
             var data_history = Array.prototype.slice.call(data.history);
             var warn_point = data_history.pop();
             data_history.push({y: warn_point, id: 'warn'});
-            push1["data"] = data_history;
+            push1["data"] = data.history;
             var push2 = {};
             push2["name"] = "预测数据";
             push2["data"] = data.predict;
@@ -701,11 +701,11 @@
 
 
             console.log(serialChart2.series)
-            setTimeout(function () {
-                for(var i = 1; i < 14; i++){
-                    serialChart2.series[1].remove()
-                }
-            }, 5000)
+            // setTimeout(function () {
+            //     for(var i = 1; i < 14; i++){
+            //         serialChart2.series[1].remove()
+            //     }
+            // }, 5000)
 
 
             result.push(red1);
