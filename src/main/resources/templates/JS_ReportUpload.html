@@ -194,9 +194,9 @@
                     <div id="fountainG_3" class="fountainG"></div>
                     <div id="fountainG_4" class="fountainG"></div>
                     <div id="fountainG_5" class="fountainG"></div>
-                    <div id="fountainG_6" class="fountainG"></div>
+<!--                    <div id="fountainG_6" class="fountainG"></div>
                     <div id="fountainG_7" class="fountainG"></div>
-                    <div id="fountainG_8" class="fountainG"></div>
+                    <div id="fountainG_8" class="fountainG"></div>-->
                 </div>
             </div>
              <div class="line"></div>
@@ -316,17 +316,29 @@
         $('#loading').hide();
         $('#greyblock').hide();
         var checks = document.getElementsByName("love");
+        var titles = document.getElementsByName("title");
         var contents = document.getElementsByName("content");
+        var ids = document.getElementsByName("id");
+        var articles = {};
+        var alist = [];
         for(var i = 0; i< checks.length; i++){
             var checkbox = checks[i];
             var content = contents[i];
+            var title = titles[i];
+            var id = ids[i];
             if(checkbox.checked){
+                var article = new Object();
+                article.id = id.innerHTML;
+                article.title = title.innerHTML;
+                article.content = content.innerHTML;
+                alist.push(article);
                 text_data.push(content.innerHTML);
                 text_data.push("###");
             }else{
                 // do something
             }
         }
+        articles["article"] = alist;
         var start = createTime($("#datetimepicker1").find("input").val());
         var end = createTime($("#datetimepicker2").find("input").val());
         var firstScope = $('#firstScope option:selected').text();//文本
@@ -342,6 +354,7 @@
         localStorage.setItem("source",publisher);
         localStorage.setItem("random",random);
         localStorage.setItem("text_data",text_data);
+        localStorage.setItem("articles",JSON.stringify(articles));
         window.location.href="/JS_ReportItem";
     });
 
@@ -388,8 +401,8 @@
                         var json = eval(e);
                         info5 +="<tr >\n" +
                             "                        <td><input id=\"check\" name=\"love\" type=\"checkbox\" /></td>"+
-                            "                        <td>"+json.id+"</td>\n" +
-                            "                        <td class=\"roleCodes\">"+json.name+"</td>\n" +
+                            "                        <td id=\"id\" name=\"id\">"+json.id+"</td>\n" +
+                            "                        <td id=\"title\" name=\"title\" class=\"roleCodes\">"+json.name+"</td>\n" +
                             "                        <td>"+json.date+"</td>\n" +
                             "                        <td>"+json.country+"</td>\n" +
                             "                        <td id=\"content\" name=\"content\" style=\"display:none\">"+json.content+"</td>\n" +
