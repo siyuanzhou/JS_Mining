@@ -168,20 +168,20 @@
                                     <label>国家:</label>
                                     <select id="dcountry" class="form-control select_down selectpicker" multiple
                                             data-live-search="true" title="请选择国家">
-                                        <option>中国</option>
-                                        <option>美国</option>
-                                        <option>英国</option>
-                                        <option>法国</option>
-                                        <option>俄罗斯</option>
-                                        <option>德国</option>
-                                        <option>印度</option>
-                                        <option>加拿大</option>
-                                        <option>澳大利亚</option>
-                                        <option>韩国</option>
-                                        <option>瑞士</option>
-                                        <option>以色列</option>
-                                        <option>爱尔兰</option>
-                                        <option>瑞典</option>
+                                        <option value="中国">中国</option>
+                                        <option value="美国">美国</option>
+                                        <option value="英国">英国</option>
+                                        <option value="法国">法国</option>
+                                        <option value="俄罗斯">俄罗斯</option>
+                                        <option value="德国">德国</option>
+                                        <option value="印度">印度</option>
+                                        <option value="加拿大">加拿大</option>
+                                        <option value="澳大利亚">澳大利亚</option>
+                                        <option value="韩国">韩国</option>
+                                        <option value="瑞士">瑞士</option>
+                                        <option value="以色列">以色列</option>
+                                        <option value="爱尔兰">爱尔兰</option>
+                                        <option value="瑞典">瑞典</option>
                                     </select>
                                 </div>
                             </div>
@@ -189,13 +189,13 @@
                                 <div class="form-group">
                                     <label>领域</label>
                                     <select id = "dlingyu" class="form-control select_down" style="font-size: 13px; color: #666;">
-                                        <option>自然语言处理</option>
-                                        <option>计算机视觉</option>
-                                        <option>AI计划与应用</option>
-                                        <option>机器人技术</option>
-                                        <option>优化算法与理论</option>
-                                        <option>语音识别</option>
-                                        <option>个性化推荐</option>
+                                        <option name="d自然语言处理">自然语言处理</option>
+                                        <option name="d计算机视觉">计算机视觉</option>
+                                        <option name="dAI计划与应用">AI计划与应用</option>
+                                        <option name="d机器人技术">机器人技术</option>
+                                        <option name="d优化算法与理论">优化算法与理论</option>
+                                        <option name="d语音识别">语音识别</option>
+                                        <option name="d个性化推荐">个性化推荐</option>
                                     </select>
                                 </div>
                             </div>
@@ -233,20 +233,20 @@
                                 <div class="form-group">
                                     <label>国家:</label>
                                     <select id="pcountry" class="form-control select_down" title="请选择国家">
-                                        <option>中国</option>
-                                        <option>美国</option>
-                                        <option>英国</option>
-                                        <option>法国</option>
-                                        <option>俄罗斯</option>
-                                        <option>德国</option>
-                                        <option>印度</option>
-                                        <option>加拿大</option>
-                                        <option>澳大利亚</option>
-                                        <option>韩国</option>
-                                        <option>瑞士</option>
-                                        <option>以色列</option>
-                                        <option>爱尔兰</option>
-                                        <option>瑞典</option>
+                                        <option value="中国">中国</option>
+                                        <option value="美国">美国</option>
+                                        <option value="英国">英国</option>
+                                        <option value="法国">法国</option>
+                                        <option value="俄罗斯">俄罗斯</option>
+                                        <option value="德国">德国</option>
+                                        <option value="印度">印度</option>
+                                        <option value="加拿大">加拿大</option>
+                                        <option value="澳大利亚">澳大利亚</option>
+                                        <option value="韩国">韩国</option>
+                                        <option value="瑞士">瑞士</option>
+                                        <option value="以色列">以色列</option>
+                                        <option value="爱尔兰">爱尔兰</option>
+                                        <option value="瑞典">瑞典</option>
                                     </select>
                                 </div>
                             </div>
@@ -256,13 +256,13 @@
                                     <label>范围</label>
                                     <select id="psecondScope" class="form-control select_down"
                                             style="font-size: 13px; color: #666;">
-                                        <option>自然语言处理</option>
-                                        <option>计算机视觉</option>
-                                        <option>AI计划与应用</option>
-                                        <option>机器人技术</option>
-                                        <option>优化算法与理论</option>
-                                        <!--                                        <option>语音识别</option>-->
-                                        <option>个性化推荐</option>
+                                        <option name="p自然语言处理">自然语言处理</option>
+                                        <option name="p计算机视觉">计算机视觉</option>
+                                        <option name="pAI计划与应用">AI计划与应用</option>
+                                        <option name="p机器人技术">机器人技术</option>
+                                        <option name="p优化算法与理论">优化算法与理论</option>
+                                        <option name="p语音识别">语音识别</option>
+                                        <option name="p个性化推荐">个性化推荐</option>
                                     </select>
                                 </div>
                             </div>
@@ -340,6 +340,7 @@
     var countrys = country.split(",");
     var random = localStorage.getItem("random");
     var select_area = "";
+
     nextChange(firstScope);
     <!--右键菜单多模态检索图片相关-->
     function getSelectionText() {
@@ -404,8 +405,7 @@
         });
     });
 
-    function nextChange(field)
-    {
+    function nextChange(field){
         var first = field;
         var second = document.getElementById("dlingyu");
         second.options.length = 0; // 清除second下拉框的所有内容
@@ -447,6 +447,12 @@
         $("#source").html(source);
         $("#start").html(start);
         $("#end").html(end);
+        var countries = country.split(",")
+        var one_country = countries[0]
+
+        for(var i = 0; i < countries.length; i++){
+            $("#dcountry option[value='" + countries[i] + "']").attr("selected","selected")
+        }
         $.ajax({
             url: "http://127.0.0.1:8000/multiReport",
             method: 'POST',
@@ -539,9 +545,14 @@
                 console.log('max:' + max);
                 console.log('maxIndex:' + maxIndex);
                 console.log('field_classified:' + field_classified_CN);
+
+                $("#dlingyu option[value='" + field_classified_CN + "']").attr("selected","selected")
+                $("#dcountry option[value='" + field_classified_CN + "']").attr("selected","selected")
                 duibi_ajax(field_classified_CN, country)         // 对比模块传入的field 为文本分类最大结果，需为中文
                 console.log('firstScope:' + firstScope);
-                var one_country = country.split(",")[0]
+
+                $("#psecondScope option[value='" + field_classified_CN + "']").attr("selected","selected")
+                $("#pcountry option[value='" + one_country + "']").attr("selected","selected")
                 yuce_ajax(firstScope,field_classified_CN, one_country)              // 预测模块传入的前一页面选择的领域
             },
             error: function () {
@@ -868,6 +879,9 @@
         console.log("实力对比折线图返回数据=" + data);
         var countries = country.replaceAll(",", "、")
         var serialChart = Highcharts.chart('serialsLabel', {
+            credits:{
+                enabled: false  //去除highcharts版权信息
+            },
             title: {
                 text: countries + field + '领域科技实力对比折线图'
             },
@@ -918,6 +932,9 @@
     function printSerialsLabel2(data, field, country) {
         var countries = country.replaceAll(",", "、")
         var serialChart = Highcharts.chart('serialsLabel2', {
+            credits:{
+                enabled: false  //去除highcharts版权信息
+            },
             title: {
                 text: countries + field + '领域科技实力增量对比折线图'
             },
@@ -975,6 +992,9 @@
         });
         Highcharts.getOptions().colors.splice(0, 0, 'transparent');
         Highcharts.chart('sunshine', {
+            credits:{
+                enabled: false  //去除highcharts版权信息
+            },
                 chart: {
                     height: '100%'
                 },
@@ -1073,6 +1093,9 @@
             max = max < data.技术成果[i+1] ? data.技术成果[i+1] : max
         }
         var serialChart = Highcharts.chart('predict_div', {
+            credits:{
+                enabled: false  //去除highcharts版权信息
+            },
             title: {
                 text: field + '技术成熟度分析图'
             },
@@ -1369,6 +1392,9 @@
         zone.push(tmp);
         greenAll["zones"] = zone;
         var serialChart2 = Highcharts.chart('predict_div2', {
+            credits:{
+                enabled: false  //去除highcharts版权信息
+            },
             chart:{
                 animation:false
             },
