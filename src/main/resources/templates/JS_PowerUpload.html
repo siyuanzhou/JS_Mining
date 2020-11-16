@@ -438,6 +438,9 @@
             var field = $("#secondScope option:selected").text()
             var indicator =  $('#item option:selected').text();//文本
             var serialChart = Highcharts.chart('serialsLabel', {
+                credits:{
+                    enabled: false
+                },
                 title: {
                     text: country + field + indicator+'指标对比折线图'
                 },
@@ -492,6 +495,9 @@
             var field = $("#secondScope option:selected").text()
             var indicator =  $('#item option:selected').text();//文本
             var serialChart = Highcharts.chart('serialsLabel2', {
+                credits:{
+                    enabled: false
+                },
                 title: {
                     text: country + field + indicator+'指标增量对比折线图'
                 },
@@ -552,6 +558,9 @@
             // Splice in transparent for the center circle
             Highcharts.getOptions().colors.splice(0, 0, 'transparent');
             Highcharts.chart('sunshine', {
+                credits:{
+                    enabled: false
+                },
                     chart: {
                         height: '100%'
                     },

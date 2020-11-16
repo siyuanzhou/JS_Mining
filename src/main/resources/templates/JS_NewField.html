@@ -332,7 +332,7 @@
                 var entity = "";
                 if (map.hasOwnProperty(prop)) {
                     for (var i = 0; i < map[prop].length; i++) {
-                        if (map[prop][i] !== "") {
+                        if (map[prop][i] !== ""&&"<span>".indexOf(map[prop][i]) == -1 && "</span>".indexOf(map[prop][i]) == -1) {
                             entity = entity + map[prop][i] + "、";
                             input = input.replaceAll(map[prop][i], "<span style='color:" + color + "'>" + map[prop][i] + "</span>");
                         }
@@ -358,7 +358,7 @@
                 var entity = "";
                 if (map.hasOwnProperty(prop)) {
                     for (var i = 0; i < map[prop].length; i++) {
-                        if (map[prop][i] !== "") {
+                        if (map[prop][i] !== ""&&"<span>".indexOf(map[prop][i]) == -1 && "</span>".indexOf(map[prop][i]) == -1) {
                             entity = entity + map[prop][i] + "、";
                             input = input.replaceAll(map[prop][i], "<span style='color:" + color + "'>" + map[prop][i] + "</span>");
                         }
