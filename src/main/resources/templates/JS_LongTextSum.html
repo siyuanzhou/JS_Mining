@@ -146,7 +146,7 @@
         "    <input name=\"file\" multiple id=\"fileId"+ inputCount  +"\" type=\"file\" style=\"display:none\"onchange=\"uploadFile(this)\"/>\n" +
         "    <div class=\"input-append\">\n" +
         "       <input id=\"uploadpath\" class=\"input-large\" type=\"text\" style=\"height:30px;\">\n" +
-        "       <a class=\"btn btn-default\" style=\"height: 30px ;margin-top: -4px;background-color: #337ab7;color: white\" onclick=\"$('input[id=fileId" + inputCount + "]').click();\">文件上传</a>\">\n" +
+        "       <a class=\"btn btn-default\" style=\"height: 30px ;margin-top: -4px;background-color: #337ab7;color: white\" onclick=\"$('input[id=fileId" + inputCount + "]').click();\">文件上传</a>\n" +
         "    </div>\n" +
         "       <button class=\"btn btn-default\" onclick=\"addText()\"style=\"height: 30px ;margin-left:450px;background-color: #337ab7;color: white;float: right;\">添加</button>\n" +
         "       <button class=\"btn btn-default\" onclick=\"deleteText(this)\" style=\"height: 30px ;margin-left:50px;background-color: #337ab7;color: white;float: right;\">删除</button>\n" + "    " +
@@ -169,7 +169,7 @@
         $('#spinner').toggle();
 
         $.ajax({
-            url: "http://127.0.0.1:9000/longtextsum",
+            url: "http://127.0.0.1:8124/longtextsum",
             method: 'POST',
             dataType: 'jsonp',
             jsonp: "callback",
