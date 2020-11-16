@@ -564,6 +564,12 @@
 
     // 提交所需参数给后端，并绘制对比图
     function duibi_ajax(field, country){
+        if(field == "语音识别"){
+            var field_ajax = "优化算法及理论"
+        }
+        else{
+            var field_ajax = field
+        }
         var countries = country.split(",")
         $.ajax({
             url: "http://127.0.0.1:7450/detail",
@@ -573,7 +579,7 @@
             jsonpCallback: "successCallback_detail",//回调方法
             contentType: 'application/json',
             data: {
-                'field_name':  field,
+                'field_name':  field_ajax,
                 'country_list': JSON.stringify(countries),
                 'start_year': start.substring(0, 4),
                 'end_year': end.substring(0, 4),
@@ -591,7 +597,7 @@
                     jsonpCallback: "successCallback_sunburst",//回调方法
                     contentType: 'application/json',
                     data: {
-                        'field_name':  field,
+                        'field_name':  field_ajax,
                         'country_list': JSON.stringify(countries),
                         'start_year': start.substring(0, 4),
                         'end_year': end.substring(0, 4),
@@ -619,7 +625,7 @@
             jsonpCallback: "successCallback_LineChart",//回调方法
             contentType: 'application/json',
             data: {
-                'field_name':  field,
+                'field_name':  field_ajax,
                 'country_list': JSON.stringify(countries),
                 'start_year': start.substring(0, 4),
                 'end_year': end.substring(0, 4),
@@ -641,7 +647,7 @@
             jsonpCallback: "successCallback_addchart",//回调方法
             contentType: 'application/json',
             data: {
-                'field_name':  field,
+                'field_name':  field_ajax,
                 'country_list': JSON.stringify(countries),
                 'start_year': start.substring(0, 4),
                 'end_year': end.substring(0, 4),
@@ -655,6 +661,7 @@
             }
         });
     }
+
     $("#duibi").click(function () {
 
         var select_area = $('#dlingyu option:selected').text();//文本
@@ -665,6 +672,12 @@
 
     // 提交所需参数给后端，并绘制对预测图
     function yuce_ajax(source, field, country){
+        if(field == "语音识别"){
+            var field_ajax = "优化算法及理论"
+        }
+        else{
+            var field_ajax = field
+        }
         $.ajax({
             url: "http://127.0.0.1:7650/predict",
             method: 'POST',
@@ -673,7 +686,7 @@
             jsonpCallback: "successCallback_predict",//回调方法
             contentType: 'application/json',
             data: {
-                "field": field,
+                "field": field_ajax,
                 "source": source
             },
             success: function (data) {
