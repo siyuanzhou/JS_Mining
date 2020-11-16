@@ -93,12 +93,12 @@
                         <div class="form-group">
                             <label>领域</label>
                             <select id="firstScope" class="form-control select_down"
-                                    style="font-size: 13px; color: #666;">
-                                <option>人工智能</option>
-                                <option>海军</option>
-                                <option>陆军</option>
-                                <option>空军</option>
-                                <option>网络攻防</option>
+                                    style="font-size: 13px; color: #666;" onChange="nextChange()">
+                                <option name="人工智能">人工智能</option>
+                                <option name="网络攻防">网络攻防</option>
+                                <option name="海军">海军</option>
+                                <option name="陆军">陆军</option>
+                                <option name="空军">空军</option>
                             </select>
                         </div>
                     </div>
@@ -110,13 +110,13 @@
                             <label>范围</label>
                             <select id="secondScope" class="form-control select_down"
                                     style="font-size: 13px; color: #666;">
-                                <option name="NLP">自然语言处理</option>
-                                <option name="CV" >计算机视觉</option>
-                                <option name="AI projects and applications">AI计划与应用</option>
-                                <option name="robot technology">机器人技术</option>
-                                <option name="Optimization algorithm theory">优化算法与理论</option>
+                                <option >自然语言处理</option>
+                                <option >计算机视觉</option>
+                                <option >AI计划与应用</option>
+                                <option >机器人技术</option>
+                                <option >优化算法与理论</option>
                                 <!--<option>语音识别</option>-->
-                                <option name="Recommended system">个性化推荐</option>
+                                <option >个性化推荐</option>
                             </select>
                         </div>
                     </div>
@@ -229,7 +229,38 @@
         var str = y+m+d;
         return str;
     }
+    function nextChange()
+    {
+        var first = document.getElementById("firstScope");
+        var second = document.getElementById("secondScope");
+        second.options.length = 0; // 清除second下拉框的所有内容
+        if(first.selectedIndex == 0)
+        {
+            second.options.add(new Option("自然语言处理", "0"));
+            second.options.add(new Option("AI计划与应用", "2"));
+            second.options.add(new Option("机器人技术", "3"));
+            second.options.add(new Option("优化算法与理论", "4"));
+            second.options.add(new Option("个性化推荐", "5"));
+            second.options.add(new Option("计算机视觉", "1", false, true));  // 默认选中区
+        }
+        if(first.selectedIndex == 1)
+        {
+            second.options.add(new Option("网络攻防", "0", false, true));  // 默认选中区
+        }
+        if(first.selectedIndex == 2)
+        {
+            second.options.add(new Option("海军", "0", false, true));  // 默认选中区
+        }
+        if(first.selectedIndex == 3)
+        {
+            second.options.add(new Option("陆军", "0", false, true));  // 默认选中区
+        }
+        if(first.selectedIndex == 4)
+        {
+            second.options.add(new Option("空军", "0", false, true));  // 默认选中区
+        }
 
+    }
 
     $(function () {
         var start = 2000;
@@ -242,9 +273,8 @@
             //var lingyu = $('#secondScope option:selected').text();//文本
             //var random = $('#random option:selected').text();//文本
             var country = $('#country').val().toString();//文本
-            var obj = document.getElementById("secondScope");
-            var index=obj.selectedIndex;
-            var select_area = obj.options[index].getAttribute("name");
+            var source = $('#firstScope').val().toString();//文本
+            var select_area = $('#secondScope').val().toString();//文本
 
             $.ajax({
                 url: "http://127.0.0.1:7650/predict",
@@ -254,7 +284,8 @@
                 jsonpCallback: "successCallback_predict",//回调方法
                 contentType: 'application/json',
                 data: {
-                    "field": select_area
+                    "field": select_area,
+                    "source":source,
                 },
                 success: function (data) {
                     console.log("data=" + data);
