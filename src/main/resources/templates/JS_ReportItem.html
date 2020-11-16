@@ -1309,7 +1309,8 @@
 
         var greenAll = {}
         greenAll["name"] = "预测趋势曲线"
-        greenAll["data"] = data.green_all
+        var blue5 = data.blue5.slice(data.blue5.length - 5, data.blue5.length)
+        greenAll["data"] = data.green_all.concat(blue5)
         greenAll["color"] = "#ff8c00"
         greenAll["animation"] = {
             duration: 5000
