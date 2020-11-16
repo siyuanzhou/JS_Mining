@@ -113,6 +113,14 @@ public class DataItemController {
         return "JS_TechShow";
     }
 
+    @RequestMapping(value = "JS_Text")
+    public String JS_Text(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
+        PageInfo pageInfo = dataItemService.selectTextList(pageNum,10,keywords);
+        model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("key",keywords);
+        return "JS_TextShow";
+    }
+
     @RequestMapping(value = "JS_NewData")
     public String JS_NewData(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
         PageInfo pageInfo = dataItemService.selectFieldList(pageNum,10,keywords);
