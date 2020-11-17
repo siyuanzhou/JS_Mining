@@ -109,9 +109,9 @@
 </head>
 <body style="background-color: inherit">
 
-<div th:insert="~{/JS_Common::topbar}"></div>
+<div th:insert="~{JS_Common::topbar}"></div>
 <div style="display: flex;">
-    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div th:insert="~{JS_Common::leftbar}"></div>
     <div class="box">
         <!--次导航栏-->
         <div style="display: block; padding: 0;margin-left: 20px">
@@ -144,7 +144,7 @@
             <table id="tb" class="table" width="100%"  style="table-layout:fixed">
                 <thead>
                 <tr>
-                   <!-- <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>-->
+                    <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>
                     <th style="width: 100px">编号</th>
                     <th style="width: 280px">标题</th>
                     <th style="width: 180px">所属领域</th>
@@ -154,7 +154,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="data :${pageInfo.list}">
-                        <!--<td><input type="checkbox"></td>-->
+                        <td><input type="checkbox"></td>
                         <td  th:text="${data.id}"></td>
                         <td  th:text="${data.title}"></td>
                         <td  th:text="${data.field}"></td>
@@ -164,13 +164,13 @@
                 </tbody>
             </table>
 
-            <div>
+          <!--  <div>
                 <a id="btn" class="btn btn-default"
                    style="height: 30px ;margin-top: -4px;margin-left:45%;margin-right:5%;background-color: #337ab7;color: white" onclick="getPercent()">指标验证</a>
                 <div id="percent_show" hidden style="font-size: 16px;">
                     测试集的准确率为<span id="percent_span" style="font-size: 16px;color: blue;">92%</span>
                 </div>
-            </div>
+            </div>-->
 
             <div class="spinner" id="spinner" style="display: none">
                 <div class="double-bounce1"></div>

@@ -39,9 +39,9 @@
 </head>
 <body style="background-color: inherit">
 
-<div th:insert="~{/JS_Common::topbar}"></div>
+<div th:insert="~{JS_Common::topbar}"></div>
 <div style="display: flex;">
-    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div th:insert="~{JS_Common::leftbar}"></div>
     <div class="box">
         <!--次导航栏-->
         <div style="display: block; padding: 0;margin-left: 20px">
@@ -73,7 +73,7 @@
         <table id="tb" class="table">
             <thead>
             <tr>
-               <!-- <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>-->
+                <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>
                 <th style="width: 100px">编号</th>
                 <th style="">名称</th>
                 <th style="width: 180px">领域</th>
@@ -83,7 +83,7 @@
             </thead>
             <tbody>
             <tr th:each="data :${pageInfo.list}">
-               <!-- <td><input type="checkbox"></td>-->
+                <td><input type="checkbox"></td>
                 <td  th:text="${data.id}"></td>
                 <td  th:text="${data.name}"></td>
                 <td  th:text="${data.field}"></td>

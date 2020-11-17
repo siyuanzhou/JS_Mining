@@ -109,9 +109,9 @@
 </head>
 <body style="background-color: inherit">
 
-<div th:insert="~{/JS_Common::topbar}"></div>
+<div th:insert="~{JS_Common::topbar}"></div>
 <div style="display: flex;">
-    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div th:insert="~{JS_Common::leftbar}"></div>
     <div class="box">
         <!--次导航栏-->
         <div style="display: block; padding: 0;margin-left: 20px">
@@ -170,13 +170,13 @@
                 </tbody>
             </table>
 
-            <div>
+            <!--<div>
                 <a id="btn" class="btn btn-default"
                    style="height: 30px ;margin-top: -4px;margin-left:45%;margin-right:5%;background-color: #337ab7;color: white" onclick="getPercent()">指标验证</a>
                 <div id="percent_show" hidden style="font-size: 16px;">
                     测试集的准确率为<span id="percent_span" style="font-size: 16px;color: blue;">92%</span>
                 </div>
-            </div>
+            </div>-->
 
             <div class="spinner" id="spinner" style="display: none">
                 <div class="double-bounce1"></div>

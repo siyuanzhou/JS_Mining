@@ -7,8 +7,9 @@
     <meta name="author" content="GeeksLabs">
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
 
-    <title>实力对比</title>
+    <title>简报生成</title>
 
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
     <!--jquery加载要放在Bootstrap之前-->
     <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
@@ -36,6 +37,7 @@
     <link href="../contrast/css/xcharts.min.css" rel=" stylesheet">
     <link href="../contrast/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
 
+
     <!--旭日图所需script文件-->
     <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
     <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
@@ -50,7 +52,8 @@
     <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/common_css/font-awesome.min.css">
+
     <style>
         * {
             touch-action: pan-y;
@@ -69,15 +72,12 @@
             font-weight: 600;
         }
     </style>
-    <!--echarts插件-->
-    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
-
 </head>
 <body style="background-color: inherit;color: #0f0f0f">
 
-<div th:insert="~{/JS_Common::topbar}"></div>
+<div th:insert="~{JS_Common::topbar}"></div>
 <div style="display: flex;">
-    <div th:insert="~{/JS_Common::leftbar}"></div>
+    <div th:insert="~{JS_Common::leftbar}"></div>
     <div style="display: block;width:100%">
         <!-- container section start -->
         <section id="container" class="">
@@ -163,10 +163,11 @@
 
                         <!--实体、关系展示-->
                         <div class="row" style="margin: 30px;">
-                            <div class="panel panel-default" >
+                            <div class="panel panel-primary">
                                 <p id="introduce" style="text-indent: 2em;line-height:2em;font-family: 华光准圆_CNKI;"></p>
-                                <!--<div class="panel-heading" style="text-align: center">关键实体</div>-->
-                                <div id="entity" class="panel-body" style="height: 420px;border: 0px">
+                                <div class="panel-heading" style="text-align: center">信息提取图</div>
+                                <div class="panel-body" style="overflow: auto">
+                                    <div id="first_div"></div>
                                 </div>
                             </div>
                         </div>
@@ -718,6 +719,9 @@
                 $("#detail3").html(predict_data.text);
                 //alert(predict_data.text)
                 printPredictLabel(predict_data, source);
+                $('#loading').hide();
+                $(".panel-body").show();
+                $(".panel-heading").show();
             },
         });
 
@@ -738,6 +742,7 @@
                 var predict_data = JSON.parse(data);
                 $("#detail5").html(predict_data.text);
                 printPredictLabel2(predict_data, field, country);
+
             },
         });
     }
@@ -751,7 +756,7 @@
 
     });
 
-    // 数组去重
+    //数组去重
     function UniqObj(array) {     // 对象去重方法
         var allArr = [];    //建立新的临时数组
         for (var i = 0; i < array.length; i++) {
@@ -766,6 +771,65 @@
             }
         }
         return allArr;
+    }
+
+    //显示关系图
+    function showRela(data, links) {
+        var myChart = echarts.init(document.getElementById('first_div'));
+        var categories = [];
+        for (var i = 0; i < 2; i++) {
+            categories[i] = {
+                name: '类目' + i
+            };
+        }
+        option = {
+            series: [{
+                type: 'graph', // 类型:关系图
+                layout: 'force', //图的布局，类型为力导图
+                symbolSize: 50, // 调整节点的大小
+                roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                edgeSymbol: ['circle', 'arrow'],
+                edgeSymbolSize: [2, 10],
+                edgeLabel: {
+                    normal: {
+                        textStyle: {
+                            fontSize: 20
+                        }
+                    }
+                },
+                force: {
+                    repulsion: 250,
+                    edgeLength: [100, 150]
+                },
+                draggable: true,
+                lineStyle: {
+                    normal: {
+                        width: 2,
+                        color: '#4b565b'
+                    }
+                },
+                edgeLabel: {
+                    normal: {
+                        show: true,
+                        formatter: function (x) {
+                            return x.data.name;
+                        }
+                    }
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        textStyle: {}
+                    }
+                },
+                categories: categories
+            }]
+        };
+        var tmp = option.series;
+        tmp[0]['data'] = UniqObj(data);
+        tmp[0]['links'] = links;
+        // console.log(tmp[0]['data'],tmp[0]['links']);
+        myChart.setOption(option);
     }
 
     function printWordsLabel(data) {
@@ -897,7 +961,7 @@
                     }
                 },
                 barWidth: 30,
-                data: data.probability,
+                data: data.probability[0],
             }]
         });
         setTimeout(function (){
@@ -1347,10 +1411,6 @@
                 }],
             }],
         });
-        $('#loading').hide()
-        $('#greyblock').hide()
-        $(".panel-body").show()
-        $(".panel-heading").show()
     }
 
     //趋势预测
@@ -1497,8 +1557,6 @@
 
 </script>
 <script type="text/javascript">
-
-
 
 
     /* function showRela(data) {
