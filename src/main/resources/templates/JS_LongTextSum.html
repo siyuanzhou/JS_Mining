@@ -45,10 +45,10 @@
         <div class="container" style="height:800px;width:1000px">
             <!--文章大标题-->
             <div style="display:flex;flex-direction: row;justify-content: space-between">
-                <span style="width: 10%;color: #0a2d57">文章标题：</span>
+                <span style="width: 10%;color: #0a2d57;font-size: 18px">文章标题：</span>
                 <textarea
-                        style="height: 30px;color: #0a2d57;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;"
-                        type="text"   name="title" placeholder="请输入文章标题">
+                        style="height: 30px;color: #0a2d57;width: 100%;border: 0;border-radius:5px;background-color:white;font-size: 18px"
+                        type="text" id="bigTitle" placeholder="请输入文章标题">
              </textarea>
             </div>
 
@@ -98,29 +98,25 @@
             <div class="panel panel-primary">
                 <div class="panel-heading" style="text-align: center;align-content: center;">文本摘要
                 </div>
-                <div class="panel-body" style="height: 300px">
-                    <div>
-                    <textarea
-                            style="height: 250px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;"
+                <div class="panel-body" style="height: 500px">
+                    <div
+                            style="height:450px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;overflow: auto"
                             type="text" id="result">
-                    </textarea>
                     </div>
                 </div>
             </div>
 
-            <!--文本翻译框-->
-            <div class="panel panel-primary">
-                <div class="panel-heading" style="text-align: center;align-content: center;">摘要翻译
-                </div>
-                <div class="panel-body" style="height: 300px">
-                    <div>
-                        <textarea
-                            style="height: 250px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;"
-                            type="text" id="result_chinese">
-                        </textarea>
-                    </div>
-                </div>
-            </div>
+            <!--&lt;!&ndash;文本翻译框&ndash;&gt;-->
+            <!--<div class="panel panel-primary">-->
+                <!--<div class="panel-heading" style="text-align: center;align-content: center;">摘要翻译-->
+                <!--</div>-->
+                <!--<div class="panel-body" style="height: 300px">-->
+                    <!--<div-->
+                        <!--style="height: 250px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;overflow: auto"-->
+                        <!--type="text" id="result_chinese">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
 </div>
@@ -136,19 +132,13 @@
     }
 
     function addText(){
-        inputCount ++;
         var boardDiv = "<div id =\"div\"><div class=\"panel-body\">\n" +
-        "    <textarea style=\"height: 30px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"title" + inputCount + "\" placeholder=\"请输入段落标题\"></textarea>\n" +
+        "    <textarea style=\"height: 30px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"title"  + inputCount + "\" placeholder=\"请输入段落标题\" name='title'></textarea>\n" +
         "    <hr style=\"margin: 1px;background-color:#ebebeb \">\n" +
-        "    <textarea style=\"height: 150px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"input" + inputCount + "\" placeholder=\"请输入段落文本\"></textarea>\n" +
+        "    <textarea style=\"height: 150px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"input" + inputCount + "\" placeholder=\"请输入段落文本\" name='input'></textarea>\n" +
         "    </div>\n" +
         "    <div class=\"panel-footer\" style=\"display: flex;\">\n" +
-        "    <input name=\"file\" multiple id=\"fileId"+ inputCount  +"\" type=\"file\" style=\"display:none\"onchange=\"uploadFile(this)\"/>\n" +
-        "    <div class=\"input-append\">\n" +
-        "       <input id=\"uploadpath\" class=\"input-large\" type=\"text\" style=\"height:30px;\">\n" +
-        "       <a class=\"btn btn-default\" style=\"height: 30px ;margin-top: -4px;background-color: #337ab7;color: white\" onclick=\"$('input[id=fileId" + inputCount + "]').click();\">文件上传</a>\n" +
-        "    </div>\n" +
-        "       <button class=\"btn btn-default\" onclick=\"addText()\"style=\"height: 30px ;margin-left:450px;background-color: #337ab7;color: white;float: right;\">添加</button>\n" +
+        "       <button class=\"btn btn-default\" onclick=\"addText()\"style=\"height: 30px ;margin-left:710px;background-color: #337ab7;color: white;float: right;\">添加</button>\n" +
         "       <button class=\"btn btn-default\" onclick=\"deleteText(this)\" style=\"height: 30px ;margin-left:50px;background-color: #337ab7;color: white;float: right;\">删除</button>\n" + "    " +
             "</div>\n" +
             "</div>";
@@ -163,60 +153,58 @@
         This.parentNode.parentNode.parentNode.removeChild(This.parentNode.parentNode);
     }
 
-    function api_call(input) {
+    function api_call(bigTitle,subTitle,subContent) {
         // hide button and make the spinner appear
         $('#btn').toggle();
         $('#spinner').toggle();
-
         $.ajax({
             url: "http://127.0.0.1:8124/longtextsum",
-            method: 'POST',
+            type: 'POST',
             dataType: 'jsonp',
             jsonp: "callback",
             jsonpCallback: "successCallback_longsum",//回调方法
             contentType: 'application/json',
-            data: {input: JSON.stringify(input)},
-
+            data: {
+                'bigTitle':bigTitle,
+                'subTitle':JSON.stringify(subTitle),
+                'subContent':JSON.stringify(subContent)
+            },
             success: function(data){
                 $('#btn').toggle();
                 $('#spinner').toggle();
-                $('#result').append("&#10;");
-                for (var i=0;i<data.subtitle.length;i++) {
-/*                    $('#result').append(data.subtitle[i].replace(/[\r\n]/g,""));
-                    $('#result').append("&#10;");
-                    $('#result').append("&#10;");*/
-                    $('#result').append(data.sub_abstract[i].replace(/[\r\n]/g,""));
-                    $('#result').append("&#10;");
-                    $('#result').append("&#10;");
+                var result = "<h2>" + bigTitle + "</h2>";
+                for (var i = 0; i < data.length; i++) {
+                   result += "<h3>" + subTitle[i] + "</h3>" + data[i] + "<br>"
                 }
+                $('#result').html(result);
                 //调用翻译API翻译文本结果
-                var appKey = '241d46d9da752d9f';
-                var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
-                var salt = (new Date).getTime();
-                var curTime = Math.round(new Date().getTime()/1000);
-                // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
-                var from = 'en';
-                var to = 'zh-CHS';
-                var str1 = appKey + truncate($('#result').html()) + salt + curTime + key;
-                var sign = sha256(str1);
-                $.ajax({
-                    url: 'http://openapi.youdao.com/api',
-                    type: 'post',
-                    dataType: 'jsonp',
-                    data: {
-                        q: $("#result").html(),
-                        appKey: appKey,
-                        salt: salt,
-                        from: from,
-                        to: to,
-                        sign: sign,
-                        signType: "v3",
-                        curtime: curTime
-                    },
-                    success: function (chinese) {
-                        $("#result_chinese").html(chinese.translation[0]);
-                    }
-                })
+                // var appKey = '241d46d9da752d9f';
+                // var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
+                // var salt = (new Date).getTime();
+                // var curTime = Math.round(new Date().getTime()/1000);
+                // // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+                // var from = 'en';
+                // var to = 'zh-CHS';
+                // var str1 = appKey + truncate($('#result').html()) + salt + curTime + key;
+                // var sign = sha256(str1);
+                // $.ajax({
+                //     url: 'http://openapi.youdao.com/api',
+                //     type: 'post',
+                //     dataType: 'jsonp',
+                //     data: {
+                //         q: $("#result").html(),
+                //         appKey: appKey,
+                //         salt: salt,
+                //         from: from,
+                //         to: to,
+                //         sign: sign,
+                //         signType: "v3",
+                //         curtime: curTime
+                //     },
+                //     success: function (chinese) {
+                //         $("#result_chinese").html(chinese.translation[0]);
+                //     }
+                // })
             },
             error: function( jqXhr, textStatus, errorThrown ){
                 $('#btn').toggle();
@@ -225,13 +213,15 @@
                 //$('#api_output').html("Sorry, the server is asleep...<br/>Try again in a moment!" );
                 console.log(errorThrown);
             }
-
         });
     }
 
-    var fileContent = null;
+    var subTitle = [];
+    var subContent = [];
     function uploadFile(fileInput) {
-        console.log("fileInput = " + fileInput);
+        $("#bigTitle").html("");
+        subTitle = [];
+        subContent = [];
         var id = $(fileInput).prop("id");
         var input = "input";
         if (id != "fileId"){
@@ -249,9 +239,29 @@
                 var reader = new FileReader(); //新建一个FileReader
                 reader.readAsText(files[i], "UTF-8"); //读取文件
                 reader.onload = function (evt) { //读取完文件之后会回来这里
-                    fileContent = evt.target.result; // 读取文件内容
-                    console.log(fileContent);
-                    document.getElementById(input).innerText = fileContent;
+                    var fileContent = evt.target.result; // 读取文件内容
+                    var items = fileContent.split("##");
+                    $("#fileId").html(fileContent.name);
+                    $("#bigTitle").html(items[0].substring(0,items[0].indexOf('.')).trim());
+                    $("#title").html(items[1].substring(0,items[1].indexOf('.')).trim());
+                    $("#input").html(items[1].substring(items[1].indexOf('.') + 1,items[1].length).trim());
+                    for (var j = 2; j < items.length; j++) {
+                        var title = items[j].substring(0,items[j].indexOf('.')).trim();
+                        var content = items[j].substring(items[j].indexOf('.') + 1,items[j].length).trim();
+                        var boardDiv = "<div id =\"div\"><div class=\"panel-body\">\n" +
+                            "    <textarea style=\"height: 30px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"title" + j + "\" placeholder=\"请输入段落标题\" name='title'></textarea>\n" +
+                            "    <hr style=\"margin: 1px;background-color:#ebebeb \">\n" +
+                            "    <textarea style=\"height: 150px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;\"type=\"text\" id=\"input" + j + "\" placeholder=\"请输入段落文本\" name='input'></textarea>\n" +
+                            "    </div>\n" +
+                            "    <div class=\"panel-footer\" style=\"display: flex;\">\n" +
+                            "       <button class=\"btn btn-default\" onclick=\"addText()\"style=\"height: 30px ;margin-left:710px;background-color: #337ab7;color: white;float: right;\">添加</button>\n" +
+                            "       <button class=\"btn btn-default\" onclick=\"deleteText(this)\" style=\"height: 30px ;margin-left:50px;background-color: #337ab7;color: white;float: right;\">删除</button>\n" + "    " +
+                            "</div>\n" +
+                            "</div>";
+                        $("#div").append(boardDiv);
+                        document.getElementById("title"+j).innerText = title;
+                        document.getElementById("input"+j).innerText = content;
+                    }
                 }
             }
         }
@@ -264,28 +274,29 @@
         });*/
         // request when clicking on the button
         $('#btn').click(function() {
-            var input=$("#Onetitle").val();
-            input+="###";
-            $("#div textarea").each(function(){
-                input+=$(this).val();
-                input+="###";
+            var bigTitle = $("#bigTitle").val();
+            subTitle = [];
+            subContent = [];
+            $("#div textarea[name='title']").each(function(){
+                subTitle.push($(this).val());
             });
-            $("#sentenceConut").html(input.split('.').length);
-            $("#wordCount").html(input.split(/\s+/mg).length);
-            $("#count").toggle();
-            // 判断输入的为中文还是英文
-            if (input.match(/[\u4e00-\u9fa5]/g) != null&&(input.match(/[\u4e00-\u9fa5]/g).length >= input.length/2)){
-                //Chinese
-                console.log("Chinese");
-                //capi_call(input);
-            }else{
-                //English
-                console.log("English");
-
-                api_call(input);
+            $("#div textarea[name='input']").each(function(){
+                subContent.push($(this).val());
+            });
+            console.log(subTitle);
+            console.log(subContent);
+            console.log(bigTitle);
+            var sentenceCount = 1,wordCount = bigTitle.split(/\s+/mg).length;
+            for (var i = 0 ; i < subTitle.length ; i ++){
+                sentenceCount ++;
+                sentenceCount += subContent[i].split('.').length;
+                wordCount += subTitle[i].split(/\s+/mg).length;
+                wordCount += subContent[i].split(/\s+/mg).length;
             }
-            input = null;
-            fileContent = null;
+            $("#sentenceConut").html(sentenceCount);
+            $("#wordCount").html(wordCount);
+            $("#count").toggle();
+            api_call(bigTitle,subTitle,subContent);
         });
     });
 </script>

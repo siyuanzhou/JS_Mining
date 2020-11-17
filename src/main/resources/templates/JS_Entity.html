@@ -521,55 +521,99 @@
 
                 success: function (data) {
                     var index = 0;//记录最大值所对应的分类类别
-                    for (var i = 0 ;i < data.probability.length ; i++){
-                        var max = 0;
-                        if (data.probability[i] > max){
-                            max = data.probability[i];
+                    var max = 0;
+                    for (var i = 0 ;i < data.score.length ; i++){
+                        if (data.score[i] > max){
+                            max = data.score[i];
                             index = i;
                         }
                     }
-                    $("#text_sum").html("经分析，该文本属于<span style='color: blue'>" + data.classify[index] + "</span>范围的文章。其大致内容为:");
-                    $.ajax({
-                        url: "http://127.0.0.1:8124/textsum",
-                        method: 'POST',
-                        dataType: 'jsonp',
-                        jsonp: "callback",
-                        jsonpCallback: "successCallback_sum",//回调方法
-                        contentType: 'application/json',
-                        data: {input: JSON.stringify(input)},
-                        success: function (data) {
-                            var appKey = '241d46d9da752d9f';
-                            var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
-                            var salt = (new Date).getTime();
-                            var curTime = Math.round(new Date().getTime()/1000);
-                            // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
-                            var from = 'en';
-                            var to = 'zh-CHS';
-                            var str1 = appKey + truncate(data) + salt + curTime + key;
-                            var sign = sha256(str1);
-                            $.ajax({
-                                url: 'http://openapi.youdao.com/api',
-                                type: 'post',
-                                dataType: 'jsonp',
-                                data: {
-                                    q: data,
-                                    appKey: appKey,
-                                    salt: salt,
-                                    from: from,
-                                    to: to,
-                                    sign: sign,
-                                    signType: "v3",
-                                    curtime: curTime
-                                },
-                                success: function (data) {
-                                    $('#btn').toggle();
-                                    $('#spinner').toggle();
-                                    var orgin = $("#text_sum").html();
-                                    $("#text_sum").html(orgin + data.translation[0]);
-                                }
-                            })
-                        }
-                    });
+                    $("#text_sum").html("经分析，该文本属于<span style='color: blue'>" + data.type[index] + "</span>范围的文章。其大致内容为:");
+                    if ((input.match(/[\u4e00-\u9fa5]/g) != null)){
+                        $.ajax({
+                            url: "http://127.0.0.1:8000/chineseTextSum",
+                            method: 'POST',
+                            dataType: 'jsonp',
+                            jsonp: "callback",
+                            jsonpCallback: "successCallback_chinesetextsum",//回调方法
+                            contentType: 'application/json',
+                            data: {input: JSON.stringify(input)},
+                            success: function (data) {
+                                var appKey = '241d46d9da752d9f';
+                                var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
+                                var salt = (new Date).getTime();
+                                var curTime = Math.round(new Date().getTime()/1000);
+                                // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+                                var from = 'en';
+                                var to = 'zh-CHS';
+                                var str1 = appKey + truncate(data) + salt + curTime + key;
+                                var sign = sha256(str1);
+                                $.ajax({
+                                    url: 'http://openapi.youdao.com/api',
+                                    type: 'post',
+                                    dataType: 'jsonp',
+                                    data: {
+                                        q: data,
+                                        appKey: appKey,
+                                        salt: salt,
+                                        from: from,
+                                        to: to,
+                                        sign: sign,
+                                        signType: "v3",
+                                        curtime: curTime
+                                    },
+                                    success: function (data) {
+                                        $('#btn').toggle();
+                                        $('#spinner').toggle();
+                                        var orgin = $("#text_sum").html();
+                                        $("#text_sum").html(orgin + data.translation[0]);
+                                    }
+                                })
+                            }
+                        });
+                    }else{
+                        $.ajax({
+                            url: "http://127.0.0.1:8124/textsum",
+                            method: 'POST',
+                            dataType: 'jsonp',
+                            jsonp: "callback",
+                            jsonpCallback: "successCallback_sum",//回调方法
+                            contentType: 'application/json',
+                            data: {input: JSON.stringify(input)},
+                            success: function (data) {
+                                var appKey = '241d46d9da752d9f';
+                                var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
+                                var salt = (new Date).getTime();
+                                var curTime = Math.round(new Date().getTime()/1000);
+                                // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+                                var from = 'en';
+                                var to = 'zh-CHS';
+                                var str1 = appKey + truncate(data) + salt + curTime + key;
+                                var sign = sha256(str1);
+                                $.ajax({
+                                    url: 'http://openapi.youdao.com/api',
+                                    type: 'post',
+                                    dataType: 'jsonp',
+                                    data: {
+                                        q: data,
+                                        appKey: appKey,
+                                        salt: salt,
+                                        from: from,
+                                        to: to,
+                                        sign: sign,
+                                        signType: "v3",
+                                        curtime: curTime
+                                    },
+                                    success: function (data) {
+                                        $('#btn').toggle();
+                                        $('#spinner').toggle();
+                                        var orgin = $("#text_sum").html();
+                                        $("#text_sum").html(orgin + data.translation[0]);
+                                    }
+                                })
+                            }
+                        });
+                    }
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
                     if ($('#api_output').is(':hidden')) {//如果当前隐藏
@@ -638,44 +682,6 @@
             var t = document.getElementById('input2');//选取id为test的元素
             t.style.display = 'none';	// 隐藏选择的元素
             $("#preview2").append("<video width=\"862\" height=\"290\" controls='' autoplay='' name='media'><source src='" + videoSrc + "'  type='video/mp4'></video>");
-        }
-
-                   <!--图片文件上传调用-->
-            function uploadFile3() {
-                var files = [];
-                var objFile = document.getElementById("fileId3").files[0];
-                if (objFile==undefined ||objFile == "") {
-                    alert("请选择文件");
-                    return false;
-                }
-                var fr = new FileReader();
-                var imgStr;
-                fr.readAsDataURL(objFile);
-                fr.onload = function(objFile) {
-                    var imgNew = new Image();
-                    imgNew.src = objFile.target.result;
-                    $("#uploadPath").val("" + objFile.name);
-                    imgStr = "<div> <img src="+ imgNew.src +" class='pic_look'></div>";
-                    var t = document.getElementById('input');//选取id为test的元素
-                    t.style.display = 'none';	// 隐藏选择的元素
-                    $("#preview").append(imgStr);
-                    files.push(imgNew.src);
-                };
-
-            $.ajax({
-                type: 'post',
-                url: "http://127.0.0.1:5000/receive", //上传文件的请求路径必须是绝对路径
-                data: files,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success: function (data){
-                    alert("上传成功");
-                },
-                error:function () {
-                    alert("上传失败");
-                }
-            });
         }
 
         <!--表格隔行换色-->
@@ -818,14 +824,14 @@
             $('#input').focus();
             $('#btn').click(function () {
                 var fileName = $("#fileId2").val();
-                //alert(fileName);
                 var input = null;
                 if (fileContent == null) {
                     input = $('#input').val();
                 } else {
                     input = fileContent;
                 }
-                if (fileName.match(/[\u4e00-\u9fa5]/g) != null || (input.match(/[\u4e00-\u9fa5]/g) != null && (input.match(/[\u4e00-\u9fa5]/g).length >= input.length / 2))) {
+                textClassify(input);
+                if (fileName.match(/[\u4e00-\u9fa5]/g) != null || (input.match(/[\u4e00-\u9fa5]/g) != null)) {
                     console.log("chinese");
                     identifyEntity_c(input);
                 } else {
