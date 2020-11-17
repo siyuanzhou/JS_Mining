@@ -74,6 +74,13 @@ public class DataItemService {
         }else{
             list = textMapper.selectKeywords(keywords);
         }
+        for(int i=0;i<list.size();i++){
+            Text t = list.get(i);
+            int len = 5-t.id.length();
+            for(int j=0;j<len;j++){
+                t.id = "0"+t.id;
+            }
+        }
         System.out.println(list.toString());
         PageInfo<Text> pageInfo = new PageInfo<Text>(list);
         return pageInfo;
