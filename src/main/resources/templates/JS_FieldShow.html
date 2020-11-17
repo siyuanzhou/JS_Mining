@@ -118,17 +118,17 @@
             <blockquote class="layui-elem-quote layui-text">
                 <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
                     <li><a href="JS_Index">首页</a></li>
-                    <li><a href="JS_PowerUpload">情报信息</a></li>
-                    <li class="active">新知识领域库</li>
+                    <li><a href="JS_PowerUpload">指标验证</a></li>
+                    <li class="active">新知识领域发现指标</li>
                 </ol>
             </blockquote>
         </div>
         <div style="padding-left: 50px">
             <h2></h2>
             <div class="row">
-                <div class='col-sm-3'>
+                <!--<div class='col-sm-3'>
                     <div class="form-group">
-                        <!--指定 date标记-->
+                        &lt;!&ndash;指定 date标记&ndash;&gt;
                         <div class='input-group'>
                             <a>关键词：</a>
                             <input id="keywords" style="width: 290px" type='text' class="form-control" placeholder="请输入要查找的条件"/>
@@ -137,18 +137,18 @@
                 </div>
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">内容查询</button>
-                </div>
-                <div class="col-sm-4" style="float:right">
-                    <a>天基互联网：准确率:0.8596,召回率:0.7891,F1:0.8228<br></a>
-                    <a>人工智能：准确率:0.8652,召回率:0.7713,F1:0.8156<br></a>
-                    <a>总体数据：准确率:0.8518,召回率:0.7749,F1:0.8115<br></a>
+                </div>-->
+                <div class="col-sm-4" style="margin-left: 30px">
+                  <!--  <a>天基互联网：准确率:0.8596,召回率:0.7891,F1:0.8228<br></a>
+                    <a>人工智能：准确率:0.8652,召回率:0.7713,F1:0.8156<br></a>-->
+                    <a>总体数据：准确率:85.18%,召回率:77.49%,F1:81.15%<br></a>
                 </div>
             </div>        <!--表格列表-->
             <!--表格列表-->
             <table id="tb" class="table">
                 <thead>
                 <tr>
-                    <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>
+                  <!--  <th style="width: 50px"><input id="checkAll" type="checkbox" /></th>-->
                     <th style="width: 100px">编号</th>
                     <th style="width: 380px">标题</th>
                     <th style="width: 180px">日期</th>
@@ -159,7 +159,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="data :${pageInfo.list}">
-                    <td><input type="checkbox"></td>
+                   <!-- <td><input type="checkbox"></td>-->
                     <td  th:text="${data.id}"></td>
                     <td  th:text="${data.title}"></td>
                     <td  th:text="${data.date}"></td>

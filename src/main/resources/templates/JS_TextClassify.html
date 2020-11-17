@@ -25,7 +25,7 @@
 <div th:insert="~{/JS_Common::topbar}"></div>
 <div style="display: flex;">
     <div th:insert="~{/JS_Common::leftbar}"></div>
-    <div style="display: block;height: 800px;width:100%">
+    <div style="display: block;height: 800px;width:100%;margin-left: 30px">
         <!--次导航栏-->
         <div style="display: block; padding: 0">
             <blockquote class="layui-elem-quote layui-text">
@@ -36,7 +36,7 @@
             </blockquote>
         </div>
         <!--主内容-->
-        <div style="display: block">
+        <div style="display: block;margin-left: 50px" >
 
             <!--<h1 style="text-align: center">文本分类</h1>-->
 
@@ -193,7 +193,7 @@
         //echarts表格
         myChart.setOption({
             title: {
-                text: '分类结果'
+                text: '粗粒度分类'
             },
             tooltip: {
                 trigger: 'axis',
