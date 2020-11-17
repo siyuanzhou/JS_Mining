@@ -537,7 +537,10 @@
                             jsonp: "callback",
                             jsonpCallback: "successCallback_chinesetextsum",//回调方法
                             contentType: 'application/json',
-                            data: {input: JSON.stringify(input)},
+                            data: {
+                                'title':input.substring(0,input.indexOf('。')),
+                                'content':input.substring(input.indexOf('。') + 1,index.length)
+                            },
                             success: function (data) {
                                 var appKey = '241d46d9da752d9f';
                                 var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险

@@ -163,14 +163,14 @@
 
                         <!--实体、关系展示-->
                         <div class="row" style="margin: 30px;">
-                            <div class="panel panel-primary">
+                            <div class="panel panel-default" >
                                 <p id="introduce" style="text-indent: 2em;line-height:2em;font-family: 华光准圆_CNKI;"></p>
-                                <div class="panel-heading" style="text-align: center">信息提取图</div>
-                                <div class="panel-body" style="overflow: auto">
-                                    <div id="first_div"></div>
+                                <div class="panel-heading" style="text-align: center">关键实体</div>
+                                <div id="first_div" class="panel-body" style="width:1000px;height: 420px;border: 0px">
                                 </div>
                             </div>
                         </div>
+
 
                         <!--文本分类-->
                         <div class="row" style="margin: 30px;">
@@ -180,6 +180,7 @@
                                  style="width: 1000px;height: 400px;margin-left: 20px;">
                             </div>
                         </div>
+
 
                         <!--科技实力折线图对比-->
                         <div class="row" style="margin: 30px;">
@@ -583,6 +584,83 @@
             }
         });
 
+        //数组去重
+        function UniqObj(array) {     // 对象去重方法
+            var allArr = [];    //建立新的临时数组
+            for (var i = 0; i < array.length; i++) {
+                var flag = true;
+                for (var j = 0; j < allArr.length; j++) {
+                    if (array[i].name == allArr[j].name) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    allArr.push(array[i]);
+                }
+            }
+            return allArr;
+        }
+
+        //显示关系图
+        function showRela(data, links) {
+
+            var myChart = echarts.init(document.getElementById('first_div'));
+            var categories = [];
+            for (var i = 0; i < 2; i++) {
+                categories[i] = {
+                    name: '类目' + i
+                };
+            }
+            option = {
+                series: [{
+                    type: 'graph', // 类型:关系图
+                    layout: 'force', //图的布局，类型为力导图
+                    symbolSize: 50, // 调整节点的大小
+                    roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                    edgeSymbol: ['circle', 'arrow'],
+                    edgeSymbolSize: [2, 10],
+                    edgeLabel: {
+                        normal: {
+                            textStyle: {
+                                fontSize: 20
+                            }
+                        }
+                    },
+                    force: {
+                        repulsion: 250,
+                        edgeLength: [100, 150]
+                    },
+                    draggable: true,
+                    lineStyle: {
+                        normal: {
+                            width: 2,
+                            color: '#4b565b'
+                        }
+                    },
+                    edgeLabel: {
+                        normal: {
+                            show: true,
+                            formatter: function (x) {
+                                return x.data.name;
+                            }
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            textStyle: {}
+                        }
+                    },
+                    categories: categories
+                }]
+            };
+            var tmp = option.series;
+            tmp[0]['data'] = UniqObj(data);
+            tmp[0]['links'] = links;
+            // console.log(tmp[0]['data'],tmp[0]['links']);
+            myChart.setOption(option);
+        }
+
     });
 
     // 提交所需参数给后端，并绘制对比图
@@ -756,81 +834,6 @@
 
     });
 
-    //数组去重
-    function UniqObj(array) {     // 对象去重方法
-        var allArr = [];    //建立新的临时数组
-        for (var i = 0; i < array.length; i++) {
-            var flag = true;
-            for (var j = 0; j < allArr.length; j++) {
-                if (array[i].name == allArr[j].name) {
-                    flag = false;
-                }
-            }
-            if (flag) {
-                allArr.push(array[i]);
-            }
-        }
-        return allArr;
-    }
-
-    //显示关系图
-    function showRela(data, links) {
-        var myChart = echarts.init(document.getElementById('first_div'));
-        var categories = [];
-        for (var i = 0; i < 2; i++) {
-            categories[i] = {
-                name: '类目' + i
-            };
-        }
-        option = {
-            series: [{
-                type: 'graph', // 类型:关系图
-                layout: 'force', //图的布局，类型为力导图
-                symbolSize: 50, // 调整节点的大小
-                roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
-                edgeSymbol: ['circle', 'arrow'],
-                edgeSymbolSize: [2, 10],
-                edgeLabel: {
-                    normal: {
-                        textStyle: {
-                            fontSize: 20
-                        }
-                    }
-                },
-                force: {
-                    repulsion: 250,
-                    edgeLength: [100, 150]
-                },
-                draggable: true,
-                lineStyle: {
-                    normal: {
-                        width: 2,
-                        color: '#4b565b'
-                    }
-                },
-                edgeLabel: {
-                    normal: {
-                        show: true,
-                        formatter: function (x) {
-                            return x.data.name;
-                        }
-                    }
-                },
-                label: {
-                    normal: {
-                        show: true,
-                        textStyle: {}
-                    }
-                },
-                categories: categories
-            }]
-        };
-        var tmp = option.series;
-        tmp[0]['data'] = UniqObj(data);
-        tmp[0]['links'] = links;
-        // console.log(tmp[0]['data'],tmp[0]['links']);
-        myChart.setOption(option);
-    }
 
     function printWordsLabel(data) {
 
@@ -846,64 +849,6 @@
 
     }
 
-    // 显示关系图
-    function showRela(data, links) {
-        var myChart = echarts.init(document.getElementById('entity'));
-        var categories = [];
-        for (var i = 0; i < 2; i++) {
-            categories[i] = {
-                name: '类目' + i
-            };
-        }
-        option = {
-            series: [{
-                type: 'graph', // 类型:关系图
-                layout: 'force', //图的布局，类型为力导图
-                symbolSize: 50, // 调整节点的大小
-                roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
-                edgeSymbol: ['circle', 'arrow'],
-                edgeSymbolSize: [2, 10],
-                edgeLabel: {
-                    normal: {
-                        textStyle: {
-                            fontSize: 20
-                        }
-                    }
-                },
-                force: {
-                    repulsion: 250,
-                    edgeLength: [100, 150]
-                },
-                draggable: true,
-                lineStyle: {
-                    normal: {
-                        width: 2,
-                        color: '#4b565b'
-                    }
-                },
-                edgeLabel: {
-                    normal: {
-                        show: true,
-                        formatter: function (x) {
-                            return x.data.name;
-                        }
-                    }
-                },
-                label: {
-                    normal: {
-                        show: true,
-                        textStyle: {}
-                    }
-                },
-                categories: categories
-            }]
-        };
-        var tmp = option.series;
-        tmp[0]['data'] = UniqObj(data);
-        tmp[0]['links'] = links;
-        // console.log(tmp[0]['data'],tmp[0]['links']);
-        myChart.setOption(option);
-    }
 
     // 文本分类图
     var myTypeChart = echarts.init(document.getElementById('classify_div'));

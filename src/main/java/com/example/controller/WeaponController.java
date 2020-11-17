@@ -7,6 +7,7 @@ import com.example.service.WeaponService;
 import org.activiti.engine.impl.util.json.JSONArray;
 import org.activiti.engine.impl.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -594,6 +595,35 @@ public class WeaponController {
         }
         return "bulkResult";
     }*/
+
+    @ResponseBody
+    @RequestMapping("Weapon_find")
+    public String Weapon_find(@Param("keywords") String keywords){
+
+        System.out.println(keywords);
+        List<Weapon> List_quary = weaponService.selectKeywords(keywords);;
+
+        System.out.println(List_quary.toString());
+
+        List<Map<String,String>> result = new ArrayList<>();
+
+        for( Weapon w : List_quary){
+
+            HashMap<String,String> temp_obj = new HashMap();
+            temp_obj.put("Img_url",w.getImg_url());
+            temp_obj.put("country",w.getCountry());
+            temp_obj.put("Img_desc",w.getImg_desc());
+            temp_obj.put("Weaponname",w.getName());
+            result.add(temp_obj);
+        }
+
+        JSONArray array = new JSONArray();
+        JSONObject obj = new JSONObject();
+        obj.put("resultlist", result);
+        System.out.println("obj=="+obj);
+        array.put(obj);
+        return array.toString();
+    }
 
 
     @Autowired

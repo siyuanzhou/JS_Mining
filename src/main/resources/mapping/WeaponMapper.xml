@@ -23,6 +23,15 @@
 		select * from weapons
 	</select>
 
+    <select id="selectKeywords" resultType="com.example.entity.Weapon" parameterType="String">
+        select * from weapons
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and name like "%"#{keywords}"%"
+            </if>
+        </where>
+    </select>
+
     <select id="selectWeaponByName"  resultType="com.example.entity.Weapon">
 		select * from weapons where name = #{name}
 	</select>

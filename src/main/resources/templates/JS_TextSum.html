@@ -50,7 +50,7 @@
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(input),
-                success: function( data ){
+                success: function(data){
                     $("#showImg").html("");
                     // fill the html for answer
                     var array=data['output'];
@@ -80,7 +80,7 @@
             $('#showImg').html("");
         }
 
-        function api_call(input) {
+        function api_call(title,content) {
             // hide button and make the spinner appear
             $('#btn').toggle();
             $('#spinner').toggle();
@@ -91,7 +91,10 @@
                 jsonp: "callback",
                 jsonpCallback: "successCallback_sum",//回调方法
                 contentType: 'application/json',
-                data: {input: JSON.stringify(input)},
+                data: {
+                    'title':title,
+                    'content':content
+                },
                 success: function (data) {
                     $('#btn').toggle();
                     $('#spinner').toggle();
@@ -136,7 +139,7 @@
         }
 
         //中文文本摘要调用
-        function capi_call(input) {
+        function capi_call(title,content) {
             $('#btn').toggle();
             $('#spinner').toggle();
             $.ajax({
@@ -146,8 +149,13 @@
                 jsonp: "callback",
                 jsonpCallback: "successCallback_chinesetextsum",//回调方法
                 contentType: 'application/json',
-                data: {input: JSON.stringify(input)},
+                data: {
+                    'title':title,
+                    'content':content
+                },
                 success: function (data) {
+                    console.log(data);
+                    console.log("chinese" + data);
                     $('#btn').toggle();
                     $('#spinner').toggle();
                     $('#result').text(data);
@@ -162,8 +170,6 @@
                 }
             })
         }
-
-        var fileContent = null;
 
         $('input[id=fileId]').change(function () {
             $('#uploadpath').val($(this).val());
@@ -180,13 +186,23 @@
             if (files.length == 0) {
                 alert('请选择文件');
             } else {
-                $('#input').html("");
                 for (var i = 0; f = files[i]; i++) {
                     var reader = new FileReader(); //新建一个FileReader
+                    $("#uploadpath").val("" + f.name);
                     reader.readAsText(files[i], "UTF-8"); //读取文件
                     reader.onload = function (evt) { //读取完文件之后会回来这里
-                        fileContent = evt.target.result; // 读取文件内容
-                        $('#input').html(fileContent);
+                        var fileContent = evt.target.result; // 读取文件内容
+                        var title = null;
+                        var content = null;
+                        if (fileContent.match(/[\u4e00-\u9fa5]/g) != null){
+                            title = fileContent.substring(0,fileContent.indexOf('。')).trim();
+                            content = fileContent.substring(fileContent.indexOf('。') + 1,fileContent.length).trim();
+                        }else{
+                            title = fileContent.substring(0,fileContent.indexOf('.')).trim();
+                            content = fileContent.substring(fileContent.indexOf('.') + 1,fileContent.length).trim();
+                        }
+                        $('#title').html(title);
+                        $('#input').html(content);
                         // console.log(fileString)
                     }
                 }
@@ -201,24 +217,13 @@
 
             // request when clicking on the button
             $('#btn').click(function () {
-                var input = null;
-                // 判断输入的为中文还是英文
-                if (fileContent == null) {
-                    input = $('#input').val();
-                } else {
-                    input = fileContent;
+                var title = $("#title").val();
+                var content = $("#input").val();
+                if (content.match(/[\u4e00-\u9fa5]/g) != null) {
+                    capi_call(title,content);
+                }else{
+                    api_call(title,content);
                 }
-                if (input.match(/[\u4e00-\u9fa5]/g) != null && (input.match(/[\u4e00-\u9fa5]/g).length !== 0)) {
-                    //Chinese
-                    console.log("Chinese");
-                    capi_call(input);
-                } else {
-                    //English
-                    console.log("English");
-                    api_call(input);
-                }
-                input = null;
-                fileContent = null;
             });
         });
     </script>

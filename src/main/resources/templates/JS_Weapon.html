@@ -91,7 +91,7 @@
         </div>
 
         <div class="group">
-            <div class="group-btn">
+            <div class="group-btn" style="margin-right:130px">
                 <a class="sub" style="background-color:#425da7" id="btn">筛选</a>
                <!-- <a href="javascript:void(0);" class="group-btn-reset" style="color:#425da7;">重置条件</a>-->
             </div>
@@ -287,11 +287,11 @@
             });
 
             $("#weapon-search").click(function () {
-                var tmp = document.getElementById("weapon-content").value;;
+                var tmp = document.getElementById("weapon-content").value;
                 $.ajax({
-                    url: "/search/"+tmp+"/1/20",
-                    type: "Get",
-                    data: "",
+                    url: "/Weapon_find",
+                    type: "Post",
+                    data: {"keywords":tmp},
                     success: function (data) {
                         console.log("======data=====");
                         console.log(data);

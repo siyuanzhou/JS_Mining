@@ -60,4 +60,9 @@ public class WeaponService {
 
         return weaponMapper.selectWeaponByName(name);
     }
+
+    public List<Weapon> selectKeywords(String keywords){
+
+        return weaponMapper.selectKeywords(keywords);
+    }
 }
