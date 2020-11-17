@@ -115,20 +115,20 @@
                             <label>国家:</label>
                             <select id="country" class="form-control select_down selectpicker" multiple
                                     data-live-search="true" title="请选择国家">
-                                <option>中国</option>
-                                <option>美国</option>
-                                <option>英国</option>
-                                <option>法国</option>
-                                <option>俄罗斯</option>
-                                <option>德国</option>
-                                <option>印度</option>
-                                <option>加拿大</option>
-                                <option>澳大利亚</option>
-                                <option>韩国</option>
-                                <option>瑞士</option>
-                                <option>以色列</option>
-                                <option>爱尔兰</option>
-                                <option>瑞典</option>
+                                <option value="中国">中国</option>
+                                <option value="美国">美国</option>
+                                <option value="英国">英国</option>
+                                <option value="法国">法国</option>
+                                <option value="俄罗斯">俄罗斯</option>
+                                <option value="德国">德国</option>
+                                <option value="印度">印度</option>
+                                <option value="加拿大">加拿大</option>
+                                <option value="澳大利亚">澳大利亚</option>
+                                <option value="韩国">韩国</option>
+                                <option value="瑞士">瑞士</option>
+                                <option value="以色列">以色列</option>
+                                <option value="爱尔兰">爱尔兰</option>
+                                <option value="瑞典">瑞典</option>
                             </select>
                         </div>
                     </div>
@@ -140,11 +140,11 @@
                             <label>领域</label>
                             <select id="firstScope" class="form-control select_down"
                                     style="font-size: 13px; color: #666;">
-                                <option>海军</option>
-                                <option>陆军</option>
-                                <option>空军</option>
-                                <option>人工智能</option>
-                                <option>网络攻防</option>
+                                <option value="海军">海军</option>
+                                <option value="陆军">陆军</option>
+                                <option value="空军">空军</option>
+                                <option value="人工智能">人工智能</option>
+                                <option value="网络攻防">网络攻防</option>
                             </select>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                             <label>范围</label>
                             <select id="secondScope" class="form-control select_down"
                                     style="font-size: 13px; color: #666;">
-                                <option>信息技术</option>
+                                <option value="信息技术">信息技术</option>
                                 <option>电子</option>
                                 <option>生物</option>
                                 <option>自动化</option>
@@ -253,17 +253,23 @@
 
         $('#loading').hide()
         $('#greyblock').hide()
+        $("#country option[value='中国']").attr("selected","selected")
+        $("#country option[value='美国']").attr("selected","selected")
+        $("#firstScope option[value='人工智能']").attr("selected","selected")
+        $("#secondScope option[value='信息技术']").attr("selected","selected")
 
         var picker1 = $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM',
             locale: moment.locale('zh-cn'),
-            maxDate: '2019-9'
+            maxDate: '2019-9',
         });
+
         var picker2 = $('#datetimepicker2').datetimepicker({
             format: 'YYYY-MM',
             locale: moment.locale('zh-cn'),
-            maxDate: '2019-9'
+            maxDate: '2019-9',
         });
+
         //动态设置最小值
         picker1.on('dp.change', function (e) {
             picker2.data('DateTimePicker').minDate(e.date);

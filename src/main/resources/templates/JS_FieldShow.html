@@ -138,10 +138,10 @@
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">内容查询</button>
                 </div>-->
-                <div class="col-sm-4" style="margin-left: 30px">
+                <div class="col-sm-6" style="margin-left: 30px">
                   <!--  <a>天基互联网：准确率:0.8596,召回率:0.7891,F1:0.8228<br></a>
                     <a>人工智能：准确率:0.8652,召回率:0.7713,F1:0.8156<br></a>-->
-                    <a>总体数据：准确率:85.18%,召回率:77.49%,F1:81.15%<br></a>
+                    <h4>实验结果: 准确率:86.34%,召回率:77.49%,F1值:81.68%<br></h4>
                 </div>
             </div>        <!--表格列表-->
             <!--表格列表-->
@@ -183,7 +183,7 @@
                 <div class="double-bounce2"></div>
             </div>
 
-            <nav aria-label="Page navigation" class="" style="margin-left: 800px;">
+            <nav aria-label="Page navigation" class="" style="margin-left: 900px;">
                 <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
                 <a th:href="@{'/JS_NewData?keywords='+${key}}">首页</a>
                 <a th:href="@{/JS_NewData(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key})}">上一页</a>
