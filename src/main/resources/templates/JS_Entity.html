@@ -131,18 +131,6 @@
             border-style: solid;
             border-color: #a9c6c9;
         }
-
-        .oddrowcolor {
-            background-color: #d4e3e5;
-        }
-
-        .evenrowcolor {
-            background-color: #c3dde0;
-        }
-        .pic_look{
-            width: 600px;
-            height: 280px ;
-        }
     </style>
 
 </head>
@@ -404,13 +392,11 @@
         }
 
 
-        var fileContent = null;//文件内容
         <!--中文实体识别关系抽取API调用-->
         function identifyEntity_c(input) {
             // hide button and make the spinner appear
             var fileName = $("#fileId2").val();
             var strFileName = fileName.substring(fileName.lastIndexOf("\\")+1);
-            console.log(fileContent);
             $('#btn').toggle();
             $('#spinner').toggle();
             $("#alternatecolor  tr:not(:first)").html("");
@@ -647,8 +633,6 @@
                     reader.onload = function (evt) { //读取完文件之后会回来这里
                         var fileString = evt.target.result; // 读取文件内容
                         $("#input").val("" + fileString);
-                        fileContent = fileString;
-                        // console.log(fileString)
                     }
                 }
             }
@@ -827,12 +811,7 @@
             $('#input').focus();
             $('#btn').click(function () {
                 var fileName = $("#fileId2").val();
-                var input = null;
-                if (fileContent == null) {
-                    input = $('#input').val();
-                } else {
-                    input = fileContent;
-                }
+                var input = $("#input").val();
                 textClassify(input);
                 if (fileName.match(/[\u4e00-\u9fa5]/g) != null || (input.match(/[\u4e00-\u9fa5]/g) != null)) {
                     console.log("chinese");
@@ -841,8 +820,6 @@
                     console.log("english");
                     identifyEntity(input);
                 }
-                input = null;
-                fileContent = null;
             });
         });
 

@@ -156,8 +156,6 @@
         });
     }
 
-    var fileContent = null;
-
 
     $('input[id=fileId]').change(function () {
         $('#uploadpath').val($(this).val());
@@ -181,9 +179,8 @@
                 reader.readAsText(files[i], "UTF-8"); //读取文件
                 reader.onload = function (evt) { //读取完文件之后会回来这里
                     var fileString = evt.target.result; // 读取文件内容
-                    fileContent = fileString;
-                    $('#input').html(fileContent);
-                    $('.textareaInput').html(fileContent.length);
+                    $('#input').html(fileString);
+                    $('.textareaInput').html(fileString.length);
                 }
             }
         }
@@ -273,16 +270,8 @@
         });
         // request when clicking on the button
         $('#btn').click(function () {
-            var input = null;
-            // 判断输入的为中文还是英文
-            if (fileContent == null) {
-                input = $('#input').val();
-            } else {
-                input = fileContent;
-            }
+            var input = $('#input').val();
             api_call(input);
-            input = null;
-            fileContent = null;
         });
     });
 
