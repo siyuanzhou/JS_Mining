@@ -155,17 +155,6 @@
         </blockquote>
 
         <div style="float: none;display: flex;flex-direction: column;margin-left: 50px">
-            <div style="display:flex; flex-direction: row">
-                <div class="form-group">
-                    <select id="firstScope" class="form-control select_down"
-                            style="font-size: 13px; color: #666" onclick="chooseField()">
-                        <option>请选择你需要的领域</option>
-                        <option>人工智能</option>
-                        <option>天基互联网</option>
-                    </select>
-                </div>
-                <p style="margin-top: 5px;margin-left: 10px;color: blue">说明:选择不同领域可以更好地识别不同领域的实体,例如选择人工智能领域,可以识别文本中人工智能领域特有实体</p>
-            </div>
             <div style="padding-bottom: 0.5cm;">
                 <div class="card text-center bg-light">
                     <div class="card-body" style="padding-bottom: 0.2cm;width: 1000px;">
@@ -297,22 +286,6 @@
                         $("#input").val("" + fileString);
                     }
                 }
-            }
-        }
-
-        //存放所选择的领域信息
-        var field = "";
-        function chooseField(){
-            var select = document.getElementById("firstScope");
-            var index = select.selectedIndex;
-            if (select.options[index].value == "人工智能"){
-                field = "人工智能";
-            }
-            if (select.options[index].value == "天基互联网"){
-                field = "天基互联网";
-            }
-            if (field != ""){
-                $("#fieldTitle").html(field + "领域文本内容");
             }
         }
 
@@ -505,36 +478,33 @@
             echartShow();
             $("#btn").click(function () {
                 var input = $("#input").val();
-                if (field == ""){
-                    alert("请先选择领域后再点击按钮,效果会更好哦")
-                }else{
-                    $('#btn').toggle();
-                    $('#spinner').toggle();
-                    $.ajax({
-                        url:'http://127.0.0.1:7500/api',
-                        data:{'input':JSON.stringify(input),'field':field},
-                        dataType: 'jsonp',
-                        jsonp: "callback",
-                        jsonpCallback: "successCallback",//回调方法
-                        success:function (data) {
-                            console.log(data);
-                            $('#btn').toggle();
-                            $('#spinner').toggle();
-                            var inputText = $("#input");
-                            var input1 = inputText.val();
-                            var input2 = inputText.val();
-                            flagColor($("#api_output"),$("#alternatecolor"),data.old,input1,'red');
-                            flagColor($("#api_output2"),$("#alternatecolor2"),data.new,input2,'red');
-                            flagColor($("#api_output2"),null,data.new_only,$("#api_output2").html(),'blue');
-                            echartShow(data.old_only,data.new_only,data.intersect);
-                        },
-                        error:function () {
-                            $('#btn').toggle();
-                            $('#spinner').toggle();
-                            alert("服务器出现了一些问题，请稍后重试");
-                        }
-                    });
-                }
+                $('#btn').toggle();
+                $('#spinner').toggle();
+                $.ajax({
+                    url:'http://127.0.0.1:7500/api',
+                    data:{'input':JSON.stringify(input)},
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback",//回调方法
+                    success:function (data) {
+                        console.log(data);
+                        $('#btn').toggle();
+                        $('#spinner').toggle();
+                        var inputText = $("#input");
+                        var input1 = inputText.val();
+                        var input2 = inputText.val();
+                        $("#fieldTitle").html(data.field_name + "领域文本内容");
+                        flagColor($("#api_output"),$("#alternatecolor"),data.old,input1,'red');
+                        flagColor($("#api_output2"),$("#alternatecolor2"),data.new,input2,'red');
+                        flagColor($("#api_output2"),null,data.new_only,$("#api_output2").html(),'blue');
+                        echartShow(data.old_only,data.new_only,data.intersect);
+                    },
+                    error:function () {
+                        $('#btn').toggle();
+                        $('#spinner').toggle();
+                        alert("服务器出现了一些问题，请稍后重试");
+                    }
+                });
             });
         });
     </script>
