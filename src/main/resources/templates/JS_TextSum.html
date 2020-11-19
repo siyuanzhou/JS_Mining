@@ -100,6 +100,8 @@
                     $('#spinner').toggle();
                     $('#result').text(data);
                     $('#chineseSum').show();
+                    $('#resultCount').show();
+                    $('#resultWord').html(data.split(/\s+/mg).length);
                     var appKey = '241d46d9da752d9f';
                     var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
                     var salt = (new Date).getTime();
@@ -159,6 +161,8 @@
                     $('#btn').toggle();
                     $('#spinner').toggle();
                     $('#result').text(data);
+                    $('#resultCount').show();
+                    $('#resultWord').html(data.match(/[\u4e00-\u9fa5]/g).length);
                     $('#chineseSum').hide();
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
@@ -194,16 +198,18 @@
                         var fileContent = evt.target.result; // 读取文件内容
                         var title = null;
                         var content = null;
+                        $("#count").show();
                         if (fileContent.match(/[\u4e00-\u9fa5]/g) != null){
                             title = fileContent.substring(0,fileContent.indexOf('。')).trim();
                             content = fileContent.substring(fileContent.indexOf('。') + 1,fileContent.length).trim();
+                            $("#wordCount").html(fileContent.match(/[\u4e00-\u9fa5]/g).length);
                         }else{
                             title = fileContent.substring(0,fileContent.indexOf('.')).trim();
                             content = fileContent.substring(fileContent.indexOf('.') + 1,fileContent.length).trim();
+                            $("#wordCount").html((title+content).split(/\s+/mg).length);
                         }
                         $('#title').html(title);
                         $('#input').html(content);
-                        // console.log(fileString)
                     }
                 }
             }
@@ -256,7 +262,7 @@
                             style="height: 150px;width: 100%;border: 0;border-radius:5px;background-color:white;text-align:justify;"
                             type="text" id="input" name="input" placeholder="请输入需要摘要的文本"></textarea>
                 </div>
-                <div class="panel-footer" style="display: flex;">
+                <div class="panel-footer" style="display: flex;flex-direction: row;justify-content: space-between">
                     <input name="file" multiple id="fileId" type="file" style="display:none"
                            onchange="uploadFile()">
                     <div class="input-append">
@@ -265,8 +271,9 @@
                         color: white" onclick="$('input[id=fileId]').click();">文件上传</a>
                     </div>
                     <button  class="btn btn-default"
-                             style="height: 30px ;margin-left:180px;background-color: #337ab7;color: white"
+                             style="height: 30px ;margin-left:-150px;background-color: #337ab7;color: white"
                              id="btn">开始分析</button>
+                    <div style="font-size: 20px" id="count">共<span style="color:#337ab7;font-size: 20px" id="wordCount"></span>个词</div>
                 </div>
             </div>
 
@@ -286,6 +293,9 @@
                             type="text" id="result"></textarea>
                     </div>
                 </div>
+                <div class="panel-footer" style="height: 40px">
+                    <div style="color: black;font-size: 20px;float: right" id="resultCount" hidden>共<span style="color:#337ab7" id="resultWord"></span>个词</div>
+                </div>
             </div>
 
             <!--文本摘要翻译-->
@@ -299,8 +309,6 @@
                     </div>
                 </div>
             </div>
-            <br>
-            <br>
             <!--<div><a style="margin-left: 0px;color: #7a7e82">分析结果</a></div>-->
         </div>
     </div>

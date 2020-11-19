@@ -86,7 +86,7 @@
                              style="height: 30px ;margin-left:450px;background-color: #337ab7;color: white"
                              id="btn">开始分析
                     </button>
-                    <div style="color: black;" id="count" hidden>您共输入<span style="color:#337ab7" id="sentenceConut"></span>句,共<span style="color:#337ab7" id="wordCount"></span>个单词。</div>
+                    <div style="color: black;font-size: 20px" id="count" hidden>您共输入<span style="color:#337ab7" id="sentenceConut"></span>句,共<span style="color:#337ab7" id="wordCount"></span>个单词。</div>
                 </div>
             </div>
             <div class="spinner" id="spinner" style="display: none">
@@ -103,6 +103,9 @@
                             style="height:450px;width:100%; border:1px;border-radius:5px;background-color:white;text-align:justify;overflow: auto"
                             type="text" id="result">
                     </div>
+                </div>
+                <div class="panel-footer" style="height: 40px">
+                    <div style="color: black;font-size: 20px;float: right" id="resultCount" hidden>共<span style="color:#337ab7" id="resultWord"></span>个词</div>
                 </div>
             </div>
 
@@ -177,34 +180,8 @@
                    result += "<h3>" + subTitle[i] + "</h3>" + data[i] + "<br>"
                 }
                 $('#result').html(result);
-                //调用翻译API翻译文本结果
-                // var appKey = '241d46d9da752d9f';
-                // var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
-                // var salt = (new Date).getTime();
-                // var curTime = Math.round(new Date().getTime()/1000);
-                // // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
-                // var from = 'en';
-                // var to = 'zh-CHS';
-                // var str1 = appKey + truncate($('#result').html()) + salt + curTime + key;
-                // var sign = sha256(str1);
-                // $.ajax({
-                //     url: 'http://openapi.youdao.com/api',
-                //     type: 'post',
-                //     dataType: 'jsonp',
-                //     data: {
-                //         q: $("#result").html(),
-                //         appKey: appKey,
-                //         salt: salt,
-                //         from: from,
-                //         to: to,
-                //         sign: sign,
-                //         signType: "v3",
-                //         curtime: curTime
-                //     },
-                //     success: function (chinese) {
-                //         $("#result_chinese").html(chinese.translation[0]);
-                //     }
-                // })
+                $('#resultCount').show();
+                $('#resultWord').html(result.split(/\s+/mg).length);
             },
             error: function( jqXhr, textStatus, errorThrown ){
                 $('#btn').toggle();
@@ -238,6 +215,7 @@
             for (var i = 0; f = files[i]; i++) {
                 var reader = new FileReader(); //新建一个FileReader
                 reader.readAsText(files[i], "UTF-8"); //读取文件
+                $("#uploadpath").html(f.name);
                 reader.onload = function (evt) { //读取完文件之后会回来这里
                     var fileContent = evt.target.result; // 读取文件内容
                     var items = fileContent.split("##");
