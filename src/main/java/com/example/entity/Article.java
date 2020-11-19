@@ -3,7 +3,7 @@ package com.example.entity;
 import java.io.Serializable;
 
 public class Article implements Serializable {
-    public Integer id;
+    public String id;
     public String content;
     public String name;
     public String publisher;
@@ -12,11 +12,11 @@ public class Article implements Serializable {
     public String country;
     public String realScope;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

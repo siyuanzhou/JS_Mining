@@ -149,7 +149,7 @@
                         </div>
                     </div>
 
-                    <div class='col-sm-3'>
+                    <!--<div class='col-sm-3'>
                         <div class="form-group">
                             <label>范围</label>
                             <select id="secondScope" class="form-control select_down"
@@ -168,7 +168,7 @@
                                 <option>环境</option>
                             </select>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class='col-sm-3'>
                         <div class="form-group">
@@ -327,6 +327,7 @@
         var ids = document.getElementsByName("id");
         var articles = {};
         var alist = [];
+        var number = 0;
         for(var i = 0; i< checks.length; i++){
             var checkbox = checks[i];
             var content = contents[i];
@@ -340,28 +341,34 @@
                 alist.push(article);
                 text_data.push(content.innerHTML);
                 text_data.push("###");
+                number++;
             }else{
                 // do something
             }
         }
-        articles["article"] = alist;
-        var start = createTime($("#datetimepicker1").find("input").val());
-        var end = createTime($("#datetimepicker2").find("input").val());
-        var firstScope = $('#firstScope option:selected').text();//文本
-        var secondScope = $('#secondScope option:selected').text();//文本
-        var publisher = $('#publisher option:selected').text();//文本
-        var random = $('#random option:selected').text();//文本
-        var country = $('#country').val();//文本
-        localStorage.setItem("start",start);//key要用单引号或者双引号包括着，value就是你要存的数据
-        localStorage.setItem("end",end);
-        localStorage.setItem("country",country);
-        localStorage.setItem("firstScope",firstScope);
-        localStorage.setItem("secondScope",secondScope);
-        localStorage.setItem("source",publisher);
-        localStorage.setItem("random",random);
-        localStorage.setItem("text_data",text_data);
-        localStorage.setItem("articles",JSON.stringify(articles));
-        window.location.href="/JS_ReportItem";
+
+        if(number>50){
+            alert("当前选中文章总数"+number+"，超过最大数量，请重新选择!");
+        }else {
+            articles["article"] = alist;
+            var start = createTime($("#datetimepicker1").find("input").val());
+            var end = createTime($("#datetimepicker2").find("input").val());
+            var firstScope = $('#firstScope option:selected').text();//文本
+            var secondScope = $('#secondScope option:selected').text();//文本
+            var publisher = $('#publisher option:selected').text();//文本
+            var random = $('#random option:selected').text();//文本
+            var country = $('#country').val();//文本
+            localStorage.setItem("start", start);//key要用单引号或者双引号包括着，value就是你要存的数据
+            localStorage.setItem("end", end);
+            localStorage.setItem("country", country);
+            localStorage.setItem("firstScope", firstScope);
+            localStorage.setItem("secondScope", secondScope);
+            localStorage.setItem("source", publisher);
+            localStorage.setItem("random", random);
+            localStorage.setItem("text_data", text_data);
+            localStorage.setItem("articles", JSON.stringify(articles));
+            window.location.href = "/JS_ReportItem";
+        }
     });
 
     $("#search_btn").click(function () {

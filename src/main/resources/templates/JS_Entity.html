@@ -149,10 +149,6 @@
                         <li class="active">信息提取</li>
                     </ol>
                 </div>
-                <!--放置文本分类的结果-->
-                <!--<div>-->
-                <!--<span>该文本所属范围为：<span id="text_classify" style="color: #00bcd4"></span></span>-->
-                <!--</div>-->
             </div>
         </blockquote>
 
@@ -297,8 +293,6 @@
             // hide button and make the spinner appear
             $("#alternatecolor  tr:not(:first)").html("");
             $("#alternatecolor1  tr:not(:first)").html("");
-            $('#btn').toggle();
-            $('#spinner').toggle();
             $.ajax({
                 url: "http://127.0.0.1:5000/api",
                 method: 'POST',
@@ -313,8 +307,6 @@
 
                 success: function (data) {
                     // toggle the spinner and button
-                    $('#btn').toggle();
-                    $('#spinner').toggle();
                     var str1 = data.input;
                     var entityMap = data.listDemo;
                     var raw_relations = data.raw_relations;
@@ -382,8 +374,8 @@
                     altRows('alternatecolor1');
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
-                    $('#btn').toggle();
-                    $('#spinner').toggle();
+                    // $('#btn').toggle();
+                    // $('#spinner').toggle();
                     $('#api_output').css("text-align", "center").html("<p style='color: #0b96e5;font: 14px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
                     console.log(errorThrown);
                 }
@@ -397,8 +389,6 @@
             // hide button and make the spinner appear
             var fileName = $("#fileId2").val();
             var strFileName = fileName.substring(fileName.lastIndexOf("\\")+1);
-            $('#btn').toggle();
-            $('#spinner').toggle();
             $("#alternatecolor  tr:not(:first)").html("");
             $("#alternatecolor1  tr:not(:first)").html("");
             $.ajax({
@@ -414,8 +404,8 @@
                 },
 
                 success: function (data) {
-                    $('#btn').toggle();
-                    $('#spinner').toggle();
+                    // $('#btn').toggle();
+                    // $('#spinner').toggle();
                     var str1 = data.input;
                     var entityMap = data.listDemo;
                     var raw_relations = data.raw_relations;
@@ -483,8 +473,8 @@
                     altRows('alternatecolor1');
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
-                    $('#btn').toggle();
-                    $('#spinner').toggle();
+                    // $('#btn').toggle();
+                    // $('#spinner').toggle();
                     $('#api_output').css("text-align", "center").html("Sorry, the server is asleep...<br/>Try again in a moment!");
                     console.log(errorThrown);
                 }
@@ -493,9 +483,6 @@
 
         <!--文本分类API调用-->
         function textClassify(input) {
-            // hide button and make the spinner appear
-            $('#btn').toggle();
-            $('#spinner').toggle();
             $.ajax({
                 url: "http://127.0.0.1:7000/classify",
                 method: 'POST',
@@ -528,36 +515,8 @@
                                 'content':input.substring(input.indexOf('。') + 1,index.length)
                             },
                             success: function (data) {
-                                var appKey = '241d46d9da752d9f';
-                                var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
-                                var salt = (new Date).getTime();
-                                var curTime = Math.round(new Date().getTime()/1000);
-                                // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
-                                var from = 'en';
-                                var to = 'zh-CHS';
-                                var str1 = appKey + truncate(data) + salt + curTime + key;
-                                var sign = sha256(str1);
-                                $.ajax({
-                                    url: 'http://openapi.youdao.com/api',
-                                    type: 'post',
-                                    dataType: 'jsonp',
-                                    data: {
-                                        q: data,
-                                        appKey: appKey,
-                                        salt: salt,
-                                        from: from,
-                                        to: to,
-                                        sign: sign,
-                                        signType: "v3",
-                                        curtime: curTime
-                                    },
-                                    success: function (data) {
-                                        $('#btn').toggle();
-                                        $('#spinner').toggle();
-                                        var orgin = $("#text_sum").html();
-                                        $("#text_sum").html(orgin + data.translation[0]);
-                                    }
-                                })
+                                var orgin = $("#text_sum").html();
+                                $("#text_sum").html(orgin + data);
                             }
                         });
                     }else{
@@ -603,6 +562,8 @@
                             }
                         });
                     }
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
                     if ($('#api_output').is(':hidden')) {//如果当前隐藏
@@ -610,6 +571,8 @@
                     }
                     $('#api_output').html("<p style='color: #0b96e5;font: 16px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
                     console.log(errorThrown);
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
                 }
 
             });
@@ -810,6 +773,8 @@
             altRows('alternatecolor1');
             $('#input').focus();
             $('#btn').click(function () {
+                $('#btn').toggle();
+                $('#spinner').toggle();
                 var fileName = $("#fileId2").val();
                 var input = $("#input").val();
                 textClassify(input);

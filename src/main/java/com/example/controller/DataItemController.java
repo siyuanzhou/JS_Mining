@@ -70,7 +70,7 @@ public class DataItemController {
 
         for( Article article : lists){
             HashMap<String,String> temp_obj = new HashMap();
-            temp_obj.put("id",(article.getId()*100+5)+"");
+            temp_obj.put("id",article.getId());
             temp_obj.put("country",article.getCountry());
             temp_obj.put("name",article.getName());
             if(article.getDate().length()>4) {

@@ -8,6 +8,24 @@ public class FieldBean {
     public String prec;
     public String recall;
     public String field;
+    public String oldprecision;
+    public String oldrecall;
+
+    public String getOldprecision() {
+        return oldprecision;
+    }
+
+    public void setOldprecision(String oldprecision) {
+        this.oldprecision = oldprecision;
+    }
+
+    public String getOldrecall() {
+        return oldrecall;
+    }
+
+    public void setOldrecall(String oldrecall) {
+        this.oldrecall = oldrecall;
+    }
 
     public String getId() {
         return id;

@@ -138,10 +138,10 @@
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">内容查询</button>
                 </div>-->
-                <div class="col-sm-6" style="margin-left: 30px">
+                <div class="col-sm-6" style="margin-left: 20px">
                   <!--  <a>天基互联网：准确率:0.8596,召回率:0.7891,F1:0.8228<br></a>
                     <a>人工智能：准确率:0.8652,召回率:0.7713,F1:0.8156<br></a>-->
-                    <h4>实验结果: 准确率:86.34%,召回率:77.49%,F1值:81.68%<br></h4>
+                    <h4>实验结果: 准确率:86.34%,召回率:77.77%,F1值:81.83%<br></h4>
                 </div>
             </div>        <!--表格列表-->
             <!--表格列表-->
@@ -153,23 +153,47 @@
                     <th style="width: 380px">标题</th>
                     <th style="width: 180px">日期</th>
                     <th style="width: 180px">领域</th>
-                    <th style="width: 180px">准确率</th>
-                    <th style="width: 180px">召回率</th>
+                    <th style="width: 180px">旧模型准确率</th>
+                    <th style="width: 180px">旧模型召回率</th>
+                    <th style="width: 180px">新模型准确率</th>
+                    <th style="width: 180px">新模型召回率</th>
+                    <th style="width: 180px">操作</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="show_tbody">
                 <tr th:each="data :${pageInfo.list}">
                    <!-- <td><input type="checkbox"></td>-->
                     <td  th:text="${data.id}"></td>
-                    <td  th:text="${data.title}"></td>
+                    <td  id="title" th:text="${data.title}"></td>
                     <td  th:text="${data.date}"></td>
                     <td  th:text="${data.field}"></td>
+                    <td  th:text="${data.oldprecision}"></td>
+                    <td  th:text="${data.oldrecall}"></td>
                     <td  th:text="${data.prec}"></td>
                     <td  th:text="${data.recall}"></td>
+                    <td  id="content" style="display: none" th:text="${data.content}"></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" id="triggerBtn">查看内容</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
-
+            <!-- 模态框 -->
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="mhead">头部</h2>
+                        <span id="closeBtn" class="close">×</span>
+                    </div>
+                    <div id="mcontent" class="modal-body">
+                        <p>这是一个模态框！</p>
+                        <p>喜欢就点个赞吧！</p>
+                    </div>
+                    <div class="modal-footer">
+                        <h3></h3>
+                    </div>
+                </div>
+            </div>
             <!--<div>
                 <a id="btn" class="btn btn-default"
                    style="height: 30px ;margin-top: -4px;margin-left:45%;margin-right:5%;background-color: #337ab7;color: white" onclick="getPercent()">指标验证</a>
@@ -195,6 +219,55 @@
 </div>
 </body>
 <script>
+    $(function(){
+        window.onload = (function() {
+            /*建立模态框对象*/
+            var modalBox = {};
+            /*获取模态框*/
+            modalBox.modal = document.getElementById("myModal");
+            /*获得trigger按钮*/
+            modalBox.triggerBtn = document.getElementById("triggerBtn");
+            /*获得关闭按钮*/
+            modalBox.closeBtn = document.getElementById("closeBtn");
+            /*模态框显示*/
+            modalBox.show = function(text,title) {
+                console.log(this.modal);
+                this.modal.style.display = "block";
+                $("#mhead").html(title);
+                //alert("添加成功");
+                $("#mcontent").html(text);
+
+            }
+            /*模态框关闭*/
+            modalBox.close = function() {
+                this.modal.style.display = "none";
+            }
+            /*当用户点击模态框内容之外的区域，模态框也会关闭*/
+            modalBox.outsideClick = function() {
+                var modal = this.modal;
+                window.onclick = function(event) {
+                    if(event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+            /*模态框初始化*/
+            modalBox.init = function() {
+                var that = this;
+                $("#show_tbody").on('click',"button[id='triggerBtn']" ,function() {
+                    var text = $(this).parents("tr").find("#content").text();
+                    var title = $(this).parents("tr").find("#title").text();
+                    that.show(text,title);
+                })
+                this.closeBtn.onclick = function() {
+                    that.close();
+                }
+                this.outsideClick();
+            }
+            modalBox.init();
+
+        })();
+    })
     $("#search_btn").click(function () {
         var keywords = $('#keywords').val();
         window.location.href="/JS_NewData?keywords="+keywords;

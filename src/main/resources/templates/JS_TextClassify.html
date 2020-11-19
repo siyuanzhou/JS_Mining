@@ -36,7 +36,7 @@
             </blockquote>
         </div>
         <!--主内容-->
-        <div style="display: block;margin-left: 150px" >
+        <div style="display: block;margin-left: 150px;" >
 
             <!--<h1 style="text-align: center">文本分类</h1>-->
 
@@ -68,12 +68,12 @@
 
                 <!--分类结果显示框-->
 
-                <div class="spinner" id="spinner" style="display: none">
+                <div class="spinner" id="spinner" style="display: none;margin-left: 35%">
                     <div class="double-bounce1"></div>
                     <div class="double-bounce2"></div>
                 </div>
                 <div id="api_output"
-                     style="width: 548px;height:16px;margin-top:15px;margin-left:250px;text-align: center;display:none;">
+                     style="width: 548px;height:16px;margin-top:15px;margin-left:280px;text-align: center;display:none;">
                     <div style="height: 6px;"></div>
                 </div>
                 <div id="first_div" style="margin-top:50px;margin-left:1px;width: 1000px;height:400px; ">
@@ -84,42 +84,104 @@
 
     </div>
 </div>
-<script>
-    $(document).ready(function(){
-        var lenInput = $("#input").val().length;
-        $("#input").keyup(function(){
-            lenInput = $(this).val().length;
-            if(lenInput>0 && lenInput<=2000){
-                $('.textareaInput').html(lenInput);
-            }else{
-            }
-        });
-    });
-</script>
 <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('first_div'));
     var myChart2 = echarts.init(document.getElementById('second_div'));
 
     function showRela(data) {
+        myChart.clear()
         myChart.setOption({
+            title: {
+                text: '粗粒度分类'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                /*  data: [ '2012年']*/
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.1],
+                max: 1.0
+            },
             yAxis: {
+                type: 'category',
+                // data: ['人工智能', '网络攻防', '空军', '陆军', '海军', '能源', '生化', '航空航天']
                 data: data.type
             },
             series: [{
+                name: '准确度',
+                type: 'bar',
+                itemStyle: {
+                    normal: {
+                        color: '#0b96e5'
+                    }
+                },
                 data: data.score
             }]
         });
+
     }
 
     function showRela2(data) {
+        myChart2.clear()
         myChart2.setOption({
+            title: {
+                text: '细粒度分类'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                /*  data: [ '2012年']*/
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01],
+                max: 1.0
+            },
             yAxis: {
+                type: 'category',
                 data: data.classify
             },
             series: [{
+                name: '准确度',
+                type: 'bar',
+                itemStyle: {
+                    normal: {
+                        color: '#0b96e5'
+                    }
+                },
                 data: data.probability
             }]
         });
+        // myChart2.setOption({
+        //     yAxis: {
+        //         data: data.classify
+        //     },
+        //     series: [{
+        //         data: data.probability
+        //     }]
+        // });
     }
     <!--文本分类后端调用-->
     function api_call(input) {
@@ -140,7 +202,12 @@
                 $('#spinner').toggle();
                 $('#api_output').hide();
                 showRela(data);
-                showRela2(data);
+                if(data.classify!=null){
+                    $("#second_div").show();
+                    showRela2(data);
+                }else{
+                    $("#second_div").hide();
+                }
                 console.log(data);
             },
             error: function (jqXhr, textStatus, errorThrown) {
@@ -214,7 +281,7 @@
             },
             yAxis: {
                 type: 'category',
-                data: ["人工智能","电子", "生物", "能源","信息科技","材料", "空军", "陆军", "海军", "网络"]
+                data: ['人工智能', '网络攻防', '空军', '陆军', '海军', '能源', '生化', '航空航天']
             },
             series: [{
                 name: '准确度',
@@ -255,7 +322,7 @@
             },
             yAxis: {
                 type: 'category',
-                data: ["计算机视觉", "自然语言处理", "个性化推荐", "语音识别", "优化算法理论", "机器人技术", "AI计划与应用"]
+                data: ['机器人技术', '计算机视觉', '语音识别', '自然语言处理', '优化算法理论', '个性化推荐系统']
             },
             series: [{
                 name: '准确度',
