@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>简报生成</title>
     <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/bootstrap.min.js" charset="utf-8"></script>
@@ -114,7 +114,7 @@
                         <div class="form-group">
                             <label>国家:</label>
                             <select id="country" class="form-control select_down selectpicker" multiple
-                                    data-live-search="true" title="请选择国家">
+                                    data-live-search="true" title="请选择国家" style="z-index: 99999">
                                 <option value="中国">中国</option>
                                 <option value="美国">美国</option>
                                 <option value="英国">英国</option>
@@ -175,8 +175,8 @@
                             <label>来源</label>
                             <select id="publisher" class="form-control select_down"
                                     style="font-size: 13px; color: #666;">
+                                <option value="新闻">新闻</option>
                                 <option>论文</option>
-                                <option>新闻</option>
                                 <option>网站</option>
                                 <option>专利</option>
                             </select>
@@ -217,6 +217,7 @@
 
             </tbody>
         </table>
+        <div style="height: 800px;width: 100%"></div>
 
         <!-- 模态框 -->
         <div id="myModal" class="modal">
@@ -257,6 +258,7 @@
         $("#country option[value='美国']").attr("selected","selected")
         $("#firstScope option[value='人工智能']").attr("selected","selected")
         $("#secondScope option[value='信息技术']").attr("selected","selected")
+        $("#publisher option[value='新闻']").attr("selected","selected")
 
         var picker1 = $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM',

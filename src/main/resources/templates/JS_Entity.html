@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>后台布局</title>
+    <title>信息提取</title>
     <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
     <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
     <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -307,6 +307,7 @@
 
                 success: function (data) {
                     // toggle the spinner and button
+                    textClassify(input);
                     var str1 = data.input;
                     var entityMap = data.listDemo;
                     var raw_relations = data.raw_relations;
@@ -404,6 +405,7 @@
                 },
 
                 success: function (data) {
+                    textClassify(input);
                     // $('#btn').toggle();
                     // $('#spinner').toggle();
                     var str1 = data.input;
@@ -515,6 +517,8 @@
                                 'content':input.substring(input.indexOf('。') + 1,index.length)
                             },
                             success: function (data) {
+                                $('#btn').toggle();
+                                $('#spinner').toggle();
                                 var orgin = $("#text_sum").html();
                                 $("#text_sum").html(orgin + data);
                             }
@@ -527,7 +531,8 @@
                             jsonp: "callback",
                             jsonpCallback: "successCallback_sum",//回调方法
                             contentType: 'application/json',
-                            data: {input: JSON.stringify(input)},
+                            data: {'title':input.substring(0,input.indexOf('.')),
+                                'content':input.substring(input.indexOf('.') + 1,index.length)},
                             success: function (data) {
                                 var appKey = '241d46d9da752d9f';
                                 var key = 'Vl8gmt8sk0SdQPV6UU7OJ8OELj17YdzL';//注意：暴露appSecret，有被盗用造成损失的风险
@@ -553,17 +558,15 @@
                                         curtime: curTime
                                     },
                                     success: function (data) {
-                                        $('#btn').toggle();
-                                        $('#spinner').toggle();
                                         var orgin = $("#text_sum").html();
                                         $("#text_sum").html(orgin + data.translation[0]);
+                                        $('#btn').toggle();
+                                        $('#spinner').toggle();
                                     }
                                 })
                             }
                         });
                     }
-                    $('#btn').toggle();
-                    $('#spinner').toggle();
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
                     if ($('#api_output').is(':hidden')) {//如果当前隐藏
@@ -777,7 +780,6 @@
                 $('#spinner').toggle();
                 var fileName = $("#fileId2").val();
                 var input = $("#input").val();
-                textClassify(input);
                 if (fileName.match(/[\u4e00-\u9fa5]/g) != null || (input.match(/[\u4e00-\u9fa5]/g) != null)) {
                     console.log("chinese");
                     identifyEntity_c(input);

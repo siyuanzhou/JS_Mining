@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head+>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
@@ -322,6 +322,7 @@
                     <table class="table">
                         ...
                     </table>
+
                 </div>
 
             </div>
@@ -723,6 +724,7 @@
                 });
             }
         });
+
 
         $.ajax({
             url: "http://127.0.0.1:7450/linechart",
@@ -1558,7 +1560,7 @@
                     point: {
                         xAxis: 0,
                         yAxis: 0,
-                        x: 2005,
+                        x: 2004,
                         y: red1.data[4],
                     },
                     text: "历史统计曲线",

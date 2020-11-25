@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>后台布局</title>
+    <title>武器库</title>
     <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
 
     <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css">
@@ -305,7 +305,7 @@
                             $.each(item['resultlist'], function (y, e) {
                                 var json = eval(e);
                                 info5 += "<div class='col-md-3 thumbnail'> <img src=" + json.Img_url + "><p class='ov'  >" + json.Img_desc + "</p>\n" +
-                                    "                                    <a href='www.baidu.com'><font color='blue\'>" + json.Weaponname + "</font>\n </a>" +
+                                    "                                    <a href=JS_Weapon_Item?name="+ json.Weaponname + "> <font color='blue\'>" + json.Weaponname + "</font>\n </a>" +
                                     "                                    </div>";
                             });
                         });
@@ -334,7 +334,7 @@
                             $.each(item['resultlist'], function (y, e) {
                                 var json = eval(e);
                                 info5 += "<div class='col-md-3 thumbnail'> <img src=" + json.Img_url + "><p class='ov'  >" + json.Img_desc + "</p>\n" +
-                                    "                                    <a href='www.baidu.com'><font color='blue\'>" + json.Weaponname + "</font>\n </a>" +
+                                    "                                    <a href=JS_Weapon_Item?name="+ json.Weaponname + "> <font color='blue\'>" + json.Weaponname + "</font>\n </a>" +
                                     "                                    </div>";
                             });
                         });

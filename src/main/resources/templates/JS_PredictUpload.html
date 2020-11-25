@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>实力对比</title>
+    <title>趋势预测</title>
     <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
     <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
@@ -274,6 +274,8 @@
             $("#predict_div").empty()
             $("#predict_div2").empty()
 
+            $("#detail5").empty()
+            $("#detail3").empty()
             $.ajax({
                 url: "http://127.0.0.1:7650/predict",
                 method: 'POST',
@@ -737,7 +739,7 @@
                         point: {
                             xAxis: 0,
                             yAxis: 0,
-                            x: 2005,
+                            x: 2004,
                             y: red1.data[4],
                         },
                         text: "历史统计曲线",
