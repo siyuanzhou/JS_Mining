@@ -304,9 +304,7 @@
                     'input': JSON.stringify(input),
                     'multi-file':strFileName
                 },
-
                 success: function (data) {
-                    // toggle the spinner and button
                     textClassify(input);
                     var str1 = data.input;
                     var entityMap = data.listDemo;
@@ -315,7 +313,6 @@
                     var links = raw_relations[1];
                     showRela(datas, links);
                     console.log(str1);
-                    // color = ["red","yellow","blue"];
                     arr = [];
                     // 显示实体表格
                     for (var prop in entityMap) {
@@ -353,8 +350,6 @@
                             str1 = str1.replace(pattern, '<span style="color:red">' + entity + '</span>').replace(/\s+/g, ' ');
                         }
                     }
-                    str1 = str1.replace(/\\n+/g, '');
-
                     $('#alternatecolor td').css({
                         "text-align": "center",
                         "border-width": "1px",
@@ -406,8 +401,6 @@
 
                 success: function (data) {
                     textClassify(input);
-                    // $('#btn').toggle();
-                    // $('#spinner').toggle();
                     var str1 = data.input;
                     var entityMap = data.listDemo;
                     var raw_relations = data.raw_relations;
