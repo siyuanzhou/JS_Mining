@@ -95,7 +95,7 @@ public class DataItemService {
         }else{
             list = fieldMapper.selectKeywords(keywords);
         }
-        System.out.println(list);
+        System.out.println(list.toString());
         PageInfo<FieldBean> pageInfo = new PageInfo<FieldBean>(list);
         return pageInfo;
     }

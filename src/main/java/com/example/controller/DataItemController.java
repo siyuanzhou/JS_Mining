@@ -129,4 +129,9 @@ public class DataItemController {
         return "JS_FieldShow";
     }
 
+    @RequestMapping(value = "JS_Paper")
+    public String JS_Paper(){
+        return "JS_Paper";
+    }
+
 }
