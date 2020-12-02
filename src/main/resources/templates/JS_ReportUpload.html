@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>简报生成</title>
     <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/bootstrap.min.js" charset="utf-8"></script>
@@ -114,7 +114,7 @@
                         <div class="form-group">
                             <label>国家:</label>
                             <select id="country" class="form-control select_down selectpicker" multiple
-                                    data-live-search="true" title="请选择国家">
+                                    data-live-search="true" title="请选择国家" style="z-index: 99999">
                                 <option value="中国">中国</option>
                                 <option value="美国">美国</option>
                                 <option value="英国">英国</option>
@@ -149,7 +149,7 @@
                         </div>
                     </div>
 
-                    <div class='col-sm-3'>
+                    <!--<div class='col-sm-3'>
                         <div class="form-group">
                             <label>范围</label>
                             <select id="secondScope" class="form-control select_down"
@@ -168,22 +168,35 @@
                                 <option>环境</option>
                             </select>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class='col-sm-3'>
                         <div class="form-group">
                             <label>来源</label>
                             <select id="publisher" class="form-control select_down"
                                     style="font-size: 13px; color: #666;">
+                                <option value="新闻">新闻</option>
                                 <option>论文</option>
-                                <option>新闻</option>
                                 <option>网站</option>
                                 <option>专利</option>
                             </select>
                         </div>
                     </div>
-                </div>
 
+                    <div class='col-sm-3'>
+                        <div class="form-group">
+                            <label>定制化服务:</label>
+                            <select id="item" class="form-control select_down selectpicker" multiple
+                                    data-live-search="true" title="请选择简报所需服务项">
+                                <option value="关键信息">关键信息</option>
+                                <option value="关键词">关键词</option>
+                                <option value="文本分类">文本分类</option>
+                                <option value="实力对比">实力对比</option>
+                                <option value="趋势预测">趋势预测</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!--加载等待框-->
             <div id="loading" style="display: inline-flex;margin-left: 40%;margin-top: 25px">
@@ -217,6 +230,7 @@
 
             </tbody>
         </table>
+        <div style="height: 800px;width: 100%"></div>
 
         <!-- 模态框 -->
         <div id="myModal" class="modal">
@@ -257,6 +271,7 @@
         $("#country option[value='美国']").attr("selected","selected")
         $("#firstScope option[value='人工智能']").attr("selected","selected")
         $("#secondScope option[value='信息技术']").attr("selected","selected")
+        $("#publisher option[value='新闻']").attr("selected","selected")
 
         var picker1 = $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM',
@@ -327,6 +342,7 @@
         var ids = document.getElementsByName("id");
         var articles = {};
         var alist = [];
+        var number = 0;
         for(var i = 0; i< checks.length; i++){
             var checkbox = checks[i];
             var content = contents[i];
@@ -340,28 +356,34 @@
                 alist.push(article);
                 text_data.push(content.innerHTML);
                 text_data.push("###");
+                number++;
             }else{
                 // do something
             }
         }
-        articles["article"] = alist;
-        var start = createTime($("#datetimepicker1").find("input").val());
-        var end = createTime($("#datetimepicker2").find("input").val());
-        var firstScope = $('#firstScope option:selected').text();//文本
-        var secondScope = $('#secondScope option:selected').text();//文本
-        var publisher = $('#publisher option:selected').text();//文本
-        var random = $('#random option:selected').text();//文本
-        var country = $('#country').val();//文本
-        localStorage.setItem("start",start);//key要用单引号或者双引号包括着，value就是你要存的数据
-        localStorage.setItem("end",end);
-        localStorage.setItem("country",country);
-        localStorage.setItem("firstScope",firstScope);
-        localStorage.setItem("secondScope",secondScope);
-        localStorage.setItem("source",publisher);
-        localStorage.setItem("random",random);
-        localStorage.setItem("text_data",text_data);
-        localStorage.setItem("articles",JSON.stringify(articles));
-        window.location.href="/JS_ReportItem";
+
+        if(number>50){
+            alert("当前选中文章总数"+number+"，超过最大数量，请重新选择!");
+        }else {
+            articles["article"] = alist;
+            var start = createTime($("#datetimepicker1").find("input").val());
+            var end = createTime($("#datetimepicker2").find("input").val());
+            var firstScope = $('#firstScope option:selected').text();//文本
+            var secondScope = $('#secondScope option:selected').text();//文本
+            var publisher = $('#publisher option:selected').text();//文本
+            var random = $('#random option:selected').text();//文本
+            var country = $('#country').val();//文本
+            localStorage.setItem("start", start);//key要用单引号或者双引号包括着，value就是你要存的数据
+            localStorage.setItem("end", end);
+            localStorage.setItem("country", country);
+            localStorage.setItem("firstScope", firstScope);
+            localStorage.setItem("secondScope", secondScope);
+            localStorage.setItem("source", publisher);
+            localStorage.setItem("random", random);
+            localStorage.setItem("text_data", text_data);
+            localStorage.setItem("articles", JSON.stringify(articles));
+            window.location.href = "/JS_ReportItem";
+        }
     });
 
     $("#search_btn").click(function () {

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head+>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
@@ -108,18 +108,21 @@
                     <div class="panel-body" >
 
                         <div style="margin-left: 700px">
-                            <ul class="info" style="width: 600px;display: flex">
-                                <div style="width: 200px;text-align: left"><span class="first-block">范围:</span><span
-                                        class="second-block"><a id="fscope"></a></span>
-                                </div>
-                                <div style="width: 300px;text-align: left"><span class="first-block">领域:</span><span
+                            <!--<ul class="info" style="width: 600px;display: flex">
+                               &lt;!&ndash; <div style="width: 200px;text-align: left"><span class="first-block">范围:</span><span
                                         class="second-block"><a id="sscope"></a></span>
-                                </div>
-                            </ul>
+                                </div>&ndash;&gt;
+                                &lt;!&ndash;<div style="width: 300px;text-align: left"><span class="first-block">领域:</span><span
+                                        class="second-block"><a id="fscope"></a></span>
+                                </div>&ndash;&gt;
+                            </ul>-->
                             <ul class="info" style="width: 600px;display: flex">
-                                <div style="width: 200px;text-align: left"><span class="first-block"
+                                <!--<div style="width: 200px;text-align: left"><span class="first-block"
                                                                                  style="width: 300px;text-align: left">来源:</span><span
                                         class="second-block"><a id="source"></a></span>
+                                </div>-->
+                                <div style="width: 200px;text-align: left"><span class="first-block">领域:</span><span
+                                        class="second-block"><a id="fscope"></a></span>
                                 </div>
                                 <div style="width: 200px;text-align: left"><span class="first-block"
                                                                                  style="width: 300px;text-align: left">国家:</span><span
@@ -130,7 +133,8 @@
                                 <div style="width: 200px;text-align: left"><span class="first-block"
                                                                                  style="width: 300px;text-align: left">开始日期:</span><span
                                         class="second-block"><a
-                                        id="start"></a></span></div>
+                                        id="start"></a></span>
+                                </div>
                                 <div style="width: 200px;text-align: left"><span class="first-block"
                                                                                  style="width: 300px;text-align: left">结束日期:</span><span
                                         class="second-block"><a id="end"> </a></span>
@@ -165,8 +169,8 @@
                         <div class="row" style="margin: 30px;">
                             <div class="panel panel-default" >
                                 <p id="introduce" style="text-indent: 2em;line-height:2em;font-family: 华光准圆_CNKI;"></p>
-                                <div class="panel-heading" style="text-align: center">关键实体</div>
-                                <div id="first_div" class="panel-body" style="width:1000px;height: 420px;border: 0px">
+                               <!-- <div class="panel-heading" style="text-align: center">关键实体</div>-->
+                                <div id="first_div" class="panel-body" style="padding-left:90px;width:1000px;height: 420px;border: 0px">
                                 </div>
                             </div>
                         </div>
@@ -212,7 +216,7 @@
                                     <select id = "dlingyu" class="form-control select_down" style="font-size: 13px; color: #666;">
                                         <option name="d自然语言处理">自然语言处理</option>
                                         <option name="d计算机视觉">计算机视觉</option>
-                                        <option name="dAI计划与应用">AI计划与应用</option>
+                                      <!--  <option name="dAI计划与应用">AI计划与应用</option>-->
                                         <option name="d机器人技术">机器人技术</option>
                                         <option name="d优化算法理论">优化算法理论</option>
                                         <option name="d语音识别">语音识别</option>
@@ -280,7 +284,7 @@
                                             style="font-size: 13px; color: #666;">
                                         <option name="p自然语言处理">自然语言处理</option>
                                         <option name="p计算机视觉">计算机视觉</option>
-                                        <option name="pAI计划与应用">AI计划与应用</option>
+                                        <option name="p语音识别">语音识别</option>
                                         <option name="p机器人技术">机器人技术</option>
                                         <option name="p优化算法理论">优化算法理论</option>
                                         <option name="p语音识别">语音识别</option>
@@ -319,6 +323,7 @@
                     <table class="table">
                         ...
                     </table>
+
                 </div>
 
             </div>
@@ -355,7 +360,7 @@
     var end = localStorage.getItem("end");
     var firstScope = localStorage.getItem("firstScope");
     var country = localStorage.getItem("country");
-    var secondScope = localStorage.getItem("secondScope");
+    // var secondScope = localStorage.getItem("secondScope");
     var source = localStorage.getItem("source");
     var text_data = localStorage.getItem("text_data");
     var articles = localStorage.getItem("articles");
@@ -437,10 +442,11 @@
         if(first=="人工智能")
         {
             second.options.add(new Option("自然语言处理", "自然语言处理"));
-            second.options.add(new Option("AI计划与应用", "AI计划与应用"));
+            /*second.options.add(new Option("AI计划与应用", "AI计划与应用"));*/
             second.options.add(new Option("机器人技术", "机器人技术"));
             second.options.add(new Option("优化算法理论", "优化算法理论"));
             second.options.add(new Option("个性化推荐", "个性化推荐"));
+            second.options.add(new Option("语音识别", "语音识别"));
             second.options.add(new Option("计算机视觉", "计算机视觉", false, true));  // 默认选中区
         }else if(first=="网络攻防") {
             second.options.add(new Option("网络攻防", "网络攻防", false, true));  // 默认选中区
@@ -451,10 +457,11 @@
         if(first=="人工智能")
         {
             second2.options.add(new Option("自然语言处理", "自然语言处理"));
-            second2.options.add(new Option("AI计划与应用", "AI计划与应用"));
+            /*second2.options.add(new Option("AI计划与应用", "AI计划与应用"));*/
             second2.options.add(new Option("机器人技术", "机器人技术"));
             second2.options.add(new Option("优化算法理论", "优化算法理论"));
             second2.options.add(new Option("个性化推荐", "个性化推荐"));
+            second2.options.add(new Option("语音识别", "语音识别"));
             second2.options.add(new Option("计算机视觉", "计算机视觉", false, true));  // 默认选中区
         }else if(first=="网络攻防") {
             second.options.add(new Option("网络攻防", "网络攻防", false, true));  // 默认选中区
@@ -467,7 +474,7 @@
         $("#introduce").html("抽取" + firstScope + "领域相关实体如下：");
         $("#head").html(start.substring(0, 4) + "-" + end.substring(0, 4) + country + firstScope + "领域科技简报");
         $("#fscope").html(firstScope);
-        $("#sscope").html(secondScope);
+        /*$("#sscope").html(firstScope);*/
         $("#country").html(country);
         $("#source").html(source);
         $("#start").html(start);
@@ -575,7 +582,13 @@
                 $("#dcountry option[value='" + field_classified_CN + "']").attr("selected","selected")
                 duibi_ajax(field_classified_CN, country)         // 对比模块传入的field 为文本分类最大结果，需为中文
                 console.log('firstScope:' + firstScope);
-
+                // if(field_classified_CN == "语音识别" ){
+                //     var truefield = "优化算法理论"
+                //     var fakefield = "语音识别"
+                // }
+                // else{
+                //     var truefield = fakefield = field_classified_CN
+                // }
                 $("#psecondScope option[value='" + field_classified_CN + "']").attr("selected","selected")
                 $("#pcountry option[value='" + one_country + "']").attr("selected","selected")
                 yuce_ajax(firstScope,field_classified_CN, one_country)              // 预测模块传入的前一页面选择的领域
@@ -666,12 +679,6 @@
 
     // 提交所需参数给后端，并绘制对比图
     function duibi_ajax(field, country){
-        if(field == "语音识别"){
-            var field_ajax = "优化算法及理论"
-        }
-        else{
-            var field_ajax = field
-        }
         var countries = country.split(",")
         $.ajax({
             url: "http://127.0.0.1:7450/detail",
@@ -681,7 +688,7 @@
             jsonpCallback: "successCallback_detail",//回调方法
             contentType: 'application/json',
             data: {
-                'field_name':  field_ajax,
+                'field_name':  field,
                 'country_list': JSON.stringify(countries),
                 'start_year': start.substring(0, 4),
                 'end_year': end.substring(0, 4),
@@ -699,7 +706,7 @@
                     jsonpCallback: "successCallback_sunburst",//回调方法
                     contentType: 'application/json',
                     data: {
-                        'field_name':  field_ajax,
+                        'field_name':  field,
                         'country_list': JSON.stringify(countries),
                         'start_year': start.substring(0, 4),
                         'end_year': end.substring(0, 4),
@@ -719,6 +726,7 @@
             }
         });
 
+
         $.ajax({
             url: "http://127.0.0.1:7450/linechart",
             method: 'POST',
@@ -727,7 +735,7 @@
             jsonpCallback: "successCallback_LineChart",//回调方法
             contentType: 'application/json',
             data: {
-                'field_name':  field_ajax,
+                'field_name':  field,
                 'country_list': JSON.stringify(countries),
                 'start_year': start.substring(0, 4),
                 'end_year': end.substring(0, 4),
@@ -749,7 +757,7 @@
             jsonpCallback: "successCallback_addchart",//回调方法
             contentType: 'application/json',
             data: {
-                'field_name':  field_ajax,
+                'field_name':  field,
                 'country_list': JSON.stringify(countries),
                 'start_year': start.substring(0, 4),
                 'end_year': end.substring(0, 4),
@@ -773,13 +781,9 @@
     });
 
     // 提交所需参数给后端，并绘制对预测图
-    function yuce_ajax(source, field, country){
-        if(field == "语音识别"){
-            var field_ajax = "优化算法及理论"
-        }
-        else{
-            var field_ajax = field
-        }
+    function yuce_ajax(source, field,country){
+        $("#predict_div").empty()
+        $("#predict_div2").empty()
         $.ajax({
             url: "http://127.0.0.1:7650/predict",
             method: 'POST',
@@ -788,7 +792,7 @@
             jsonpCallback: "successCallback_predict",//回调方法
             contentType: 'application/json',
             data: {
-                "field": field_ajax,
+                "field": field,
                 "source": source
             },
             success: function (data) {
@@ -797,41 +801,53 @@
                 var predict_data = JSON.parse(data);
                 $("#detail3").html(predict_data.text);
                 //alert(predict_data.text)
-                printPredictLabel(predict_data, source);
+                printPredictLabel(predict_data, field);
                 $('#loading').hide();
                 $(".panel-body").show();
                 $(".panel-heading").show();
+
+
+                // 趋势预测
+                $.ajax({
+                    url: "http://127.0.0.1:7005/predict2",
+                    method: 'POST',
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback_predict2",//回调方法
+                    contentType: 'application/json',
+                    data: {
+                        "field": field,
+                        "country": country,
+                    },
+                    success: function (data) {
+                        console.log("data=" + data);
+                        data = JSON.stringify(data);
+                        var predict_data = JSON.parse(data);
+                        $("#detail5").html(predict_data.text);
+
+                        printPredictLabel2(predict_data, field, country);
+
+                    },
+                });
             },
         });
 
-        $.ajax({
-            url: "http://127.0.0.1:7005/predict2",
-            method: 'POST',
-            dataType: 'jsonp',
-            jsonp: "callback",
-            jsonpCallback: "successCallback_predict2",//回调方法
-            contentType: 'application/json',
-            data: {
-                "field": source,
-                "country": country,
-            },
-            success: function (data) {
-                console.log("data=" + data);
-                data = JSON.stringify(data);
-                var predict_data = JSON.parse(data);
-                $("#detail5").html(predict_data.text);
-                printPredictLabel2(predict_data, field, country);
 
-            },
-        });
+
     }
 
     $("#yuce").click(function () {
 
         var country = $('#pcountry').val().toString();//文本
-        alert(country);
         var select_area = $('#psecondScope option:selected').text();//文本
-        yuce_ajax(firstScope,select_area, country)
+        // if(select_area == "语音识别" ){
+        //     var truefield = "优化算法理论"
+        //     var fakefield = "语音识别"
+        // }
+        // else{
+        //     var truefield = fakefield = select_area
+        // }
+        yuce_ajax(firstScope,select_area ,country)
 
     });
 
@@ -907,7 +923,7 @@
                     }
                 },
                 barWidth: 30,
-                data: data.probability[0],
+                data: data.probability,
             }]
         });
         setTimeout(function (){
@@ -1137,6 +1153,14 @@
             maxIndex = max < data.技术成果[i+1] ? i+1 : maxIndex
             max = max < data.技术成果[i+1] ? data.技术成果[i+1] : max
         }
+
+        var max2 = data.diff[0]
+        var maxIndex2 = 0
+        for (var i = 0; i < data.diff.length - 1; i++) {
+            maxIndex2 = max2 < data.diff[i + 1] ? i + 1 : maxIndex2
+            max2 = max2 < data.diff[i + 1] ? data.diff[i + 1] : max2
+        }
+
         var serialChart = Highcharts.chart('predict_div', {
             credits:{
                 enabled: false  //去除highcharts版权信息
@@ -1229,7 +1253,7 @@
                         from: 1958 + data.成熟期,
                         to: 3000,
                         label:{
-                            text: '衰退期'
+                            text: '平稳期'
                         },
                         zIndex: 0
                     },
@@ -1355,6 +1379,23 @@
                     },
                     text: (maxIndex + 1958) + '年<br>' + '技术成果:' + data.技术成果[maxIndex],
                 }],
+            },{
+                labelOptions: {
+                    backgroundColor: 'rgba(255,255,255,0.5)',
+                    verticalAlign: 'top',
+                    y: 5,
+                    x: 0
+                },
+                labels: [{
+                    staggerLines: 3,
+                    point: {
+                        xAxis: 0,
+                        yAxis: 1,
+                        x: maxIndex2 + 1958,
+                        y: parseInt(data.diff[maxIndex2]),
+                    },
+                    text: (maxIndex2 + 1958) + '年<br>' + '论文增长量:' + parseInt(data.diff[maxIndex2]),
+                }],
             }],
         });
     }
@@ -1423,6 +1464,8 @@
             // serialChart2.addSeries(green);
         }
 
+        var tag = 0
+
         var greenAll = {}
         greenAll["name"] = "预测趋势曲线"
         var blue5 = data.blue5.slice(data.blue5.length - 5, data.blue5.length)
@@ -1470,7 +1513,24 @@
                     label: false,
                     pointStart: 2000,
                     animation: {
-                        duration: 6000
+                        duration: 3000
+                    },
+                    events:{
+                        legendItemClick: function (){
+                            if(tag == 0){
+                                for(var i = 1; i < 14; i++){
+                                    serialChart2.series[i].hide()
+                                }
+                                tag = 1
+                            }
+                            else{
+                                for(var i = 1; i < 14; i++){
+                                    serialChart2.series[i].show()
+                                }
+                                tag = 0
+                            }
+                            return false
+                        }
                     }
                 }
             },
@@ -1488,14 +1548,51 @@
                         }
                     }
                 }]
+            },
+            // 标注
+            annotations: [{
+                labelOptions: {
+                    backgroundColor: 'rgba(255,255,255,0.5)',
+                    verticalAlign: 'top',
+                    y: -50,
+                    x: -50
+                },
+                labels: [{
+                    point: {
+                        xAxis: 0,
+                        yAxis: 0,
+                        x: 2004,
+                        y: red1.data[4],
+                    },
+                    text: "历史统计曲线",
+                },],
+            }, {
+                labelOptions: {
+                    backgroundColor: 'rgba(255,255,255,0.5)',
+                    verticalAlign: 'top',
+                    y: 30,
+                    x: -50
+                },
+                labels: [{
+                    point: {
+                        xAxis: 0,
+                        yAxis: 0,
+                        x: greenAll.data.length - 2 + 2000,
+                        y: greenAll.data[greenAll.data.length - 2],
+                    },
+                    text: "趋势预测曲线",
+                }
+                ],
             }
+            ]
         });
 
-        setTimeout(function () {
-            for(var i = 1; i < 14; i++){
-                serialChart2.series[1].remove()
+        setTimeout(function (){
+            for (var i = 1; i < 14; i++) {
+                serialChart2.series[i].hide()
             }
-        }, 5000)
+            tag = 1
+        },6000)
 
         result.push(red1);
         console.log("resultData=" + result);

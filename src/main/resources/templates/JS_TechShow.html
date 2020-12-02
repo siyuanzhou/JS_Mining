@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>成果</title>
+    <title>原始语料库</title>
     <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
     <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
@@ -136,6 +136,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label>领域</label>
+                    <select id="area" class="form-control select_down"
+                            style="font-size: 13px; color: #666;">
+                        <option value="AI">人工智能</option>
+                        <option>海军</option>
+                        <option>陆军</option>
+                        <option value="Aerospace">空军</option>
+                        <option value="Energy">能源</option>
+                    </select>
+                </div>
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">文本查询</button>
                 </div>
@@ -191,6 +202,8 @@
 <script>
     $("#search_btn").click(function () {
         var keywords = $('#keywords').val();
+        var area = $('#area').val();
+        alert(area);
         window.location.href="/JS_Tech?keywords="+keywords;
     });
 </script>

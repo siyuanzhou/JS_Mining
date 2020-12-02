@@ -96,7 +96,7 @@
                         <div class="form-group">
                             <label>国家:</label>
                             <select id="country" class="form-control select_down selectpicker" multiple
-                                    data-live-search="true" title="请选择国家">
+                                    data-live-search="true" title="请选择国家" style="z-index: 99999">
                                 <option value="中国">中国</option>
                                 <option value="美国">美国</option>
                                 <option value="英国">英国</option>
@@ -121,12 +121,12 @@
                         <div class="form-group">
                             <label>领域</label>
                             <select id="firstScope" class="form-control select_down"
-                                    style="font-size: 13px; color: #666;">
-                                <option>人工智能</option>
-                                <option>海军</option>
-                                <option>陆军</option>
-                                <option>空军</option>
-                                <option>网络攻防</option>
+                                    style="font-size: 13px; color: #666;" onChange="nextChange()">
+                                <option name="人工智能">人工智能</option>
+                                <option name="网络攻防">网络攻防</option>
+                                <option name="海军">海军</option>
+                                <option name="陆军">陆军</option>
+                                <option name="空军">空军</option>
                             </select>
                         </div>
                     </div>
@@ -136,9 +136,10 @@
                             <label>范围</label>
                             <select id="secondScope" class="form-control select_down"
                                     style="font-size: 13px; color: #666;">
+                                <option>人工智能</option>
                                 <option>自然语言处理</option>
                                 <option>计算机视觉</option>
-                                <option>AI计划与应用</option>
+                                <option>语音识别</option>
                                 <option>机器人技术</option>
                                 <option>优化算法理论</option>
                                 <option>个性化推荐</option>
@@ -256,7 +257,38 @@
 </div>
 </div>
 <script>
+    function nextChange()
+    {
+        var first = document.getElementById("firstScope");
+        var second = document.getElementById("secondScope");
+        second.options.length = 0; // 清除second下拉框的所有内容
+        if(first.selectedIndex == 0)
+        {
+            second.options.add(new Option("自然语言处理", "自然语言处理"));
+            second.options.add(new Option("语音识别", "语音识别"));
+            second.options.add(new Option("机器人技术", "机器人技术"));
+            second.options.add(new Option("优化算法理论", "优化算法理论"));
+            second.options.add(new Option("个性化推荐", "个性化推荐"));
+            second.options.add(new Option("计算机视觉", "计算机视觉", false, true));  // 默认选中区
+        }
+        if(first.selectedIndex == 1)
+        {
+            second.options.add(new Option("网络攻防", "网络攻防", false, true));  // 默认选中区
+        }
+        if(first.selectedIndex == 2)
+        {
+            second.options.add(new Option("海军", "海军", false, true));  // 默认选中区
+        }
+        if(first.selectedIndex == 3)
+        {
+            second.options.add(new Option("陆军", "陆军", false, true));  // 默认选中区
+        }
+        if(first.selectedIndex == 4)
+        {
+            second.options.add(new Option("空军", "空军", false, true));  // 默认选中区
+        }
 
+    }
     $(function () {
 
         $('#loading').hide();

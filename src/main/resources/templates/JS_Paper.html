@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>简报</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/report_upload/bootbox.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/defaults-zh_CN.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/report_upload/style.css">
+    <!--加载等待样式-->
+    <link rel="stylesheet" type="text/css" href="./css/report_upload/loadingbutton.css">
+
+    <!--字体样式-->
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+    <!--<link  rel="stylesheet" href="./css/report_upload/bootstrap.min.css">-->
+    <link rel="stylesheet" href="./css/report_upload/bootstrap-select.min.css">
+    <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="./js/report_upload/mejs.js"></script>
+
+    <link rel='stylesheet' href='./css/common/modalBox.css'>
+
+    <style type="text/css">
+        .roleCodes {
+            color: #7e5bbe;
+        }
+    </style>
+</head>
+<body style="background-color: inherit">
+
+<div th:insert="~{JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{JS_Common::leftbar}"></div>
+    <div class="box">
+        <!--次导航栏-->
+        <div style="display: block; padding: 0;margin-left: 0px">
+            <blockquote class="layui-elem-quote layui-text">
+                <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
+                    <li><a href="JS_Index">首页</a></li>
+                    <li><a href="JS_PowerUpload">信息生成</a></li>
+                    <li class="active">简报生成</li>
+                </ol>
+            </blockquote>
+        </div>
+        <div style="height:800px;padding-top: 250px;border: #0C0C0C solid 1px">
+            <h1 align="center">自然语言处理</h1>
+            <h3 style="margin-left: 150px">作者：马 宝 国</h3>
+            <h3 style="margin-left: 150px">创建时间： 2020-06-04</h3>
+            <h3 style="margin-left: 150px">更新时间： 2020-06-10</h3>
+        </div>
+
+        <div style="height:800px;border: #0C0C0C solid 1px">
+            <h1 style="margin-top: 100px" align="center">目录</h1>
+            <h3 style="color:dodgerblue;margin-left: 150px">（1）目录</h3>
+            <h3 style="color:dodgerblue;margin-left: 150px">（2）摘要</h3>
+            <h3 style="color:dodgerblue;margin-left: 150px">（3）报告说明</h3>
+            <h3 style="color:dodgerblue;margin-left: 150px">（4）概述篇</h3>
+            <h3 style="color:dodgerblue;margin-left: 150px">（5）对比篇</h3>
+            <h3 style="color:dodgerblue;margin-left: 150px">（6）预测篇</h3>
+        </div>
+
+        <div style="height:800px;border: #0C0C0C solid 1px">
+            <h1 style="margin-top: 100px" align="center">摘要</h1>
+            <h4 style="margin-top:100px;margin-left: 150px">本报告以 AI 赋能的自然语言处理为核心，在梳理自然语言处理概念特征、发展历程、 工作原理以及系统架构的基础上，重点研究分析了自然语言处理领域的具 体应用情况、领域专家人才现状、典型产品的资源覆盖和功能特色，以及 自然语言处理的未来发展趋势，并探讨了自然语言处理的市场主体如何才能更“智 能”、更“聪明”、更“定制化”地为科研用户提供相关情报服务。本研究报告基于Aminer的海量论文学者数据对自然语言处理这一课题进行了简单梳理，包括以下内容：</h4>
+            <h4 style="margin-left: 150px">(1)报告说明:本节通过统计该领域论文的历年发表量，粗略的展示出该领域技术的不同时期的发展情况。</h4>
+            <h4 style="margin-left: 150px">(2)整体概况:本节通过统计该领域论文的历年发表量，粗略的展示出该领域技术的不同时期的发展情况。</h4>
+            <h4 style="margin-left: 150px">(3)实力对比:本节详细分析了自然语言处理在各个国家的历年发展情况，总体排行，国家合作，各国研究机构，使读者能够深入了解不同国家的技术优势。</h4>
+            <h4 style="margin-left: 150px">(4)趋势预测:对该技术从历年发展趋势，当前发展定位，以及技术热点与技术关联交叉等方面，对自然语言处理技术进行相关的分析介绍，同时推荐一些在该领域具有代表性的文章。</h4>
+        </div>
+
+        <div style="height:800px;border: #0C0C0C solid 1px">
+            <h1 style="margin-top: 100px" align="center">报告说明</h1>
+            <h2 style="margin-left: 150px">数据来源</h2>
+            <h4 style="margin-left: 150px">基于自然语言处理领域最有影响力的会议和期刊</h4>
+            <h4 style="margin-left: 150px">基于Aminer中所有自然语言处理领域的论文。</h4>
+            <h2 style="margin-left: 150px">研究方法</h2>
+            <h4 style="margin-left: 150px">通过 AMiner 大数据平台对2018 - 2020论文数据 进行挖掘，基于自然语言处理相关的关键词检索式与期刊，再辅以国家、机构、学者、省份、中英文等条件进一步筛选过滤 挖掘出所有相关论文。然后，基于这些论文，进行如下的进一步挖掘分析，</h4>
+            <h4 style="margin-left: 150px">本节详细分析了自然语言处理在各个国家的历年发展情况，总体排行，国家合作，各国研究机构，使读者能够深入了解不同国家的技术优势。</h4>
+            <h4 style="margin-left: 150px">对该技术从历年发展趋势，当前发展定位，以及技术热点与技术关联交叉等方面，对自然语言处理技术进行相关的分析介绍，同时推荐一些在该领域具有代表性的文章。</h4>
+
+        </div>
+
+        <div style="height:800px;border: #0C0C0C solid 1px">
+            <h1 style="margin-top: 200px" align="center">概述篇</h1>
+        </div>
+
+        <div style="height:800px;border: #0C0C0C solid 1px">
+            <h1 style="margin-top: 200px" align="center">对比篇</h1>
+        </div>
+
+        <div style="height:800px;border: #0C0C0C solid 1px">
+            <h1 style="margin-top: 200px" align="center">预测篇</h1>
+        </div>
+
+    </div>
+</div>
+</body>
+<script>
+
+</script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+</html>
