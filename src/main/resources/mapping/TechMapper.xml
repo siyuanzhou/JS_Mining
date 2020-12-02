@@ -26,4 +26,16 @@
         </where>
     </select>
 
+    <select id="selectByQuery" resultType="com.example.entity.Tech" parameterType="com.example.entity.DataQueryTag">
+        select id,title,content,date,field,url from 中文文章
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and title like "%"#{keywords}"%"
+            </if>
+            <if test="area!=null and area!=''">
+                and field = #{area}
+            </if>
+        </where>
+    </select>
+
 </mapper>

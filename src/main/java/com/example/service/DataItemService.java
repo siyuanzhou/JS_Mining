@@ -51,15 +51,37 @@ public class DataItemService {
         return pageInfo;
     }
 
-    public PageInfo selectTechList(Integer pageNum, Integer pageSize,String keywords){
+    public PageInfo selectEntityList(Integer pageNum, Integer pageSize,String keywords,String area){
         PageHelper.startPage(pageNum, pageSize); // 设定当前页码，以及当前页显示的条数
         //PageHelper.offsetPage(pageNum, pageSize);也可以使用此方式进行设置
-        List<Tech> list = new ArrayList<>();
-        if(keywords.equals("")) {
+        List<Entity> list = new ArrayList<>();
+       /* if(keywords.equals("")) {
             list = techMapper.selectList();
         }else{
             list = techMapper.selectKeywords(keywords);
-        }
+        }*/
+        DataQueryTag dataQueryTag = new DataQueryTag();
+        dataQueryTag.setArea(area);
+        dataQueryTag.setKeywords(keywords);
+        list = entityMapper.selectByQuery(dataQueryTag);
+        System.out.println(list.toString());
+        PageInfo<Entity> pageInfo = new PageInfo<Entity>(list);
+        return pageInfo;
+    }
+
+    public PageInfo selectTechList(Integer pageNum, Integer pageSize,String keywords,String area){
+        PageHelper.startPage(pageNum, pageSize); // 设定当前页码，以及当前页显示的条数
+        //PageHelper.offsetPage(pageNum, pageSize);也可以使用此方式进行设置
+        List<Tech> list = new ArrayList<>();
+       /* if(keywords.equals("")) {
+            list = techMapper.selectList();
+        }else{
+            list = techMapper.selectKeywords(keywords);
+        }*/
+        DataQueryTag dataQueryTag = new DataQueryTag();
+        dataQueryTag.setArea(area);
+        dataQueryTag.setKeywords(keywords);
+        list = techMapper.selectByQuery(dataQueryTag);
         System.out.println(list.toString());
         PageInfo<Tech> pageInfo = new PageInfo<Tech>(list);
         return pageInfo;

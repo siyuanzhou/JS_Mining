@@ -136,16 +136,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>领域</label>
-                    <select id="area" class="form-control select_down"
-                            style="font-size: 13px; color: #666;">
-                        <option value="AI">人工智能</option>
-                        <option>海军</option>
-                        <option>陆军</option>
-                        <option value="Aerospace">空军</option>
-                        <option value="Energy">能源</option>
-                    </select>
+                <div class='col-sm-3'>
+                    <div class="form-group">
+                        <a>领域：</a>
+                        <select id="area" class="form-control select_down"
+                                style="font-size: 13px; color: #666;">
+                            <option value="">全部</option>
+                            <option value="AI">人工智能</option>
+                            <option>海军</option>
+                            <option>陆军</option>
+                            <option value="Aerospace">空军</option>
+                            <option value="Energy">能源</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">文本查询</button>
@@ -190,11 +193,12 @@
 
             <nav aria-label="Page navigation" class="" style="margin-left: 800px;">
                 <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
-                <a th:href="@{'/JS_Tech?keywords='+${key}}">首页</a>
-                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key})}">上一页</a>
-                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key})}">下一页</a>
-                <a th:href="@{/JS_Tech(pageNum=${pageInfo.pages},keywords=${key})}">尾页</a>
+                <a th:href="@{'/JS_Tech?keywords='+${key}+'&area='+${area}}">首页</a>
+                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key},area=${area})}">上一页</a>
+                <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key},area=${area})}">下一页</a>
+                <a th:href="@{/JS_Tech(pageNum=${pageInfo.pages},keywords=${key},area=${area})}">尾页</a>
             </nav>
+
         </div>
     </div>
 </div>
@@ -204,7 +208,7 @@
         var keywords = $('#keywords').val();
         var area = $('#area').val();
         alert(area);
-        window.location.href="/JS_Tech?keywords="+keywords;
+        window.location.href="/JS_Tech?keywords="+keywords+"&area="+area;
     });
 </script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
