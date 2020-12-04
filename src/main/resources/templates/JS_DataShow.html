@@ -49,7 +49,7 @@
                 <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
                     <li><a href="JS_Index">首页</a></li>
                     <li><a href="JS_PowerUpload">情报信息</a></li>
-                    <li class="active">原始语料库</li>
+                    <li class="active">实体库</li>
                 </ol>
             </blockquote>
         </div>
@@ -64,6 +64,20 @@
                         <a>关键词：</a>
                         <input id="keywords" style="width: 290px" type='text' class="form-control" placeholder="请输入要查找的实体名称"/>
                     </div>
+                </div>
+            </div>
+            <div class='col-sm-3'>
+                <div class="form-group">
+                    <a>领域：</a>
+                    <select id="area" class="form-control select_down"
+                            style="font-size: 13px; color: #666;">
+                        <option value="">全部</option>
+                        <option value="人工智能">人工智能</option>
+                        <option value="海军">海军</option>
+                        <option value="陆军">陆军</option>
+                        <option value="空军">空军</option>
+                        <option value="能源">能源</option>
+                    </select>
                 </div>
             </div>
             <div class="search_input">
@@ -93,23 +107,24 @@
             </tbody>
         </table>
 
-        <nav aria-label="Page navigation" class="" style="margin-left: 890px;">
+        <nav aria-label="Page navigation" class="" style="margin-left: 800px;">
             <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
-            <a th:href="@{'/JS_Helper?keywords='+${key}}">首页</a>
-            <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key})}">上一页</a>
-            <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key})}">下一页</a>
-            <a th:href="@{/JS_Helper(pageNum=${pageInfo.pages},keywords=${key})}">尾页</a>
+            <a th:href="@{'/JS_Helper?keywords='+${key}+'&area='+${area}}">首页</a>
+            <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key},area=${area})}">上一页</a>
+            <a th:href="@{/JS_Helper(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key},area=${area})}">下一页</a>
+            <a th:href="@{/JS_Helper(pageNum=${pageInfo.pages},keywords=${key},area=${area})}">尾页</a>
         </nav>
 
     </div>
     </div>
 </div>
 </body>
-    <script>
-        $("#search_btn").click(function () {
-            var keywords = $('#keywords').val();
-            window.location.href="/JS_Helper?keywords="+keywords;
-        });
-    </script>
-    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $("#search_btn").click(function () {
+        var keywords = $('#keywords').val();
+        var area = $('#area').val();
+        alert(area);
+        window.location.href="/JS_Helper?keywords="+keywords+"&area="+area;
+    });
+</script>
 </html>

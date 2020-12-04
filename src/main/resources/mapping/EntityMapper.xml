@@ -23,5 +23,18 @@
             </if>
         </where>
 	</select>
+
+    <select id="selectByQuery" resultType="com.example.entity.Entity" parameterType="com.example.entity.DataQueryTag">
+        select id,name,field,label from entity
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and name like "%"#{keywords}"%"
+            </if>
+            <if test="area!=null and area!=''">
+                and field = #{area}
+            </if>
+        </where>
+    </select>
+
 </mapper>
 

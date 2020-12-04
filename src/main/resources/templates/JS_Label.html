@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>文本标注</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
+    <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/report_upload/bootbox.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="./js/report_upload/defaults-zh_CN.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/report_upload/style.css">
+    <!--加载等待样式-->
+    <link rel="stylesheet" type="text/css" href="./css/report_upload/loadingbutton.css">
+
+    <!--字体样式-->
+    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
+    <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+    <!--<link  rel="stylesheet" href="./css/report_upload/bootstrap.min.css">-->
+    <link rel="stylesheet" href="./css/report_upload/bootstrap-select.min.css">
+    <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="./js/report_upload/mejs.js"></script>
+
+    <link rel='stylesheet' href='./css/common/modalBox.css'>
+
+    <style type="text/css">
+        .spinner {
+            width: 40px;
+            height: 40px;
+
+            position: relative;
+            margin: auto;
+        }
+
+        .double-bounce1, .double-bounce2 {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #333;
+            opacity: 0.6;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+            animation: sk-bounce 2.0s infinite ease-in-out;
+        }
+
+        .double-bounce2 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        @-webkit-keyframes sk-bounce {
+            0%, 100% {
+                -webkit-transform: scale(0.0)
+            }
+            50% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @keyframes sk-bounce {
+            0%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+            }
+            50% {
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0);
+            }
+        }
+    </style>
+
+    <script>
+        function getPercent() {
+            $('#btn').toggle();
+            $('#spinner').toggle();
+            $.ajax({
+                url: "http://127.0.0.1:7005/indication",
+                method: 'POST',
+                dataType: 'jsonp',
+                jsonp: "callback",
+                jsonpCallback: "successCallback_predict2",//回调方法
+                contentType: 'application/json',
+                data: {},
+                success: function (percent) {
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    $('#percent_span').html(percent.indication);
+                    $('#percent_show').show();
+                },
+                error:function () {
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    alert("服务器出现了一点问题,请稍后重试");
+                }
+            });
+        }
+    </script>
+</head>
+<body style="background-color: inherit">
+
+<div th:insert="~{JS_Common::topbar}"></div>
+<div style="display: flex;">
+    <div th:insert="~{JS_Common::leftbar}"></div>
+    <div class="box">
+        <!--次导航栏-->
+        <div style="display: block; padding: 0;margin-left: 20px">
+            <blockquote class="layui-elem-quote layui-text">
+                <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;color: #0f4485">
+                    <li><a href="JS_Index">首页</a></li>
+                    <li><a href="JS_PowerUpload">指标验证</a></li>
+                    <li class="active">文本标注</li>
+                </ol>
+            </blockquote>
+        </div>
+        <div style="padding-left: 50px">
+            <h2></h2>
+            <div class="row">
+                <div class="col-sm-6" style="margin-left: 20px">
+                    <!--  <a>天基互联网：准确率:0.8596,召回率:0.7891,F1:0.8228<br></a>
+                      <a>人工智能：准确率:0.8652,召回率:0.7713,F1:0.8156<br></a>-->
+                    <h4>请选择数据进行手动标注<br></h4>
+                </div>
+                <div class='col-sm-3'>
+                    <div class="form-group">
+                        <!--指定 date标记-->
+                        <div class='input-group'>
+                           <!-- <a>数据量：</a>-->
+                            <input id="keywords" style="width: 290px" type='text' class="form-control" placeholder="请输入要标注的数据量"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="search_input" style="margin: 0px">
+                    <button class="btn btn-primary search_btn" type="button" id="search_btn">生成数据</button>
+                </div>
+            </div>        <!--表格列表-->
+            <!--表格列表-->
+            <table id="tb" class="table" width="100%"  style="table-layout:fixed">
+                <thead>
+                <tr>
+                    <th style="width: 50px"><input id="checkAll" type="checkbox" onclick="setAllNo()" /></th>
+                    <th style="width: 100px">编号</th>
+                    <th style="width: 400px">标题</th>
+                    <th style="width: 180px">日期</th>
+                    <th style="width: 180px">操作</th>
+                    <th style="width: 180px">手工标注</th>
+                </tr>
+                </thead>
+                <tbody id="show_tbody">
+                <tr th:each="data :${pageInfo.list}">
+                    <td><input id="check" name="love" type="checkbox"></td>
+                    <td  name="id" th:text="${data.id}"></td>
+                    <td  id="title" name="title" th:text="${data.title}"></td>
+                    <td  th:text="${data.date}"></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" id="triggerBtn">查看内容</button>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select name="area" id="area" class="form-control select_down"
+                                    style="font-size: 13px; color: #666;">
+                                <option value="">全部</option>
+                                <option value="人工智能">人工智能</option>
+                                <option value="海军">海军</option>
+                                <option value="陆军">陆军</option>
+                                <option value="空军">空军</option>
+                                <option value="能源">能源</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td  id="content" name="content" style="display: none" th:text="${data.content}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 模态框 -->
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="mhead">头部</h2>
+                        <span id="closeBtn" class="close">×</span>
+                    </div>
+                    <div id="mcontent" class="modal-body">
+                        <p>这是一个模态框！</p>
+                        <p>喜欢就点个赞吧！</p>
+                    </div>
+                    <div class="modal-footer">
+                        <h3></h3>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <a id="btn" class="btn btn-default"
+                   style="height: 30px ;margin-top: -4px;margin-left:90%;margin-right:5%;background-color: #337ab7;color: white" onclick="submit()">提交</a>
+            </div>
+           <!-- <div class="spinner" id="spinner" style="display: none">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>-->
+
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(function(){
+        window.onload = (function() {
+            /*建立模态框对象*/
+            var modalBox = {};
+            /*获取模态框*/
+            modalBox.modal = document.getElementById("myModal");
+            /*获得trigger按钮*/
+            modalBox.triggerBtn = document.getElementById("triggerBtn");
+            /*获得关闭按钮*/
+            modalBox.closeBtn = document.getElementById("closeBtn");
+            /*模态框显示*/
+            modalBox.show = function(text,title) {
+                console.log(this.modal);
+                this.modal.style.display = "block";
+                $("#mhead").html(title);
+                //alert("添加成功");
+                $("#mcontent").html(text);
+
+            }
+            /*模态框关闭*/
+            modalBox.close = function() {
+                this.modal.style.display = "none";
+            }
+            /*当用户点击模态框内容之外的区域，模态框也会关闭*/
+            modalBox.outsideClick = function() {
+                var modal = this.modal;
+                window.onclick = function(event) {
+                    if(event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+            /*模态框初始化*/
+            modalBox.init = function() {
+                var that = this;
+                $("#show_tbody").on('click',"button[id='triggerBtn']" ,function() {
+                    var text = $(this).parents("tr").find("#content").text();
+                    var title = $(this).parents("tr").find("#title").text();
+                    that.show(text,title);
+                })
+                this.closeBtn.onclick = function() {
+                    that.close();
+                }
+                this.outsideClick();
+            }
+            modalBox.init();
+
+        })();
+    })
+
+    $("#search_btn").click(function () {
+        var keywords = $('#keywords').val();
+        window.location.href="/JS_Tech?keywords="+keywords;
+    });
+
+    //全选函数
+    function setAll() {
+        alert("hello");
+        var loves = document.getElementsByName("love");
+        for (var i = 0; i < loves.length; i++) {
+            loves[i].checked = true;
+        }
+    }
+
+    //全选/全不选操作
+    function setAllNo(){
+        var box = document.getElementById("checkAll");
+        var loves = document.getElementsByName("love");
+        if(box.checked == false){
+            for (var i = 0; i < loves.length; i++) {
+                loves[i].checked = false;
+            }
+        }else{
+            for (var i = 0; i < loves.length; i++) {
+                loves[i].checked = true;
+            }
+        }
+    }
+
+    //提交标注数据
+    function submit() {
+        var checks = document.getElementsByName("love");
+        var titles = document.getElementsByName("title");
+        var contents = document.getElementsByName("content");
+        var ids = document.getElementsByName("id");
+        var areas = document.getElementsByName("area");
+        var articles = {};
+        var alist = [];
+        var number = 0;
+        for(var i = 0; i< checks.length; i++){
+            var checkbox = checks[i];
+            var content = contents[i];
+            var title = titles[i];
+            var id = ids[i];
+            var area = areas[i];
+            if(checkbox.checked){
+                var article = new Object();
+                article.id = id.innerHTML;
+                article.title = title.innerHTML;
+                article.content = content.innerHTML;
+                article.area = area.innerHTML;
+                alist.push(article);
+                number++;
+            }else{
+                // do something
+            }
+        }
+        console.log(alist);
+        alert(alist);
+    }
+
+</script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+</html>

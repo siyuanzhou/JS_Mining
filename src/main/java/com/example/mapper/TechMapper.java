@@ -1,5 +1,6 @@
 package com.example.mapper;
 
+import com.example.entity.DataQueryTag;
 import com.example.entity.Entity;
 import com.example.entity.Tech;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,4 +12,5 @@ import java.util.List;
 public interface TechMapper {
     List<Tech> selectList();
     List<Tech> selectKeywords(@Param("keywords")String keywords);
+    List<Tech> selectByQuery(DataQueryTag dataQueryTag);
 }

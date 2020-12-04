@@ -98,18 +98,20 @@ public class DataItemController {
     }
 
     @RequestMapping(value = "JS_Helper")
-    public String Helper(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
-        PageInfo pageInfo = dataItemService.selectList(pageNum,10,keywords);
+    public String Helper(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords,@RequestParam(defaultValue = "", value = "area") String area){
+        PageInfo pageInfo = dataItemService.selectEntityList(pageNum,10,keywords,area);
         model.addAttribute("pageInfo",pageInfo);
         model.addAttribute("key",keywords);
+        model.addAttribute("area",area);
         return "JS_DataShow";
     }
 
     @RequestMapping(value = "JS_Tech")
-    public String JS_Tech(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
-        PageInfo pageInfo = dataItemService.selectTechList(pageNum,10,keywords);
+    public String JS_Tech(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords,@RequestParam(defaultValue = "", value = "area") String area){
+        PageInfo pageInfo = dataItemService.selectTechList(pageNum,10,keywords,area);
         model.addAttribute("pageInfo",pageInfo);
         model.addAttribute("key",keywords);
+        model.addAttribute("area",area);
         return "JS_TechShow";
     }
 
@@ -132,6 +134,14 @@ public class DataItemController {
     @RequestMapping(value = "JS_Paper")
     public String JS_Paper(){
         return "JS_Paper";
+    }
+
+    @RequestMapping(value = "JS_Label")
+    public String JS_Label(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
+        PageInfo pageInfo = dataItemService.selectTextList(pageNum,10,keywords);
+        model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("key",keywords);
+        return "JS_Label";
     }
 
 }

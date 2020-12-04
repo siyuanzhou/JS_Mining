@@ -27,9 +27,11 @@
 
         select id,country,name,url,publisher,date,realScope,content from report_data
         <where>
+
             <if test="start!=null and start!=''">
                 and date &gt; #{start}
             </if>
+
             <if test="end!=null and end!=''">
                 and date &lt; #{end}
             </if>
