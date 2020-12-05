@@ -322,16 +322,16 @@
         });
 
         //预测-技术成熟度
-        function printPredictLabel(data, select_area) {
+        function printPredictLabel(data, field) {
 
-            console.log(typeof data);
+            // console.log(typeof data);
             var result = [];
             var push1 = {};
             push1["name"] = "历史数据";
             var data_history = Array.prototype.slice.call(data.history);
             var warn_point = data_history.pop();
             data_history.push({y: warn_point, id: 'warn'});
-            push1["data"] = data.history;
+            push1["data"] = data_history;
             var push2 = {};
             push2["name"] = "预测数据";
             push2["data"] = data.predict;
@@ -357,20 +357,18 @@
                 maxIndex2 = max2 < data.diff[i + 1] ? i + 1 : maxIndex2
                 max2 = max2 < data.diff[i + 1] ? data.diff[i + 1] : max2
             }
-            console.log("================论文增长量最大值====================" + max2 + "----" + data.diff[maxIndex2])
-            console.log("================论文增长量最大值索引====================" + maxIndex2)
 
             var serialChart = Highcharts.chart('predict_div', {
                 credits: {
-                    enabled: false
+                    enabled: false  //去除highcharts版权信息
                 },
                 title: {
-                    text: select_area + '技术成熟度分析图'
+                    text: field + '技术成熟度分析图'
                 },
                 subtitle: {
                     text: ''
                 },
-                colors: ['rgba(1,45,101,0.74)', '#c70831', 'rgba(0,201,66,0.97)', 'rgba(0,171,201,0.97)'],
+                colors: ['rgba(1,45,101,0.74)', '#c70831', 'rgba(0,201,66,0.97)', 'rgba(81,22,146,0.97)', 'rgba(0,171,201,0.97)'],
                 yAxis: [{
                     title: {
                         // text: '技术成熟度',
@@ -426,33 +424,39 @@
                         { //彩色带横跨绘图区，标志着轴间隔。
                             color: 'rgba(253,137,137,0.83)',
                             from: 1958 + data.发展期,
-                            to: 1958 + data.成熟期,
+                            to: 1958 + data.突袭期,
                             label: {
-                                text: '成熟期'
+                                text: '突袭期'
                             },
                             zIndex: 1
                         },
-                        { //彩色带横跨绘图区，标志着轴间隔。
-                            color: 'rgba(253,137,137,0.83)',
-                            from: 1958 + data.发展期,
-                            to: 1958 + data.成熟期,
-                            label: {
-                                text: '(突袭期)',
-                                y: 35,
 
-                            },
-                            zIndex: 1
-                        },
                         { //彩色带横跨绘图区，标志着轴间隔。
                             color: 'rgba(219,198,236,0.82)',
-                            from: 1958 + data.成熟期,
+                            from: 1958 + data.突袭期,
                             to: 3000,
                             label: {
-                                text: '平稳期'
+                                text: '成熟期'
                             },
                             zIndex: 0
                         },
                     ],
+                    // 突袭期起点和终点两条标线
+                    // plotLines:[{
+                    //     color:'#ff0000',
+                    //     dashStyle:'dash',
+                    //     value: 1958 + data.发展期,
+                    //     width:6,
+                    //     zIdenx: 99999
+                    //
+                    // },{
+                    //     color:'#ff0000',
+                    //     dashStyle:'dash',
+                    //     value: 1958 + data.成熟期,
+                    //     width:6,
+                    //     zIdenx: 99999
+                    //
+                    // }],
                 },],
                 plotOptions: {
                     series: {
@@ -480,15 +484,20 @@
                     zIndex: 5,
                     yAxis: 1
                 }, {
+                    name: '论文产出',
+                    data: data.论文产出,
+                    zIndex: 5,
+                    yAxis: 1
+                }, {
                     name: '技术成果',
                     data: data.技术成果,
-                    type: 'column',
+                    // type: 'column',
                     yAxis: 2,
                     zIndex: 0,
-                    marker: {
-                        enabled: true,
-                        symbol: 'square'
-                    }
+                    // marker:{
+                    //     enabled: true,
+                    //     // symbol: 'square'
+                    // }
                 },
                     //     {
                     //     name: '预警点',
@@ -501,6 +510,9 @@
                     // },
                 ],
                 legend: {
+                    // layout: 'horizontal',
+                    // align: 'center',
+                    // verticalAlign: 'bottom'
                     layout: 'vertical',
                     align: 'left',
                     x: 85,
@@ -536,45 +548,42 @@
                         },
                         text: (data.predict.length - 1 + 1958) + '年<br>' + '论文累积量:' + parseInt(data.predict[data.predict.length - 1]),
                     }],
-                },
-                    {
-                        labelOptions: {
-                            backgroundColor: 'rgba(255,255,255,0.5)',
-                            verticalAlign: 'top',
-                            y: 5,
-                            x: -90
-                        },
-                        labels: [{
-                            staggerLines: 3,
-                            point: {
-                                xAxis: 0,
-                                yAxis: 2,
-                                x: maxIndex + 1958,
-                                y: data.技术成果[maxIndex],
-                            },
-                            text: (maxIndex + 1958) + '年<br>' + '技术成果:' + parseInt(data.技术成果[maxIndex]),
-                        }],
+                }, {
+                    labelOptions: {
+                        backgroundColor: 'rgba(255,255,255,0.5)',
+                        verticalAlign: 'top',
+                        y: 5,
+                        x: -90
                     },
-                    {
-                        labelOptions: {
-                            backgroundColor: 'rgba(255,255,255,0.5)',
-                            verticalAlign: 'top',
-                            y: 5,
-                            x: 0
+                    labels: [{
+                        staggerLines: 3,
+                        point: {
+                            xAxis: 0,
+                            yAxis: 2,
+                            x: maxIndex + 1958,
+                            y: data.技术成果[maxIndex],
                         },
-                        labels: [{
-                            staggerLines: 3,
-                            point: {
-                                xAxis: 0,
-                                yAxis: 1,
-                                x: maxIndex2 + 1958,
-                                y: parseInt(data.diff[maxIndex2]),
-                            },
-                            text: (maxIndex2 + 1958) + '年<br>' + '论文增长量:' + parseInt(data.diff[maxIndex2]),
-                        }],
+                        text: (maxIndex + 1958) + '年<br>' + '技术成果:' + data.技术成果[maxIndex],
                     }],
+                }, {
+                    labelOptions: {
+                        backgroundColor: 'rgba(255,255,255,0.5)',
+                        verticalAlign: 'top',
+                        y: 5,
+                        x: 0
+                    },
+                    labels: [{
+                        staggerLines: 3,
+                        point: {
+                            xAxis: 0,
+                            yAxis: 1,
+                            x: maxIndex2 + 1958,
+                            y: parseInt(data.diff[maxIndex2]),
+                        },
+                        text: (maxIndex2 + 1958) + '年<br>' + '论文增长量:' + parseInt(data.diff[maxIndex2]),
+                    }],
+                }],
             });
-            $("#detail3").html(data.text);
         }
 
         //趋势预测
