@@ -131,17 +131,17 @@ public class DataItemController {
         return "JS_FieldShow";
     }
 
-    @RequestMapping(value = "JS_Paper")
-    public String JS_Paper(){
-        return "JS_Paper";
-    }
-
     @RequestMapping(value = "JS_Label")
-    public String JS_Label(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
-        PageInfo pageInfo = dataItemService.selectTextList(pageNum,10,keywords);
-        model.addAttribute("pageInfo",pageInfo);
-        model.addAttribute("key",keywords);
+    public String JS_Paper(){
         return "JS_Label";
     }
+
+//    @RequestMapping(value = "JS_Label")
+//    public String JS_Label(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "", value = "keywords") String keywords){
+//        PageInfo pageInfo = dataItemService.selectTextList(pageNum,10,keywords);
+//        model.addAttribute("pageInfo",pageInfo);
+//        model.addAttribute("key",keywords);
+//        return "JS_Label";
+//    }
 
 }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>新知识领域识别</title>
+    <title>新知识发现</title>
     <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
     <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
     <link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -148,7 +148,7 @@
                     <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;">
                         <li><a href="/JS_Index">首页</a></li>
                         <li><a href="/JS_Entity">信息抽取</a></li>
-                        <li class="active">新知识领域识别</li>
+                        <li class="active">新知识发现</li>
                     </ol>
                 </div>
             </div>
@@ -160,9 +160,9 @@
                     <div class="card-body" style="padding-bottom: 0.2cm;width: 1000px;">
 
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <span  id="fieldTitle" style="margin-left: 12%">新领域文本内容</span>
-                                <a href="/JS_NewFieldDiscovery" style="color: #54cee5;float: right">切换-新知识发现</a>
+                            <div id="fieldTitle" class="panel-heading">
+                                <span style="margin-left: 12%">新领域文本内容</span>
+                                <a href="/JS_NewField" style="color: #54cee5;float: right">切换-新领域知识识别</a>
                             </div>
 
                             <div class="panel-body" style="height: 300px">
@@ -183,7 +183,7 @@
                                 </div>
                                 <button class="btn btn-default"
                                         style="height: 30px ;margin-left:180px;background-color: #337ab7;color: white"
-                                        id="btn">信息抽取
+                                        id="btn">新知识发现
                                 </button>
                             </div>
                         </div>
@@ -193,8 +193,38 @@
                             <div class="double-bounce2"></div>
                         </div>
 
+                        <!--新知识列表-->
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><span style="margin-right:450px;">原模型识别</span>迁移模型识别</div>
+                            <div class="panel-heading">
+                                <span>新知识列表</span>
+                            </div>
+                            <div class="panel-body">
+                                <table id="tb" class="table">
+                                    <thead style="font-size: 18px">
+                                        <tr>
+                                            <td><strong>实体</strong></td>
+                                            <td><strong>实体类别</strong></td>
+                                            <td><strong>操作</strong></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody" style="vertical-align: center">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="panel-footer">
+                                <button id="adapt_model" class="btn btn-default"
+                                        style="height: 30px ;background-color: #337ab7;color: white">微调模型
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="spinner" id="spinner_adapt" style="display: none">
+                            <div class="double-bounce1"></div>
+                            <div class="double-bounce2"></div>
+                        </div>
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><span style="margin-right:450px;">迭代前识别</span>迭代后识别</div>
                             <div class="panel-body" style="display: flex;padding: 0px">
                                 <div style=" display: flex; flex-direction: row;width: 1100px">
                                     <div id="scroll" style="width:500px;height: 300px;overflow-y: auto">
@@ -216,7 +246,7 @@
                         </div>
 
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><span style="margin-right:450px;">原模型识别</span>迁移模型识别</div>
+                            <div class="panel-heading"><span style="margin-right:450px;">迭代前识别</span>迭代后识别</div>
                             <div class="panel-body" style="display: flex;flex-direction: row;justify-content:space-between">
                                 <div style="overflow-y: auto;">
                                     <div style="width:450px;height: 300px;">
@@ -469,6 +499,11 @@
             myChart.setOption(option);
         }
 
+        function deleteButton(node){
+            var trNode = node.parentNode.parentNode;
+            trNode.parentNode.removeChild(trNode);
+        }
+
         $(function () {
             $("#scroll").scroll(function () {
                 $("#scroll2").scrollTop($(this).scrollTop());
@@ -482,27 +517,88 @@
                 $('#btn').toggle();
                 $('#spinner').toggle();
                 $.ajax({
-                    url:'http://127.0.0.1:7500/api',
+                    url:'http://127.0.0.1:7500/newWordDiscovery',
                     data:{'input':JSON.stringify(input)},
                     dataType: 'jsonp',
                     jsonp: "callback",
                     jsonpCallback: "successCallback",//回调方法
                     success:function (data) {
-                        console.log(data);
+                        console.log("data =" + data);
                         $('#btn').toggle();
                         $('#spinner').toggle();
+                        // var inputText = $("#input");
+                        // var input1 = inputText.val();
+                        // var input2 = inputText.val();
+                        $("#fieldTitle").html(data.field_name + "领域文本内容");
+                        // flagColor($("#api_output"),$("#alternatecolor"),data.old,input1,'red');
+                        // flagColor($("#api_output2"),$("#alternatecolor2"),data.new,input2,'red');
+                        // flagColor($("#api_output2"),null,data.new_only,$("#api_output2").html(),'blue');
+                        // echartShow(data.old_only,data.new_only,data.intersect);
+                        var newWords = data.new_words;
+                        var types = data.types;
+                        for (var key in newWords){
+                            var type = newWords[key];
+                            var select = "<select style=\"font-size: 13px; color: #666;width: 290px;height: 30px\">\n";
+                            for (var i = 0; i < types.length; i++) {
+                                if (type === types[i]){
+                                    select += "<option selected>" + types[i] + "</option>";
+                                }else{
+                                    select += "<option>" + types[i] + "</option>";
+                                }
+                            }
+                            select += "</select>";
+                            $("#tbody").append("<tr>" +
+                                "                                        <td>" + key + "</td>" +
+                                "                                        <td>" + select + "</td>" +
+                                "                                        <td><button class='btn btn-danger' onclick='deleteButton(this)'>删除</button></td>\n" +
+                                "                                    </tr>");
+                        }
+                    },
+                    error:function () {
+                        $('#btn').toggle();
+                        $('#spinner').toggle();
+                        alert("服务器出现了一些问题，请稍后重试");
+                    }
+                });
+            });
+
+            $("#adapt_model").click(function () {
+                var new_words = {};
+                $("#tbody > tr").each(function () {
+                    var word = $(this).children().eq(0).html();
+                    console.log("word=" + word);
+                    var type;
+                    $(this).children().eq(1).children().eq(0).children().each(function () {
+                        if ($(this).prop("selected")){
+                            type = $(this).html();
+                        }
+                    });
+                    console.log("type=" + type);
+                    new_words["" + word] = type;
+                });
+                var input = $("#input").val();
+                $('#adapt_model').toggle();
+                $('#spinner_adapt').toggle();
+                $.ajax({
+                    url:'http://127.0.0.1:7500/adaptModel',
+                    data:{'input':JSON.stringify(input),'new_words':JSON.stringify(new_words)},
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback",//回调方法
+                    success:function (data) {
+                        $('#adapt_model').toggle();
+                        $('#spinner_adapt').toggle();
                         var inputText = $("#input");
                         var input1 = inputText.val();
                         var input2 = inputText.val();
-                        $("#fieldTitle").html(data.field_name + "领域文本内容");
                         flagColor($("#api_output"),$("#alternatecolor"),data.old,input1,'red');
                         flagColor($("#api_output2"),$("#alternatecolor2"),data.new,input2,'red');
                         flagColor($("#api_output2"),null,data.new_only,$("#api_output2").html(),'blue');
                         echartShow(data.old_only,data.new_only,data.intersect);
                     },
                     error:function () {
-                        $('#btn').toggle();
-                        $('#spinner').toggle();
+                        $('#adapt_model').toggle();
+                        $('#spinner_adapt').toggle();
                         alert("服务器出现了一些问题，请稍后重试");
                     }
                 });

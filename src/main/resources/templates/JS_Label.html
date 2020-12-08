@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="./css/report_upload/loadingbutton.css">
 
     <!--字体样式-->
-    <link rel="stylesheet" type="text/css" href="./css/common_css/zzsc-demo.css">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel='stylesheet prefetch' href='./css/common_css/normalize.css'>
     <link rel="stylesheet" href="./css/common_css/style.css" media="screen" type="text/css"/>
@@ -81,30 +80,106 @@
     </style>
 
     <script>
-        function getPercent() {
-            $('#btn').toggle();
-            $('#spinner').toggle();
-            $.ajax({
-                url: "http://127.0.0.1:7005/indication",
-                method: 'POST',
-                dataType: 'jsonp',
-                jsonp: "callback",
-                jsonpCallback: "successCallback_predict2",//回调方法
-                contentType: 'application/json',
-                data: {},
-                success: function (percent) {
-                    $('#btn').toggle();
-                    $('#spinner').toggle();
-                    $('#percent_span').html(percent.indication);
-                    $('#percent_show').show();
-                },
-                error:function () {
-                    $('#btn').toggle();
-                    $('#spinner').toggle();
-                    alert("服务器出现了一点问题,请稍后重试");
-                }
+        $(function () {
+            var systemLabel = [];
+            $("#submit_args").click(function () {
+                var threshold = $("#threshold").val();
+                var batchSize = $("#batchsize").val();
+                var labelNum = 0;
+                $("#labelNum option").each(function () {
+                    if ($(this).prop("selected")) {
+                        labelNum = $(this).html();
+                        return false;
+                    }
+                });
+                var learningRate = $("#learningRate").val();
+                var numEpochs = $("#numepoch").val();
+                systemLabel = $("#labelSystem").val().split(",");
+                $.ajax({
+                    url: "http://127.0.0.1:10086/init",
+                    method: 'POST',
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback",//回调方法
+                    data: {
+                        threshold:threshold,
+                        batchSize:batchSize,
+                        labelNum:labelNum,
+                        learningRate:learningRate,
+                        numEpochs:numEpochs,
+                        systemLabel:systemLabel
+                    },
+                    success:function (data) {
+                        if ("success" === data){
+                            alert("设置参数成功,请开始你的标注之旅吧");
+                        }
+                    }
+                });
             });
-        }
+            $("#get_label").click(function () {
+                var select = '<select class="form-control select_down"\n' +
+                    '                                    style="font-size: 13px; color: #666;">\n';
+                for (var label of systemLabel) {
+                    select += "<option>" + label + "</option>"
+                }
+                select += "</select>";
+                $.ajax({
+                    url: "http://127.0.0.1:10086/select_data",
+                    method: 'POST',
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback",//回调方法
+                    success:function (data) {
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#show_tbody").append("<tr>" +
+                                "                    <td>" + data[i].index + "</td>" +
+                                "                    <td>" +
+                                "                        <div style='overflow-y: auto;height: 200px;text-align: left'>" +
+                                                         data[i].text +
+                                "                        </div>" +
+                                "                    </td>" +
+                                "                    <td>" +
+                                                     select +
+                                "                    </td>" +
+                                "                </tr>");
+                        }
+                    }
+                });
+            });
+            
+            $("#submit_label").click(function () {
+                var labels = new Array();
+                $("#show_tbody > tr").each(function (index) {
+                    var label = {};
+                    var num = $(this).children().eq(0).html();
+                    var value = "";
+                    $(this).children().eq(2).children().eq(0).children().each(function () {
+                        if ($(this).prop("selected")){
+                            value = $(this).html();
+                        }
+                    });
+                    label["index"] = num;
+                    label["label"] = value;
+                    labels[index] = label;
+                });
+                console.log(labels);
+                $.ajax({
+                    url: "http://127.0.0.1:10086/train_model",
+                    method: 'POST',
+                    dataType: 'jsonp',
+                    data:{
+                      'labels':JSON.stringify(labels)
+                    },
+                    jsonp: "callback",
+                    jsonpCallback: "successCallback",//回调方法
+                    success:function (data) {
+                        $("#result_div").show();
+                        $("#result").html(data);
+                    }
+                })
+            });
+        })
     </script>
 </head>
 <body style="background-color: inherit">
@@ -124,205 +199,115 @@
             </blockquote>
         </div>
         <div style="padding-left: 50px">
-            <h2></h2>
             <div class="row">
-                <div class="col-sm-6" style="margin-left: 20px">
-                    <!--  <a>天基互联网：准确率:0.8596,召回率:0.7891,F1:0.8228<br></a>
-                      <a>人工智能：准确率:0.8652,召回率:0.7713,F1:0.8156<br></a>-->
-                    <h4>请选择数据进行手动标注<br></h4>
-                </div>
                 <div class='col-sm-3'>
                     <div class="form-group">
+                        <label>阈值：</label>
                         <!--指定 date标记-->
-                        <div class='input-group'>
-                           <!-- <a>数据量：</a>-->
-                            <input id="keywords" style="width: 290px" type='text' class="form-control" placeholder="请输入要标注的数据量"/>
+                        <div class='input-group' style="z-index: 1">
+                            <input id="threshold" style="width: 290px" type='text' class="form-control"/>
                         </div>
                     </div>
                 </div>
-                <div class="search_input" style="margin: 0px">
-                    <button class="btn btn-primary search_btn" type="button" id="search_btn">生成数据</button>
+
+                <div class='col-sm-3'>
+                    <div class="form-group">
+                        <label>batchSize：</label>
+                        <!--指定 date标记-->
+                        <div class='input-group' style="z-index: 1">
+                            <input id="batchsize" style="width: 290px" type='text' class="form-control"/>
+                        </div>
+                    </div>
                 </div>
-            </div>        <!--表格列表-->
+
+                <div class='col-sm-3'>
+                    <div class="form-group">
+                        <label>标注数量</label>
+                        <select id="labelNum" class="form-control select_down"
+                                style="font-size: 13px; color: #666;">
+                            <option>请选择每次标注的文章数量</option>
+                            <option>5</option>
+                            <option>10</option>
+                            <option>15</option>
+                            <option>20</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="search_input">
+                    <button class="btn btn-primary search_btn" type="button" id="get_label">标注数据</button>
+                </div>
+            </div>
+
+        <div class="row">
+
+            <div class='col-sm-3'>
+                <div class="form-group">
+                    <label>learningRate：</label>
+                    <div class='input-group' style="z-index: 1">
+                        <input id="learningRate" style="width: 290px" type='text' class="form-control"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class='col-sm-3'>
+                <div class="form-group">
+                    <label>numEpochs：</label>
+                    <div class='input-group' style="z-index: 1">
+                        <input id="numepoch" style="width: 290px" type='text' class="form-control"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class='col-sm-3'>
+                <div class="form-group">
+                    <label>指标体系：</label>
+                    <div class='input-group' style="z-index: 1">
+                        <input id="labelSystem" style="width: 290px" type='text' class="form-control" placeholder="请以英文逗号进行分隔"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search_input">
+                <button class="btn btn-primary search_btn" type="button" id="submit_args">提交参数</button>
+            </div>
+        </div>
             <!--表格列表-->
             <table id="tb" class="table" width="100%"  style="table-layout:fixed">
                 <thead>
                 <tr>
-                    <th style="width: 50px"><input id="checkAll" type="checkbox" onclick="setAllNo()" /></th>
-                    <th style="width: 100px">编号</th>
-                    <th style="width: 400px">标题</th>
-                    <th style="width: 180px">日期</th>
-                    <th style="width: 180px">操作</th>
-                    <th style="width: 180px">手工标注</th>
+                    <th style="width: 60px">编号</th>
+                    <th style="width: 300px">内容</th>
+                    <th style="width: 100px">手工标注</th>
                 </tr>
                 </thead>
                 <tbody id="show_tbody">
-                <tr th:each="data :${pageInfo.list}">
-                    <td><input id="check" name="love" type="checkbox"></td>
-                    <td  name="id" th:text="${data.id}"></td>
-                    <td  id="title" name="title" th:text="${data.title}"></td>
-                    <td  th:text="${data.date}"></td>
-                    <td>
-                        <button class="btn btn-primary btn-sm" id="triggerBtn">查看内容</button>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <select name="area" id="area" class="form-control select_down"
-                                    style="font-size: 13px; color: #666;">
-                                <option value="">全部</option>
-                                <option value="人工智能">人工智能</option>
-                                <option value="海军">海军</option>
-                                <option value="陆军">陆军</option>
-                                <option value="空军">空军</option>
-                                <option value="能源">能源</option>
-                            </select>
-                        </div>
-                    </td>
-                    <td  id="content" name="content" style="display: none" th:text="${data.content}"></td>
-                </tr>
+                <!--<tr>-->
+                    <!--<td>-->
+                        <!--1-->
+                    <!--</td>-->
+                    <!--<td>-->
+                        <!--<div style='overflow-y: auto;height: 200px;text-align: left'>-->
+
+                        <!--</div>-->
+                    <!--</td>-->
+                    <!--<td>-->
+                        <!--<div class="form-group">-->
+                            <!--<select class="form-control select_down"-->
+                                    <!--style="font-size: 13px; color: #666;">-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</td>-->
+                <!--</tr>-->
                 </tbody>
             </table>
-            <!-- 模态框 -->
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 id="mhead">头部</h2>
-                        <span id="closeBtn" class="close">×</span>
-                    </div>
-                    <div id="mcontent" class="modal-body">
-                        <p>这是一个模态框！</p>
-                        <p>喜欢就点个赞吧！</p>
-                    </div>
-                    <div class="modal-footer">
-                        <h3></h3>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a id="btn" class="btn btn-default"
-                   style="height: 30px ;margin-top: -4px;margin-left:90%;margin-right:5%;background-color: #337ab7;color: white" onclick="submit()">提交</a>
-            </div>
-           <!-- <div class="spinner" id="spinner" style="display: none">
-                <div class="double-bounce1"></div>
-                <div class="double-bounce2"></div>
-            </div>-->
 
+            <button id="submit_label" class="btn btn-primary" style="display: block;margin: 0 auto">提交标注</button>
+            <div id="result_div" style="text-align: center;font-size: 24px" hidden>
+                本次标注后验证集上的准确率为<span id="result" style="color: blue"></span>
+            </div>
         </div>
     </div>
-</div>
+    </div>
 </body>
-<script>
-    $(function(){
-        window.onload = (function() {
-            /*建立模态框对象*/
-            var modalBox = {};
-            /*获取模态框*/
-            modalBox.modal = document.getElementById("myModal");
-            /*获得trigger按钮*/
-            modalBox.triggerBtn = document.getElementById("triggerBtn");
-            /*获得关闭按钮*/
-            modalBox.closeBtn = document.getElementById("closeBtn");
-            /*模态框显示*/
-            modalBox.show = function(text,title) {
-                console.log(this.modal);
-                this.modal.style.display = "block";
-                $("#mhead").html(title);
-                //alert("添加成功");
-                $("#mcontent").html(text);
-
-            }
-            /*模态框关闭*/
-            modalBox.close = function() {
-                this.modal.style.display = "none";
-            }
-            /*当用户点击模态框内容之外的区域，模态框也会关闭*/
-            modalBox.outsideClick = function() {
-                var modal = this.modal;
-                window.onclick = function(event) {
-                    if(event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-            }
-            /*模态框初始化*/
-            modalBox.init = function() {
-                var that = this;
-                $("#show_tbody").on('click',"button[id='triggerBtn']" ,function() {
-                    var text = $(this).parents("tr").find("#content").text();
-                    var title = $(this).parents("tr").find("#title").text();
-                    that.show(text,title);
-                })
-                this.closeBtn.onclick = function() {
-                    that.close();
-                }
-                this.outsideClick();
-            }
-            modalBox.init();
-
-        })();
-    })
-
-    $("#search_btn").click(function () {
-        var keywords = $('#keywords').val();
-        window.location.href="/JS_Tech?keywords="+keywords;
-    });
-
-    //全选函数
-    function setAll() {
-        alert("hello");
-        var loves = document.getElementsByName("love");
-        for (var i = 0; i < loves.length; i++) {
-            loves[i].checked = true;
-        }
-    }
-
-    //全选/全不选操作
-    function setAllNo(){
-        var box = document.getElementById("checkAll");
-        var loves = document.getElementsByName("love");
-        if(box.checked == false){
-            for (var i = 0; i < loves.length; i++) {
-                loves[i].checked = false;
-            }
-        }else{
-            for (var i = 0; i < loves.length; i++) {
-                loves[i].checked = true;
-            }
-        }
-    }
-
-    //提交标注数据
-    function submit() {
-        var checks = document.getElementsByName("love");
-        var titles = document.getElementsByName("title");
-        var contents = document.getElementsByName("content");
-        var ids = document.getElementsByName("id");
-        var areas = document.getElementsByName("area");
-        var articles = {};
-        var alist = [];
-        var number = 0;
-        for(var i = 0; i< checks.length; i++){
-            var checkbox = checks[i];
-            var content = contents[i];
-            var title = titles[i];
-            var id = ids[i];
-            var area = areas[i];
-            if(checkbox.checked){
-                var article = new Object();
-                article.id = id.innerHTML;
-                article.title = title.innerHTML;
-                article.content = content.innerHTML;
-                article.area = area.innerHTML;
-                alist.push(article);
-                number++;
-            }else{
-                // do something
-            }
-        }
-        console.log(alist);
-        alert(alist);
-    }
-
-</script>
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 </html>

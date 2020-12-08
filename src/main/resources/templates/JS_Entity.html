@@ -146,7 +146,7 @@
                     <ol class="breadcrumb" style="width: 100%;padding: 0;margin: 0;">
                         <li><a href="/JS_Index">首页</a></li>
                         <li><a href="/JS_Entity">信息抽取</a></li>
-                        <li class="active">信息提取</li>
+                        <li class="active">信息提取</li></li>
                     </ol>
                 </div>
             </div>
@@ -345,7 +345,7 @@
                         .map(i => i.raw);
                     console.log(rtn);
                     for(var entity of rtn){
-                        if("<span>".indexOf(entity) == -1 && "</span>".indexOf(entity) == -1){
+                        if('<span style="color:red">'.indexOf(entity.trim()) == -1 && "</span>".indexOf(entity.trim()) == -1 && entity.trim() !== "AI."){
                             var pattern = new RegExp(entity.trim(), 'g');
                             str1 = str1.replace(pattern, '<span style="color:red">' + entity + '</span>').replace(/\s+/g, ' ');
                         }
@@ -372,7 +372,7 @@
                 error: function (jqXhr, textStatus, errorThrown) {
                     // $('#btn').toggle();
                     // $('#spinner').toggle();
-                    $('#api_output').css("text-align", "center").html("<p style='color: #0b96e5;font: 14px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
+                    alert("服务器可能出现了一些问题");
                     console.log(errorThrown);
                 }
 
@@ -470,7 +470,7 @@
                 error: function (jqXhr, textStatus, errorThrown) {
                     // $('#btn').toggle();
                     // $('#spinner').toggle();
-                    $('#api_output').css("text-align", "center").html("Sorry, the server is asleep...<br/>Try again in a moment!");
+                    alert("服务器可能出现了一些问题");
                     console.log(errorThrown);
                 }
             });
@@ -562,10 +562,7 @@
                     }
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
-                    if ($('#api_output').is(':hidden')) {//如果当前隐藏
-                        $('#api_output').show();//那么就显示div
-                    }
-                    $('#api_output').html("<p style='color: #0b96e5;font: 16px TimesNewRoman'>Sorry, the server is asleep...<br/>Try again in a moment!</p>");
+                    alert("服务器可能出现了一些问题");
                     console.log(errorThrown);
                     $('#btn').toggle();
                     $('#spinner').toggle();
@@ -592,7 +589,7 @@
                     reader.onload = function (evt) { //读取完文件之后会回来这里
                         var fileString = evt.target.result; // 读取文件内容
                         $("#input").val("" + fileString);
-                    }
+                    };
                 }
             }
         }
