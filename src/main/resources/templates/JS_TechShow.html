@@ -153,6 +153,11 @@
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">文本查询</button>
                 </div>
+                <div class="search_input">
+                    <button class="btn btn-primary search_btn" type="button" id="crawl_btn">定时爬虫</button>
+                </div>
+                <div id="detail" style="margin-top: 20px">
+                </div>
             </div>        <!--表格列表-->
             <!--表格列表-->
             <table id="tb" class="table" width="100%"  style="table-layout:fixed">
@@ -166,7 +171,7 @@
                     <th style="width: 380px">URL</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="show_tbody">
                     <tr th:each="data :${pageInfo.list}">
                         <td><input type="checkbox"></td>
                         <td  th:text="${data.id}"></td>
@@ -192,7 +197,7 @@
             </div>
 
             <nav aria-label="Page navigation" class="" style="margin-left: 800px;">
-                <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+                <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span id="total" th:text="${pageInfo.total}"></span> 条记录</p>
                 <a th:href="@{'/JS_Tech?keywords='+${key}+'&area='+${area}}">首页</a>
                 <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,keywords=${key},area=${area})}">上一页</a>
                 <a th:href="@{/JS_Tech(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},keywords=${key},area=${area})}">下一页</a>
@@ -204,10 +209,48 @@
 </div>
 </body>
 <script>
+
     $("#search_btn").click(function () {
         var keywords = $('#keywords').val();
         var area = $('#area').val();
         window.location.href="/JS_Tech?keywords="+keywords+"&area="+area;
+    });
+
+    $("#crawl_btn").click(function () {
+        $.ajax({
+            url: "http://127.0.0.1:7777/api",
+            method: 'POST',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            jsonpCallback: "successCallback_crawl",//回调方法
+            success: function (data) {
+                console.log(data);
+                var stringify_data = JSON.stringify(data);
+                var prase_data = JSON.parse(stringify_data);
+                console.log(prase_data);
+                var total = $("#total").text();
+                $("#detail").html("<a>本次更新数据"+info.中文文章.length+"条,共"+total+"条数据!"+"</a>");
+                var data_object = prase_data;
+                var table_content = "";
+                $("#show_tbody").html("");
+                $.each(data_object, function (index, item) {
+                    $.each(data_object['中文文章'], function (y, e) {
+                        var json = eval(e);
+                        table_content +="<tr >\n" +
+                            "                        <td><input id=\"check\" name=\"love\" type=\"checkbox\" /></td>"+
+                            "                        <td id=\"id\" name=\"id\">"+json.id+"</td>\n" +
+                            "                        <td id=\"title\" name=\"title\" class=\"roleCodes\">"+json.title+"</td>\n" +
+                            "                        <td >"+json.time+"</td>\n" +
+                            "                        <td id=\"content\" name=\"content\" style=\"display:none\">"+json.content+"</td>\n" +
+                            "                        <td>\n" +
+                            "                        <button class=\"btn btn-primary btn-sm\" id=\"triggerBtn\">查看内容</button>\n" +
+                            "                        </td>\n" +
+                            "                        </tr>"
+                    });
+                });
+                $("#show_tbody").html(table_content);
+            }
+        });
     });
 </script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
