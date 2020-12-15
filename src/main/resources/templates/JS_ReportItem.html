@@ -159,14 +159,16 @@
                             <div>
                                 <a href="#报告说明">（3）报告说明</a>
                             </div>
-                            <div>
-                                <a href="#概述篇">（4）概述篇</a>
-                            </div>
-                            <div>
-                                <a href="#对比篇">（5）对比篇</a>
-                            </div>
-                            <div>
-                                <a href="#预测篇">（6）预测篇</a>
+                            <div id="reportitems">
+                                <div>
+                                    <a href="#概述篇">（4）概述篇</a>
+                                </div>
+                                <div>
+                                    <a href="#对比篇">（5）对比篇</a>
+                                </div>
+                                <div>
+                                    <a href="#预测篇">（6）预测篇</a>
+                                </div>
                             </div>
                         </div>
 
@@ -254,7 +256,7 @@
                         </div>
                     </div>
 
-                    <div style="height:1000px;border: #0C0C0C solid 1px">
+                    <div id="概述篇2" style="height:1000px;border: #0C0C0C solid 1px">
 
                         <!--文本分类-->
                         <div class="row" style="margin: 30px;">
@@ -343,7 +345,7 @@
 
                     </div>
 
-                    <div style="height:1000px;border: #0C0C0C solid 1px">
+                    <div id="对比篇2" style="height:1000px;border: #0C0C0C solid 1px">
                         <!--科技实力折线图对比-->
                         <div id="detail2"
                              style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI;margin-left: 100px;margin-right: 100px;margin-top: 50px">
@@ -419,7 +421,7 @@
 
                     </div>
 
-                    <div style="height:1000px;border: #0C0C0C solid 1px">
+                    <div id="预测篇2" style="height:1000px;border: #0C0C0C solid 1px">
                         <!--趋势预测-技术突袭-->
                         <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 50px">
                             <div id="detail3"
@@ -482,6 +484,7 @@
     var countrys = country.split(",");
     var random = localStorage.getItem("random");
     var select_area = "";
+    var reportItems = localStorage.getItem("reportItems").split(",");
 
     nextChange(firstScope);
 
@@ -583,6 +586,20 @@
     }
 
     $(function () {
+
+        $("#概述篇").hide();
+        $("#概述篇2").hide();
+        $("#对比篇").hide();
+        $("#对比篇2").hide();
+        $("#预测篇").hide();
+        $("#预测篇2").hide();
+
+        var catalog = "";
+        for (var i = 0; i < reportItems.length; i++) {
+            var num = i+4;
+            catalog +="<div> <a href=\"#" + reportItems[i] + "\">（" + num + "）" + reportItems[i] + "</a></div>";
+        }
+        $("#reportitems").html(catalog);
 
         $("#introduce").html("抽取" + firstScope + "领域相关实体如下：");
         $("#head").html(start.substring(0, 4) + "-" + end.substring(0, 4) + country + firstScope + "领域科技简报");
@@ -698,11 +715,21 @@
                 $("#封面标题").html(field_classified_CN + "技术简报")
                 $(".领域").html(field_classified_CN)
 
+                if (reportItems.includes("概述篇")) {
+                    $("#概述篇").show();
+                    $("#概述篇2").show();
+                }
 
                 $("#dlingyu option[value='" + field_classified_CN + "']").attr("selected", "selected")
                 $("#dcountry option[value='" + field_classified_CN + "']").attr("selected", "selected")
-                duibi_ajax(field_classified_CN, country)         // 对比模块传入的field 为文本分类最大结果，需为中文
-                console.log('firstScope:' + firstScope);
+
+                if (reportItems.includes("概述篇")) {
+                    $("#对比篇").show();
+                    $("#对比篇2").show();
+                    duibi_ajax(field_classified_CN, country)         // 对比模块传入的field 为文本分类最大结果，需为中文
+                    console.log('firstScope:' + firstScope);
+                }
+
                 // if(field_classified_CN == "语音识别" ){
                 //     var truefield = "优化算法理论"
                 //     var fakefield = "语音识别"
@@ -712,7 +739,12 @@
                 // }
                 $("#psecondScope option[value='" + field_classified_CN + "']").attr("selected", "selected")
                 $("#pcountry option[value='" + one_country + "']").attr("selected", "selected")
-                yuce_ajax(firstScope, field_classified_CN, one_country)              // 预测模块传入的前一页面选择的领域
+
+                if (reportItems.includes("概述篇")) {
+                    $("#预测篇").show();
+                    $("#预测篇2").show();
+                    yuce_ajax(firstScope, field_classified_CN, one_country)              // 预测模块传入的前一页面选择的领域
+                }
             },
             error: function () {
                 console.log("error");

@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>简报生成</title>
+    <link th:href="@{/css/layui/css/layui.css}" rel="stylesheet"/>
     <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/jquery.min.js"></script>
     <script type="text/javascript" src="./js/report_upload/bootstrap.min.js" charset="utf-8"></script>
@@ -372,6 +373,7 @@
             var publisher = $('#publisher option:selected').text();//文本
             var random = $('#random option:selected').text();//文本
             var country = $('#country').val();//文本
+            var reportItems = $('#item').val();
             localStorage.setItem("start", start);//key要用单引号或者双引号包括着，value就是你要存的数据
             localStorage.setItem("end", end);
             localStorage.setItem("country", country);
@@ -381,6 +383,7 @@
             localStorage.setItem("random", random);
             localStorage.setItem("text_data", text_data);
             localStorage.setItem("articles", JSON.stringify(articles));
+            localStorage.setItem("reportItems", reportItems)
             window.location.href = "/JS_ReportItem";
         }
     });
