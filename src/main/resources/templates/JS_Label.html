@@ -107,7 +107,7 @@
                         labelNum:labelNum,
                         learningRate:learningRate,
                         numEpochs:numEpochs,
-                        systemLabel:systemLabel
+                        systemLabel:$("#labelSystem").val()
                     },
                     success:function (data) {
                         if ("success" === data){
@@ -117,6 +117,15 @@
                 });
             });
             $("#get_label").click(function () {
+                $("#tb").html("").append('<thead>' +
+                    '                <tr>' +
+                    '                    <th style="width: 60px">编号</th>' +
+                    '                    <th style="width: 300px">内容</th>' +
+                    '                    <th style="width: 100px">手工标注</th>' +
+                    '                </tr>' +
+                    '                </thead>' +
+                    '                <tbody id="show_tbody">' +
+                    '                </tbody>');
                 var select = '<select class="form-control select_down"\n' +
                     '                                    style="font-size: 13px; color: #666;">\n';
                 for (var label of systemLabel) {
@@ -225,7 +234,7 @@
                         <label>标注数量</label>
                         <select id="labelNum" class="form-control select_down"
                                 style="font-size: 13px; color: #666;">
-                            <option>请选择每次标注的文章数量</option>
+                            <option>请选择每次需要标注的数量</option>
                             <option>5</option>
                             <option>10</option>
                             <option>15</option>
@@ -282,23 +291,7 @@
                 </tr>
                 </thead>
                 <tbody id="show_tbody">
-                <!--<tr>-->
-                    <!--<td>-->
-                        <!--1-->
-                    <!--</td>-->
-                    <!--<td>-->
-                        <!--<div style='overflow-y: auto;height: 200px;text-align: left'>-->
 
-                        <!--</div>-->
-                    <!--</td>-->
-                    <!--<td>-->
-                        <!--<div class="form-group">-->
-                            <!--<select class="form-control select_down"-->
-                                    <!--style="font-size: 13px; color: #666;">-->
-                            <!--</select>-->
-                        <!--</div>-->
-                    <!--</td>-->
-                <!--</tr>-->
                 </tbody>
             </table>
 
