@@ -723,7 +723,7 @@
                 $("#dlingyu option[value='" + field_classified_CN + "']").attr("selected", "selected")
                 $("#dcountry option[value='" + field_classified_CN + "']").attr("selected", "selected")
 
-                if (reportItems.includes("概述篇")) {
+                if (reportItems.includes("对比篇")) {
                     $("#对比篇").show();
                     $("#对比篇2").show();
                     duibi_ajax(field_classified_CN, country)         // 对比模块传入的field 为文本分类最大结果，需为中文
@@ -740,11 +740,12 @@
                 $("#psecondScope option[value='" + field_classified_CN + "']").attr("selected", "selected")
                 $("#pcountry option[value='" + one_country + "']").attr("selected", "selected")
 
-                if (reportItems.includes("概述篇")) {
+                if (reportItems.includes("预测篇")) {
                     $("#预测篇").show();
                     $("#预测篇2").show();
                     yuce_ajax(firstScope, field_classified_CN, one_country)              // 预测模块传入的前一页面选择的领域
                 }
+                $('#loading').hide();
             },
             error: function () {
                 console.log("error");
