@@ -211,34 +211,33 @@
             <div class="row">
                 <div class='col-sm-3'>
                     <div class="form-group">
-                        <label>阈值：</label>
+                        <a href="#" title="自动化标注需要在验证集上的准确率达到的指标，达到该指标自动化标注完成">阈值：</a>
                         <!--指定 date标记-->
                         <div class='input-group' style="z-index: 1">
-                            <input id="threshold" style="width: 290px" type='text' class="form-control"/>
+                            <input id="threshold" style="width: 290px" value="0.8" type='text' class="form-control"/>
                         </div>
                     </div>
                 </div>
 
                 <div class='col-sm-3'>
                     <div class="form-group">
-                        <label>batchSize：</label>
+                        <a href="#" title="自动化标注分类器训练时每一轮的样本数">batchSize：</a>
                         <!--指定 date标记-->
                         <div class='input-group' style="z-index: 1">
-                            <input id="batchsize" style="width: 290px" type='text' class="form-control"/>
+                            <input id="batchsize" style="width: 290px" value="10" type='text' class="form-control"/>
                         </div>
                     </div>
                 </div>
 
                 <div class='col-sm-3'>
                     <div class="form-group">
-                        <label>标注数量</label>
+                        <a href="#" title="每一次需要标注的样本数量">标注数量</a>
                         <select id="labelNum" class="form-control select_down"
                                 style="font-size: 13px; color: #666;">
                             <option>请选择每次需要标注的数量</option>
-                            <option>5</option>
-                            <option>10</option>
-                            <option>15</option>
+                            <option selected>10</option>
                             <option>20</option>
+                            <option>30</option>
                         </select>
                     </div>
                 </div>
@@ -252,18 +251,18 @@
 
             <div class='col-sm-3'>
                 <div class="form-group">
-                    <label>learningRate：</label>
+                    <a href="#" title="模型训练时的学习率，该指标决定了模型参数更新的速率，也影响了模型训练的速度">learningRate：</a>
                     <div class='input-group' style="z-index: 1">
-                        <input id="learningRate" style="width: 290px" type='text' class="form-control"/>
+                        <input id="learningRate" style="width: 290px" value="0.1" type='text' class="form-control"/>
                     </div>
                 </div>
             </div>
 
             <div class='col-sm-3'>
                 <div class="form-group">
-                    <label>numEpochs：</label>
+                    <a href="#" title="每一次模型训练迭代次数">numEpochs：</a>
                     <div class='input-group' style="z-index: 1">
-                        <input id="numepoch" style="width: 290px" type='text' class="form-control"/>
+                        <input id="numepoch" style="width: 290px" value="30" type='text' class="form-control"/>
                     </div>
                 </div>
             </div>
