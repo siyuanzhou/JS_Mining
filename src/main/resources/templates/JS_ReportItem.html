@@ -75,10 +75,16 @@
             font-weight: 600;
         }
 
-        h1,h2,h3 {
+        h1, h2, h3 {
             font-weight: bold;
             color: black;
         }
+
+        ul li i {
+            color: grey;
+            padding-right: 60px;
+        }
+
     </style>
 </head>
 <body style="background-color: inherit;color: #0f0f0f">
@@ -115,7 +121,14 @@
                         </div>
                     </div>
 
-                    <div style="height:800px;padding-top: 250px;border: #0C0C0C solid 1px;">
+                    <!--封面-->
+                    <div style="height:1400px;width:100%;padding-top: 0;border: #0C0C0C solid 1px;">
+
+                        <div style="height: 600px;width: 100%;margin: 0;background-size: cover;
+                         background-position: top;
+                         background-image: url(asset/imgs/reportBackground4.jpg);
+                         background-repeat: no-repeat;"></div>
+                        <div style="height: 200px;width: 100%;"></div>
                         <h1 align="center" id="封面标题"></h1>
                         <div style="width: 100%;margin-top: 80px">
                             <div style="display: flex;width:400px;margin:auto;">
@@ -147,328 +160,386 @@
                     </div>
 
                     <!--目录-->
-                    <div style="height:1000px;width:100%;border: #0C0C0C solid 1px;display: block;line-height: 4em;
-                         background-size: contain;
+                    <div style="height:1200px;width:100%;border: #0C0C0C solid 1px;display: block;line-height: 2.5em;background-size: contain;
                          background-position: top;
                          background-image: url(asset/imgs/reportBackground2.jpg );
                          background-repeat: no-repeat;">
 
-                    <h1 style="margin-top: 100px" align="center">目录</h1>
+                        <h1 style="margin-top: 100px" align="center">目录</h1>
 
-                    <div style="color:dodgerblue;margin-left: 500px;font-size: 20px;margin-top:80px">
-                        <div>
-                            <a href="javascript:void(0)">（1）目录</a>
+                        <div style="color:dodgerblue;margin-left: 100px;font-size: 20px;margin-top:80px">
+                            <ul>
+                                <li>
+                                    <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                    <a href="javascript:void(0)">目录</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                    <a href="#摘要">摘要</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                    <a href="#报告说明">报告说明</a>
+                                </li>
+                                <div id="目录概述篇">
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#概述篇">概述篇</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#关键信息" style="margin-left: 30px">关键信息</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#关键词" style="margin-left: 30px">关键词</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#词云分析" style="margin-left: 30px">词云分析</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#文本分类" style="margin-left: 30px">文本分类</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#实体关系展示" style="margin-left: 30px">实体关系展示</a>
+                                    </li>
+                                </div>
+                                <div id="目录对比篇">
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#对比篇">对比篇</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#量化指标对比" style="margin-left: 30px">量化指标对比</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#综合实力对比" style="margin-left: 30px">综合实力对比</a>
+                                    </li>
+                                </div>
+                                <div id="目录预测篇">
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#预测篇">预测篇</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#趋势预测" style="margin-left: 30px">趋势预测</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-circle-thin " style="font-size: 10px" aria-hidden="true"></i>
+                                        <a href="#技术成熟度预测" style="margin-left: 30px">技术成熟度预测</a>
+                                    </li>
+                                </div>
+                            </ul>
                         </div>
-                        <div>
-                            <a href="#摘要">（2）摘要</a>
-                        </div>
-                        <div>
-                            <a href="#报告说明">（3）报告说明</a>
-                        </div>
-                        <div id="reportitems">
-                            <div>
-                                <a href="#概述篇">（4）概述篇</a>
-                            </div>
-                            <div>
-                                <a href="#对比篇">（5）对比篇</a>
-                            </div>
-                            <div>
-                                <a href="#预测篇">（6）预测篇</a>
-                            </div>
-                        </div>
+
                     </div>
 
-                </div>
-
-                <!--摘要-->
-                <div id="摘要" style="height:1000px;border: #0C0C0C solid 1px; background-size: contain;
+                    <!--摘要-->
+                    <div id="摘要" style="height:1200px;border: #0C0C0C solid 1px; background-size: contain;
                          background-position: top;
                          background-image: url(asset/imgs/reportBackground2.jpg );
                          background-repeat: no-repeat;">
-                    <h1 style="margin-top: 100px;font-weight: bold" align="center">摘要</h1>
-                    <div style="margin-left: 150px;margin-right: 150px;margin-top: 80px;text-indent: 2em;line-height: 2em;color: grey;font-size: 20px">
+                        <h1 style="margin-top: 100px;font-weight: bold" align="center">摘要</h1>
+                        <div style="margin-left: 150px;margin-right: 150px;margin-top: 80px;text-indent: 2em;line-height: 2em;color: grey;font-size: 20px">
 
-                        <p>本报告以 AI 赋能的<span
-                                class="领域"></span>为核心，在梳理<span class="领域"></span>概念特征、发展历程、
-                            工作原理以及系统架构的基础上，重点研究分析了<span class="领域"></span>领域的具体应用情况、领域专家人才现状、典型产品的资源覆盖和功能特色，以及
-                            自然语言处理的未来发展趋势。本研究报告基于海量论文、新闻、专利以及网站数据对<span class="领域"></span>这一领域进行了简单梳理，包括以下内容：
-                        </p>
-                        <p>
-                            (1)<b>报告说明:</b>本节通过统计该领域论文的历年发表量，展示出该领域技术的不同时期的发展情况。
-                        </p>
-                        <p>
-                            (2)<b>整体概况:</b>本节通过统计该领域论文的历年发表量，展示出该领域技术的不同时期的发展情况。
-                        </p>
-                        <p>
-                            (3)<b>实力对比:</b>本节详细分析了<span class="领域"></span>在各个国家的历年发展情况，总体排行，国家合作，各国研究机构，使读者能够深入了解不同国家的技术优势。
-                        </p>
-                        <p>
-                            (4)<b>趋势预测:</b>对该技术从历年发展趋势，当前发展定位，以及论文产出、技术成果等方面，对<span class="领域"></span>技术进行相关的分析介绍，同时推荐一些在该领域具有代表性的文章。
-                        </p>
-
-                    </div>
-                </div>
-
-                <!--报告说明-->
-                <div id="报告说明" style="height:1000px;border: #0C0C0C solid 1px;color: grey;line-height: 2em; background-size: contain;
-                         background-position: top;
-                         background-image: url(asset/imgs/reportBackground2.jpg );
-                         background-repeat: no-repeat;">
-                    <h1 style="margin-top: 100px" align="center">报告说明</h1>
-                    <div style="margin-left: 150px;margin-right: 150px;margin-top: 80px;font-size: 20px">
-                        <h2>数据来源</h2>
-                        <div style="text-indent: 2em">
-                            <p>基于<span class="领域"></span>领域的论文</p>
-                            <p>关于<span class="领域"></span>领域的权威网站。</p>
-                        </div>
-                        <h2>研究方法</h2>
-                        <div style="text-indent: 2em">
-                            <p>通过 AMiner 大数据平台对2018 - 2020论文数据
-                                进行挖掘，基于<span class="领域"></span>相关的关键词检索式与期刊，再辅以国家、机构、学者、省份、中英文等条件进一步筛选过滤
-                                挖掘出所有相关论文。然后，基于这些论文，进行如下的进一步挖掘分析:</p>
-                            <p>
-                                本节详细分析了<span class="领域"></span>在各个国家的历年发展情况，总体排行，国家合作，各国研究机构，使读者能够深入了解不同国家的技术优势。</p>
-                            <p>
-                                对该技术从历年发展趋势，当前发展定位，以及技术热点与技术关联交叉等方面，对<span class="领域"></span>技术进行相关的分析介绍，同时推荐一些在该领域具有代表性的文章。
+                            <p>本报告以 AI 赋能的<span
+                                    class="领域"></span>为核心，在梳理<span class="领域"></span>概念特征、发展历程、
+                                工作原理以及系统架构的基础上，重点研究分析了<span class="领域"></span>领域的具体应用情况、领域专家人才现状、典型产品的资源覆盖和功能特色，以及
+                                自然语言处理的未来发展趋势。本研究报告基于海量论文、新闻、专利以及网站数据对<span class="领域"></span>这一领域进行了简单梳理，包括以下内容：
                             </p>
+                            <p>
+                                (1)<b>报告说明:</b>本节通过统计该领域论文的历年发表量，展示出该领域技术的不同时期的发展情况。
+                            </p>
+                            <p>
+                                (2)<b>整体概况:</b>本节通过统计该领域论文的历年发表量，展示出该领域技术的不同时期的发展情况。
+                            </p>
+                            <p>
+                                (3)<b>实力对比:</b>本节详细分析了<span class="领域"></span>在各个国家的历年发展情况，总体排行，国家合作，各国研究机构，使读者能够深入了解不同国家的技术优势。
+                            </p>
+                            <p>
+                                (4)<b>趋势预测:</b>对该技术从历年发展趋势，当前发展定位，以及论文产出、技术成果等方面，对<span class="领域"></span>技术进行相关的分析介绍，同时推荐一些在该领域具有代表性的文章。
+                            </p>
+
                         </div>
                     </div>
-                </div>
 
-                <!--概述篇-->
-                <div id="概述篇" style="height:1000px;border: #0C0C0C solid 1px; background-size: contain;
+                    <!--报告说明-->
+                    <div id="报告说明" style="height:1200px;border: #0C0C0C solid 1px;color: grey;line-height: 2em; background-size: contain;
                          background-position: top;
                          background-image: url(asset/imgs/reportBackground2.jpg );
                          background-repeat: no-repeat;">
-                    <h1 style="margin-top: 100px" align="center">概述篇</h1>
-                    <div style="margin-right: 100px;margin-left: 100px;font-size: 20px;color: grey">
-                        <p style="color: black"><span
-                                style="color: black;font-weight:bold;margin-left: 30px">关键信息：</span>
-                        <div id="summary" style="line-height:1.8em;padding-left: 30px"></div>
-                        </p>
-                        <table id="tb" class="table" hidden>
-                            <thead>
-                            <tr>
-                                <th style="width: 100px">文章ID</th>
-                                <th style="width: 100px">文章标题</th>
-                                <th style="width: 500px">文章内容</th>
-                                <th style="width: 500px">文章摘要</th>
-                            </tr>
-                            </thead>
-                            <tbody id="tbody" style="vertical-align: center">
-
-                            </tbody>
-                        </table>
-                        <p style="color: black;margin: 30px"><span
-                                style="color: black;font-weight:bold">关键词：</span>
-                            <a id="keywords" style="font-weight: 700;"></a>
-                        </p>
-                        <span style="color: #2759c2">  </span>
-                        <!--词云-->
-                        <div class="row" style="margin: 30px;">
-                            <div id="img1"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="概述篇2" style="height:1000px;border: #0C0C0C solid 1px">
-
-                    <!--文本分类-->
-                    <div class="row" style="margin: 30px;">
-                        <div id="detail4"
-                             style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
-                        </div>
-                        <div class="panel-body" id="classify_div"
-                             style="width: 1000px;height: 400px;margin-left: 70px;">
-                        </div>
-                    </div>
-
-                    <!--实体、关系展示-->
-                    <div class="row" style="margin: 70px;">
-                        <div class="panel panel-default">
-                            <p id="introduce" style="text-indent: 2em;line-height:2em;font-family: 华光准圆_CNKI;"></p>
-                            <!-- <div class="panel-heading" style="text-align: center">关键实体</div>-->
-                            <div id="first_div" class="panel-body"
-                                 style="padding-left:90px;width:1000px;height: 420px;border: 0px">
+                        <h1 style="margin-top: 100px" align="center">报告说明</h1>
+                        <div style="margin-left: 150px;margin-right: 150px;margin-top: 80px;font-size: 20px">
+                            <h2>数据来源</h2>
+                            <div style="text-indent: 2em">
+                                <p>基于<span class="领域"></span>领域的论文</p>
+                                <p>关于<span class="领域"></span>领域的权威网站。</p>
+                            </div>
+                            <h2>研究方法</h2>
+                            <div style="text-indent: 2em">
+                                <p>通过 AMiner 大数据平台对2018 - 2020论文数据
+                                    进行挖掘，基于<span class="领域"></span>相关的关键词检索式与期刊，再辅以国家、机构、学者、省份、中英文等条件进一步筛选过滤
+                                    挖掘出所有相关论文。然后，基于这些论文，进行如下的进一步挖掘分析:</p>
+                                <p>
+                                    本节详细分析了<span class="领域"></span>在各个国家的历年发展情况，总体排行，国家合作，各国研究机构，使读者能够深入了解不同国家的技术优势。</p>
+                                <p>
+                                    对该技术从历年发展趋势，当前发展定位，以及技术热点与技术关联交叉等方面，对<span class="领域"></span>技术进行相关的分析介绍，同时推荐一些在该领域具有代表性的文章。
+                                </p>
                             </div>
                         </div>
                     </div>
 
-                </div>
-
-                <!--对比篇-->
-                <div id="对比篇" style="height:1000px;border: #0C0C0C solid 1px; background-size: contain;color: grey;
+                    <!--概述篇-->
+                    <div id="概述篇" style="height:1200px;border: #0C0C0C solid 1px; background-size: contain;
                          background-position: top;
                          background-image: url(asset/imgs/reportBackground2.jpg );
                          background-repeat: no-repeat;">
-                    <h1 style="margin-top: 100px" align="center">对比篇</h1>
+                        <h1 style="margin-top: 100px" align="center">概述篇</h1>
+                        <div style="margin-right: 100px;margin-left: 100px;font-size: 20px;color: grey">
+                            <p style="color: black"><span id="关键信息"
+                                                          style="color: black;font-weight:bold;margin-left: 30px">关键信息：</span>
+                            <div id="summary" style="line-height:1.8em;padding-left: 30px"></div>
+                            </p>
+                            <table id="tb" class="table" hidden>
+                                <thead>
+                                <tr>
+                                    <th style="width: 100px">文章ID</th>
+                                    <th style="width: 100px">文章标题</th>
+                                    <th style="width: 500px">文章内容</th>
+                                    <th style="width: 500px">文章摘要</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody" style="vertical-align: center">
 
-                    <!--对比分析选项-->
-                    <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 30px">
-                        <div class='col-sm-3'>
-                            <div class="form-group">
-                                <label>国家:</label>
-                                <select id="dcountry" class="form-control select_down selectpicker" multiple
-                                        data-live-search="true" title="请选择国家">
-                                    <option value="中国">中国</option>
-                                    <option value="美国">美国</option>
-                                    <option value="英国">英国</option>
-                                    <option value="法国">法国</option>
-                                    <option value="俄罗斯">俄罗斯</option>
-                                    <option value="德国">德国</option>
-                                    <option value="印度">印度</option>
-                                    <option value="加拿大">加拿大</option>
-                                    <option value="澳大利亚">澳大利亚</option>
-                                    <option value="韩国">韩国</option>
-                                    <option value="瑞士">瑞士</option>
-                                    <option value="以色列">以色列</option>
-                                    <option value="爱尔兰">爱尔兰</option>
-                                    <option value="瑞典">瑞典</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class='col-sm-3'>
-                            <div class="form-group">
-                                <label>领域</label>
-                                <select id="dlingyu" class="form-control select_down"
-                                        style="font-size: 13px; color: #666;">
-                                    <option name="d自然语言处理">自然语言处理</option>
-                                    <option name="d计算机视觉">计算机视觉</option>
-                                    <!--  <option name="dAI计划与应用">AI计划与应用</option>-->
-                                    <option name="d机器人技术">机器人技术</option>
-                                    <option name="d优化算法理论">优化算法理论</option>
-                                    <option name="d语音识别">语音识别</option>
-                                    <option name="d个性化推荐">个性化推荐</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class='col-sm-3'>
-                            <div class="search_input" style="margin-top: 30px">
-                                <button class="btn btn-primary search_btn" type="button" id="duibi">实力对比</button>
+                                </tbody>
+                            </table>
+                            <p style="color: black;margin: 30px"><span id="关键词"
+                                                                       style="color: black;font-weight:bold">关键词：</span>
+                                <a id="keywords" style="font-weight: 700;"></a>
+                            </p>
+                            <span style="color: #2759c2">  </span>
+                            <!--词云-->
+                            <div class="row" style="margin: 30px;">
+                                <span id="词云分析"
+                                      style="color: black;font-weight:bold">词云分析：</span>
+                                <div id="img1"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!--旭日图实力对比-->
-                    <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 30px">
-                        <div id="detail1"
-                             style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI;">
+                    <div id="概述篇2" style="height:1200px;border: #0C0C0C solid 1px">
+
+                        <!--文本分类-->
+                        <div class="row" style="margin-left: 70px;margin-top: 100px;margin-right: 70px">
+
+                            <h2 id="文本分类" >文本分类：</h2>
+                            <div id="detail4"
+                                 style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
+                            </div>
+                            <div class="panel-body" id="classify_div"
+                                 style="width: 1000px;height: 400px;margin-left: 70px;">
+                            </div>
                         </div>
-                        <div class="panel panel-default">
-                            <div class="panel-body" id="sunshine" style="margin: auto;width: 600px;height: 600px;">
+
+                        <!--实体、关系展示-->
+                        <div class="row" style="margin-left: 70px;margin-right: 70px;">
+                            <h2 id="实体关系展示" >实体关系展示：</h2>
+                            <div class="panel panel-default">
+                                <p id="introduce" style="text-indent: 2em;line-height:2em;font-family: 华光准圆_CNKI;"></p>
+                                <!-- <div class="panel-heading" style="text-align: center">关键实体</div>-->
+                                <div id="first_div" class="panel-body"
+                                     style="padding-left:90px;width:1000px;height: 420px;border: 0px">
+                                </div>
                             </div>
                         </div>
 
                     </div>
 
-                </div>
-
-                <div id="对比篇2" style="height:1000px;border: #0C0C0C solid 1px;color: grey">
-                    <!--科技实力折线图对比-->
-                    <div id="detail2"
-                         style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI;margin-left: 100px;margin-right: 100px;margin-top: 50px">
-                    </div>
-                    <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 50px">
-                        <div class="panel-body" id="serialsLabel"
-                             style="width: 800px;height: 350px;margin-left: 100px">
-                        </div>
-                        <div class="panel-body" id="serialsLabel2"
-                             style="width: 800px;height: 350px;margin-left: 100px">
-                        </div>
-                    </div>
-                </div>
-
-                <!--预测篇-->
-                <div id="预测篇" style="height:1000px;border: #0C0C0C solid 1px; background-size: contain;color: grey;
+                    <!--对比篇-->
+                    <div id="对比篇" style="height:1200px;border: #0C0C0C solid 1px; background-size: contain;color: grey;
                          background-position: top;
                          background-image: url(asset/imgs/reportBackground2.jpg );
                          background-repeat: no-repeat;">
-                    <h1 style="margin-top: 100px" align="center">预测篇</h1>
+                        <h1 style="margin-top: 100px" align="center">对比篇</h1>
 
-                    <!--预测选项-->
-                    <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 50px">
-                        <div class='col-sm-3'>
-                            <div class="form-group">
-                                <label>国家:</label>
-                                <select id="pcountry" class="form-control select_down" title="请选择国家">
-                                    <option value="中国">中国</option>
-                                    <option value="美国">美国</option>
-                                    <option value="英国">英国</option>
-                                    <option value="法国">法国</option>
-                                    <option value="俄罗斯">俄罗斯</option>
-                                    <option value="德国">德国</option>
-                                    <option value="印度">印度</option>
-                                    <option value="加拿大">加拿大</option>
-                                    <option value="澳大利亚">澳大利亚</option>
-                                    <option value="韩国">韩国</option>
-                                    <option value="瑞士">瑞士</option>
-                                    <option value="以色列">以色列</option>
-                                    <option value="爱尔兰">爱尔兰</option>
-                                    <option value="瑞典">瑞典</option>
-                                </select>
+                        <!--对比分析选项-->
+                        <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 30px">
+                            <h2 id="综合实力对比">综合实力对比</h2>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label>国家:</label>
+                                    <select id="dcountry" class="form-control select_down selectpicker" multiple
+                                            data-live-search="true" title="请选择国家">
+                                        <option value="中国">中国</option>
+                                        <option value="美国">美国</option>
+                                        <option value="英国">英国</option>
+                                        <option value="法国">法国</option>
+                                        <option value="俄罗斯">俄罗斯</option>
+                                        <option value="德国">德国</option>
+                                        <option value="印度">印度</option>
+                                        <option value="加拿大">加拿大</option>
+                                        <option value="澳大利亚">澳大利亚</option>
+                                        <option value="韩国">韩国</option>
+                                        <option value="瑞士">瑞士</option>
+                                        <option value="以色列">以色列</option>
+                                        <option value="爱尔兰">爱尔兰</option>
+                                        <option value="瑞典">瑞典</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label>领域</label>
+                                    <select id="dlingyu" class="form-control select_down"
+                                            style="font-size: 13px; color: #666;">
+                                        <option name="d自然语言处理">自然语言处理</option>
+                                        <option name="d计算机视觉">计算机视觉</option>
+                                        <!--  <option name="dAI计划与应用">AI计划与应用</option>-->
+                                        <option name="d机器人技术">机器人技术</option>
+                                        <option name="d优化算法理论">优化算法理论</option>
+                                        <option name="d语音识别">语音识别</option>
+                                        <option name="d个性化推荐">个性化推荐</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class='col-sm-3'>
+                                <div class="search_input" style="margin-top: 30px">
+                                    <button class="btn btn-primary search_btn" type="button" id="duibi">实力对比</button>
+                                </div>
                             </div>
                         </div>
-                        <div class='col-sm-3'>
-                            <div class="form-group">
-                                <label>范围</label>
-                                <select id="psecondScope" class="form-control select_down"
-                                        style="font-size: 13px; color: #666;">
-                                    <option name="p自然语言处理">自然语言处理</option>
-                                    <option name="p计算机视觉">计算机视觉</option>
-                                    <option name="p语音识别">语音识别</option>
-                                    <option name="p机器人技术">机器人技术</option>
-                                    <option name="p优化算法理论">优化算法理论</option>
-                                    <option name="p语音识别">语音识别</option>
-                                    <option name="p个性化推荐">个性化推荐</option>
-                                </select>
+
+                        <!--旭日图实力对比-->
+                        <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 30px">
+                            <div id="detail1"
+                                 style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI;">
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-body" id="sunshine" style="margin: auto;width: 600px;height: 600px;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="对比篇2" style="height:1200px;border: #0C0C0C solid 1px;color: grey">
+                        <!--科技实力折线图对比-->
+                        <div style="margin-left: 100px;margin-right: 100px;margin-top: 100px">
+                            <h2 id="量化指标对比" >量化指标对比</h2>
+                            <div id="detail2"
+                                 style="display:inline-block;text-indent:2em;line-height:2em;font-family: 华光准圆_CNKI;">
                             </div>
                         </div>
-                        <div class='col-sm-3'>
-                            <div class="search_input" style="margin-top: 30px">
-                                <button class="btn btn-primary search_btn" type="button" id="yuce">趋势预测</button>
+                        <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 50px">
+                            <div class="panel-body" id="serialsLabel"
+                                 style="width: 800px;height: 350px;margin-left: 100px">
+                            </div>
+                            <div class="panel-body" id="serialsLabel2"
+                                 style="width: 800px;height: 350px;margin-left: 100px">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--预测篇-->
+                    <div id="预测篇" style="height:1200px;border: #0C0C0C solid 1px; background-size: contain;color: grey;
+                         background-position: top;
+                         background-image: url(asset/imgs/reportBackground2.jpg );
+                         background-repeat: no-repeat;">
+                        <h1 style="margin-top: 100px" align="center">预测篇</h1>
+
+                        <!--预测选项-->
+                        <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 50px">
+                            <h2 id="趋势预测">趋势预测</h2>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label>国家:</label>
+                                    <select id="pcountry" class="form-control select_down" title="请选择国家">
+                                        <option value="中国">中国</option>
+                                        <option value="美国">美国</option>
+                                        <option value="英国">英国</option>
+                                        <option value="法国">法国</option>
+                                        <option value="俄罗斯">俄罗斯</option>
+                                        <option value="德国">德国</option>
+                                        <option value="印度">印度</option>
+                                        <option value="加拿大">加拿大</option>
+                                        <option value="澳大利亚">澳大利亚</option>
+                                        <option value="韩国">韩国</option>
+                                        <option value="瑞士">瑞士</option>
+                                        <option value="以色列">以色列</option>
+                                        <option value="爱尔兰">爱尔兰</option>
+                                        <option value="瑞典">瑞典</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label>范围</label>
+                                    <select id="psecondScope" class="form-control select_down"
+                                            style="font-size: 13px; color: #666;">
+                                        <option name="p自然语言处理">自然语言处理</option>
+                                        <option name="p计算机视觉">计算机视觉</option>
+                                        <option name="p语音识别">语音识别</option>
+                                        <option name="p机器人技术">机器人技术</option>
+                                        <option name="p优化算法理论">优化算法理论</option>
+                                        <option name="p语音识别">语音识别</option>
+                                        <option name="p个性化推荐">个性化推荐</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class='col-sm-3'>
+                                <div class="search_input" style="margin-top: 30px">
+                                    <button class="btn btn-primary search_btn" type="button" id="yuce">趋势预测</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--趋势预测-->
+                        <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 100px">
+                            <div id="detail5"
+                                 style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
+                            </div>
+                            <div class="panel-body" id="predict_div2"
+                                 style="width: 1000px;height: 500px;margin-left: 50px;">
                             </div>
                         </div>
 
                     </div>
-                    <!--趋势预测-->
-                    <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 50px">
-                        <div id="detail5"
-                             style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
+
+                    <div id="预测篇2" style="height:1200px;border: #0C0C0C solid 1px;color: grey">
+                        <!--趋势预测-技术突袭-->
+                        <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 100px">
+                            <h2 id="技术成熟度预测">技术成熟度预测</h2>
+                            <div id="detail3"
+                                 style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
+                            </div>
+                            <div class="panel-body" id="predict_div"
+                                 style="width: 1000px;height: 500px;margin-left: 20px;">
+                            </div>
                         </div>
-                        <div class="panel-body" id="predict_div2"
-                             style="width: 1000px;height: 500px;margin-left: 50px;">
-                        </div>
+
                     </div>
+
+
+                    <!-- Table -->
+                    <table class="table">
+                        ...
+                    </table>
 
                 </div>
-
-                <div id="预测篇2" style="height:1000px;border: #0C0C0C solid 1px;color: grey">
-                    <!--趋势预测-技术突袭-->
-                    <div class="row" style="margin-left: 100px;margin-right: 100px;margin-top: 50px">
-                        <div id="detail3"
-                             style="text-indent: 2em;line-height:2em;margin-top:1px;margin-left:1px;font-family: 华光准圆_CNKI">
-                        </div>
-                        <div class="panel-body" id="predict_div"
-                             style="width: 1000px;height: 500px;margin-left: 20px;">
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <!-- Table -->
-                <table class="table">
-                    ...
-                </table>
 
             </div>
-
+        </section>
     </div>
-    </section>
-</div>
 
-<!--main content end-->
-<!-- container section start -->
+    <!--main content end-->
+    <!-- container section start -->
 </div>
 
 <!--右键菜单定义-->
@@ -617,10 +688,8 @@
 
         var catalog = "";
         for (var i = 0; i < reportItems.length; i++) {
-            var num = i + 4;
-            catalog += "<div> <a href=\"#" + reportItems[i] + "\">（" + num + "）" + reportItems[i] + "</a></div>";
+            $("#目录" + reportItems[i]).show();
         }
-        $("#reportitems").html(catalog);
 
         $("#introduce").html("抽取" + firstScope + "领域相关实体如下：");
         $("#head").html(start.substring(0, 4) + "-" + end.substring(0, 4) + country + firstScope + "领域科技简报");
